@@ -5,16 +5,7 @@
 		"module": "esnext",
 		"moduleResolution": "node",
 		"lib": ["dom", "dom.iterable", "esnext"],
-		"baseUrl": "./",
-		"paths": {
-			"assets/*": ["assets/*"],
-			"components/*": ["src/components/*"],
-			"hooks/*": ["src/hooks/*"],
-			"@types/*": ["src/@types/*"],
-			"tests/*": ["tests/*"],
-			"api/*": ["pages/api/*"],
-			"utils/*": ["src/utils/*"]
-		},
+		"baseUrl": "src",
 		"noEmit": true,
 		"strict": true,
 		"allowJs": false,
@@ -33,7 +24,7 @@
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js"],
 	"ts-node": {
 		"compilerOptions": {
-			"target": "es5",
+			"target": "es6",
 			"module": "commonjs",
 			"moduleResolution": "node",
 			"isolatedModules": false
