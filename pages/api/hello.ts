@@ -1,13 +1,33 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { Tweet } from "@prisma/client";
+import { NextApiHandler } from "next";
+import prisma from "prisma/prisma";
 
-type Data = {
-  name: string
-}
+export type GetTweetsResponse = {
+  tweets: Tweet[];
+  message?: string;
+};
 
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
-  res.status(200).json({ name: 'John Doe' })
-}
+export const path = "/api/tweet/getTweets";
+
+export const getTweets: NextApiHandler<GetTweetsResponse> = async (req, res) => {
+  const { method } = req;
+
+  switch (method) {
+    case "GET":
+      {
+        try {
+          const tweets = await prisma.tweet.findMany();
+
+          res.json({ tweets });
+        } catch (error) {
+          res.status(400).json({ tweets: [], message: "Error!!!" });
+        }
+      }
+      break;
+    default:
+      res.status(500).json({ tweets: [], message: "Error!!!" });
+      break;
+  }
+};
+
+export default getTweets;
