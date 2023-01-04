@@ -1,9 +1,13 @@
-import React, { ReactElement } from "react";
+import React, { FC, ReactElement } from "react";
 
 import { ThemeProvider as StyledThemeProvider } from "styled-components";
 
 import { theme } from "./theme";
 
-export const ThemeProvider = ({ children }: { children: ReactElement | ReactElement[] }) => {
+interface ThemeProviderProps {
+  children: ReactElement;
+}
+
+export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
   return <StyledThemeProvider theme={theme}>{children}</StyledThemeProvider>;
 };

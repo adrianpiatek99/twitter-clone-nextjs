@@ -7,23 +7,26 @@
       "assets/*": [
         "assets/*"
       ],
+      "tests/*": [
+        "tests/*"
+      ],
       "hooks/*": [
         "src/hooks/*"
       ],
       "@types/*": [
         "src/@types/*"
       ],
-      "tests/*": [
-        "tests/*"
-      ],
       "styled/*": [
         "src/styled/*"
       ],
-      "api/*": [
-        "pages/api/*"
+      "store/*": [
+        "src/store/*"
       ],
       "utils/*": [
         "src/utils/*"
+      ],
+      "api/*": [
+        "pages/api/*"
       ],
     },
 		"module": "esnext",
