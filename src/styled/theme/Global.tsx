@@ -9,12 +9,12 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
   }
 
-  html {
-    font-size: 62.5%;
-  }
 
   body {
-    font-size: 1.6rem;
+    background-color: ${({ theme }) => theme.background};
+    color: ${({ theme }) => theme.secondary};
+    font-family: ${({ theme }) => theme.fontFamily.primary};
+    ${({ theme }) => theme.text.m};
   }
 
   h1,
@@ -23,10 +23,18 @@ export const GlobalStyle = createGlobalStyle`
   h3,
   h4,
   h5,
-  h6,
+  h6 {
+    margin: 0;
+    font-family: ${({ theme }) => theme.fontFamily.secondary};
+    ${({ theme }) => theme.heading.xs}
+  }
+
   button {
     margin: 0;
+    font-family: ${({ theme }) => theme.fontFamily.secondary};
+    ${({ theme }) => theme.text.m};
   }
+
 
   input,
   textarea {

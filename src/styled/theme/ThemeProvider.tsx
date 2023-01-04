@@ -5,7 +5,7 @@ import { ThemeProvider as StyledThemeProvider } from "styled-components";
 import { theme } from "./theme";
 
 interface ThemeProviderProps {
-  children: ReactElement;
+  children: ReactElement | ReactElement[];
 }
 
 export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
