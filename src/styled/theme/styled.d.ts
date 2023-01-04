@@ -7,31 +7,9 @@ declare module "styled-components" {
     background: string;
     background2: string;
     border: string;
-    fonts: {
-      /** Regular */
-      primary400: string;
-      /** Medium */
-      primary500: string;
-      /** Semi Bold */
-      primary600: string;
-      /** Bold */
-      primary700: string;
-      /** Extra bold */
-      primary800: string;
-    };
-    heading: {
-      /* H6 */
-      xs: string;
-      /* H5 */
-      s: string;
-      /* H4 */
-      m: string;
-      /* H3 */
-      l: string;
-      /* H2 */
-      xl: string;
-      /* H1 */
-      xxl: string;
+    fontFamily: {
+      primary: string;
+      secondary: string;
     };
     text: {
       xs: string;
@@ -39,6 +17,11 @@ declare module "styled-components" {
       m: string;
       l: string;
       xl: string;
+      xxl: string;
+    };
+    heading: {
+      xs: string;
+      s: string;
     };
     hover: {
       primary: string;

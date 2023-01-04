@@ -3,25 +3,19 @@ import { DefaultTheme } from "styled-components";
 const fonts = {
   text: {
     xs: "font-size: 13px; line-height: 16px;",
-    s: "font-size: 15px; line-height: 20px;",
-    m: "font-size: 17px; line-height: 24px;",
-    l: "font-size: 19px; line-height: 28px;",
-    xl: "font-size: 21px; line-height: 30px;"
+    s: "font-size: 14px; line-height: 16px;",
+    m: "font-size: 15px; line-height: 20px;",
+    l: "font-size: 17px; line-height: 24px;",
+    xl: "font-size: 20px; line-height: 24px;",
+    xxl: "font-size: 23px; line-height: 28px;"
   },
   heading: {
-    xs: "font-size: 24px; line-height: 32px;",
-    s: "font-size: 30px; line-height: 38px;",
-    m: "font-size: 36px; line-height: 44px;",
-    l: "font-size: 48px; line-height: 60px;",
-    xl: "font-size: 60px; line-height: 72px;",
-    xxl: "font-size: 72px; line-height: 90px;"
+    xs: "font-size: 20px; line-height: 24px;",
+    s: "font-size: 30px; line-height: 38px;"
   },
-  fonts: {
-    primary400: "Regular",
-    primary500: "Medium",
-    primary600: "SemiBold",
-    primary700: "Bold",
-    primary800: "ExtraBold"
+  fontFamily: {
+    primary: "'Open Sans', sans-serif",
+    secondary: "'Roboto', sans-serif"
   }
 };
 
@@ -43,7 +37,7 @@ const breakpoints = {
 
 export const theme: DefaultTheme = {
   primary: "rgb(29, 155, 240)",
-  secondary: "rgb(239, 243, 244)",
+  secondary: "rgb(231, 233, 234)",
   background: "#000",
   background2: "#1C1F23",
   border: "rgb(47, 51, 54)",
