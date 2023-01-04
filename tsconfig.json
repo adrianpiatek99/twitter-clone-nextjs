@@ -2,10 +2,33 @@
 	"compilerOptions": {
 		"jsx": "preserve",
 		"target": "ES2015",
+		"baseUrl": "./",
+		"paths": {
+      "assets/*": [
+        "assets/*"
+      ],
+      "hooks/*": [
+        "src/hooks/*"
+      ],
+      "@types/*": [
+        "src/@types/*"
+      ],
+      "tests/*": [
+        "tests/*"
+      ],
+      "styled/*": [
+        "src/styled/*"
+      ],
+      "api/*": [
+        "pages/api/*"
+      ],
+      "utils/*": [
+        "src/utils/*"
+      ],
+    },
 		"module": "esnext",
 		"moduleResolution": "node",
 		"lib": ["dom", "dom.iterable", "esnext"],
-		"baseUrl": "src",
 		"noEmit": true,
 		"strict": true,
 		"allowJs": false,
@@ -21,13 +44,12 @@
 		"incremental": true
 	},
 	"exclude": ["node_modules", ".next", "out"],
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js"],
-	"ts-node": {
-		"compilerOptions": {
-			"target": "es6",
-			"module": "commonjs",
-			"moduleResolution": "node",
-			"isolatedModules": false
-		}
-	}
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js"],"ts-node": {
+    "compilerOptions": {
+      "target": "es5",
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "isolatedModules": false
+    }
+  }
 }

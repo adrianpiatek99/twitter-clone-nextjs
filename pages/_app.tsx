@@ -1,7 +1,13 @@
-import "../styles/globals.css";
+import React from "react";
 
-import type { AppProps } from "next/app";
+import { ThemeProvider } from "styled/theme";
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
-}
+const App = () => {
+  return (
+    <ThemeProvider>
+      <div>_app</div>
+    </ThemeProvider>
+  );
+};
+
+export default App;
