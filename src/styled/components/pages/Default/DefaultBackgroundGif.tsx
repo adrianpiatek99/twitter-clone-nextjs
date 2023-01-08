@@ -2,14 +2,14 @@ import React, { FC } from "react";
 
 import styled, { css } from "styled-components";
 
-interface LoginBackgroundGifProps {
+interface DefaultBackgroundGifProps {
   withBlur?: boolean;
 }
 
 const imageUrl =
   "https://media2.giphy.com/media/26BRxIdjE82KNmVJm/giphy.gif?cid=790b761178f0259baf56aa0208c3d583676741defea1081b&rid=giphy.gif&ct=g";
 
-export const LoginBackgroundGif: FC<LoginBackgroundGifProps> = ({ withBlur = false }) => {
+export const DefaultBackgroundGif: FC<DefaultBackgroundGifProps> = ({ withBlur = false }) => {
   return (
     <ImageWrapper withBlur={withBlur}>
       <img alt="dfg" src={imageUrl} draggable="false" />

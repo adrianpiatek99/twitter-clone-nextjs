@@ -3,58 +3,52 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Input, InputType } from "components/core";
-import { signUp } from "network/auth/signUp";
+import { useRouter } from "next/router";
+import { signIn } from "next-auth/react";
 import { setDefaultPageFormLoading } from "store/slices/pagesSlice";
 import { useAppDispatch } from "store/store";
 import styled from "styled-components";
 
-import { LoginTabs } from "./LoginPage";
-import { signUpSchema, SignUpValues } from "./loginValidator";
-
-interface LoginSignUpFormProps {
-  handleChangeTab: (tab: LoginTabs) => void;
-}
+import { signInSchema, SignInValues } from "./defaultValidator";
 
 type InputData = {
-  name: keyof SignUpValues;
+  name: keyof SignInValues;
   label: string;
   type?: InputType;
 };
 
 const inputs: InputData[] = [
-  { name: "screenName", label: "@Screen Name" },
-  { name: "name", label: "Name" },
   { name: "email", label: "Email Address" },
-  { name: "password", type: "password", label: "Password" },
-  { name: "repeatPassword", type: "password", label: "Repeat password" }
+  { name: "password", type: "password", label: "Password" }
 ];
 
-export const LoginSignUpForm = ({ handleChangeTab }: LoginSignUpFormProps) => {
+export const DefaultSignInForm = () => {
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors }
-  } = useForm<SignUpValues>({
-    resolver: yupResolver(signUpSchema)
+  } = useForm<SignInValues>({
+    resolver: yupResolver(signInSchema)
   });
-  const [isLoading, setIsLoading] = useState(false);
+  const { replace } = useRouter();
   const dispatch = useAppDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit: SubmitHandler<SignUpValues> = async data => {
+  const onSubmit: SubmitHandler<SignInValues> = async data => {
     try {
       setIsLoading(true);
       dispatch(setDefaultPageFormLoading(true));
 
-      const { screenName, repeatPassword } = data;
-
-      await signUp({
-        screen_name: screenName,
-        repeat_password: repeatPassword,
-        ...data
+      const res = await signIn("credentials", {
+        ...data,
+        redirect: false
       });
+      const ok = res?.ok;
 
-      handleChangeTab("sign in");
+      if (!ok) throw Error;
+
+      replace("/home");
     } catch (error) {
       console.error(error);
     } finally {
@@ -76,8 +70,11 @@ export const LoginSignUpForm = ({ handleChangeTab }: LoginSignUpFormProps) => {
         />
       ))}
       <Button type="submit" loading={isLoading}>
-        Sign Up
+        Sign In
       </Button>
+      <LinkWrapper>
+        <a href="/">Forgot Your Password?</a>
+      </LinkWrapper>
     </Form>
   );
 };
@@ -87,4 +84,10 @@ const Form = styled.form`
   flex-direction: column;
   width: 100%;
   gap: 12px 0;
+`;
+
+const LinkWrapper = styled.div`
+  color: ${({ theme }) => theme.primary05};
+  font-weight: 500;
+  text-align: center;
 `;

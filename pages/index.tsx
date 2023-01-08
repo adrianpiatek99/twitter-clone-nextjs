@@ -1,5 +1,5 @@
 import Head from "next/head";
-import SignInPage from "pages/Login/LoginPage";
+import { DefaultPageTemplate } from "pages/Default";
 
 const DefaultPage = () => {
   return (
@@ -10,7 +10,7 @@ const DefaultPage = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <SignInPage />
+      <DefaultPageTemplate />
     </>
   );
 };
