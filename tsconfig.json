@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		"jsx": "preserve",
 		"target": "ES2015",
-		"baseUrl": "./",
+		"baseUrl": ".",
 		"paths": {
       "assets/*": [
         "assets/*"
@@ -15,6 +15,18 @@
       ],
       "@types/*": [
         "src/@types/*"
+      ],
+      "shared/*": [
+        "src/styled/components/shared/*"
+      ],
+      "pages/*": [
+        "src/styled/components/pages/*"
+      ],
+      "components/*": [
+        "src/styled/components/*"
+      ],
+      "network/*": [
+        "src/styled/network/*"
       ],
       "styled/*": [
         "src/styled/*"
@@ -47,7 +59,8 @@
 		"incremental": true
 	},
 	"exclude": ["node_modules", ".next", "out"],
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js"],"ts-node": {
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js"],
+  "ts-node": {
     "compilerOptions": {
       "target": "es5",
       "module": "commonjs",

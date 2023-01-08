@@ -36,16 +36,20 @@ const breakpoints = {
 };
 
 export const theme: DefaultTheme = {
-  primary: "rgb(29, 155, 240)",
-  secondary: "rgb(231, 233, 234)",
+  logo: "rgb(214, 217, 219)",
+  primary05: "#1d9bf0",
+  neutral00: "#FFFFFF",
+  neutral20: "#eff3f4",
+  neutral40: "#e7e9ea",
+  neutral100: "rgb(113, 118, 123);",
+  darker10: "#0f1419",
   background: "#000",
   background2: "#1C1F23",
-  border: "rgb(47, 51, 54)",
-  hover: {
-    primary: "rgba(217, 217, 217, 0.1)",
-    secondary: "rgba(29, 155, 240, 0.1)",
-    third: "rgba(217, 217, 217, 0.05)"
-  },
+  darkGray: "#657786",
+  border: "#2f3336",
+  border2: "#333639",
+  border3: "#536471",
+  error10: "#f4212e",
   focus: {
     primary: "rgb(26, 140, 216)"
   },
