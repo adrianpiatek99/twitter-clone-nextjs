@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { DefaultPageTemplate } from "pages/Default";
+import { DefaultPageTemplate } from "templates/Default";
 
 const DefaultPage = () => {
   return (
