@@ -4,7 +4,7 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "prisma/prisma";
 
-type Credentials = Pick<User, "email" | "password">;
+export type SignInCredentials = Pick<User, "email" | "password">;
 
 const authOptions: NextAuthOptions = {
   session: {
@@ -17,7 +17,7 @@ const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" }
       },
-      async authorize(credentials?: Credentials) {
+      async authorize(credentials?: SignInCredentials) {
         if (!credentials) return null;
 
         const { email, password } = credentials;

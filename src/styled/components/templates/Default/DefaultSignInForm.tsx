@@ -3,8 +3,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Input, InputType } from "components/core";
+import { signIn } from "network/auth/signIn";
 import { useRouter } from "next/router";
-import { signIn } from "next-auth/react";
 import { setDefaultPageFormLoading } from "store/slices/pagesSlice";
 import { useAppDispatch } from "store/store";
 import styled from "styled-components";
@@ -40,11 +40,9 @@ export const DefaultSignInForm = () => {
       setIsLoading(true);
       dispatch(setDefaultPageFormLoading(true));
 
-      const res = await signIn("credentials", {
-        ...data,
-        redirect: false
-      });
-      const ok = res?.ok;
+      const response = await signIn({ ...data });
+
+      const ok = response?.ok;
 
       if (!ok) throw Error;
 
