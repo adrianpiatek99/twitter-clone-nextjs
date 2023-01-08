@@ -5,6 +5,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Input, InputType } from "components/core";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
+import { setDefaultPageFormLoading } from "store/slices/pagesSlice";
+import { useAppDispatch } from "store/store";
 import styled from "styled-components";
 
 import { signInSchema, SignInValues } from "./loginValidator";
@@ -30,11 +32,13 @@ export const LoginSignInForm = () => {
     resolver: yupResolver(signInSchema)
   });
   const { replace } = useRouter();
+  const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit: SubmitHandler<SignInValues> = async data => {
     try {
       setIsLoading(true);
+      dispatch(setDefaultPageFormLoading(true));
 
       const res = await signIn("credentials", {
         ...data,
@@ -49,6 +53,7 @@ export const LoginSignInForm = () => {
       console.error(error);
     } finally {
       setIsLoading(false);
+      dispatch(setDefaultPageFormLoading(false));
     }
   };
 

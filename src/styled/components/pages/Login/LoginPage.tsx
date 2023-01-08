@@ -2,9 +2,10 @@ import React from "react";
 import { useState } from "react";
 
 import GoogleIcon from "@mui/icons-material/Google";
-import { Button } from "components/core";
+import { Button, LinearProgress } from "components/core";
 import { Logo } from "shared/Logo";
 import { Tab, TabGroup } from "shared/Tabs";
+import { useAppSelector } from "store/store";
 import styled from "styled-components";
 
 import { LoginBackgroundGif } from "./LoginBackgroundGif";
@@ -15,6 +16,7 @@ export type LoginTabs = "sign in" | "sign up";
 const tabs: LoginTabs[] = ["sign in", "sign up"];
 
 const LoginPage = () => {
+  const { formLoading } = useAppSelector(state => state.pages.defaultPage);
   const [currentTab, setCurrentTab] = useState<LoginTabs>(tabs[0]);
 
   const handleChangeTab = (tab: LoginTabs) => setCurrentTab(tab);
@@ -24,6 +26,7 @@ const LoginPage = () => {
       <LeftPanel>
         <LoginBackgroundGif withBlur />
         <Content>
+          {formLoading && <LinearProgress />}
           <Header>
             <Logo size="xl" />
           </Header>
@@ -39,7 +42,7 @@ const LoginPage = () => {
             </TabGroup>
           </TabGroupWrapper>
           <LoginCurrentTab currentTab={currentTab} handleChangeTab={handleChangeTab} />
-          <Button variant="outlined" startIcon={<GoogleIcon />}>
+          <Button variant="outlined" startIcon={<GoogleIcon />} disabled>
             Sign in with Google
           </Button>
         </Content>
@@ -91,6 +94,7 @@ const Header = styled.div`
 `;
 
 const Content = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   max-width: calc(352px + 2 * 32px);
@@ -99,6 +103,7 @@ const Content = styled.div`
   background-color: ${({ theme }) => theme.background};
   border-radius: 16px;
   padding: 32px;
+  overflow: hidden;
 `;
 
 const TabGroupWrapper = styled.div`
