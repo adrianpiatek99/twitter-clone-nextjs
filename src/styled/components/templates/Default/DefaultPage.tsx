@@ -2,28 +2,31 @@ import React from "react";
 import { useState } from "react";
 
 import GoogleIcon from "@mui/icons-material/Google";
-import { Button } from "components/core";
+import { Button, LinearProgress } from "components/core";
 import { Logo } from "shared/Logo";
 import { Tab, TabGroup } from "shared/Tabs";
+import { useAppSelector } from "store/store";
 import styled from "styled-components";
 
-import { LoginBackgroundGif } from "./LoginBackgroundGif";
-import { LoginCurrentTab } from "./LoginCurrentTab";
+import { DefaultBackgroundGif } from "./DefaultBackgroundGif";
+import { DefaultCurrentTab } from "./DefaultCurrentTab";
 
-export type LoginTabs = "sign in" | "sign up";
+export type DefaultTabs = "sign in" | "sign up";
 
-const tabs: LoginTabs[] = ["sign in", "sign up"];
+const tabs: DefaultTabs[] = ["sign in", "sign up"];
 
-const LoginPage = () => {
-  const [currentTab, setCurrentTab] = useState<LoginTabs>(tabs[0]);
+export const DefaultPageTemplate = () => {
+  const { formLoading } = useAppSelector(state => state.pages.defaultPage);
+  const [currentTab, setCurrentTab] = useState<DefaultTabs>(tabs[0]);
 
-  const handleChangeTab = (tab: LoginTabs) => setCurrentTab(tab);
+  const handleChangeTab = (tab: DefaultTabs) => setCurrentTab(tab);
 
   return (
     <Wrapper>
       <LeftPanel>
-        <LoginBackgroundGif withBlur />
+        <DefaultBackgroundGif withBlur />
         <Content>
+          {formLoading && <LinearProgress />}
           <Header>
             <Logo size="xl" />
           </Header>
@@ -31,27 +34,25 @@ const LoginPage = () => {
             <TabGroup
               variant="fullWidth"
               value={currentTab}
-              onChange={(_, tab: LoginTabs) => handleChangeTab(tab)}
+              onChange={(_, tab: DefaultTabs) => handleChangeTab(tab)}
             >
               {tabs.map(tab => (
                 <Tab key={tab} label={tab} value={tab} />
               ))}
             </TabGroup>
           </TabGroupWrapper>
-          <LoginCurrentTab currentTab={currentTab} handleChangeTab={handleChangeTab} />
-          <Button variant="outlined" startIcon={<GoogleIcon />}>
+          <DefaultCurrentTab currentTab={currentTab} handleChangeTab={handleChangeTab} />
+          <Button variant="outlined" startIcon={<GoogleIcon />} disabled>
             Sign in with Google
           </Button>
         </Content>
       </LeftPanel>
       <RightPanel>
-        <LoginBackgroundGif />
+        <DefaultBackgroundGif />
       </RightPanel>
     </Wrapper>
   );
 };
-
-export default LoginPage;
 
 const Wrapper = styled.div`
   display: grid;
@@ -91,6 +92,7 @@ const Header = styled.div`
 `;
 
 const Content = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   max-width: calc(352px + 2 * 32px);
@@ -99,6 +101,7 @@ const Content = styled.div`
   background-color: ${({ theme }) => theme.background};
   border-radius: 16px;
   padding: 32px;
+  overflow: hidden;
 `;
 
 const TabGroupWrapper = styled.div`

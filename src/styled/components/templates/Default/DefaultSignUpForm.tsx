@@ -4,13 +4,15 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Input, InputType } from "components/core";
 import { signUp } from "network/auth/signUp";
+import { setDefaultPageFormLoading } from "store/slices/pagesSlice";
+import { useAppDispatch } from "store/store";
 import styled from "styled-components";
 
-import { LoginTabs } from "./LoginPage";
-import { signUpSchema, SignUpValues } from "./loginValidator";
+import { DefaultTabs } from "./DefaultPage";
+import { signUpSchema, SignUpValues } from "./defaultValidator";
 
-interface LoginSignUpFormProps {
-  handleChangeTab: (tab: LoginTabs) => void;
+interface DefaultSignUpFormProps {
+  handleChangeTab: (tab: DefaultTabs) => void;
 }
 
 type InputData = {
@@ -27,7 +29,7 @@ const inputs: InputData[] = [
   { name: "repeatPassword", type: "password", label: "Repeat password" }
 ];
 
-export const LoginSignUpForm = ({ handleChangeTab }: LoginSignUpFormProps) => {
+export const DefaultSignUpForm = ({ handleChangeTab }: DefaultSignUpFormProps) => {
   const {
     register,
     handleSubmit,
@@ -37,10 +39,12 @@ export const LoginSignUpForm = ({ handleChangeTab }: LoginSignUpFormProps) => {
     resolver: yupResolver(signUpSchema)
   });
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useAppDispatch();
 
   const onSubmit: SubmitHandler<SignUpValues> = async data => {
     try {
       setIsLoading(true);
+      dispatch(setDefaultPageFormLoading(true));
 
       const { screenName, repeatPassword } = data;
 
@@ -55,6 +59,7 @@ export const LoginSignUpForm = ({ handleChangeTab }: LoginSignUpFormProps) => {
       console.error(error);
     } finally {
       setIsLoading(false);
+      dispatch(setDefaultPageFormLoading(false));
     }
   };
 

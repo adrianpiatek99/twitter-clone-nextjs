@@ -19,8 +19,8 @@
       "shared/*": [
         "src/styled/components/shared/*"
       ],
-      "pages/*": [
-        "src/styled/components/pages/*"
+      "templates/*": [
+        "src/styled/components/templates/*"
       ],
       "components/*": [
         "src/styled/components/*"
