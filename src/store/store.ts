@@ -4,9 +4,11 @@ import { useSelector } from "react-redux";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 import pagesSlice from "./slices/pagesSlice";
+import toastsSlice from "./slices/toastsSlice";
 
 const reducer = combineReducers({
-  pages: pagesSlice
+  pages: pagesSlice,
+  toasts: toastsSlice
 });
 
 export const store = configureStore({ reducer });

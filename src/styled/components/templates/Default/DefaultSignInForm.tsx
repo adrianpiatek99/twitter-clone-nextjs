@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Input, InputType } from "components/core";
+import { useToasts } from "hooks/useToasts";
 import { signIn } from "network/auth/signIn";
 import { useRouter } from "next/router";
 import { setDefaultPageFormLoading } from "store/slices/pagesSlice";
@@ -33,6 +34,7 @@ export const DefaultSignInForm = () => {
   });
   const { replace } = useRouter();
   const dispatch = useAppDispatch();
+  const { handleAddToast } = useToasts();
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit: SubmitHandler<SignInValues> = async data => {
@@ -44,11 +46,11 @@ export const DefaultSignInForm = () => {
 
       const ok = response?.ok;
 
-      if (!ok) throw Error;
+      if (!ok) throw Error(response?.error);
 
       replace("/home");
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      handleAddToast("error", error.message);
     } finally {
       setIsLoading(false);
       dispatch(setDefaultPageFormLoading(false));

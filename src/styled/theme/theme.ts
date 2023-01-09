@@ -20,6 +20,7 @@ const fonts = {
 };
 
 const breakpointsSizes = {
+  xs: "475px",
   sm: "640px",
   md: "768px",
   lg: "1024px",
@@ -28,6 +29,7 @@ const breakpointsSizes = {
 };
 
 const breakpoints = {
+  xs: `screen and (min-width: ${breakpointsSizes.xs})`,
   sm: `screen and (min-width: ${breakpointsSizes.sm})`,
   md: `screen and (min-width: ${breakpointsSizes.md})`,
   lg: `screen and (min-width: ${breakpointsSizes.lg})`,
@@ -45,6 +47,7 @@ export const theme: DefaultTheme = {
   darker10: "#0f1419",
   background: "#000",
   background2: "#1C1F23",
+  background3: "rgb(22, 24, 28)",
   darkGray: "#657786",
   border: "#2f3336",
   border2: "#333639",

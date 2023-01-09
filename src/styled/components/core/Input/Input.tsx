@@ -99,8 +99,7 @@ const StyledLabel = styled.label<{ isFilled: boolean; error: boolean }>`
   border-radius: 4px;
   pointer-events: none;
   overflow: hidden;
-  transition: box-shadow 0.15s cubic-bezier(0.33, 1, 0.68, 1),
-  color 0.15s cubic-bezier(0.33, 1, 0.68, 1), border-color 0.15s cubic-bezier(0.33, 1, 0.68, 1);
+  transition: box-shadow 0.15s, color 0.15s, border-color 0.15s;
 
   & > span {
     position: absolute;
@@ -108,7 +107,7 @@ const StyledLabel = styled.label<{ isFilled: boolean; error: boolean }>`
     transform-origin: left;
     transform: ${({ isFilled }) =>
       isFilled ? "translate(-1px, -110%) scale(0.8)" : "translateY(-50%) scale(1)"};
-    transition: transform 0.15s cubic-bezier(0.33, 1, 0.68, 1);
+    transition: transform 0.15s;
   }
 
   &${({ error }) =>
@@ -133,9 +132,18 @@ const StyledInput = styled.input<{ error: boolean; iconsCount: number }>`
     box-shadow: ${({ theme, error }) =>
       error ? `${theme.error10}` : `${theme.primary05} 0px 0px 0px 1px`};
     border-color: ${({ theme, error }) => (error ? `${theme.error10}` : theme.primary05)};
+    color: ${({ theme }) => theme.primary05};
 
     & > span {
       transform: translate(-1px, -110%) scale(0.8);
     }
   }
+
+  ${({ error }) =>
+    error &&
+    css`
+      &:focus-visible + ${StyledLabel} {
+        color: ${({ theme }) => theme.error10};
+      }
+    `};
 `;

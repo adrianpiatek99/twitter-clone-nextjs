@@ -27,7 +27,11 @@ const handler: NextApiHandler<SignUpResponse> = async (req, res) => {
           const existingEmail = await prisma.user.findUnique({ where: { email } });
           const existingScreenName = await prisma.user.findUnique({ where: { screen_name } });
 
-          if (existingEmail || existingScreenName || password !== repeat_password) {
+          if (existingScreenName) {
+            return res.status(404).json({ message: "Screen name is already in use." });
+          }
+
+          if (existingEmail || password !== repeat_password) {
             return res.status(404).json({ message: "We cannot create account. Try again." });
           }
 

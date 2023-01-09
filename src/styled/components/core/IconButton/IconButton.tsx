@@ -3,30 +3,45 @@ import { forwardRef } from "react";
 
 import { IconButton as MuiIconButton } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
-import styled, { css } from "styled-components";
-import { hexToRGBA } from "utils/colors";
+import styled, { css, useTheme } from "styled-components";
 
-interface IconButtonProps extends ComponentPropsWithRef<typeof MuiIconButton> {
+import { IconButtonColor, setIconButtonColor } from "./iconButtonVariants";
+
+interface IconButtonProps extends Omit<ComponentPropsWithRef<typeof MuiIconButton>, "color"> {
   children: ReactElement;
   title: string;
+  color?: IconButtonColor;
   disableFocus?: boolean;
-  isError?: boolean;
   onClick?: () => void;
 }
 
 export const IconButton: FC<IconButtonProps> = forwardRef(
   (
-    { children, title, disableFocus = false, isError = false, ...props },
+    { children, title, color = "primary", disableFocus = false, ...props },
     ref: Ref<HTMLButtonElement>
   ) => {
+    const { primary05, neutral00, error10 } = useTheme();
+    const isError = color === "error";
+
+    const getSpecificColor = (color: IconButtonColor) => {
+      if (color === "primary") return primary05;
+
+      if (color === "secondary") return neutral00;
+
+      if (color === "error") return error10;
+
+      return color;
+    };
+
     return (
       <Tooltip title={title}>
         <IconButtonElement
           aria-label={title}
           tabIndex={disableFocus ? -1 : 0}
+          $color={getSpecificColor(color)}
+          isError={isError}
           disableRipple={isError}
           disableFocusRipple={isError}
-          $isError={isError}
           {...props}
           ref={ref}
         >
@@ -38,7 +53,7 @@ export const IconButton: FC<IconButtonProps> = forwardRef(
 );
 
 const IconButtonElement = styled(MuiIconButton)<
-  Omit<IconButtonProps, "title"> & { $isError: boolean }
+  Omit<IconButtonProps, "title"> & { $color: string; isError: boolean }
 >`
   &&& {
     position: relative;
@@ -48,34 +63,21 @@ const IconButtonElement = styled(MuiIconButton)<
     min-width: 34px;
     min-height: 34px;
     width: max-content;
-    color: ${({ theme }) => hexToRGBA(theme.primary05, 0.5)};
     padding: 0;
     border-radius: 50%;
     background-color: transparent;
 
     & > svg {
-      fill: ${({ theme }) => theme.primary05};
       width: 20px;
       height: 20px;
     }
 
-    &:hover:not(:disabled) {
-      background-color: ${({ theme }) => hexToRGBA(theme.primary05, 0.1)};
-    }
+    ${({ $color }) => setIconButtonColor($color)}
 
-    ${({ $isError }) =>
-      $isError &&
+    ${({ isError }) =>
+      isError &&
       css`
-        color: ${({ theme }) => hexToRGBA(theme.error10, 0.5)};
         cursor: default;
-
-        & > svg {
-          fill: ${({ theme }) => theme.error10};
-        }
-
-        &:hover:not(:disabled) {
-          background-color: ${({ theme }) => hexToRGBA(theme.error10, 0.1)};
-        }
       `}
   }
 `;

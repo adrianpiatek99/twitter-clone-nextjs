@@ -69,36 +69,36 @@ export const GlobalStyle = createGlobalStyle`
 
   .MuiTooltip-popper {
     &[data-popper-placement*="bottom"] {
-      margin-top: -20px !important;
+      margin-top: -16px !important;
     };
 
     &[data-popper-placement*="top"] {
-    margin-bottom: -20px !important;
+    margin-bottom: -16px !important;
     };
 
     &[data-popper-placement*="right"] {
-      margin-left: -20px !important;
+      margin-left: -16px !important;
     };
 
     &[data-popper-placement*="left"] {
-      margin-right: -20px !important;
+      margin-right: -16px !important;
     };
 
     @media ${({ theme }) => theme.breakpoints.sm} {
       &[data-popper-placement*="bottom"] {
-        margin-top: -12px !important;
+        margin-top: -8px !important;
       };
 
       &[data-popper-placement*="top"] {
-      margin-bottom: -12px !important;
+      margin-bottom: -8px !important;
       };
 
       &[data-popper-placement*="right"] {
-        margin-left: -12px !important;
+        margin-left: -8px !important;
       };
 
       &[data-popper-placement*="left"] {
-        margin-right: -12px !important;
+        margin-right: -8px !important;
       };
   }
   }
