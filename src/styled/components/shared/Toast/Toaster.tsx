@@ -8,7 +8,7 @@ import styled from "styled-components";
 
 import { Toast } from "./Toast";
 
-const MAX_TOASTS_COUNT = 5;
+const MAX_TOASTS_COUNT = 4;
 
 export const Toaster = () => {
   const { toasts } = useAppSelector(state => state.toasts);
