@@ -55,11 +55,12 @@ const ToastWrapper = styled(motion.div)`
   display: flex;
   gap: 12px;
   align-items: center;
-  min-width: 250px;
+  min-width: 290px;
   width: 100%;
-  padding: 12px 15px;
-  background-color: ${({ theme }) => theme.background3};
-  border-radius: 16px;
+  padding: 12px;
+  background-color: ${({ theme }) => theme.primary05};
+  color: ${({ theme }) => theme.neutral00};
+  border-radius: 4px;
   pointer-events: all;
   box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.2);
 
