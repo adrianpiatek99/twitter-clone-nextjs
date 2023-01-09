@@ -47,7 +47,7 @@ export const Input: FC<InputProps> = forwardRef(
     }, [isPasswordIcon, error]);
 
     return (
-      <Container loading={loading}>
+      <Container $loading={loading}>
         <StyledInput
           id={label}
           type={inputType}
@@ -76,14 +76,14 @@ export const Input: FC<InputProps> = forwardRef(
   }
 );
 
-const Container = styled.div<{ loading: boolean }>`
+const Container = styled.div<{ $loading: boolean }>`
   position: relative;
   background: ${({ theme }) => theme.background};
   border-radius: 4px;
   transition: opacity 0.2s;
 
-  ${({ loading }) =>
-    loading &&
+  ${({ $loading }) =>
+    $loading &&
     css`
       opacity: 0.5;
       pointer-events: none;

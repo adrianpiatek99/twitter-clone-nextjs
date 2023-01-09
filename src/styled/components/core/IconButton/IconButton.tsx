@@ -26,7 +26,7 @@ export const IconButton: FC<IconButtonProps> = forwardRef(
           tabIndex={disableFocus ? -1 : 0}
           disableRipple={isError}
           disableFocusRipple={isError}
-          isError={isError}
+          $isError={isError}
           {...props}
           ref={ref}
         >
@@ -37,7 +37,9 @@ export const IconButton: FC<IconButtonProps> = forwardRef(
   }
 );
 
-const IconButtonElement = styled(MuiIconButton)<Omit<IconButtonProps, "title">>`
+const IconButtonElement = styled(MuiIconButton)<
+  Omit<IconButtonProps, "title"> & { $isError: boolean }
+>`
   &&& {
     position: relative;
     display: flex;
@@ -61,8 +63,8 @@ const IconButtonElement = styled(MuiIconButton)<Omit<IconButtonProps, "title">>`
       background-color: ${({ theme }) => hexToRGBA(theme.primary05, 0.1)};
     }
 
-    ${({ isError }) =>
-      isError &&
+    ${({ $isError }) =>
+      $isError &&
       css`
         color: ${({ theme }) => hexToRGBA(theme.error10, 0.5)};
         cursor: default;

@@ -7,6 +7,7 @@ import { prisma } from "prisma/prisma";
 export type SignInCredentials = Pick<User, "email" | "password">;
 
 const authOptions: NextAuthOptions = {
+  secret: process.env.AUTH_SECRET,
   session: {
     strategy: "jwt"
   },
