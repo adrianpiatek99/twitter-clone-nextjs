@@ -16,8 +16,8 @@ const pagesSlice = createSlice({
   name: "pages",
   initialState,
   reducers: {
-    setDefaultPageFormLoading: ({ defaultPage }, { payload }: PayloadAction<boolean>) => {
-      defaultPage.formLoading = payload;
+    setDefaultPageFormLoading: (state, { payload }: PayloadAction<boolean>) => {
+      state.defaultPage.formLoading = payload;
     }
   }
 });

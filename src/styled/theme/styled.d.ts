@@ -11,6 +11,7 @@ declare module "styled-components" {
     darker10: string;
     background: string;
     background2: string;
+    background3: string;
     darkGray: string;
     border: string;
     border2: string;
@@ -40,6 +41,7 @@ declare module "styled-components" {
       secondary: string;
     };
     breakpoints: {
+      xs: string;
       sm: string;
       md: string;
       lg: string;
