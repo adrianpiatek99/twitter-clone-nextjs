@@ -39,7 +39,7 @@ export const IconButton: FC<IconButtonProps> = forwardRef(
           aria-label={title}
           tabIndex={disableFocus ? -1 : 0}
           $color={getSpecificColor(color)}
-          isError={isError}
+          $isError={isError}
           disableRipple={isError}
           disableFocusRipple={isError}
           {...props}
@@ -53,7 +53,7 @@ export const IconButton: FC<IconButtonProps> = forwardRef(
 );
 
 const IconButtonElement = styled(MuiIconButton)<
-  Omit<IconButtonProps, "title"> & { $color: string; isError: boolean }
+  Omit<IconButtonProps, "title"> & { $color: string; $isError: boolean }
 >`
   &&& {
     position: relative;
@@ -74,8 +74,8 @@ const IconButtonElement = styled(MuiIconButton)<
 
     ${({ $color }) => setIconButtonColor($color)}
 
-    ${({ isError }) =>
-      isError &&
+    ${({ $isError }) =>
+      $isError &&
       css`
         cursor: default;
       `}
