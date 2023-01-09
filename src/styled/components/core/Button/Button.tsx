@@ -39,7 +39,7 @@ export const Button: FC<ButtonProps> = forwardRef(
         variant={variant}
         color={color}
         size={size}
-        loading={loading}
+        $loading={loading}
         disabled={loading || disabled}
         {...props}
         ref={ref}
@@ -55,7 +55,7 @@ export const Button: FC<ButtonProps> = forwardRef(
   }
 );
 
-const ButtonElement = styled(MuiButton)<ButtonProps>`
+const ButtonElement = styled(MuiButton)<ButtonProps & { $loading: boolean }>`
   &&& {
     position: relative;
     min-width: 36px;
@@ -100,8 +100,8 @@ const ButtonElement = styled(MuiButton)<ButtonProps>`
             }
           `)};
 
-    ${({ loading }) =>
-      loading &&
+    ${({ $loading }) =>
+      $loading &&
       css`
         & > span {
           opacity: 0;
