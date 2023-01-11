@@ -5,7 +5,7 @@ import { IconButton as MuiIconButton } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import styled, { css, useTheme } from "styled-components";
 
-import { IconButtonColor, setIconButtonColor } from "./iconButtonVariants";
+import { getIconButtonColor, IconButtonColor } from "./iconButtonVariants";
 
 interface IconButtonProps extends Omit<ComponentPropsWithRef<typeof MuiIconButton>, "color"> {
   children: ReactElement;
@@ -34,7 +34,7 @@ export const IconButton: FC<IconButtonProps> = forwardRef(
     };
 
     return (
-      <Tooltip title={title}>
+      <Tooltip title={title} disableInteractive enterNextDelay={150}>
         <IconButtonElement
           aria-label={title}
           tabIndex={disableFocus ? -1 : 0}
@@ -45,7 +45,7 @@ export const IconButton: FC<IconButtonProps> = forwardRef(
           {...props}
           ref={ref}
         >
-          {children}
+          <div>{children}</div>
         </IconButtonElement>
       </Tooltip>
     );
@@ -67,17 +67,36 @@ const IconButtonElement = styled(MuiIconButton)<
     border-radius: 50%;
     background-color: transparent;
 
-    & > svg {
-      width: 20px;
-      height: 20px;
+    & > div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: 0.2s;
+
+      & > svg {
+        width: 20px;
+        height: 20px;
+      }
     }
 
-    ${({ $color }) => setIconButtonColor($color)}
+    &:active {
+      & > div {
+        transform: scale(0.87);
+      }
+    }
+
+    ${({ $color }) => getIconButtonColor($color)}
 
     ${({ $isError }) =>
       $isError &&
       css`
         cursor: default;
+
+        &:active {
+          & > div {
+            transform: none;
+          }
+        }
       `}
   }
 `;
