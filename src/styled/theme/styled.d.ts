@@ -40,6 +40,14 @@ declare module "styled-components" {
       primary: string;
       secondary: string;
     };
+    breakpointSizes: {
+      xs: string;
+      sm: string;
+      md: string;
+      lg: string;
+      xl: string;
+      xxl: string;
+    };
     breakpoints: {
       xs: string;
       sm: string;

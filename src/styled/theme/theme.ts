@@ -19,7 +19,7 @@ const fonts = {
   }
 };
 
-const breakpointsSizes = {
+const breakpointSizes = {
   xs: "475px",
   sm: "640px",
   md: "768px",
@@ -29,12 +29,12 @@ const breakpointsSizes = {
 };
 
 const breakpoints = {
-  xs: `screen and (min-width: ${breakpointsSizes.xs})`,
-  sm: `screen and (min-width: ${breakpointsSizes.sm})`,
-  md: `screen and (min-width: ${breakpointsSizes.md})`,
-  lg: `screen and (min-width: ${breakpointsSizes.lg})`,
-  xl: `screen and (min-width: ${breakpointsSizes.xl})`,
-  xxl: `screen and (min-width: ${breakpointsSizes.xxl})`
+  xs: `screen and (min-width: ${breakpointSizes.xs})`,
+  sm: `screen and (min-width: ${breakpointSizes.sm})`,
+  md: `screen and (min-width: ${breakpointSizes.md})`,
+  lg: `screen and (min-width: ${breakpointSizes.lg})`,
+  xl: `screen and (min-width: ${breakpointSizes.xl})`,
+  xxl: `screen and (min-width: ${breakpointSizes.xxl})`
 };
 
 export const theme: DefaultTheme = {
@@ -54,12 +54,13 @@ export const theme: DefaultTheme = {
   border3: "#536471",
   error10: "#f4212e",
   focus: {
-    primary: "rgb(26, 140, 216)"
+    primary: "rgb(142, 205, 248)"
   },
   active: {
     primary: "rgba(217, 217, 217, 0.2)",
     secondary: "rgba(29, 155, 240, 0.2)"
   },
   ...fonts,
+  breakpointSizes,
   breakpoints
 };

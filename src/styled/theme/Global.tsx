@@ -15,6 +15,7 @@ export const GlobalStyle = createGlobalStyle`
     color: ${({ theme }) => theme.neutral20};
     font-family: ${({ theme }) => theme.fontFamily.primary};
     ${({ theme }) => theme.text.m};
+    overflow-y: scroll;
   }
 
   h1,
