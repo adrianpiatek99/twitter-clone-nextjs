@@ -9,13 +9,13 @@ import { Skeleton } from "shared/Skeleton";
 import styled from "styled-components";
 import { hexToRGBA } from "utils/colors";
 
-import { HeaderProfileDropdown } from "./HeaderProfileDropdown";
+import { NavDrawerProfileDropdown } from "./NavDrawerProfileDropdown";
 
-export const HeaderProfile = () => {
+export const NavDrawerProfile = () => {
   const { session, isSessionLoading, isUnauthenticated } = useAppSession();
   const [dropdownAnchorEl, setDropdownAnchorEl] = useState<DropdownAnchorEl>(null);
   const userScreenName = session?.user?.screen_name;
-  const avatarColumnRef = useRef(null);
+  const avatarColumnRef = useRef<HTMLDivElement>(null);
 
   if (isUnauthenticated) return null;
 
@@ -26,7 +26,7 @@ export const HeaderProfile = () => {
   return (
     <>
       <Wrapper>
-        <Inner onClick={handleOpenDropdown} ref={avatarColumnRef}>
+        <Inner onClick={handleOpenDropdown}>
           <Column>
             <Avatar
               src={session?.user?.profile_image_url ?? ""}
@@ -53,7 +53,7 @@ export const HeaderProfile = () => {
           <DropdownAnchor ref={avatarColumnRef} />
         </Inner>
       </Wrapper>
-      <HeaderProfileDropdown anchorEl={dropdownAnchorEl} onClose={handleCloseDropdown} />
+      <NavDrawerProfileDropdown anchorEl={dropdownAnchorEl} onClose={handleCloseDropdown} />
     </>
   );
 };

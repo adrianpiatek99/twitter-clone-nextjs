@@ -6,13 +6,13 @@ import Link from "next/link";
 import styled, { css, useTheme } from "styled-components";
 import { hexToRGBA } from "utils/colors";
 
-import { HeaderNavItem } from "./headerHelpers";
+import { NavDrawerItem } from "./navDrawerHelpers";
 
-interface HeaderLinkProps extends HeaderNavItem {
+interface NavDrawerLinkProps extends NavDrawerItem {
   active: boolean;
 }
 
-export const HeaderLink: FC<HeaderLinkProps> = ({ text, href, active, ...props }) => {
+export const NavDrawerLink: FC<NavDrawerLinkProps> = ({ text, href, active, ...props }) => {
   const { neutral20 } = useTheme();
 
   const getCorrectIcon = () => {
@@ -20,17 +20,30 @@ export const HeaderLink: FC<HeaderLinkProps> = ({ text, href, active, ...props }
   };
 
   return (
-    <StyledLink href={href} tabIndex={-1}>
-      <HeaderIconButton title={text} color={neutral20}>
-        {getCorrectIcon()}
-      </HeaderIconButton>
-      <HeaderLinkContent $active={active}>
-        {getCorrectIcon()}
-        <span>{text}</span>
-      </HeaderLinkContent>
-    </StyledLink>
+    <NavItem>
+      <StyledLink href={href} tabIndex={-1}>
+        <NavIconButton title={text} color={neutral20}>
+          {getCorrectIcon()}
+        </NavIconButton>
+        <NavLinkContent $active={active}>
+          {getCorrectIcon()}
+          <span>{text}</span>
+        </NavLinkContent>
+      </StyledLink>
+    </NavItem>
   );
 };
+
+const NavItem = styled.li`
+  display: flex;
+  width: max-content;
+  margin: 0px;
+  padding: 0px;
+
+  @media ${({ theme }) => theme.breakpoints.xl} {
+    width: 100%;
+  }
+`;
 
 const StyledLink = styled(Link)`
   width: max-content;
@@ -46,7 +59,7 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const HeaderLinkContent = styled(ButtonBase)<{ $active: boolean }>`
+const NavLinkContent = styled(ButtonBase)<{ $active: boolean }>`
   &&& {
     display: none;
 
@@ -73,8 +86,8 @@ const HeaderLinkContent = styled(ButtonBase)<{ $active: boolean }>`
       }
 
       & > svg {
-        width: 26.25px;
-        height: 26.25px;
+        width: 26px;
+        height: 26px;
       }
 
       ${({ $active }) =>
@@ -86,13 +99,13 @@ const HeaderLinkContent = styled(ButtonBase)<{ $active: boolean }>`
   }
 `;
 
-const HeaderIconButton = styled(IconButton)`
+const NavIconButton = styled(IconButton)`
   &&& {
     padding: 12px;
 
     & > div > svg {
-      width: 26.25px;
-      height: 26.25px;
+      width: 26px;
+      height: 26px;
     }
 
     @media ${({ theme }) => theme.breakpoints.xl} {

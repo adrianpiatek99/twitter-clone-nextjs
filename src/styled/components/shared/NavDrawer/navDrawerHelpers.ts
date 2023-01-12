@@ -12,20 +12,14 @@ import { MdPerson } from "react-icons/md";
 import { RiNotification2Line } from "react-icons/ri";
 import { RiNotification2Fill } from "react-icons/ri";
 
-export type HeaderNavItem = {
+export type NavDrawerItem = {
   text: string;
   href: string;
   icon: IconType;
   activeIcon: IconType;
 };
 
-export const headerNavItems: HeaderNavItem[] = [
-  {
-    text: "Home",
-    href: "/home",
-    icon: HiOutlineHome,
-    activeIcon: HiHome
-  },
+export const authenticatedNavDrawerItems: NavDrawerItem[] = [
   {
     text: "Explore",
     href: "/explore",
@@ -49,11 +43,19 @@ export const headerNavItems: HeaderNavItem[] = [
     href: "/bookmarks",
     icon: BsBookmark,
     activeIcon: BsBookmarkFill
-  },
-  {
-    text: "Profile",
-    href: "/[screenName]",
-    icon: MdOutlinePerson,
-    activeIcon: MdPerson
   }
 ];
+
+export const navDrawerHomeItem: NavDrawerItem = {
+  text: "Home",
+  href: "/home",
+  icon: HiOutlineHome,
+  activeIcon: HiHome
+};
+
+export const navDrawerProfileItem: NavDrawerItem = {
+  text: "Profile",
+  href: "/[screenName]",
+  icon: MdOutlinePerson,
+  activeIcon: MdPerson
+};

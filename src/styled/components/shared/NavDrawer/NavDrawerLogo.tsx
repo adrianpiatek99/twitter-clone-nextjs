@@ -1,29 +1,26 @@
 import React from "react";
 
 import TwitterIcon from "@mui/icons-material/Twitter";
+import Link from "next/link";
 import styled from "styled-components";
 import { hexToRGBA } from "utils/colors";
 
-export const HeaderLogo = () => {
+export const NavDrawerLogo = () => {
   return (
-    <LogoButton>
+    <LogoLink href="/home">
       <TwitterIcon />
-    </LogoButton>
+    </LogoLink>
   );
 };
 
-const LogoButton = styled.button`
+const LogoLink = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: transparent;
-  outline: none;
-  border: none;
   width: 50px;
   height: 50px;
-  border-radius: 50%;
   margin-top: 2px;
-  cursor: pointer;
+  border-radius: 50%;
   transition: 0.2s;
 
   & > svg {
