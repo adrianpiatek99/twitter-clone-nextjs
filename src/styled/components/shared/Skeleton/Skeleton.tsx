@@ -1,14 +1,14 @@
-import React from "react";
+import React, { ComponentPropsWithoutRef } from "react";
 
 import styled, { css, keyframes } from "styled-components";
 
 type SkeletonVariant = "rect" | "circular";
 
-interface SkeletonProps {
+interface SkeletonProps extends ComponentPropsWithoutRef<"div"> {
   height?: number;
   width?: number;
   variant?: SkeletonVariant;
-  isAbsolute?: boolean;
+  absolute?: boolean;
   withoutRadius?: boolean;
 }
 
@@ -16,16 +16,18 @@ export const Skeleton = ({
   height,
   width,
   variant = "rect",
-  isAbsolute = false,
-  withoutRadius = false
+  absolute = false,
+  withoutRadius = false,
+  ...props
 }: SkeletonProps) => {
   return (
     <Container
       height={height}
       width={width}
       variant={variant}
-      isAbsolute={isAbsolute}
+      absolute={absolute}
       withoutRadius={withoutRadius}
+      {...props}
     >
       <Swipe />
     </Container>
@@ -50,8 +52,8 @@ const Container = styled.div<SkeletonProps>`
   border-radius: ${({ variant }) => (variant === "circular" ? "50%" : "16px")};
   overflow: hidden;
 
-  ${({ isAbsolute }) =>
-    isAbsolute &&
+  ${({ absolute }) =>
+    absolute &&
     css`
       position: absolute;
       inset: 0px;
