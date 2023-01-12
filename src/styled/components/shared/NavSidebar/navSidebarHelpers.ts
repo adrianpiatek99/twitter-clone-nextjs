@@ -12,14 +12,14 @@ import { MdPerson } from "react-icons/md";
 import { RiNotification2Line } from "react-icons/ri";
 import { RiNotification2Fill } from "react-icons/ri";
 
-export type NavDrawerItem = {
+export type NavSidebarItem = {
   text: string;
   href: string;
   icon: IconType;
   activeIcon: IconType;
 };
 
-export const authenticatedNavDrawerItems: NavDrawerItem[] = [
+export const authenticatedNavSidebarItems: NavSidebarItem[] = [
   {
     text: "Explore",
     href: "/explore",
@@ -46,14 +46,14 @@ export const authenticatedNavDrawerItems: NavDrawerItem[] = [
   }
 ];
 
-export const navDrawerHomeItem: NavDrawerItem = {
+export const navSidebarHomeItem: NavSidebarItem = {
   text: "Home",
   href: "/home",
   icon: HiOutlineHome,
   activeIcon: HiHome
 };
 
-export const navDrawerProfileItem: NavDrawerItem = {
+export const navSidebarProfileItem: NavSidebarItem = {
   text: "Profile",
   href: "/[screenName]",
   icon: MdOutlinePerson,

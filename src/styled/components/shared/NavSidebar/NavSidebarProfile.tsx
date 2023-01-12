@@ -9,9 +9,9 @@ import { Skeleton } from "shared/Skeleton";
 import styled from "styled-components";
 import { hexToRGBA } from "utils/colors";
 
-import { NavDrawerProfileDropdown } from "./NavDrawerProfileDropdown";
+import { NavSidebarProfileDropdown } from "./NavSidebarProfileDropdown";
 
-export const NavDrawerProfile = () => {
+export const NavSidebarProfile = () => {
   const { session, isSessionLoading, isUnauthenticated } = useAppSession();
   const [dropdownAnchorEl, setDropdownAnchorEl] = useState<DropdownAnchorEl>(null);
   const userScreenName = session?.user?.screen_name;
@@ -53,7 +53,7 @@ export const NavDrawerProfile = () => {
           <DropdownAnchor ref={avatarColumnRef} />
         </Inner>
       </Wrapper>
-      <NavDrawerProfileDropdown anchorEl={dropdownAnchorEl} onClose={handleCloseDropdown} />
+      <NavSidebarProfileDropdown anchorEl={dropdownAnchorEl} onClose={handleCloseDropdown} />
     </>
   );
 };

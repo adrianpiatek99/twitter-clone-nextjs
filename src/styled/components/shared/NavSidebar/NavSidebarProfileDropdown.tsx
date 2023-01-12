@@ -3,12 +3,15 @@ import React, { useState } from "react";
 import { type DropdownAnchorEl, ConfirmModal, Dropdown, DropdownItem } from "components/core";
 import { signOut } from "next-auth/react";
 
-interface NavDrawerProfileDropdownProps {
+interface NavSidebarProfileDropdownProps {
   anchorEl: DropdownAnchorEl;
   onClose: () => void;
 }
 
-export const NavDrawerProfileDropdown = ({ anchorEl, onClose }: NavDrawerProfileDropdownProps) => {
+export const NavSidebarProfileDropdown = ({
+  anchorEl,
+  onClose
+}: NavSidebarProfileDropdownProps) => {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   const handleCloseConfirmationModal = () => setIsConfirmModalOpen(false);

@@ -6,13 +6,13 @@ import Link from "next/link";
 import styled, { css, useTheme } from "styled-components";
 import { hexToRGBA } from "utils/colors";
 
-import { NavDrawerItem } from "./navDrawerHelpers";
+import { NavSidebarItem } from "./navSidebarHelpers";
 
-interface NavDrawerLinkProps extends NavDrawerItem {
+interface NavSidebarLinkProps extends NavSidebarItem {
   active: boolean;
 }
 
-export const NavDrawerLink: FC<NavDrawerLinkProps> = ({ text, href, active, ...props }) => {
+export const NavSidebarLink: FC<NavSidebarLinkProps> = ({ text, href, active, ...props }) => {
   const { neutral20 } = useTheme();
 
   const getCorrectIcon = () => {

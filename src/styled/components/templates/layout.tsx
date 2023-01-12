@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 
 import { useRouter } from "next/router";
-import { NavDrawer } from "shared/NavDrawer";
+import { NavSidebar } from "shared/NavSidebar";
 import styled from "styled-components";
 
 interface LayoutProps {
@@ -15,7 +15,7 @@ const Layout = ({ children }: LayoutProps) => {
 
   return (
     <Wrapper>
-      <NavDrawer />
+      <NavSidebar />
       <Feed>{children}</Feed>
     </Wrapper>
   );
