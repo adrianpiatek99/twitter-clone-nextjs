@@ -4,10 +4,7 @@ import { DefaultSession } from "next-auth";
 
 declare module "next-auth" {
   interface Session {
-    user?: {
-      profile_image_url?: string | null;
-    } & DefaultSession["user"] &
-      Omit<User, "password">;
+    user?: Omit<User, "password"> & DefaultSession["user"];
     expires?: string;
   }
 }
