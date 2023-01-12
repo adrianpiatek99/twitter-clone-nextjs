@@ -39,6 +39,12 @@ model Session {
   user          User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
+enum Role {
+  ADMIN
+  MODERATOR
+  USER
+}
+
 model User {
   id                 String    @id @default(auto()) @map("_id") @db.ObjectId
   name               String
@@ -56,6 +62,7 @@ model User {
   following_count    Int       @default(0)
   tweet_count        Int       @default(0)
   email_verified     DateTime?
+  role               Role?     @default(USER)
   accounts           Account[]
   sessions           Session[]
   created_at         DateTime  @default(now())

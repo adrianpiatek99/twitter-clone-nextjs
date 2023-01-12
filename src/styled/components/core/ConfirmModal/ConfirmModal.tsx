@@ -61,7 +61,7 @@ export const ConfirmModal: FC<ConfirmModalProps> = ({
       <AnimatePresence>
         {isOpen && (
           <ModalOverlay onClose={onClose}>
-            <FocusTrap open disableAutoFocus>
+            <FocusTrap open>
               <Content onClick={e => e.stopPropagation()} variants={contentVariants}>
                 <LogoWrapper>
                   <Logo size="m" />
@@ -105,6 +105,7 @@ const Content = styled(motion.div)`
   width: 90%;
   padding: 32px;
   background-color: ${({ theme }) => theme.background};
+  outline: none;
 `;
 
 const LogoWrapper = styled.div`

@@ -1,8 +1,9 @@
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { User } from "@prisma/client";
 import { compare } from "bcryptjs";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { prisma } from "prisma/prisma";
+import { exclude, prisma } from "prisma/prisma";
 
 export type SignInCredentials = Pick<User, "email" | "password">;
 
@@ -38,6 +39,34 @@ const authOptions: NextAuthOptions = {
       }
     })
   ],
+  adapter: PrismaAdapter(prisma),
+  callbacks: {
+    // eslint-disable-next-line @typescript-eslint/typedef
+    async session({ session }) {
+      if (session.user) {
+        const { user } = session;
+
+        try {
+          const dbUser = await prisma.user.findUnique({
+            where: { email: user.email as string }
+          });
+
+          if (dbUser) {
+            const userWithoutPassword = exclude(dbUser, ["password"]);
+            const userEntries = Object.entries(userWithoutPassword);
+
+            userEntries.forEach(([key, value]) => {
+              user[key] = value;
+            });
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      return session;
+    }
+  },
   pages: {
     signIn: "/"
   }

@@ -51,7 +51,7 @@ export const Modal: FC<ModalProps> = ({
       <AnimatePresence>
         {isOpen && (
           <ModalOverlay onClose={() => !preventClosingOnOutside && onClose()} {...props}>
-            <FocusTrap open disableAutoFocus>
+            <FocusTrap open>
               <Content onClick={e => e.stopPropagation()} variants={contentVariants}>
                 <ModalHeader
                   key="modal"
@@ -94,4 +94,5 @@ const Content = styled(motion.div)`
   background-color: ${({ theme }) => theme.background};
   border-radius: 16px;
   overflow-y: overlay;
+  outline: none;
 `;
