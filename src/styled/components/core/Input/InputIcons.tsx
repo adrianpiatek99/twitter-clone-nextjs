@@ -32,7 +32,7 @@ export const InputIcons = ({
         </IconButton>
       )}
       {error && (
-        <IconButton color="error" title={error} disableFocus>
+        <IconButton title={error} isError disableFocus>
           <WarningRoundedIcon />
         </IconButton>
       )}

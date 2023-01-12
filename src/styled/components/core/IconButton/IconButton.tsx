@@ -1,58 +1,62 @@
 import React, { ComponentPropsWithRef, FC, ReactElement, Ref } from "react";
 import { forwardRef } from "react";
 
-import { IconButton as MuiIconButton } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import styled, { css, useTheme } from "styled-components";
 
 import { getIconButtonColor, IconButtonColor } from "./iconButtonVariants";
 
-interface IconButtonProps extends Omit<ComponentPropsWithRef<typeof MuiIconButton>, "color"> {
+interface IconButtonProps extends Omit<ComponentPropsWithRef<"button">, "color"> {
   children: ReactElement;
-  title: string;
+  title?: string;
   color?: IconButtonColor;
+  isError?: boolean;
   disableFocus?: boolean;
   onClick?: () => void;
 }
 
 export const IconButton: FC<IconButtonProps> = forwardRef(
   (
-    { children, title, color = "primary", disableFocus = false, ...props },
+    { children, title, color = "primary", isError = false, disableFocus = false, ...props },
     ref: Ref<HTMLButtonElement>
   ) => {
     const { primary05, neutral00, error10 } = useTheme();
-    const isError = color === "error";
 
     const getSpecificColor = (color: IconButtonColor) => {
+      if (isError) return error10;
+
       if (color === "primary") return primary05;
 
       if (color === "secondary") return neutral00;
 
-      if (color === "error") return error10;
-
       return color;
     };
 
-    return (
-      <Tooltip title={title} disableInteractive enterNextDelay={150}>
+    const renderIconButton = () => {
+      return (
         <IconButtonElement
-          aria-label={title}
           tabIndex={disableFocus ? -1 : 0}
           $color={getSpecificColor(color)}
           $isError={isError}
-          disableRipple={isError}
-          disableFocusRipple={isError}
           {...props}
           ref={ref}
         >
-          <div>{children}</div>
+          {children}
         </IconButtonElement>
+      );
+    };
+
+    return title ? (
+      <Tooltip title={title} disableInteractive enterNextDelay={150}>
+        {renderIconButton()}
       </Tooltip>
+    ) : (
+      renderIconButton()
     );
   }
 );
 
-const IconButtonElement = styled(MuiIconButton)<
+const IconButtonElement = styled.button<
   Omit<IconButtonProps, "title"> & { $color: string; $isError: boolean }
 >`
   &&& {
@@ -65,24 +69,15 @@ const IconButtonElement = styled(MuiIconButton)<
     width: max-content;
     padding: 0;
     border-radius: 50%;
+    border: none;
     background-color: transparent;
+    cursor: pointer;
+    transition: 0.2s ease;
 
-    & > div {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: 0.2s;
-
-      & > svg {
-        width: 20px;
-        height: 20px;
-      }
-    }
-
-    &:active {
-      & > div {
-        transform: scale(0.87);
-      }
+    & > svg {
+      width: 20px;
+      height: 20px;
+      transition: 0.2s ease;
     }
 
     ${({ $color }) => getIconButtonColor($color)}
@@ -92,10 +87,8 @@ const IconButtonElement = styled(MuiIconButton)<
       css`
         cursor: default;
 
-        &:active {
-          & > div {
-            transform: none;
-          }
+        &:active:not(:disabled) {
+          transform: none;
         }
       `}
   }
