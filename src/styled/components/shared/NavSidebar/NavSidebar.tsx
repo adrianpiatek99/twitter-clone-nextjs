@@ -5,15 +5,15 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 
 import {
-  authenticatedNavDrawerItems,
-  navDrawerHomeItem,
-  navDrawerProfileItem
-} from "./navDrawerHelpers";
-import { NavDrawerLink } from "./NavDrawerLink";
-import { NavDrawerLogo } from "./NavDrawerLogo";
-import { NavDrawerProfile } from "./NavDrawerProfile";
+  authenticatedNavSidebarItems,
+  navSidebarHomeItem,
+  navSidebarProfileItem
+} from "./navSidebarHelpers";
+import { NavSidebarLink } from "./NavSidebarLink";
+import { NavSidebarLogo } from "./NavSidebarLogo";
+import { NavSidebarProfile } from "./NavSidebarProfile";
 
-export const NavDrawer = () => {
+export const NavSidebar = () => {
   const { session, isAuthenticated } = useAppSession();
   const { pathname, asPath } = useRouter();
 
@@ -21,27 +21,32 @@ export const NavDrawer = () => {
     <Wrapper>
       <Inner>
         <NavWrapper>
-          <NavDrawerLogo />
+          <NavSidebarLogo />
           <NavList>
-            <NavDrawerLink
-              {...navDrawerHomeItem}
-              active={asPath.includes(navDrawerHomeItem.href)}
+            <NavSidebarLink
+              {...navSidebarHomeItem}
+              active={asPath.includes(navSidebarHomeItem.href)}
             />
             {isAuthenticated && (
               <>
-                {authenticatedNavDrawerItems.map(({ href, ...props }) => (
-                  <NavDrawerLink key={href} href={href} active={asPath.includes(href)} {...props} />
+                {authenticatedNavSidebarItems.map(({ href, ...props }) => (
+                  <NavSidebarLink
+                    key={href}
+                    href={href}
+                    active={asPath.includes(href)}
+                    {...props}
+                  />
                 ))}
-                <NavDrawerLink
-                  {...navDrawerProfileItem}
+                <NavSidebarLink
+                  {...navSidebarProfileItem}
                   href={session?.user?.screen_name ?? ""}
-                  active={pathname === navDrawerProfileItem.href}
+                  active={pathname === navSidebarProfileItem.href}
                 />
               </>
             )}
           </NavList>
         </NavWrapper>
-        <NavDrawerProfile />
+        <NavSidebarProfile />
       </Inner>
     </Wrapper>
   );
@@ -51,6 +56,9 @@ const Wrapper = styled.div`
   display: none;
 
   @media ${({ theme }) => theme.breakpoints.sm} {
+    position: sticky;
+    top: 0px;
+    bottom: 0px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;

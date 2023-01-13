@@ -6,17 +6,23 @@ import Link from "next/link";
 import styled, { css, useTheme } from "styled-components";
 import { hexToRGBA } from "utils/colors";
 
-import { NavDrawerItem } from "./navDrawerHelpers";
+import { NavSidebarItem } from "./navSidebarHelpers";
 
-interface NavDrawerLinkProps extends NavDrawerItem {
+interface NavSidebarLinkProps extends NavSidebarItem {
   active: boolean;
 }
 
-export const NavDrawerLink: FC<NavDrawerLinkProps> = ({ text, href, active, ...props }) => {
+export const NavSidebarLink: FC<NavSidebarLinkProps> = ({
+  text,
+  href,
+  active,
+  icon: Icon,
+  activeIcon: ActiveIcon
+}) => {
   const { neutral20 } = useTheme();
 
   const getCorrectIcon = () => {
-    return active ? <props.activeIcon /> : <props.icon />;
+    return active ? <ActiveIcon /> : <Icon />;
   };
 
   return (
@@ -103,7 +109,7 @@ const NavIconButton = styled(IconButton)`
   &&& {
     padding: 12px;
 
-    & > div > svg {
+    & > svg {
       width: 26px;
       height: 26px;
     }

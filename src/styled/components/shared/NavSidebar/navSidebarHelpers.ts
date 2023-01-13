@@ -5,21 +5,21 @@ import { HiHashtag } from "react-icons/hi";
 import { HiOutlineHashtag } from "react-icons/hi";
 import { HiMail } from "react-icons/hi";
 import { HiOutlineMail } from "react-icons/hi";
-import { HiHome } from "react-icons/hi";
-import { HiOutlineHome } from "react-icons/hi";
 import { MdOutlinePerson } from "react-icons/md";
 import { MdPerson } from "react-icons/md";
 import { RiNotification2Line } from "react-icons/ri";
 import { RiNotification2Fill } from "react-icons/ri";
+import { RiHome5Fill } from "react-icons/ri";
+import { RiHome5Line } from "react-icons/ri";
 
-export type NavDrawerItem = {
+export type NavSidebarItem = {
   text: string;
   href: string;
   icon: IconType;
   activeIcon: IconType;
 };
 
-export const authenticatedNavDrawerItems: NavDrawerItem[] = [
+export const authenticatedNavSidebarItems: NavSidebarItem[] = [
   {
     text: "Explore",
     href: "/explore",
@@ -46,14 +46,14 @@ export const authenticatedNavDrawerItems: NavDrawerItem[] = [
   }
 ];
 
-export const navDrawerHomeItem: NavDrawerItem = {
+export const navSidebarHomeItem: NavSidebarItem = {
   text: "Home",
   href: "/home",
-  icon: HiOutlineHome,
-  activeIcon: HiHome
+  icon: RiHome5Line,
+  activeIcon: RiHome5Fill
 };
 
-export const navDrawerProfileItem: NavDrawerItem = {
+export const navSidebarProfileItem: NavSidebarItem = {
   text: "Profile",
   href: "/[screenName]",
   icon: MdOutlinePerson,

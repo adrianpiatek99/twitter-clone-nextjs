@@ -5,7 +5,7 @@ import Link from "next/link";
 import styled from "styled-components";
 import { hexToRGBA } from "utils/colors";
 
-export const NavDrawerLogo = () => {
+export const NavSidebarLogo = () => {
   return (
     <LogoLink href="/home">
       <TwitterIcon />
