@@ -1,6 +1,7 @@
 import React, { ReactElement } from "react";
 
 import { useRouter } from "next/router";
+import { NavBottomBar } from "shared/NavBottomBar";
 import { NavSidebar } from "shared/NavSidebar";
 import styled from "styled-components";
 
@@ -17,6 +18,7 @@ const Layout = ({ children }: LayoutProps) => {
     <Wrapper>
       <NavSidebar />
       <Feed>{children}</Feed>
+      <NavBottomBar />
     </Wrapper>
   );
 };
@@ -46,8 +48,11 @@ const Wrapper = styled.div`
 const Feed = styled.div`
   display: flex;
   flex-direction: column;
-  border-left: 1px solid ${({ theme }) => theme.border};
-  border-right: 1px solid ${({ theme }) => theme.border};
   max-width: 600px;
   width: 100%;
+
+  @media ${({ theme }) => theme.breakpoints.sm} {
+    border-left: 1px solid ${({ theme }) => theme.border};
+    border-right: 1px solid ${({ theme }) => theme.border};
+  }
 `;
