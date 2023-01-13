@@ -5,12 +5,12 @@ import { HiHashtag } from "react-icons/hi";
 import { HiOutlineHashtag } from "react-icons/hi";
 import { HiMail } from "react-icons/hi";
 import { HiOutlineMail } from "react-icons/hi";
-import { HiHome } from "react-icons/hi";
-import { HiOutlineHome } from "react-icons/hi";
 import { MdOutlinePerson } from "react-icons/md";
 import { MdPerson } from "react-icons/md";
 import { RiNotification2Line } from "react-icons/ri";
 import { RiNotification2Fill } from "react-icons/ri";
+import { RiHome5Fill } from "react-icons/ri";
+import { RiHome5Line } from "react-icons/ri";
 
 export type NavSidebarItem = {
   text: string;
@@ -49,8 +49,8 @@ export const authenticatedNavSidebarItems: NavSidebarItem[] = [
 export const navSidebarHomeItem: NavSidebarItem = {
   text: "Home",
   href: "/home",
-  icon: HiOutlineHome,
-  activeIcon: HiHome
+  icon: RiHome5Line,
+  activeIcon: RiHome5Fill
 };
 
 export const navSidebarProfileItem: NavSidebarItem = {

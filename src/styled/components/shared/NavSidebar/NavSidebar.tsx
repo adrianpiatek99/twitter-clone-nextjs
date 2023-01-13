@@ -56,6 +56,9 @@ const Wrapper = styled.div`
   display: none;
 
   @media ${({ theme }) => theme.breakpoints.sm} {
+    position: sticky;
+    top: 0px;
+    bottom: 0px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
