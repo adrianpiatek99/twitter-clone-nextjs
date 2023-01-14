@@ -16,6 +16,7 @@ export const GlobalStyle = createGlobalStyle`
     font-family: ${({ theme }) => theme.fontFamily.primary};
     ${({ theme }) => theme.text.m};
     overflow-y: scroll;
+    word-wrap: break-word;
   }
 
   h1,
