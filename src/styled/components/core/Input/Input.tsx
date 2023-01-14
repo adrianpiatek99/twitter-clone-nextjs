@@ -113,8 +113,8 @@ const StyledLabel = styled.label<{ isFilled: boolean; error: boolean }>`
   &${({ error }) =>
     error &&
     css`
-      color: ${({ theme }) => theme.error10};
-      border: 1px solid ${({ theme }) => theme.error10};
+      color: ${({ theme }) => theme.error40};
+      border: 1px solid ${({ theme }) => theme.error40};
     `}
 `;
 
@@ -130,8 +130,8 @@ const StyledInput = styled.input<{ error: boolean; iconsCount: number }>`
 
   &:focus-visible + ${StyledLabel} {
     box-shadow: ${({ theme, error }) =>
-      error ? `${theme.error10}` : `${theme.primary05} 0px 0px 0px 1px`};
-    border-color: ${({ theme, error }) => (error ? `${theme.error10}` : theme.primary05)};
+      error ? `${theme.error40}` : `${theme.primary05} 0px 0px 0px 1px`};
+    border-color: ${({ theme, error }) => (error ? `${theme.error40}` : theme.primary05)};
     color: ${({ theme }) => theme.primary05};
 
     & > span {
@@ -143,7 +143,7 @@ const StyledInput = styled.input<{ error: boolean; iconsCount: number }>`
     error &&
     css`
       &:focus-visible + ${StyledLabel} {
-        color: ${({ theme }) => theme.error10};
+        color: ${({ theme }) => theme.error40};
       }
     `};
 `;

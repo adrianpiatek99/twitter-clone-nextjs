@@ -20,10 +20,10 @@ export const IconButton: FC<IconButtonProps> = forwardRef(
     { children, title, color = "primary", isError = false, disableFocus = false, ...props },
     ref: Ref<HTMLButtonElement>
   ) => {
-    const { primary05, neutral00, error10 } = useTheme();
+    const { primary05, neutral00, error40 } = useTheme();
 
     const specificColor = useMemo(() => {
-      if (isError) return error10;
+      if (isError) return error40;
 
       if (color === "primary") return primary05;
 
