@@ -10,6 +10,7 @@ import styled from "styled-components";
 
 import { DefaultBackgroundGif } from "./DefaultBackgroundGif";
 import { DefaultCurrentTab } from "./DefaultCurrentTab";
+import { DefaultPageExternalLinks } from "./DefaultPageExternalLinks";
 
 export type DefaultTabs = "sign in" | "sign up";
 
@@ -50,6 +51,7 @@ export const DefaultPageTemplate = () => {
       <RightPanel>
         <DefaultBackgroundGif />
       </RightPanel>
+      <DefaultPageExternalLinks />
     </Wrapper>
   );
 };
@@ -79,7 +81,18 @@ const RightPanel = styled(LeftPanel)`
   display: none;
 
   @media ${({ theme }) => theme.breakpoints.lg} {
+    position: relative;
     display: flex;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0px;
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.7) 100%);
+      z-index: -1;
+    }
   }
 `;
 
