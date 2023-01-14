@@ -62,7 +62,7 @@ export const ConfirmModal: FC<ConfirmModalProps> = ({
         {isOpen && (
           <ModalOverlay onClose={onClose}>
             <FocusTrap open>
-              <Content onClick={e => e.stopPropagation()} variants={contentVariants} tabIndex={-1}>
+              <Content onClick={e => e.stopPropagation()} variants={contentVariants}>
                 <LogoWrapper>
                   <Logo size="m" />
                 </LogoWrapper>
