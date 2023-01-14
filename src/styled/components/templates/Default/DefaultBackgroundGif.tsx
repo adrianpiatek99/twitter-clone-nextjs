@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 
+import Image from "next/image";
 import styled, { css } from "styled-components";
 
 interface DefaultBackgroundGifProps {
@@ -7,38 +8,42 @@ interface DefaultBackgroundGifProps {
 }
 
 const imageUrl =
-  "https://media2.giphy.com/media/26BRxIdjE82KNmVJm/giphy.gif?cid=790b761178f0259baf56aa0208c3d583676741defea1081b&rid=giphy.gif&ct=g";
+  "https://media2.giphy.com/media/3oEjHREpGw73bnR7Ow/giphy.gif?cid=ecf05e47rxmkjsxcti8xmyopot15mx7ksisqfo9hms38cckh&rid=giphy.gif&ct=g";
 
 export const DefaultBackgroundGif: FC<DefaultBackgroundGifProps> = ({ withBlur = false }) => {
   return (
     <ImageWrapper withBlur={withBlur}>
-      <img alt="dfg" src={imageUrl} draggable="false" />
+      <Image alt="dfg" src={imageUrl} fill draggable="false" />
     </ImageWrapper>
   );
 };
 
 const ImageWrapper = styled.div<{ withBlur: boolean }>`
-  position: absolute;
-  inset: 0px;
-  overflow: hidden;
-  z-index: -1;
+  display: none;
 
-  &::after {
-    content: "";
+  @media ${({ theme }) => theme.breakpoints.sm} {
     position: absolute;
     inset: 0px;
-    background-color: rgba(0, 0, 0, 0.1);
-  }
+    display: flex;
+    z-index: -1;
 
-  & > img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-  }
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0px;
+      background-color: rgba(0, 0, 0, 0.1);
+    }
 
-  ${({ withBlur }) =>
-    withBlur &&
-    css`
-      filter: brightness(80%) blur(100px);
-    `}
+    & > img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    ${({ withBlur }) =>
+      withBlur &&
+      css`
+        filter: brightness(80%) blur(100px);
+      `}
+  }
 `;

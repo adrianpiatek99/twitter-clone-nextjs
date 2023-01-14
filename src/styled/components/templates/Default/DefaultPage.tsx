@@ -10,6 +10,7 @@ import styled from "styled-components";
 
 import { DefaultBackgroundGif } from "./DefaultBackgroundGif";
 import { DefaultCurrentTab } from "./DefaultCurrentTab";
+import { DefaultPageExternalLinks } from "./DefaultPageExternalLinks";
 
 export type DefaultTabs = "sign in" | "sign up";
 
@@ -50,17 +51,20 @@ export const DefaultPageTemplate = () => {
       <RightPanel>
         <DefaultBackgroundGif />
       </RightPanel>
+      <DefaultPageExternalLinks />
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 100%;
   min-height: 100vh;
 
   @media ${({ theme }) => theme.breakpoints.lg} {
+    display: grid;
     grid-template-columns: repeat(2, 1fr);
   }
 `;
@@ -68,27 +72,34 @@ const Wrapper = styled.div`
 const LeftPanel = styled.div`
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 12px;
   width: 100%;
   height: 100%;
+
+  @media ${({ theme }) => theme.breakpoints.sm} {
+    justify-content: center;
+    padding: 12px;
+  }
 `;
 
 const RightPanel = styled(LeftPanel)`
   display: none;
 
   @media ${({ theme }) => theme.breakpoints.lg} {
+    position: relative;
     display: flex;
-  }
-`;
 
-const Header = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0px;
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.7) 100%);
+      z-index: -1;
+    }
+  }
 `;
 
 const Content = styled.div`
@@ -99,9 +110,20 @@ const Content = styled.div`
   gap: 16px;
   width: 100%;
   background-color: ${({ theme }) => theme.background};
-  border-radius: 16px;
   padding: 32px;
   overflow: hidden;
+
+  @media ${({ theme }) => theme.breakpoints.sm} {
+    border-radius: 16px;
+  }
+`;
+
+const Header = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
 `;
 
 const TabGroupWrapper = styled.div`

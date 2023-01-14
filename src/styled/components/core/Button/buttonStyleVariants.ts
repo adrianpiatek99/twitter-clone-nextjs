@@ -45,6 +45,7 @@ export const styleVariants: Record<ButtonVariant, StyledCssReturn> = {
 
 const small = css`
   min-height: 32px;
+  ${({ theme }) => theme.text.s};
 `;
 
 const medium = css`

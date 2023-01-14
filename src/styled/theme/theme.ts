@@ -3,7 +3,7 @@ import { DefaultTheme } from "styled-components";
 const fonts = {
   text: {
     xs: "font-size: 13px; line-height: 16px;",
-    s: "font-size: 14px; line-height: 16px;",
+    s: "font-size: 14px; line-height: 17px;",
     m: "font-size: 15px; line-height: 20px;",
     l: "font-size: 17px; line-height: 24px;",
     xl: "font-size: 20px; line-height: 24px;",
