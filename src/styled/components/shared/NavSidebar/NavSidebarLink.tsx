@@ -78,7 +78,6 @@ const NavLinkContent = styled(ButtonBase)<{ $active: boolean }>`
       border-radius: 50px;
       user-select: none;
       color: ${({ theme }) => theme.neutral20};
-      font-family: ${({ theme }) => theme.fontFamily.primary};
       ${({ theme }) => theme.text.xl};
       transition: background-color 0.2s, box-shadow 0.2s;
 
