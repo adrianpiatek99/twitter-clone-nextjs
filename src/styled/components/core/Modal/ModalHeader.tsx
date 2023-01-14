@@ -29,7 +29,7 @@ export const ModalHeader = ({
       {title && <HeaderTitle>{title}</HeaderTitle>}
       {!!onAccept && (
         <ButtonRow>
-          <Button onClick={onAccept} color="secondary" loading={loading}>
+          <Button onClick={onAccept} color="secondary" size="small" loading={loading}>
             {acceptButtonText}
           </Button>
         </ButtonRow>
@@ -55,10 +55,4 @@ const HeaderTitle = styled.h2`
 const ButtonRow = styled.div`
   display: flex;
   margin-left: auto;
-
-  &&& {
-    & > button {
-      height: 32px;
-    }
-  }
 `;
