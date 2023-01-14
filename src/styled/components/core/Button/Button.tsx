@@ -62,6 +62,8 @@ const ButtonElement = styled(MuiButton)<ButtonProps & { $loading: boolean }>`
     border-radius: 50px;
     overflow-wrap: break-word;
     text-transform: none;
+    padding-top: 0px;
+    padding-bottom: 0px;
     box-shadow: none;
     transition: all 0.2s;
 
