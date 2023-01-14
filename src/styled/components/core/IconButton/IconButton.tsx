@@ -35,6 +35,7 @@ export const IconButton: FC<IconButtonProps> = forwardRef(
     const renderIconButton = () => {
       return (
         <IconButtonElement
+          type="button"
           tabIndex={disableFocus ? -1 : 0}
           $color={specificColor}
           $isError={isError}
