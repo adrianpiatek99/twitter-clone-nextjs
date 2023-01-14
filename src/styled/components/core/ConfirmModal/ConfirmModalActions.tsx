@@ -24,7 +24,7 @@ export const ConfirmModalActions = ({
       <Button onClick={onAccept} loading={loading} color="secondary" fullWidth>
         {acceptButtonText}
       </Button>
-      <Button onClick={onCancel} disabled={loading} variant="outlined" color="secondary" fullWidth>
+      <Button onClick={onCancel} disabled={loading} variant="outlined" fullWidth>
         {cancelButtonText}
       </Button>
     </Wrapper>
