@@ -5,66 +5,98 @@ import { hexToRGBA } from "utils/colors";
 export type ButtonVariant = "contained" | "outlined" | "text";
 export type ButtonSize = "small" | "medium" | "large";
 export type ButtonColor = "primary" | "secondary" | "danger";
-export type ButtonColors = { color: string; backgroundColor: string };
 
-export const getSpecificButtonVariant = ({
-  color,
-  backgroundColor,
-  variant
-}: ButtonColors & { variant: ButtonVariant }) => {
-  if (variant === "outlined") return getButtonOutlinedStyles({ color, backgroundColor });
+type ButtonColorCss = Record<ButtonColor, StyledCssReturn>;
 
-  if (variant === "text") return getButtonTextStyles({ color, backgroundColor });
+const contained: ButtonColorCss = {
+  primary: css`
+    background-color: ${({ theme }) => theme.primary05};
+    color: ${({ theme }) => theme.neutral20};
 
-  return getButtonContainedStyles({ color, backgroundColor });
+    &:hover:not(:disabled) {
+      background-color: ${({ theme }) => hexToRGBA(theme.primary05, 0.75)};
+    }
+  `,
+  secondary: css`
+    background-color: ${({ theme }) => theme.neutral20};
+    color: ${({ theme }) => theme.darker10};
+
+    &:hover:not(:disabled) {
+      background-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.75)};
+    }
+  `,
+  danger: css`
+    background-color: ${({ theme }) => theme.error20};
+    color: ${({ theme }) => theme.neutral20};
+
+    &:hover:not(:disabled) {
+      background-color: ${({ theme }) => hexToRGBA(theme.error20, 0.75)};
+    }
+  `
 };
 
-const getButtonContainedStyles = ({ color, backgroundColor }: ButtonColors) =>
-  css`
-    background-color: ${backgroundColor};
-    color: ${color};
-
-    &:hover:not(:disabled) {
-      background-color: ${hexToRGBA(backgroundColor, 0.75)};
-    }
-
-    &:disabled {
-      background-color: ${hexToRGBA(backgroundColor, 0.5)};
-      color: ${hexToRGBA(color, 0.5)};
-    }
-  `;
-
-const getButtonOutlinedStyles = ({ color, backgroundColor }: ButtonColors) =>
-  css`
+const outlined: ButtonColorCss = {
+  primary: css`
     background-color: transparent;
-    color: ${color};
-    border-color: ${hexToRGBA(backgroundColor, 0.65)};
+    color: ${({ theme }) => theme.neutral20};
+    border-color: ${({ theme }) => hexToRGBA(theme.primary05, 0.65)};
 
     &:hover:not(:disabled) {
-      border-color: ${hexToRGBA(backgroundColor, 0.65)};
-      background-color: ${hexToRGBA(color, 0.1)};
+      border-color: ${({ theme }) => hexToRGBA(theme.primary05, 0.65)};
+      background-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.1)};
     }
+  `,
+  secondary: css`
+    background-color: transparent;
+    color: ${({ theme }) => theme.neutral20};
+    border-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.65)};
 
-    &:disabled {
-      color: ${hexToRGBA(color, 0.5)};
-      border-color: ${hexToRGBA(backgroundColor, 0.4)};
+    &:hover:not(:disabled) {
+      border-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.65)};
+      background-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.1)};
     }
-  `;
+  `,
+  danger: css`
+    background-color: transparent;
+    color: ${({ theme }) => theme.neutral20};
+    border-color: ${({ theme }) => hexToRGBA(theme.error20, 0.65)};
 
-const getButtonTextStyles = ({ color, backgroundColor }: ButtonColors) =>
-  css`
+    &:hover:not(:disabled) {
+      border-color: ${({ theme }) => hexToRGBA(theme.error20, 0.65)};
+      background-color: ${({ theme }) => hexToRGBA(theme.error20, 0.1)};
+    }
+  `
+};
+
+const text: ButtonColorCss = {
+  primary: css`
     background-color: transparent;
     border-radius: 0px;
-    color: ${color};
+    color: ${({ theme }) => theme.primary05};
 
     &:hover:not(:disabled) {
-      background-color: ${hexToRGBA(backgroundColor, 0.1)};
+      background-color: ${({ theme }) => hexToRGBA(theme.primary05, 0.1)};
     }
+  `,
+  secondary: css`
+    background-color: transparent;
+    border-radius: 0px;
+    color: ${({ theme }) => theme.neutral20};
 
-    &:disabled {
-      color: ${hexToRGBA(color, 0.5)};
+    &:hover:not(:disabled) {
+      background-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.1)};
     }
-  `;
+  `,
+  danger: css`
+    background-color: transparent;
+    border-radius: 0px;
+    color: ${({ theme }) => theme.error20};
+
+    &:hover:not(:disabled) {
+      background-color: ${({ theme }) => hexToRGBA(theme.error20, 0.1)};
+    }
+  `
+};
 
 const small = css`
   min-height: 32px;
@@ -83,4 +115,10 @@ export const sizeVariants: Record<ButtonSize, StyledCssReturn> = {
   small,
   medium,
   large
+} as const;
+
+export const buttonVariantsWithColor: Record<ButtonVariant, ButtonColorCss> = {
+  contained,
+  outlined,
+  text
 } as const;

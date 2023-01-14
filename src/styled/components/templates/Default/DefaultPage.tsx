@@ -43,7 +43,7 @@ export const DefaultPageTemplate = () => {
             </TabGroup>
           </TabGroupWrapper>
           <DefaultCurrentTab currentTab={currentTab} handleChangeTab={handleChangeTab} />
-          <Button variant="outlined" startIcon={<GoogleIcon />} disabled>
+          <Button variant="outlined" color="secondary" startIcon={<GoogleIcon />} disabled>
             Sign in with Google
           </Button>
         </Content>
