@@ -14,13 +14,15 @@ export const DefaultPageExternalLinks = () => {
 };
 
 const Wrapper = styled.div`
-  position: absolute;
-  bottom: 0px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 12px;
-  flex-wrap: wrap;
   width: 100%;
   padding: 12px;
+  margin-top: auto;
+
+  @media ${({ theme }) => theme.breakpoints.sm} {
+    position: absolute;
+    bottom: 0px;
+  }
 `;
