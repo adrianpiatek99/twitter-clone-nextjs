@@ -1,4 +1,5 @@
 import React, { FC, ReactElement } from "react";
+import { RemoveScrollBar } from "react-remove-scroll-bar";
 
 import { motion } from "framer-motion";
 import styled from "styled-components";
@@ -18,6 +19,7 @@ export const ModalOverlay: FC<ModalOverlayProps> = ({ children, onClose, ...prop
       onClick={onClose}
       {...props}
     >
+      <RemoveScrollBar />
       {children}
     </Overlay>
   );

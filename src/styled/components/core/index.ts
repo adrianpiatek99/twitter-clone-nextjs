@@ -5,4 +5,4 @@ export { Loader } from "./Loader";
 export { LinearProgress } from "./LinearProgress";
 export { Modal } from "./Modal";
 export { ConfirmModal } from "./ConfirmModal";
-export { Dropdown, DropdownItem, type DropdownAnchorEl } from "./Dropdown";
+export { MenuModal, MenuModalItem } from "./MenuModal";

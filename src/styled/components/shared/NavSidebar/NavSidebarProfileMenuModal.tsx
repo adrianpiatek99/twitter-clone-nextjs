@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 
-import { type DropdownAnchorEl, ConfirmModal, Dropdown, DropdownItem } from "components/core";
+import { ConfirmModal, MenuModal, MenuModalItem } from "components/core";
 import { signOut } from "next-auth/react";
 
-interface NavSidebarProfileDropdownProps {
-  anchorEl: DropdownAnchorEl;
+interface NavSidebarProfileMenuModalProps {
+  isOpen: boolean;
   onClose: () => void;
 }
 
-export const NavSidebarProfileDropdown = ({
-  anchorEl,
+export const NavSidebarProfileMenuModal = ({
+  isOpen,
   onClose
-}: NavSidebarProfileDropdownProps) => {
+}: NavSidebarProfileMenuModalProps) => {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   const handleCloseConfirmationModal = () => setIsConfirmModalOpen(false);
@@ -25,21 +25,15 @@ export const NavSidebarProfileDropdown = ({
   };
 
   const handleLagOutClick = () => {
-    setIsConfirmModalOpen(true);
     onClose();
+    setIsConfirmModalOpen(true);
   };
 
   return (
     <>
-      <Dropdown
-        anchorEl={anchorEl}
-        onClose={onClose}
-        autoFocus
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        transformOrigin={{ vertical: "bottom", horizontal: "left" }}
-      >
-        <DropdownItem onClick={handleLagOutClick}>Log out</DropdownItem>
-      </Dropdown>
+      <MenuModal isOpen={isOpen} onClose={onClose}>
+        <MenuModalItem onClick={handleLagOutClick}>Log out</MenuModalItem>
+      </MenuModal>
       <ConfirmModal
         isOpen={isConfirmModalOpen}
         onClose={handleCloseConfirmationModal}

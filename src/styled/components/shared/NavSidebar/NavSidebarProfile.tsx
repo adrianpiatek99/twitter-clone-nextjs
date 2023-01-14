@@ -1,60 +1,62 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { CardActionArea } from "@mui/material";
-import { type DropdownAnchorEl } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
 import { Avatar } from "shared/Avatar";
 import { Skeleton } from "shared/Skeleton";
 import styled from "styled-components";
 import { hexToRGBA } from "utils/colors";
 
-import { NavSidebarProfileDropdown } from "./NavSidebarProfileDropdown";
+import { NavSidebarProfileMenuModal } from "./NavSidebarProfileMenuModal";
 
 export const NavSidebarProfile = () => {
   const { session, isSessionLoading, isUnauthenticated } = useAppSession();
-  const [dropdownAnchorEl, setDropdownAnchorEl] = useState<DropdownAnchorEl>(null);
+  const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
   const userScreenName = session?.user?.screen_name;
-  const avatarColumnRef = useRef<HTMLDivElement>(null);
 
   if (isUnauthenticated) return null;
 
-  const handleOpenDropdown = () => setDropdownAnchorEl(avatarColumnRef.current);
-
-  const handleCloseDropdown = () => setDropdownAnchorEl(null);
-
-  return (
-    <>
+  if (isSessionLoading) {
+    return (
       <Wrapper>
-        <Inner onClick={handleOpenDropdown}>
+        <Inner>
           <Column>
-            <Avatar
-              src={session?.user?.profile_image_url ?? ""}
-              loading={isSessionLoading}
-              disableFocus
-            />
+            <Avatar src={""} loading={true} />
           </Column>
           <Column>
-            {isSessionLoading ? (
-              <ColumnSkeletons>
-                <Skeleton height={15} width={80} />
-                <Skeleton height={15} width={85} />
-              </ColumnSkeletons>
-            ) : (
-              <>
-                <UserName>{session?.user?.name}</UserName>
-                <UserScreenName>{userScreenName && `@${userScreenName}`}</UserScreenName>
-              </>
-            )}
+            <ColumnSkeletons>
+              <Skeleton height={15} width={80} />
+              <Skeleton height={15} width={85} />
+            </ColumnSkeletons>
           </Column>
           <Column>
-            <MoreHorizIcon />
+            <Skeleton height={5} width={15} />
           </Column>
-          <DropdownAnchor ref={avatarColumnRef} />
         </Inner>
       </Wrapper>
-      <NavSidebarProfileDropdown anchorEl={dropdownAnchorEl} onClose={handleCloseDropdown} />
-    </>
+    );
+  }
+
+  return (
+    <Wrapper>
+      <Inner onClick={() => setIsMenuModalOpen(true)}>
+        <Column>
+          <Avatar src={session?.user?.profile_image_url ?? ""} disableFocus />
+        </Column>
+        <Column>
+          <UserName>{session?.user?.name}</UserName>
+          <UserScreenName>{userScreenName && `@${userScreenName}`}</UserScreenName>
+        </Column>
+        <Column>
+          <MoreHorizIcon />
+        </Column>
+      </Inner>
+      <NavSidebarProfileMenuModal
+        isOpen={isMenuModalOpen}
+        onClose={() => setIsMenuModalOpen(false)}
+      />
+    </Wrapper>
   );
 };
 
@@ -126,10 +128,4 @@ const UserName = styled.span`
 
 const UserScreenName = styled.span`
   color: ${({ theme }) => theme.neutral100};
-`;
-
-const DropdownAnchor = styled.div`
-  position: absolute;
-  top: 15px;
-  right: 15px;
 `;
