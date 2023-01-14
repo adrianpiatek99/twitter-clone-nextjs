@@ -4,7 +4,7 @@ import { hexToRGBA } from "utils/colors";
 
 export type ButtonVariant = "contained" | "outlined" | "text";
 export type ButtonSize = "small" | "medium" | "large";
-export type ButtonColor = "primary" | "secondary";
+export type ButtonColor = "primary" | "secondary" | "danger";
 export type ButtonColors = { color: string; backgroundColor: string };
 
 export const getSpecificButtonVariant = ({

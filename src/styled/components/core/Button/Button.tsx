@@ -13,7 +13,7 @@ import {
   sizeVariants
 } from "./buttonStyleVariants";
 
-interface ButtonProps extends ComponentPropsWithRef<typeof MuiButton> {
+interface ButtonProps extends Omit<ComponentPropsWithRef<typeof MuiButton>, "color"> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   color?: ButtonColor;
@@ -33,7 +33,8 @@ export const Button: FC<ButtonProps> = forwardRef(
     },
     ref: Ref<HTMLButtonElement>
   ) => {
-    const { primary05, neutral20, darker10 } = useTheme();
+    const { primary05, neutral20, darker10, error20 } = useTheme();
+    const loaderColor = color === "primary" ? "primary" : "secondary";
     const isContained = variant === "contained";
     const isOutlined = variant === "outlined";
     const isText = variant === "text";
@@ -63,6 +64,14 @@ export const Button: FC<ButtonProps> = forwardRef(
         }
       }
 
+      if (color === "danger") {
+        if (isContained) {
+          return { color: neutral20, backgroundColor: error20 };
+        }
+
+        return { color: error20, backgroundColor: error20 };
+      }
+
       return { color: neutral20, backgroundColor: primary05 };
     }, [color, variant]);
 
@@ -79,7 +88,7 @@ export const Button: FC<ButtonProps> = forwardRef(
       >
         {loading && (
           <LoaderWrapper>
-            <Loader color={color} />
+            <Loader color={loaderColor} />
           </LoaderWrapper>
         )}
         <span>{children}</span>
