@@ -52,7 +52,8 @@ export const theme: DefaultTheme = {
   border: "#2f3336",
   border2: "#333639",
   border3: "#536471",
-  error10: "#f4212e",
+  error20: "#f44336",
+  error40: "#d32f2f",
   focus: {
     primary: "rgb(142, 205, 248)"
   },

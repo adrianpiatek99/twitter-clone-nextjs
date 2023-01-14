@@ -16,7 +16,8 @@ declare module "styled-components" {
     border: string;
     border2: string;
     border3: string;
-    error10: string;
+    error20: string;
+    error40: string;
     fontFamily: {
       primary: string;
       secondary: string;
