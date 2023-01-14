@@ -42,7 +42,7 @@ export const MenuModal: FC<MenuModalProps> = ({
         {isOpen && (
           <ModalOverlay onClose={() => !preventClosingOnOutside && onClose()} {...props}>
             <FocusTrap open>
-              <Content onClick={e => e.stopPropagation()} variants={contentVariants}>
+              <Content onClick={e => e.stopPropagation()} variants={contentVariants} tabIndex={-1}>
                 {children}
                 <MenuModalItem onClick={onClose}>Cancel</MenuModalItem>
               </Content>

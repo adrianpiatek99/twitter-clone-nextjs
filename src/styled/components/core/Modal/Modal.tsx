@@ -52,7 +52,7 @@ export const Modal: FC<ModalProps> = ({
         {isOpen && (
           <ModalOverlay onClose={() => !preventClosingOnOutside && onClose()} {...props}>
             <FocusTrap open>
-              <Content onClick={e => e.stopPropagation()} variants={contentVariants}>
+              <Content onClick={e => e.stopPropagation()} variants={contentVariants} tabIndex={-1}>
                 <ModalHeader
                   key="modal"
                   onClose={onClose}
