@@ -2,18 +2,17 @@ import React, { ComponentPropsWithRef, FC, forwardRef, Ref } from "react";
 
 import { Button as MuiButton } from "@mui/material";
 import styled, { css } from "styled-components";
-import { hexToRGBA } from "utils/colors";
 
 import { Loader } from "../Loader";
 import {
   ButtonColor,
   ButtonSize,
   ButtonVariant,
-  sizeVariants,
-  styleVariants
+  buttonVariantsWithColor,
+  sizeVariants
 } from "./buttonStyleVariants";
 
-interface ButtonProps extends ComponentPropsWithRef<typeof MuiButton> {
+interface ButtonProps extends Omit<ComponentPropsWithRef<typeof MuiButton>, "color"> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   color?: ButtonColor;
@@ -33,11 +32,13 @@ export const Button: FC<ButtonProps> = forwardRef(
     },
     ref: Ref<HTMLButtonElement>
   ) => {
+    const loaderColor = color === "primary" ? "primary" : "secondary";
+
     return (
       <ButtonElement
         aria-label={loading ? "Loading" : undefined}
+        $color={color}
         variant={variant}
-        color={color}
         size={size}
         $loading={loading}
         disabled={loading || disabled}
@@ -46,7 +47,7 @@ export const Button: FC<ButtonProps> = forwardRef(
       >
         {loading && (
           <LoaderWrapper>
-            <Loader color={color} />
+            <Loader color={loaderColor} />
           </LoaderWrapper>
         )}
         <span>{children}</span>
@@ -55,7 +56,11 @@ export const Button: FC<ButtonProps> = forwardRef(
   }
 );
 
-const ButtonElement = styled(MuiButton)<ButtonProps & { $loading: boolean }>`
+const ButtonElement = styled(MuiButton)<{
+  $loading: boolean;
+  $color: ButtonColor;
+  variant: ButtonVariant;
+}>`
   &&& {
     position: relative;
     min-width: 36px;
@@ -73,34 +78,14 @@ const ButtonElement = styled(MuiButton)<ButtonProps & { $loading: boolean }>`
       box-shadow: none;
     }
 
+    &:disabled {
+      opacity: 0.5;
+    }
+
     ${({ theme }) => theme.text.m};
-    ${({ variant }) => styleVariants[variant || "contained"]}
-    ${({ size }) => sizeVariants[size || "normal"]}
+    ${({ size }) => sizeVariants[size || "normal"]};
 
-  ${({ variant, color }) =>
-      color === "secondary" &&
-      (variant === "contained"
-        ? css`
-            background-color: ${({ theme }) => theme.neutral20};
-            color: ${({ theme }) => theme.darker10};
-
-            &:hover:not(:disabled) {
-              background-color: ${({ theme }) => `${hexToRGBA(theme.neutral20, 0.9)}`};
-            }
-
-            &:disabled {
-              background-color: ${({ theme }) => `${hexToRGBA(theme.neutral20, 0.5)}`};
-              color: ${({ theme }) => `${hexToRGBA(theme.darker10, 0.5)}`};
-            }
-          `
-        : css`
-            border-color: ${({ theme }) => `${theme.primary05}`};
-
-            &:hover:not(:disabled) {
-              border-color: ${({ theme }) => `${hexToRGBA(theme.primary05, 0.5)}`};
-              background-color: ${({ theme }) => `${hexToRGBA(theme.neutral20, 0.1)}`};
-            }
-          `)};
+    ${({ $color, variant }) => buttonVariantsWithColor[variant][$color]};
 
     ${({ $loading }) =>
       $loading &&

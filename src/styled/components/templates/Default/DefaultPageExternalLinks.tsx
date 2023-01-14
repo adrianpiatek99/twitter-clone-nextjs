@@ -1,14 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { Button } from "components/core";
+import { Button, MenuModal, MenuModalItem } from "components/core";
 import styled from "styled-components";
 
 export const DefaultPageExternalLinks = () => {
+  const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
+
+  const handleCloseModal = () => setIsMenuModalOpen(false);
+
   return (
     <Wrapper>
-      <Button color="secondary" size="small">
+      <Button onClick={() => setIsMenuModalOpen(prev => !prev)} color="secondary" size="small">
         External Links
       </Button>
+      <MenuModal isOpen={isMenuModalOpen} onClose={handleCloseModal}>
+        <MenuModalItem color="primary" onClick={handleCloseModal}>
+          Project Repository
+        </MenuModalItem>
+        <MenuModalItem color="primary" onClick={handleCloseModal}>
+          Portfolio
+        </MenuModalItem>
+        <MenuModalItem color="primary" onClick={handleCloseModal}>
+          GitHub
+        </MenuModalItem>
+      </MenuModal>
     </Wrapper>
   );
 };

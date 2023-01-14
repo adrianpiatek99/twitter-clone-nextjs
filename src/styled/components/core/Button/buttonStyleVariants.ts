@@ -4,44 +4,99 @@ import { hexToRGBA } from "utils/colors";
 
 export type ButtonVariant = "contained" | "outlined" | "text";
 export type ButtonSize = "small" | "medium" | "large";
-export type ButtonColor = "primary" | "secondary";
+export type ButtonColor = "primary" | "secondary" | "danger";
 
-const contained = css`
-  background-color: ${({ theme }) => theme.primary05};
-  color: ${({ theme }) => theme.neutral20};
-  &:hover:not(:disabled) {
-    background-color: ${({ theme }) => `${hexToRGBA(theme.primary05, 0.75)}`};
-  }
+type ButtonColorCss = Record<ButtonColor, StyledCssReturn>;
 
-  &:disabled {
-    background-color: ${({ theme }) => `${hexToRGBA(theme.primary05, 0.5)}`};
-    color: ${({ theme }) => `${hexToRGBA(theme.neutral20, 0.5)}`};
-  }
-`;
+const contained: ButtonColorCss = {
+  primary: css`
+    background-color: ${({ theme }) => theme.primary05};
+    color: ${({ theme }) => theme.neutral20};
 
-const outlined = css`
-  background-color: transparent;
-  color: ${({ theme }) => theme.neutral20};
-  border-color: ${({ theme }) => `${hexToRGBA(theme.neutral20, 0.65)}`};
+    &:hover:not(:disabled) {
+      background-color: ${({ theme }) => hexToRGBA(theme.primary05, 0.75)};
+    }
+  `,
+  secondary: css`
+    background-color: ${({ theme }) => theme.neutral20};
+    color: ${({ theme }) => theme.darker10};
 
-  &:hover:not(:disabled) {
-    border-color: ${({ theme }) => `${hexToRGBA(theme.neutral20, 0.65)}`};
-    background-color: ${({ theme }) => `${hexToRGBA(theme.neutral20, 0.1)}`};
-  }
+    &:hover:not(:disabled) {
+      background-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.75)};
+    }
+  `,
+  danger: css`
+    background-color: ${({ theme }) => theme.error20};
+    color: ${({ theme }) => theme.neutral20};
 
-  &:disabled {
-    color: ${({ theme }) => `${hexToRGBA(theme.neutral20, 0.5)}`};
-    border-color: ${({ theme }) => `${hexToRGBA(theme.neutral20, 0.4)}`};
-  }
-`;
+    &:hover:not(:disabled) {
+      background-color: ${({ theme }) => hexToRGBA(theme.error20, 0.75)};
+    }
+  `
+};
 
-const text = css``;
+const outlined: ButtonColorCss = {
+  primary: css`
+    background-color: transparent;
+    color: ${({ theme }) => theme.neutral20};
+    border-color: ${({ theme }) => hexToRGBA(theme.primary05, 0.65)};
 
-export const styleVariants: Record<ButtonVariant, StyledCssReturn> = {
-  contained,
-  outlined,
-  text
-} as const;
+    &:hover:not(:disabled) {
+      border-color: ${({ theme }) => hexToRGBA(theme.primary05, 0.65)};
+      background-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.1)};
+    }
+  `,
+  secondary: css`
+    background-color: transparent;
+    color: ${({ theme }) => theme.neutral20};
+    border-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.65)};
+
+    &:hover:not(:disabled) {
+      border-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.65)};
+      background-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.1)};
+    }
+  `,
+  danger: css`
+    background-color: transparent;
+    color: ${({ theme }) => theme.neutral20};
+    border-color: ${({ theme }) => hexToRGBA(theme.error20, 0.65)};
+
+    &:hover:not(:disabled) {
+      border-color: ${({ theme }) => hexToRGBA(theme.error20, 0.65)};
+      background-color: ${({ theme }) => hexToRGBA(theme.error20, 0.1)};
+    }
+  `
+};
+
+const text: ButtonColorCss = {
+  primary: css`
+    background-color: transparent;
+    border-radius: 0px;
+    color: ${({ theme }) => theme.primary05};
+
+    &:hover:not(:disabled) {
+      background-color: ${({ theme }) => hexToRGBA(theme.primary05, 0.1)};
+    }
+  `,
+  secondary: css`
+    background-color: transparent;
+    border-radius: 0px;
+    color: ${({ theme }) => theme.neutral20};
+
+    &:hover:not(:disabled) {
+      background-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.1)};
+    }
+  `,
+  danger: css`
+    background-color: transparent;
+    border-radius: 0px;
+    color: ${({ theme }) => theme.error20};
+
+    &:hover:not(:disabled) {
+      background-color: ${({ theme }) => hexToRGBA(theme.error20, 0.1)};
+    }
+  `
+};
 
 const small = css`
   min-height: 32px;
@@ -60,4 +115,10 @@ export const sizeVariants: Record<ButtonSize, StyledCssReturn> = {
   small,
   medium,
   large
+} as const;
+
+export const buttonVariantsWithColor: Record<ButtonVariant, ButtonColorCss> = {
+  contained,
+  outlined,
+  text
 } as const;

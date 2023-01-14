@@ -36,7 +36,7 @@ export const Avatar = ({
   };
 
   return screenName ? (
-    <StyledLink href={`/${screenName}`} tabIndex={disableFocus ? -1 : 0}>
+    <StyledLink href={`/${screenName}`} tabIndex={loading || disableFocus ? -1 : 0}>
       {AvatarComponent()}
     </StyledLink>
   ) : (
