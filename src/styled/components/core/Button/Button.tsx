@@ -1,16 +1,16 @@
-import React, { ComponentPropsWithRef, FC, forwardRef, Ref } from "react";
+import React, { ComponentPropsWithRef, FC, forwardRef, Ref, useMemo } from "react";
 
 import { Button as MuiButton } from "@mui/material";
-import styled, { css } from "styled-components";
-import { hexToRGBA } from "utils/colors";
+import styled, { css, useTheme } from "styled-components";
 
 import { Loader } from "../Loader";
 import {
   ButtonColor,
+  ButtonColors,
   ButtonSize,
   ButtonVariant,
-  sizeVariants,
-  styleVariants
+  getSpecificButtonVariant,
+  sizeVariants
 } from "./buttonStyleVariants";
 
 interface ButtonProps extends ComponentPropsWithRef<typeof MuiButton> {
@@ -33,11 +33,44 @@ export const Button: FC<ButtonProps> = forwardRef(
     },
     ref: Ref<HTMLButtonElement>
   ) => {
+    const { primary05, neutral20, darker10 } = useTheme();
+    const isContained = variant === "contained";
+    const isOutlined = variant === "outlined";
+    const isText = variant === "text";
+
+    const specificColors = useMemo(() => {
+      if (color === "secondary") {
+        if (isContained) {
+          return { color: darker10, backgroundColor: neutral20 };
+        }
+
+        if (isOutlined) {
+          return { color: primary05, backgroundColor: neutral20 };
+        }
+
+        if (isText) {
+          return { color: neutral20, backgroundColor: neutral20 };
+        }
+      }
+
+      if (color === "primary") {
+        if (isOutlined) {
+          return { color: neutral20, backgroundColor: neutral20 };
+        }
+
+        if (isText) {
+          return { color: primary05, backgroundColor: primary05 };
+        }
+      }
+
+      return { color: neutral20, backgroundColor: primary05 };
+    }, [color, variant]);
+
     return (
       <ButtonElement
         aria-label={loading ? "Loading" : undefined}
         variant={variant}
-        color={color}
+        $colors={specificColors}
         size={size}
         $loading={loading}
         disabled={loading || disabled}
@@ -55,7 +88,9 @@ export const Button: FC<ButtonProps> = forwardRef(
   }
 );
 
-const ButtonElement = styled(MuiButton)<ButtonProps & { $loading: boolean }>`
+const ButtonElement = styled(MuiButton)<
+  ButtonProps & { $loading: boolean; variant: ButtonVariant; $colors: ButtonColors }
+>`
   &&& {
     position: relative;
     min-width: 36px;
@@ -74,33 +109,9 @@ const ButtonElement = styled(MuiButton)<ButtonProps & { $loading: boolean }>`
     }
 
     ${({ theme }) => theme.text.m};
-    ${({ variant }) => styleVariants[variant || "contained"]}
     ${({ size }) => sizeVariants[size || "normal"]}
 
-  ${({ variant, color }) =>
-      color === "secondary" &&
-      (variant === "contained"
-        ? css`
-            background-color: ${({ theme }) => theme.neutral20};
-            color: ${({ theme }) => theme.darker10};
-
-            &:hover:not(:disabled) {
-              background-color: ${({ theme }) => `${hexToRGBA(theme.neutral20, 0.9)}`};
-            }
-
-            &:disabled {
-              background-color: ${({ theme }) => `${hexToRGBA(theme.neutral20, 0.5)}`};
-              color: ${({ theme }) => `${hexToRGBA(theme.darker10, 0.5)}`};
-            }
-          `
-        : css`
-            border-color: ${({ theme }) => `${theme.primary05}`};
-
-            &:hover:not(:disabled) {
-              border-color: ${({ theme }) => `${hexToRGBA(theme.primary05, 0.5)}`};
-              background-color: ${({ theme }) => `${hexToRGBA(theme.neutral20, 0.1)}`};
-            }
-          `)};
+    ${({ $colors, variant }) => getSpecificButtonVariant({ ...$colors, variant })}
 
     ${({ $loading }) =>
       $loading &&

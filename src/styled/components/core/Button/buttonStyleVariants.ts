@@ -5,43 +5,66 @@ import { hexToRGBA } from "utils/colors";
 export type ButtonVariant = "contained" | "outlined" | "text";
 export type ButtonSize = "small" | "medium" | "large";
 export type ButtonColor = "primary" | "secondary";
+export type ButtonColors = { color: string; backgroundColor: string };
 
-const contained = css`
-  background-color: ${({ theme }) => theme.primary05};
-  color: ${({ theme }) => theme.neutral20};
-  &:hover:not(:disabled) {
-    background-color: ${({ theme }) => `${hexToRGBA(theme.primary05, 0.75)}`};
-  }
+export const getSpecificButtonVariant = ({
+  color,
+  backgroundColor,
+  variant
+}: ButtonColors & { variant: ButtonVariant }) => {
+  if (variant === "outlined") return getButtonOutlinedStyles({ color, backgroundColor });
 
-  &:disabled {
-    background-color: ${({ theme }) => `${hexToRGBA(theme.primary05, 0.5)}`};
-    color: ${({ theme }) => `${hexToRGBA(theme.neutral20, 0.5)}`};
-  }
-`;
+  if (variant === "text") return getButtonTextStyles({ color, backgroundColor });
 
-const outlined = css`
-  background-color: transparent;
-  color: ${({ theme }) => theme.neutral20};
-  border-color: ${({ theme }) => `${hexToRGBA(theme.neutral20, 0.65)}`};
+  return getButtonContainedStyles({ color, backgroundColor });
+};
 
-  &:hover:not(:disabled) {
-    border-color: ${({ theme }) => `${hexToRGBA(theme.neutral20, 0.65)}`};
-    background-color: ${({ theme }) => `${hexToRGBA(theme.neutral20, 0.1)}`};
-  }
+const getButtonContainedStyles = ({ color, backgroundColor }: ButtonColors) =>
+  css`
+    background-color: ${backgroundColor};
+    color: ${color};
 
-  &:disabled {
-    color: ${({ theme }) => `${hexToRGBA(theme.neutral20, 0.5)}`};
-    border-color: ${({ theme }) => `${hexToRGBA(theme.neutral20, 0.4)}`};
-  }
-`;
+    &:hover:not(:disabled) {
+      background-color: ${hexToRGBA(backgroundColor, 0.75)};
+    }
 
-const text = css``;
+    &:disabled {
+      background-color: ${hexToRGBA(backgroundColor, 0.5)};
+      color: ${hexToRGBA(color, 0.5)};
+    }
+  `;
 
-export const styleVariants: Record<ButtonVariant, StyledCssReturn> = {
-  contained,
-  outlined,
-  text
-} as const;
+const getButtonOutlinedStyles = ({ color, backgroundColor }: ButtonColors) =>
+  css`
+    background-color: transparent;
+    color: ${color};
+    border-color: ${hexToRGBA(backgroundColor, 0.65)};
+
+    &:hover:not(:disabled) {
+      border-color: ${hexToRGBA(backgroundColor, 0.65)};
+      background-color: ${hexToRGBA(color, 0.1)};
+    }
+
+    &:disabled {
+      color: ${hexToRGBA(color, 0.5)};
+      border-color: ${hexToRGBA(backgroundColor, 0.4)};
+    }
+  `;
+
+const getButtonTextStyles = ({ color, backgroundColor }: ButtonColors) =>
+  css`
+    background-color: transparent;
+    border-radius: 0px;
+    color: ${color};
+
+    &:hover:not(:disabled) {
+      background-color: ${hexToRGBA(backgroundColor, 0.1)};
+    }
+
+    &:disabled {
+      color: ${hexToRGBA(color, 0.5)};
+    }
+  `;
 
 const small = css`
   min-height: 32px;
