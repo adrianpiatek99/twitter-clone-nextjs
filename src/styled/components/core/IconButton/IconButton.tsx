@@ -1,4 +1,4 @@
-import React, { ComponentPropsWithRef, FC, ReactElement, Ref } from "react";
+import React, { ComponentPropsWithRef, FC, ReactElement, Ref, useMemo } from "react";
 import { forwardRef } from "react";
 
 import Tooltip from "@mui/material/Tooltip";
@@ -22,7 +22,7 @@ export const IconButton: FC<IconButtonProps> = forwardRef(
   ) => {
     const { primary05, neutral00, error10 } = useTheme();
 
-    const getSpecificColor = (color: IconButtonColor) => {
+    const specificColor = useMemo(() => {
       if (isError) return error10;
 
       if (color === "primary") return primary05;
@@ -30,13 +30,13 @@ export const IconButton: FC<IconButtonProps> = forwardRef(
       if (color === "secondary") return neutral00;
 
       return color;
-    };
+    }, [isError, color]);
 
     const renderIconButton = () => {
       return (
         <IconButtonElement
           tabIndex={disableFocus ? -1 : 0}
-          $color={getSpecificColor(color)}
+          $color={specificColor}
           $isError={isError}
           {...props}
           ref={ref}
