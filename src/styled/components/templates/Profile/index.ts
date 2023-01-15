@@ -1,0 +1,1 @@
+export { ProfilePageTemplate } from "./ProfilePage";

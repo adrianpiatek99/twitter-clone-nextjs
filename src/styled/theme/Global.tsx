@@ -33,7 +33,6 @@ export const GlobalStyle = createGlobalStyle`
 
   button {
     margin: 0;
-    font-family: ${({ theme }) => theme.fontFamily.secondary};
     ${({ theme }) => theme.text.m};
   }
 
@@ -42,7 +41,7 @@ export const GlobalStyle = createGlobalStyle`
     outline: none;
     border: none;
     margin: 0;
-    font-family: ${({ theme }) => theme.fontFamily.secondary};
+    font-family: ${({ theme }) => theme.fontFamily.primary};
     ${({ theme }) => theme.text.m};
   }
 

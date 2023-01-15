@@ -1,16 +1,25 @@
 import { StyledCssReturn } from "styled/theme";
 import { css } from "styled-components";
 
+export type LogoColor = "primary" | "secondary";
 export type LogoSize = "xs" | "s" | "m" | "l" | "xl" | "xxl";
 
+const primary = css`
+  color: ${({ theme }) => theme.logo};
+`;
+
+const secondary = css`
+  color: ${({ theme }) => theme.primary05};
+`;
+
 const xs = css`
-  height: 16px;
-  width: 16px;
+  height: 24px;
+  width: 24px;
 `;
 
 const s = css`
-  height: 24px;
-  width: 24px;
+  height: 28px;
+  width: 28px;
 `;
 
 const m = css`
@@ -32,6 +41,11 @@ const xxl = css`
   height: 124px;
   width: 124px;
 `;
+
+export const logoColors: Record<LogoColor, StyledCssReturn> = {
+  primary,
+  secondary
+} as const;
 
 export const logoSizeVariants: Record<LogoSize, StyledCssReturn> = {
   xs,

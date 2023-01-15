@@ -1,0 +1,1 @@
+export { HomePageTemplate } from "./HomePage";

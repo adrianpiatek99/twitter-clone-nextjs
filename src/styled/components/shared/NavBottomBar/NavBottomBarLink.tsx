@@ -17,14 +17,10 @@ export const NavBottomBarLink = ({
   icon: Icon,
   activeIcon: ActiveIcon
 }: NavBottomBarLinkProps) => {
-  const getCorrectIcon = () => {
-    return active ? <ActiveIcon /> : <Icon />;
-  };
-
   return (
     <Link href={href} tabIndex={-1}>
       <TabIconButton aria-label={text} color="secondary" disableFocus={active}>
-        {getCorrectIcon()}
+        {active ? <ActiveIcon /> : <Icon />}
       </TabIconButton>
     </Link>
   );
