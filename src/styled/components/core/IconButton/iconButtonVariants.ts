@@ -1,7 +1,30 @@
+import { StyledCssReturn } from "styled/theme";
 import { css } from "styled-components";
 import { hexToRGBA } from "utils/colors";
 
 export type IconButtonColor = "primary" | "secondary" | "error" | string;
+export type IconButtonSize = "small" | "medium" | "large";
+
+const small = css`
+  & > svg {
+    width: 16px;
+    height: 16px;
+  }
+`;
+
+const medium = css`
+  & > svg {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+const large = css`
+  & > svg {
+    width: 24px;
+    height: 24px;
+  }
+`;
 
 export const getIconButtonColor = (color: string) => {
   return css`
@@ -31,3 +54,9 @@ export const getIconButtonColor = (color: string) => {
     }
   `;
 };
+
+export const iconButtonSizeVariants: Record<IconButtonSize, StyledCssReturn> = {
+  small,
+  medium,
+  large
+} as const;

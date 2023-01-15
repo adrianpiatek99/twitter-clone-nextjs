@@ -5,11 +5,17 @@ import Tooltip from "@mui/material/Tooltip";
 import Link from "next/link";
 import styled, { css, useTheme } from "styled-components";
 
-import { getIconButtonColor, IconButtonColor } from "./iconButtonVariants";
+import {
+  getIconButtonColor,
+  IconButtonColor,
+  IconButtonSize,
+  iconButtonSizeVariants
+} from "./iconButtonVariants";
 
 interface IconButtonProps extends Omit<ComponentPropsWithRef<"button">, "color"> {
   children: ReactElement;
   title?: string;
+  size?: IconButtonSize;
   color?: IconButtonColor;
   isError?: boolean;
   disableFocus?: boolean;
@@ -22,6 +28,7 @@ export const IconButton: FC<IconButtonProps> = forwardRef(
     {
       children,
       title = "",
+      size = "medium",
       color = "primary",
       isError = false,
       disableFocus = false,
@@ -42,11 +49,12 @@ export const IconButton: FC<IconButtonProps> = forwardRef(
       return color;
     }, [isError, color]);
 
-    const renderIconButton = () => {
+    const IconButtonComponent = () => {
       return (
         <Tooltip title={title} disableInteractive enterNextDelay={150}>
           <IconButtonElement
             type="button"
+            size={size}
             tabIndex={disableFocus ? -1 : 0}
             $color={specificColor}
             $isError={isError}
@@ -59,7 +67,13 @@ export const IconButton: FC<IconButtonProps> = forwardRef(
       );
     };
 
-    return href ? <Link href={href}>{renderIconButton()}</Link> : renderIconButton();
+    return href ? (
+      <Link href={href}>
+        <IconButtonComponent />
+      </Link>
+    ) : (
+      <IconButtonComponent />
+    );
   }
 );
 
@@ -82,12 +96,11 @@ const IconButtonElement = styled.button<
     transition: 0.2s ease;
 
     & > svg {
-      width: 20px;
-      height: 20px;
       transition: 0.2s ease;
     }
 
     ${({ $color }) => getIconButtonColor($color)}
+    ${({ size }) => iconButtonSizeVariants[size || "medium"]}
 
     ${({ $isError }) =>
       $isError &&
