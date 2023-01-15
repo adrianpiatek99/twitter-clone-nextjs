@@ -20,6 +20,7 @@ const Heading = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1px;
+  flex-grow: 1;
 
   @media ${({ theme }) => theme.breakpoints.sm} {
     gap: 2px;
