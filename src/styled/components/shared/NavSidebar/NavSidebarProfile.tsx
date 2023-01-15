@@ -13,9 +13,6 @@ import { NavSidebarProfileMenuModal } from "./NavSidebarProfileMenuModal";
 export const NavSidebarProfile = () => {
   const { session, isSessionLoading, isUnauthenticated } = useAppSession();
   const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
-  const userScreenName = session?.user?.screen_name;
-
-  if (isUnauthenticated) return null;
 
   if (isSessionLoading) {
     return (
@@ -38,15 +35,21 @@ export const NavSidebarProfile = () => {
     );
   }
 
+  if (isUnauthenticated || !session) return null;
+
+  const {
+    user: { screen_name, profile_image_url, name }
+  } = session;
+
   return (
     <Wrapper>
       <Inner onClick={() => setIsMenuModalOpen(true)}>
         <Column>
-          <Avatar src={session?.user?.profile_image_url ?? ""} disableFocus />
+          <Avatar src={profile_image_url} disableFocus />
         </Column>
         <Column>
-          <UserName>{session?.user?.name}</UserName>
-          <UserScreenName>{userScreenName && `@${userScreenName}`}</UserScreenName>
+          <UserName>{name}</UserName>
+          <UserScreenName>{screen_name}</UserScreenName>
         </Column>
         <Column>
           <MoreHorizIcon />
