@@ -1,19 +1,19 @@
-import React, { cloneElement, ReactElement } from "react";
+import React, { cloneElement, ComponentPropsWithoutRef, ReactElement } from "react";
 
 import { LinearProgress } from "components/core";
 import styled from "styled-components";
 import { hexToRGBA } from "utils/colors";
 
-interface TopBarProps {
+interface TopBarProps extends ComponentPropsWithoutRef<"div"> {
   children: ReactElement | ReactElement[];
   startIcon?: ReactElement;
   endIcon?: ReactElement;
   loading?: string;
 }
 
-export const TopBar = ({ children, startIcon, endIcon, loading }: TopBarProps) => {
+export const TopBar = ({ children, startIcon, endIcon, loading, ...props }: TopBarProps) => {
   return (
-    <Wrapper>
+    <Wrapper {...props}>
       {startIcon && <StartIcon>{cloneElement(startIcon)}</StartIcon>}
       {children}
       {endIcon && <EndIcon>{cloneElement(endIcon)}</EndIcon>}
@@ -27,6 +27,7 @@ const Wrapper = styled.div`
   top: -0px;
   display: flex;
   align-items: center;
+  gap: 30px;
   height: 53px;
   background-color: ${({ theme }) => hexToRGBA(theme.background, 0.65)};
   backdrop-filter: blur(12px);
@@ -40,13 +41,11 @@ const StartIcon = styled.div`
   display: flex;
   align-items: center;
   margin-left: -8px;
-  padding-right: 30px;
 `;
 
 const EndIcon = styled.div`
   display: flex;
   align-items: center;
   margin-right: -8px;
-  padding-left: 30px;
   margin-left: auto;
 `;

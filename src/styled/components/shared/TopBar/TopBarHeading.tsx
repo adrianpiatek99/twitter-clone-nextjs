@@ -1,15 +1,15 @@
-import React from "react";
+import React, { ComponentPropsWithoutRef } from "react";
 
 import styled from "styled-components";
 
-interface TopBarHeadingProps {
+interface TopBarHeadingProps extends ComponentPropsWithoutRef<"div"> {
   title: string;
   subtitle?: string;
 }
 
-export const TopBarHeading = ({ title, subtitle }: TopBarHeadingProps) => {
+export const TopBarHeading = ({ title, subtitle, ...props }: TopBarHeadingProps) => {
   return (
-    <Heading>
+    <Heading {...props}>
       <Title>{title}</Title>
       {subtitle && <Subtitle>{subtitle}</Subtitle>}
     </Heading>
