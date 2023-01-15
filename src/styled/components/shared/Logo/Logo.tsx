@@ -3,20 +3,20 @@ import React from "react";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import styled from "styled-components";
 
-import { LogoSize, logoSizeVariants } from "./logoStyleVariants";
+import { LogoColor, logoColors, LogoSize, logoSizeVariants } from "./logoStyleVariants";
 
 interface LogoProps {
+  color?: LogoColor;
   size?: LogoSize;
 }
 
-export const Logo = ({ size = "s" }: LogoProps) => {
-  return <LogoIcon size={size} />;
+export const Logo = ({ size = "s", color = "primary" }: LogoProps) => {
+  return <LogoIcon size={size} color={color} />;
 };
 
-const LogoIcon = styled(TwitterIcon)<{ size: LogoSize }>`
+const LogoIcon = styled(TwitterIcon)<LogoProps>`
   &&& {
-    fill: ${({ theme }) => theme.logo};
-
-    ${({ size }) => logoSizeVariants[size]}
+    ${({ color }) => logoColors[color ?? "primary"]}
+    ${({ size }) => logoSizeVariants[size ?? "s"]}
   }
 `;
