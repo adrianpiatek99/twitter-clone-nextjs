@@ -77,39 +77,36 @@ export const IconButton: FC<IconButtonProps> = forwardRef(
   }
 );
 
-const IconButtonElement = styled.button<
-  Omit<IconButtonProps, "title"> & { $color: string; $isError: boolean }
->`
-  &&& {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 34px;
-    min-height: 34px;
-    width: max-content;
-    padding: 0;
-    border-radius: 50%;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
+const IconButtonElement = styled.button<IconButtonProps & { $color: string; $isError: boolean }>`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 34px;
+  min-height: 34px;
+  width: max-content;
+  padding: 0;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: 0.2s ease;
+
+  & > svg {
     transition: 0.2s ease;
+  }
 
-    & > svg {
-      transition: 0.2s ease;
-    }
-
-    ${({ $color }) => getIconButtonColor($color)}
-    ${({ size }) => iconButtonSizeVariants[size || "medium"]}
+  ${({ $color }) => getIconButtonColor($color)}
+  ${({ size }) => iconButtonSizeVariants[size || "medium"]}
 
     ${({ $isError }) =>
-      $isError &&
-      css`
-        cursor: default;
+    $isError &&
+    css`
+      cursor: default;
 
-        &:active:not(:disabled) {
-          transform: none;
-        }
-      `}
-  }
+      &:active:not(:disabled) {
+        transform: none;
+      }
+    `}
 `;
