@@ -10,7 +10,7 @@ import styled from "styled-components";
 
 import { DefaultBackgroundGif } from "./DefaultBackgroundGif";
 import { DefaultCurrentTab } from "./DefaultCurrentTab";
-import { DefaultPageExternalLinks } from "./DefaultPageExternalLinks";
+import { DefaultExternalLinks } from "./DefaultExternalLinks";
 
 export type DefaultTabs = "sign in" | "sign up";
 
@@ -51,7 +51,7 @@ export const DefaultPageTemplate = () => {
       <RightPanel>
         <DefaultBackgroundGif />
       </RightPanel>
-      <DefaultPageExternalLinks />
+      <DefaultExternalLinks />
     </Wrapper>
   );
 };
