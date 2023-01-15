@@ -21,7 +21,7 @@ export const NavSidebarLink: FC<NavSidebarLinkProps> = ({
 }) => {
   const { neutral20 } = useTheme();
 
-  const getCorrectIcon = () => {
+  const CorrectIcon = () => {
     return active ? <ActiveIcon /> : <Icon />;
   };
 
@@ -29,10 +29,10 @@ export const NavSidebarLink: FC<NavSidebarLinkProps> = ({
     <NavItem>
       <StyledLink href={href} tabIndex={-1}>
         <NavIconButton title={text} color={neutral20}>
-          {getCorrectIcon()}
+          <CorrectIcon />
         </NavIconButton>
         <NavLinkContent $active={active}>
-          {getCorrectIcon()}
+          <CorrectIcon />
           <span>{text}</span>
         </NavLinkContent>
       </StyledLink>
