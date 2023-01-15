@@ -23,24 +23,22 @@ export const Avatar = ({
   disableFocus = false,
   ...props
 }: AvatarProps) => {
+  const avatarSize = determineSize(size);
+
   if (loading) {
-    return <Skeleton height={determineSize(size)} width={determineSize(size)} variant="circular" />;
+    return <Skeleton height={avatarSize} width={avatarSize} variant="circular" />;
   }
 
   const AvatarComponent = () => {
-    return (
-      <StyledAvatar size={determineSize(size)} src={src} {...props}>
-        Avatar
-      </StyledAvatar>
-    );
+    return <StyledAvatar size={avatarSize} src={src} {...props} />;
   };
 
   return screenName ? (
     <StyledLink href={`/${screenName}`} tabIndex={loading || disableFocus ? -1 : 0}>
-      {AvatarComponent()}
+      <AvatarComponent />
     </StyledLink>
   ) : (
-    AvatarComponent()
+    <AvatarComponent />
   );
 };
 
@@ -50,25 +48,47 @@ const determineSize = (size: AvatarSize) => {
   }
 
   if (size === "large") {
-    return 64;
+    return 48;
   }
 
   if (size === "extraLarge") {
-    return 128;
+    return 68;
   }
 
   return 40;
 };
 
 const StyledLink = styled(Link)`
-  user-select: none;
+  position: relative;
   -webkit-user-drag: none;
   border-radius: 50%;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0px;
+    background: rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  &:hover,
+  &:focus-visible {
+    &::after {
+      opacity: 1;
+    }
+  }
+
+  &:focus-visible {
+    background-color: rgb(142, 205, 248);
+    box-shadow: rgb(199, 230, 252) 0px 0px 0px 2px;
+  }
 `;
 
 const StyledAvatar = styled(MuiAvatar)<{ size: number }>`
   width: ${({ size }) => `${size}px`};
   height: ${({ size }) => `${size}px`};
+  cursor: pointer;
 
   & > img {
     user-select: none;
