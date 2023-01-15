@@ -23,10 +23,6 @@ export const getIconButtonColor = (color: string) => {
 
     &:active:not(:disabled) {
       background-color: ${hexToRGBA(color, 0.2)};
-
-      & > svg {
-        opacity: 0.7;
-      }
     }
 
     &:focus-visible {

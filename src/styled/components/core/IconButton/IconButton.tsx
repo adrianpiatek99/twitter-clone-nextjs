@@ -2,6 +2,7 @@ import React, { ComponentPropsWithRef, FC, ReactElement, Ref, useMemo } from "re
 import { forwardRef } from "react";
 
 import Tooltip from "@mui/material/Tooltip";
+import Link from "next/link";
 import styled, { css, useTheme } from "styled-components";
 
 import { getIconButtonColor, IconButtonColor } from "./iconButtonVariants";
@@ -12,12 +13,21 @@ interface IconButtonProps extends Omit<ComponentPropsWithRef<"button">, "color">
   color?: IconButtonColor;
   isError?: boolean;
   disableFocus?: boolean;
+  href?: string;
   onClick?: () => void;
 }
 
 export const IconButton: FC<IconButtonProps> = forwardRef(
   (
-    { children, title, color = "primary", isError = false, disableFocus = false, ...props },
+    {
+      children,
+      title = "",
+      color = "primary",
+      isError = false,
+      disableFocus = false,
+      href,
+      ...props
+    },
     ref: Ref<HTMLButtonElement>
   ) => {
     const { primary05, neutral00, error40 } = useTheme();
@@ -34,26 +44,22 @@ export const IconButton: FC<IconButtonProps> = forwardRef(
 
     const renderIconButton = () => {
       return (
-        <IconButtonElement
-          type="button"
-          tabIndex={disableFocus ? -1 : 0}
-          $color={specificColor}
-          $isError={isError}
-          {...props}
-          ref={ref}
-        >
-          {children}
-        </IconButtonElement>
+        <Tooltip title={title} disableInteractive enterNextDelay={150}>
+          <IconButtonElement
+            type="button"
+            tabIndex={disableFocus ? -1 : 0}
+            $color={specificColor}
+            $isError={isError}
+            {...props}
+            ref={ref}
+          >
+            {children}
+          </IconButtonElement>
+        </Tooltip>
       );
     };
 
-    return title ? (
-      <Tooltip title={title} disableInteractive enterNextDelay={150}>
-        {renderIconButton()}
-      </Tooltip>
-    ) : (
-      renderIconButton()
-    );
+    return href ? <Link href={href}>{renderIconButton()}</Link> : renderIconButton();
   }
 );
 
