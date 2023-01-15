@@ -7,7 +7,7 @@ import styled from "styled-components";
 
 type AvatarSize = "small" | "medium" | "large" | "extraLarge";
 
-interface AvatarProps extends ComponentPropsWithoutRef<typeof MuiAvatar> {
+interface AvatarProps extends ComponentPropsWithoutRef<"button"> {
   src: string;
   screenName?: string;
   size?: AvatarSize;
@@ -30,11 +30,15 @@ export const Avatar = ({
   }
 
   const AvatarComponent = () => {
-    return <StyledAvatar size={avatarSize} src={src} {...props} />;
+    return (
+      <AvatarButton disabled={disableFocus} tabIndex={disableFocus ? -1 : 0} {...props}>
+        <StyledAvatar size={avatarSize} src={src} />
+      </AvatarButton>
+    );
   };
 
   return screenName ? (
-    <StyledLink href={`/${screenName}`} tabIndex={loading || disableFocus ? -1 : 0}>
+    <StyledLink href={`/${screenName}`} tabIndex={-1}>
       <AvatarComponent />
     </StyledLink>
   ) : (
@@ -59,9 +63,24 @@ const determineSize = (size: AvatarSize) => {
 };
 
 const StyledLink = styled(Link)`
-  position: relative;
   -webkit-user-drag: none;
   border-radius: 50%;
+`;
+
+const AvatarButton = styled.button`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border-radius: 50%;
+  outline: none;
+  border: none;
+  cursor: pointer;
+
+  &:disabled {
+    pointer-events: none;
+  }
 
   &::after {
     content: "";
@@ -80,15 +99,16 @@ const StyledLink = styled(Link)`
   }
 
   &:focus-visible {
-    background-color: rgb(142, 205, 248);
-    box-shadow: rgb(199, 230, 252) 0px 0px 0px 2px;
+    box-shadow: ${({ theme }) => `${theme.focus.primary} 0px 0px 0px 2px`};
   }
 `;
 
 const StyledAvatar = styled(MuiAvatar)<{ size: number }>`
+  position: relative;
   width: ${({ size }) => `${size}px`};
   height: ${({ size }) => `${size}px`};
   cursor: pointer;
+  transition: 0.2s;
 
   & > img {
     user-select: none;
