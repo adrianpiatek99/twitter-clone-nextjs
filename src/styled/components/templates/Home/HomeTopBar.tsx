@@ -22,10 +22,10 @@ export const HomeTopBar = () => {
       <HomeTopBarHeading title="Home" />
       {!isUnauthenticated && (
         <TopBarAvatar
-          src={session?.user.profile_image_url ?? ""}
+          src={session?.user.profileImageUrl ?? ""}
           loading={isSessionLoading}
           size="small"
-          screenName={session?.user.screen_name ?? ""}
+          screenName={session?.user.screenName ?? ""}
           onClick={() => null}
         />
       )}
