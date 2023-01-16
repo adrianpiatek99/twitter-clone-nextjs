@@ -38,18 +38,18 @@ export const NavSidebarProfile = () => {
   if (isUnauthenticated || !session) return null;
 
   const {
-    user: { screen_name, profile_image_url, name }
+    user: { screenName, profileImageUrl, name }
   } = session;
 
   return (
     <Wrapper>
       <Inner onClick={() => setIsMenuModalOpen(true)}>
         <Column>
-          <Avatar src={profile_image_url} disableFocus />
+          <Avatar src={profileImageUrl} disableFocus />
         </Column>
         <Column>
           <UserName>{name}</UserName>
-          <UserScreenName>{screen_name}</UserScreenName>
+          <UserScreenName>{screenName}</UserScreenName>
         </Column>
         <Column>
           <MoreHorizIcon />

@@ -3,8 +3,8 @@ import { hashSync } from "bcryptjs";
 import { NextApiHandler } from "next";
 import { exclude, prisma } from "prisma/prisma";
 
-export type SignUpRequest = Pick<User, "screen_name" | "name" | "email" | "password"> & {
-  repeat_password: string;
+export type SignUpRequest = Pick<User, "screenName" | "name" | "email" | "password"> & {
+  repeatPassword: string;
 };
 
 export type SignUpResponse = {
@@ -22,22 +22,22 @@ const handler: NextApiHandler<SignUpResponse> = async (req, res) => {
     case "POST":
       {
         try {
-          const { screen_name, name, email, password, repeat_password } = reqBody;
+          const { screenName, name, email, password, repeatPassword } = reqBody;
 
           const existingEmail = await prisma.user.findUnique({ where: { email } });
-          const existingScreenName = await prisma.user.findUnique({ where: { screen_name } });
+          const existingScreenName = await prisma.user.findUnique({ where: { screenName } });
 
           if (existingScreenName) {
             return res.status(404).json({ message: "Screen name is already in use." });
           }
 
-          if (existingEmail || password !== repeat_password) {
+          if (existingEmail || password !== repeatPassword) {
             return res.status(404).json({ message: "We cannot create account. Try again." });
           }
 
           const createdUser = await prisma.user.create({
             data: {
-              screen_name,
+              screenName,
               name,
               email,
               password: await hashSync(password, 12)

@@ -39,7 +39,7 @@ export const NavSidebar = () => {
                 ))}
                 <NavSidebarLink
                   {...navSidebarProfileItem}
-                  href={session?.user?.screen_name ?? ""}
+                  href={session?.user.screenName ?? ""}
                   active={pathname === navSidebarProfileItem.href}
                 />
               </>

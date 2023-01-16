@@ -48,13 +48,7 @@ export const DefaultSignUpForm = ({ handleChangeTab }: DefaultSignUpFormProps) =
       setIsLoading(true);
       dispatch(setDefaultPageFormLoading(true));
 
-      const { screenName, repeatPassword } = data;
-
-      await signUp({
-        screen_name: screenName,
-        repeat_password: repeatPassword,
-        ...data
-      });
+      await signUp(data);
 
       handleChangeTab("sign in");
     } catch (error: any) {
