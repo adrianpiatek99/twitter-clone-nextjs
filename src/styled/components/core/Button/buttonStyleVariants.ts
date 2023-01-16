@@ -3,7 +3,7 @@ import { css } from "styled-components";
 import { hexToRGBA } from "utils/colors";
 
 export type ButtonVariant = "contained" | "outlined" | "text";
-export type ButtonSize = "small" | "medium" | "large";
+export type ButtonSize = "small" | "medium" | "large" | "extraLarge";
 export type ButtonColor = "primary" | "secondary" | "danger";
 
 type ButtonColorCss = Record<ButtonColor, StyledCssReturn>;
@@ -13,87 +13,159 @@ const contained: ButtonColorCss = {
     background-color: ${({ theme }) => theme.primary05};
     color: ${({ theme }) => theme.neutral20};
 
-    &:hover:not(:disabled) {
+    &:hover:not(:disabled),
+    &:focus-visible {
+      background-color: ${({ theme }) => hexToRGBA(theme.primary05, 0.85)};
+    }
+
+    &:active:not(:disabled) {
       background-color: ${({ theme }) => hexToRGBA(theme.primary05, 0.75)};
+    }
+
+    &:focus-visible {
+      box-shadow: ${({ theme }) => `${theme.focus.primary} 0px 0px 0px 2px`};
     }
   `,
   secondary: css`
     background-color: ${({ theme }) => theme.neutral20};
     color: ${({ theme }) => theme.darker10};
 
-    &:hover:not(:disabled) {
+    &:hover:not(:disabled),
+    &:focus-visible {
+      background-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.85)};
+    }
+
+    &:active:not(:disabled) {
       background-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.75)};
+    }
+
+    &:focus-visible {
+      box-shadow: ${({ theme }) => `${theme.neutral20} 0px 0px 0px 2px`};
     }
   `,
   danger: css`
     background-color: ${({ theme }) => theme.error20};
     color: ${({ theme }) => theme.neutral20};
 
-    &:hover:not(:disabled) {
+    &:hover:not(:disabled),
+    &:focus-visible {
+      background-color: ${({ theme }) => hexToRGBA(theme.error20, 0.85)};
+    }
+
+    &:active:not(:disabled) {
       background-color: ${({ theme }) => hexToRGBA(theme.error20, 0.75)};
+    }
+
+    &:focus-visible {
+      box-shadow: ${({ theme }) => `${theme.error20} 0px 0px 0px 2px`};
     }
   `
 };
 
 const outlined: ButtonColorCss = {
   primary: css`
-    background-color: transparent;
     color: ${({ theme }) => theme.neutral20};
-    border-color: ${({ theme }) => hexToRGBA(theme.primary05, 0.65)};
+    border: 1px solid ${({ theme }) => hexToRGBA(theme.primary05, 0.65)};
 
-    &:hover:not(:disabled) {
-      border-color: ${({ theme }) => hexToRGBA(theme.primary05, 0.65)};
-      background-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.1)};
+    &:hover:not(:disabled),
+    &:focus-visible {
+      background-color: ${({ theme }) => hexToRGBA(theme.primary05, 0.1)};
+    }
+
+    &:active:not(:disabled) {
+      background-color: ${({ theme }) => hexToRGBA(theme.primary05, 0.15)};
+    }
+
+    &:focus-visible {
+      box-shadow: ${({ theme }) => `${theme.focus.primary} 0px 0px 0px 2px`};
     }
   `,
   secondary: css`
-    background-color: transparent;
     color: ${({ theme }) => theme.neutral20};
-    border-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.65)};
+    border: 1px solid ${({ theme }) => hexToRGBA(theme.neutral20, 0.65)};
 
-    &:hover:not(:disabled) {
-      border-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.65)};
+    &:hover:not(:disabled),
+    &:focus-visible {
       background-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.1)};
+    }
+
+    &:active:not(:disabled) {
+      background-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.15)};
+    }
+
+    &:focus-visible {
+      box-shadow: ${({ theme }) => `${theme.neutral20} 0px 0px 0px 2px`};
     }
   `,
   danger: css`
-    background-color: transparent;
-    color: ${({ theme }) => theme.neutral20};
-    border-color: ${({ theme }) => hexToRGBA(theme.error20, 0.65)};
+    color: ${({ theme }) => theme.error20};
+    border: 1px solid ${({ theme }) => hexToRGBA(theme.error20, 0.65)};
 
-    &:hover:not(:disabled) {
-      border-color: ${({ theme }) => hexToRGBA(theme.error20, 0.65)};
+    &:hover:not(:disabled),
+    &:focus-visible {
       background-color: ${({ theme }) => hexToRGBA(theme.error20, 0.1)};
+    }
+
+    &:active:not(:disabled) {
+      background-color: ${({ theme }) => hexToRGBA(theme.error20, 0.15)};
+    }
+
+    &:focus-visible {
+      box-shadow: ${({ theme }) => `${theme.error20} 0px 0px 0px 2px`};
     }
   `
 };
 
 const text: ButtonColorCss = {
   primary: css`
-    background-color: transparent;
     border-radius: 0px;
     color: ${({ theme }) => theme.primary05};
 
-    &:hover:not(:disabled) {
+    &:hover:not(:disabled),
+    &:focus-visible {
       background-color: ${({ theme }) => hexToRGBA(theme.primary05, 0.1)};
+    }
+
+    &:active:not(:disabled) {
+      background-color: ${({ theme }) => hexToRGBA(theme.primary05, 0.15)};
+    }
+
+    &:focus-visible {
+      box-shadow: ${({ theme }) => `inset ${theme.focus.primary} 0px 0px 0px 2px`};
     }
   `,
   secondary: css`
-    background-color: transparent;
     border-radius: 0px;
     color: ${({ theme }) => theme.neutral20};
 
-    &:hover:not(:disabled) {
+    &:hover:not(:disabled),
+    &:focus-visible {
       background-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.1)};
+    }
+
+    &:active:not(:disabled) {
+      background-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.15)};
+    }
+
+    &:focus-visible {
+      box-shadow: ${({ theme }) => `inset ${theme.focus.primary} 0px 0px 0px 2px`};
     }
   `,
   danger: css`
-    background-color: transparent;
     border-radius: 0px;
     color: ${({ theme }) => theme.error20};
 
-    &:hover:not(:disabled) {
+    &:hover:not(:disabled),
+    &:focus-visible {
       background-color: ${({ theme }) => hexToRGBA(theme.error20, 0.1)};
+    }
+
+    &:active:not(:disabled) {
+      background-color: ${({ theme }) => hexToRGBA(theme.error20, 0.15)};
+    }
+
+    &:focus-visible {
+      box-shadow: ${({ theme }) => `${theme.error20} 0px 0px 0px 2px`};
     }
   `
 };
@@ -111,10 +183,16 @@ const large = css`
   height: 42px;
 `;
 
+const extraLarge = css`
+  height: 54px;
+  ${({ theme }) => theme.text.xl};
+`;
+
 export const sizeVariants: Record<ButtonSize, StyledCssReturn> = {
   small,
   medium,
-  large
+  large,
+  extraLarge
 } as const;
 
 export const buttonVariantsWithColor: Record<ButtonVariant, ButtonColorCss> = {
