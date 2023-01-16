@@ -19,7 +19,7 @@ export const NavSidebarProfile = () => {
       <Wrapper>
         <Inner>
           <Column>
-            <Avatar src={""} loading={true} />
+            <Avatar src={""} loading />
           </Column>
           <Column>
             <ColumnSkeletons>
