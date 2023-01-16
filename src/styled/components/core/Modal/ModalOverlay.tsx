@@ -26,8 +26,8 @@ export const ModalOverlay: FC<ModalOverlayProps> = ({ children, onClose, ...prop
 };
 
 const overlayVariants = {
-  inactive: { opacity: 0, transition: { duration: 0.1, delay: 0.05 } },
-  active: { opacity: 1, transition: { duration: 0.1 } }
+  inactive: { opacity: 0, transition: { duration: 0.15 } },
+  active: { opacity: 1, transition: { duration: 0.15 } }
 };
 
 const Overlay = styled(motion.div)`
