@@ -8,7 +8,7 @@ import {
   authenticatedNavSidebarItems,
   navSidebarHomeItem,
   navSidebarProfileItem
-} from "./navSidebarHelpers";
+} from "./navSidebarItemsHelper";
 import { NavSidebarLink } from "./NavSidebarLink";
 import { NavSidebarLogo } from "./NavSidebarLogo";
 import { NavSidebarProfile } from "./NavSidebarProfile";

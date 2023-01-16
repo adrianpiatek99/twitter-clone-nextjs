@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import { ConfirmLogOutModal } from "shared/Modals";
 import styled from "styled-components";
 
-import { navDrawerLogOutItem } from "./navDrawerIcons";
 import { NavDrawerItem } from "./NavDrawerItem";
+import { navDrawerLogOutItem } from "./navDrawerItemsHelper";
 
 interface NavDrawerSecondaryListProps {
   onClose: () => void;

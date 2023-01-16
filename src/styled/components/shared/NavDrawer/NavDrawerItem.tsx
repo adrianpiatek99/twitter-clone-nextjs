@@ -3,7 +3,7 @@ import React, { ComponentPropsWithoutRef } from "react";
 import { Button } from "components/core";
 import styled from "styled-components";
 
-import { NavDrawerItemType } from "./navDrawerIcons";
+import { NavDrawerItemType } from "./navDrawerItemsHelper";
 
 type NavDrawerItemProps = NavDrawerItemType & ComponentPropsWithoutRef<typeof Button>;
 

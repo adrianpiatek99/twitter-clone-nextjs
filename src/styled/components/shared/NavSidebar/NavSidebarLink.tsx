@@ -6,7 +6,7 @@ import Link from "next/link";
 import styled, { css, useTheme } from "styled-components";
 import { hexToRGBA } from "utils/colors";
 
-import { NavSidebarItem } from "./navSidebarHelpers";
+import { NavSidebarItem } from "./navSidebarItemsHelper";
 
 interface NavSidebarLinkProps extends NavSidebarItem {
   active: boolean;

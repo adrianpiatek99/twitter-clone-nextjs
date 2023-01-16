@@ -1,8 +1,8 @@
 import React from "react";
 
 import { DefaultTabs } from "./DefaultPage";
-import { DefaultSignInForm } from "./DefaultSignInForm";
-import { DefaultSignUpForm } from "./DefaultSignUpForm";
+import { DefaultSignInForm } from "./DefaultSignInForm/DefaultSignInForm";
+import { DefaultSignUpForm } from "./DefaultSignUpForm/DefaultSignUpForm";
 
 interface DefaultCurrentTabProps {
   currentTab: DefaultTabs;

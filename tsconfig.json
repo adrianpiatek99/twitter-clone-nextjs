@@ -25,11 +25,11 @@
       "components/*": [
         "src/styled/components/*"
       ],
-      "network/*": [
-        "src/styled/network/*"
-      ],
       "styled/*": [
         "src/styled/*"
+      ],
+      "network/*": [
+        "src/network/*"
       ],
       "store/*": [
         "src/store/*"

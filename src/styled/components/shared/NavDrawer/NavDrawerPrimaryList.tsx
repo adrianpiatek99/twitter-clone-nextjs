@@ -3,8 +3,8 @@ import React from "react";
 import { useAppSession } from "hooks/useAppSession";
 import styled from "styled-components";
 
-import { navDrawerPrimaryItems, navDrawerProfileItem } from "./navDrawerIcons";
 import { NavDrawerItem } from "./NavDrawerItem";
+import { navDrawerPrimaryItems, navDrawerProfileItem } from "./navDrawerItemsHelper";
 
 interface NavDrawerPrimaryListProps {
   onClose: () => void;
