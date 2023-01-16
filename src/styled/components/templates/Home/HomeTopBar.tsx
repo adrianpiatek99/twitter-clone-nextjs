@@ -6,10 +6,13 @@ import { useAppSession } from "hooks/useAppSession";
 import { Avatar } from "shared/Avatar";
 import { Logo } from "shared/Logo";
 import { TopBar, TopBarHeading } from "shared/TopBar";
+import { setNavDrawerOpen } from "store/slices/modalsSlice";
+import { useAppDispatch } from "store/store";
 import styled from "styled-components";
 
 export const HomeTopBar = () => {
   const { session, isSessionLoading, isUnauthenticated } = useAppSession();
+  const dispatch = useAppDispatch();
 
   return (
     <TopBar
@@ -25,8 +28,7 @@ export const HomeTopBar = () => {
           src={session?.user.profileImageUrl ?? ""}
           loading={isSessionLoading}
           size="small"
-          screenName={session?.user.screenName ?? ""}
-          onClick={() => null}
+          onClick={() => dispatch(setNavDrawerOpen(true))}
         />
       )}
       <TopBarLogo color="secondary" />

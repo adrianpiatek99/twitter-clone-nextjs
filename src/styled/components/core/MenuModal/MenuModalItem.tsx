@@ -19,12 +19,10 @@ export const MenuModalItem: FC<MenuModalItemProps> = ({ children, onClick, ...pr
 };
 
 const MenuButton = styled(Button)`
-  &&& {
-    height: 48px;
-    border-bottom: 1px solid ${({ theme }) => theme.border};
+  height: 48px;
+  border-bottom: 1px solid ${({ theme }) => theme.border};
 
-    &:last-of-type {
-      border-bottom: none;
-    }
+  &:last-of-type {
+    border-bottom: none;
   }
 `;

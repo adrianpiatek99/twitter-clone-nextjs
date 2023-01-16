@@ -49,6 +49,7 @@ export const GlobalStyle = createGlobalStyle`
     text-decoration: none;
     color: inherit;
     outline: none;
+    width: max-content;
 
     &:hover:not(:disabled),
     &:focus-visible {

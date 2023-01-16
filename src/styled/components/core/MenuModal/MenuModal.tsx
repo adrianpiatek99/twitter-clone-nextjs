@@ -58,12 +58,12 @@ const contentVariants = {
   inactive: {
     scale: 0.9,
     opacity: 0,
-    transition: { duration: 0.1 }
+    transition: { duration: 0.15 }
   },
   active: {
     scale: 1,
     opacity: 1,
-    transition: { duration: 0.1 }
+    transition: { duration: 0.15 }
   }
 };
 
@@ -74,6 +74,7 @@ const Content = styled(motion.div)`
   max-width: 260px;
   margin: 12px;
   border-radius: 16px;
+  padding: 12px 0;
   background-color: ${({ theme }) => theme.background};
   overflow: hidden;
   outline: none;
