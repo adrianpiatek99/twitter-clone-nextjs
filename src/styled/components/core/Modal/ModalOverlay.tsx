@@ -7,12 +7,13 @@ import styled from "styled-components";
 interface ModalOverlayProps {
   children: ReactElement | ReactElement[];
   onClose: () => void;
+  duration?: number;
 }
 
-export const ModalOverlay: FC<ModalOverlayProps> = ({ children, onClose, ...props }) => {
+export const ModalOverlay: FC<ModalOverlayProps> = ({ children, onClose, duration, ...props }) => {
   return (
     <Overlay
-      variants={overlayVariants}
+      variants={overlayVariants(duration)}
       initial="inactive"
       animate="active"
       exit="inactive"
@@ -25,9 +26,11 @@ export const ModalOverlay: FC<ModalOverlayProps> = ({ children, onClose, ...prop
   );
 };
 
-const overlayVariants = {
-  inactive: { opacity: 0, transition: { duration: 0.15 } },
-  active: { opacity: 1, transition: { duration: 0.15 } }
+const overlayVariants = (duration = 0.15) => {
+  return {
+    inactive: { opacity: 0, transition: { duration } },
+    active: { opacity: 1, transition: { duration } }
+  };
 };
 
 const Overlay = styled(motion.div)`
