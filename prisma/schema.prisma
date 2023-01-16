@@ -6,37 +6,37 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model Account {
-  id                  String  @id @default(auto()) @map("_id") @db.ObjectId
-  user_id             String  @db.ObjectId
-  type                String
-  provider            String
-  provider_account_id String
-  refresh_token       String?
-  access_token        String?
-  expires_at          Int?
-  token_type          String?
-  scope               String?
-  id_token            String?
-  session_state       String?
-  oauth_token_secret  String?
-  oauth_token         String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refreshToken      String?
+  accessToken       String?
+  expiresAt         Int?
+  tokenType         String?
+  scope             String?
+  idToken           String?
+  sessionState      String?
+  oauthTokenSecret  String?
+  oauthToken        String?
 
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([provider, provider_account_id])
+  @@unique([provider, providerAccountId])
 }
 
 model Session {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  id            String   @id @default(cuid())
   session_token String   @unique
-  user_id       String   @db.ObjectId
+  userId        String
   expires       DateTime
-  user          User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum Role {
@@ -46,44 +46,54 @@ enum Role {
 }
 
 model User {
-  id                 String    @id @default(auto()) @map("_id") @db.ObjectId
-  name               String
-  screen_name        String    @unique
-  email              String    @unique
-  password           String
-  profile_image_url  String    @default("")
-  profile_banner_url String    @default("")
-  description        String    @default("")
-  url                String?
-  location           String    @default("")
-  followers          String[]
-  following          String[]
-  follower_count     Int       @default(0)
-  following_count    Int       @default(0)
-  tweet_count        Int       @default(0)
-  email_verified     DateTime?
-  role               Role?     @default(USER)
-  accounts           Account[]
-  sessions           Session[]
-  created_at         DateTime  @default(now())
-  updated_at         DateTime  @updatedAt
-
-  @@map("users")
+  id               String         @id @default(cuid())
+  name             String
+  screenName       String         @unique
+  email            String         @unique
+  password         String
+  profileImageUrl  String         @default("")
+  profileBannerUrl String         @default("")
+  description      String         @default("")
+  url              String?
+  followers        String[]
+  following        String[]
+  followerCount    Int            @default(0)
+  followingCount   Int            @default(0)
+  tweetCount       Int            @default(0)
+  emailVerified    DateTime?
+  role             Role           @default(USER)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  accounts         Account[]
+  sessions         Session[]
+  tweets           Tweet[]
+  TweetComment     TweetComment[]
 }
 
 model Tweet {
-  id              String   @id @default(auto()) @map("_id") @db.ObjectId
-  text            String
-  user_id         String   @db.ObjectId
-  image_urls      String[]
-  hashtags        String[]
-  favourite       String[]
-  favourite_count Int      @default(0)
-  reply_count     Int      @default(0)
-  retweet_count   Int      @default(0)
-  padding_bottom  Int      @default(0)
-  created_at      DateTime @default(now())
-  updated_at      DateTime @updatedAt
+  id             String         @id @default(cuid())
+  text           String
+  user           User           @relation(fields: [userId], references: [id])
+  userId         String
+  imageUrls      String[]
+  hashtags       String[]
+  favourite      String[]
+  favouriteCount Int            @default(0)
+  replyCount     Int            @default(0)
+  retweetCount   Int            @default(0)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  tweetComments  TweetComment[]
+}
 
-  @@map("tweets")
+model TweetComment {
+  id             String   @id @default(cuid())
+  user           User     @relation(fields: [userId], references: [id])
+  userId         String
+  tweet          Tweet    @relation(fields: [tweetId], references: [id])
+  tweetId        String
+  message        String
+  favouriteCount String[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
