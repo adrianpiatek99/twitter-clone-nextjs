@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactNode } from "react";
 
 import { useRouter } from "next/router";
 import { NavBottomBar } from "shared/NavBottomBar";
@@ -7,7 +7,7 @@ import { NavSidebar } from "shared/NavSidebar";
 import styled from "styled-components";
 
 interface LayoutProps {
-  children: ReactElement | ReactElement[];
+  children: ReactNode;
 }
 
 const Layout = ({ children }: LayoutProps) => {
@@ -27,7 +27,7 @@ const Layout = ({ children }: LayoutProps) => {
 
 export default Layout;
 
-const Wrapper = styled.div`
+const Wrapper = styled.main`
   position: relative;
   display: flex;
   width: 100%;

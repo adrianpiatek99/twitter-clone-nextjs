@@ -1,4 +1,4 @@
-import { DefaultPageTemplate } from "templates/Default";
+import { DefaultPageTemplate } from "templates/default-page";
 
 const DefaultPage = () => {
   return (
