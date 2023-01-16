@@ -88,6 +88,7 @@ const AvatarButton = styled.button`
     inset: 0px;
     background: rgba(0, 0, 0, 0.15);
     opacity: 0;
+    border-radius: 50%;
     transition: opacity 0.2s ease;
   }
 
