@@ -34,7 +34,7 @@ const LogoLink = styled(Link)`
   }
 
   &:focus-visible {
-    box-shadow: ${({ theme }) => theme.focus.primary} 0px 0px 0px 2px;
+    box-shadow: ${({ theme }) => theme.boxShadows.primary};
     background-color: ${({ theme }) => `${hexToRGBA(theme.primary05, 0.1)}`};
   }
 
