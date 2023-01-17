@@ -13,14 +13,14 @@ import NotificationOutlinedIcon from "icons/NotificationOutlinedIcon";
 import PersonIcon from "icons/PersonIcon";
 import PersonOutlinedIcon from "icons/PersonOutlinedIcon";
 
-export type NavSidebarItem = {
+export type NavSidebarItemType = {
   text: string;
   href: string;
   icon: IconType;
   activeIcon: IconType;
 };
 
-export const authenticatedNavSidebarItems: NavSidebarItem[] = [
+export const authenticatedNavSidebarItems: NavSidebarItemType[] = [
   {
     text: "Explore",
     href: "/explore",
@@ -47,14 +47,14 @@ export const authenticatedNavSidebarItems: NavSidebarItem[] = [
   }
 ];
 
-export const navSidebarHomeItem: NavSidebarItem = {
+export const navSidebarHomeItem: NavSidebarItemType = {
   text: "Home",
   href: "/home",
   icon: HomeOutlinedIcon,
   activeIcon: HomeIcon
 };
 
-export const navSidebarProfileItem: NavSidebarItem = {
+export const navSidebarProfileItem: NavSidebarItemType = {
   text: "Profile",
   href: "/[screenName]",
   icon: PersonOutlinedIcon,
