@@ -5,12 +5,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Input, InputType } from "components/core";
 import { useToasts } from "hooks/useToasts";
 import { signUp } from "network/auth/signUp";
+import { signUpSchema, SignUpValues } from "schema/authSchema";
 import { setDefaultPageFormLoading } from "store/slices/pagesSlice";
 import { useAppDispatch } from "store/store";
 import styled from "styled-components";
 
 import { DefaultTabs } from "../DefaultPage";
-import { signUpSchema, SignUpValues } from "../defaultValidator";
 
 interface DefaultSignUpFormProps {
   handleChangeTab: (tab: DefaultTabs) => void;
