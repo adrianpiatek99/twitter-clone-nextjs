@@ -4,12 +4,12 @@ import { useAppSession } from "hooks/useAppSession";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 
+import { NavSidebarItem } from "./NavSidebarItem";
 import {
   authenticatedNavSidebarItems,
   navSidebarHomeItem,
   navSidebarProfileItem
 } from "./navSidebarItemsHelper";
-import { NavSidebarLink } from "./NavSidebarLink";
 import { NavSidebarLogo } from "./NavSidebarLogo";
 import { NavSidebarProfile } from "./NavSidebarProfile";
 
@@ -23,21 +23,21 @@ export const NavSidebar = () => {
         <NavWrapper>
           <NavSidebarLogo />
           <NavList>
-            <NavSidebarLink
+            <NavSidebarItem
               {...navSidebarHomeItem}
               active={asPath.includes(navSidebarHomeItem.href)}
             />
             {isAuthenticated && (
               <>
                 {authenticatedNavSidebarItems.map(({ href, ...props }) => (
-                  <NavSidebarLink
+                  <NavSidebarItem
                     key={href}
                     href={href}
                     active={asPath.includes(href)}
                     {...props}
                   />
                 ))}
-                <NavSidebarLink
+                <NavSidebarItem
                   {...navSidebarProfileItem}
                   href={session?.user.screenName ?? ""}
                   active={pathname === navSidebarProfileItem.href}
@@ -97,8 +97,6 @@ const NavWrapper = styled.nav`
 const NavList = styled.ul`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: 8px 0px;
   width: 100%;
-  align-items: center;
 `;

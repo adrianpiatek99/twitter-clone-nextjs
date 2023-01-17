@@ -48,35 +48,29 @@ export const IconButton: FC<IconButtonProps> = forwardRef(
       return color;
     }, [isError, color]);
 
-    const IconButtonComponent = () => {
-      return (
-        <Tooltip title={title} disableInteractive enterNextDelay={150}>
-          <IconButtonElement
-            type="button"
-            size={size}
-            tabIndex={disableFocus ? -1 : 0}
-            $color={specificColor}
-            $isError={isError}
-            {...props}
-            ref={ref}
-          >
-            {children}
-          </IconButtonElement>
-        </Tooltip>
-      );
+    const sharedProps = {
+      $color: specificColor,
+      tabIndex: disableFocus ? -1 : 0,
+      size
     };
 
-    return href ? (
-      <Link href={href}>
-        <IconButtonComponent />
-      </Link>
-    ) : (
-      <IconButtonComponent />
+    return (
+      <Tooltip title={title} disableInteractive enterNextDelay={150}>
+        {href ? (
+          <StyledLink href={href} {...sharedProps} {...(props as typeof Link)}>
+            {children}
+          </StyledLink>
+        ) : (
+          <IconButtonElement type="button" $isError={isError} {...sharedProps} {...props} ref={ref}>
+            {children}
+          </IconButtonElement>
+        )}
+      </Tooltip>
     );
   }
 );
 
-const IconButtonElement = styled.button<IconButtonProps & { $color: string; $isError: boolean }>`
+const sharedStyles = css`
   position: relative;
   display: flex;
   justify-content: center;
@@ -90,16 +84,27 @@ const IconButtonElement = styled.button<IconButtonProps & { $color: string; $isE
   outline: none;
   background-color: transparent;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: 0.2s;
 
   & > svg {
-    transition: 0.2s ease;
+    transition: 0.2s;
   }
+`;
 
-  ${({ $color }) => getIconButtonColor($color)}
-  ${({ size }) => iconButtonSizeVariants[size || "medium"]}
+const StyledLink = styled(Link)<IconButtonProps & { $color: string }>`
+  ${sharedStyles}
 
-    ${({ $isError }) =>
+  ${({ $color }) => getIconButtonColor($color)};
+  ${({ size }) => iconButtonSizeVariants[size || "medium"]};
+`;
+
+const IconButtonElement = styled.button<IconButtonProps & { $color: string; $isError: boolean }>`
+  ${sharedStyles}
+
+  ${({ $color }) => getIconButtonColor($color)};
+  ${({ size }) => iconButtonSizeVariants[size || "medium"]};
+
+  ${({ $isError }) =>
     $isError &&
     css`
       cursor: default;

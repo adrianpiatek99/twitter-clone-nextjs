@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import { CardActionArea } from "@mui/material";
 import { useAppSession } from "hooks/useAppSession";
 import MoreHorizontalIcon from "icons/MoreHorizontalIcon";
 import { Avatar } from "shared/Avatar";
@@ -17,7 +16,7 @@ export const NavSidebarProfile = () => {
   if (isSessionLoading) {
     return (
       <Wrapper>
-        <Inner>
+        <Content>
           <Column>
             <Avatar src={""} loading />
           </Column>
@@ -30,7 +29,7 @@ export const NavSidebarProfile = () => {
           <Column>
             <Skeleton height={5} width={15} />
           </Column>
-        </Inner>
+        </Content>
       </Wrapper>
     );
   }
@@ -43,18 +42,18 @@ export const NavSidebarProfile = () => {
 
   return (
     <Wrapper>
-      <Inner onClick={() => setIsMenuModalOpen(true)}>
+      <Content onClick={() => setIsMenuModalOpen(true)}>
         <Column>
           <Avatar src={profileImageUrl} disableFocus />
         </Column>
         <Column>
           <UserName>{name}</UserName>
-          <UserScreenName>{screenName}</UserScreenName>
+          <UserScreenName>@{screenName}</UserScreenName>
         </Column>
         <Column>
           <MoreHorizontalIcon />
         </Column>
-      </Inner>
+      </Content>
       <NavSidebarProfileMenuModal
         isOpen={isMenuModalOpen}
         onClose={() => setIsMenuModalOpen(false)}
@@ -69,26 +68,32 @@ const Wrapper = styled.div`
   margin: 12px 0;
 `;
 
-const Inner = styled(CardActionArea)`
-  &&& {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 12px;
-    border-radius: 50px;
-    padding: 12px;
-    width: 100%;
-    transition: background-color 0.2s;
+const Content = styled.button`
+  position: relative;
+  display: flex;
+  align-items: center;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  gap: 12px;
+  border-radius: 50px;
+  padding: 12px;
+  width: 100%;
+  text-align: left;
+  color: ${({ theme }) => theme.neutral20};
+  cursor: pointer;
+  transition: 0.2s;
 
-    &:hover:not(:disabled),
-    &:focus-visible {
-      background-color: ${({ theme }) => hexToRGBA(theme.neutral00, 0.05)};
-    }
+  &:hover:not(:disabled),
+  &:focus-visible {
+    background-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.1)};
+  }
 
-    &:focus-visible {
-      box-shadow: ${({ theme }) => theme.neutral20} 0px 0px 0px 2px;
-    }
+  &:active:not(:disabled) {
+    background-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.15)};
+  }
+
+  &:focus-visible {
+    box-shadow: ${({ theme }) => theme.boxShadows.secondary};
   }
 `;
 

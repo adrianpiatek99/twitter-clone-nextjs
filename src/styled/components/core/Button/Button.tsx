@@ -39,61 +39,46 @@ export const Button: FC<ButtonProps> = forwardRef(
     ref: Ref<HTMLButtonElement>
   ) => {
     const loaderColor = color === "primary" ? "secondary" : "primary";
-
-    const ButtonComponent = () => {
-      return (
-        <ButtonWrapper
-          aria-label={loading ? "Loading" : undefined}
-          $color={color}
-          variant={variant}
-          size={size}
-          $loading={loading}
-          disabled={loading || disabled}
-          fullWidth={fullWidth}
-          {...props}
-          ref={ref}
-        >
-          {startIcon && !loading && startIcon}
-          {loading && (
-            <LoaderWrapper>
-              <Loader color={loaderColor} />
-            </LoaderWrapper>
-          )}
-          <span>{children}</span>
-        </ButtonWrapper>
-      );
+    const sharedProps = {
+      $color: color,
+      $fullWidth: fullWidth,
+      variant,
+      size
     };
 
     return href ? (
-      <StyledLink href={href} tabIndex={-1}>
-        <ButtonComponent />
+      <StyledLink href={href} {...sharedProps} {...(props as typeof Link)}>
+        {startIcon && !loading && startIcon}
+        <span>{children}</span>
       </StyledLink>
     ) : (
-      <ButtonComponent />
+      <ButtonWrapper
+        aria-label={loading ? "Loading" : undefined}
+        $loading={loading}
+        disabled={loading || disabled}
+        {...sharedProps}
+        {...props}
+        ref={ref}
+      >
+        {startIcon && !loading && startIcon}
+        {loading && (
+          <LoaderWrapper>
+            <Loader color={loaderColor} />
+          </LoaderWrapper>
+        )}
+        <span>{children}</span>
+      </ButtonWrapper>
     );
   }
 );
 
-const StyledLink = styled(Link)`
-  &:hover:not(:disabled),
-  &:focus-visible {
-    text-decoration: none;
-  }
-`;
-
-const ButtonWrapper = styled.button<
-  ButtonProps & {
-    $loading: boolean;
-    $color: ButtonColor;
-  }
->`
+const sharedStyles = css`
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   min-width: 36px;
   padding: 0 16px;
-  width: ${({ fullWidth }) => (fullWidth ? "100%" : "auto")};
   background-color: transparent;
   border: none;
   border-radius: 50px;
@@ -104,7 +89,7 @@ const ButtonWrapper = styled.button<
   -webkit-user-select: none;
   user-select: none;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: 0.2s;
 
   & > span {
     font-family: ${({ theme }) => theme.fontFamily.primary};
@@ -115,6 +100,36 @@ const ButtonWrapper = styled.button<
     height: 20px;
     margin-right: 12px;
   }
+`;
+
+const StyledLink = styled(Link)<
+  ButtonProps & {
+    $color: ButtonColor;
+    $fullWidth: boolean;
+  }
+>`
+  ${sharedStyles};
+  width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "auto")};
+
+  &:hover:not(:disabled),
+  &:focus-visible {
+    text-decoration: none;
+  }
+
+  ${({ theme }) => theme.text.m};
+  ${({ size }) => sizeVariants[size || "normal"]};
+  ${({ $color, variant }) => buttonVariantsWithColor[variant || "contained"][$color]};
+`;
+
+const ButtonWrapper = styled.button<
+  ButtonProps & {
+    $loading: boolean;
+    $color: ButtonColor;
+    $fullWidth: boolean;
+  }
+>`
+  ${sharedStyles};
+  width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "auto")};
 
   &:disabled {
     cursor: not-allowed;

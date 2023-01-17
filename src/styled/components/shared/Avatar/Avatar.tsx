@@ -100,7 +100,7 @@ const AvatarButton = styled.button`
   }
 
   &:focus-visible {
-    box-shadow: ${({ theme }) => `${theme.focus.primary} 0px 0px 0px 2px`};
+    box-shadow: ${({ theme }) => theme.boxShadows.primary};
   }
 `;
 
