@@ -23,7 +23,7 @@ const contained: ButtonColorCss = {
     }
 
     &:focus-visible {
-      box-shadow: ${({ theme }) => `${theme.focus.primary} 0px 0px 0px 2px`};
+      box-shadow: ${({ theme }) => theme.boxShadows.primary};
     }
   `,
   secondary: css`
@@ -77,7 +77,7 @@ const outlined: ButtonColorCss = {
     }
 
     &:focus-visible {
-      box-shadow: ${({ theme }) => `${theme.focus.primary} 0px 0px 0px 2px`};
+      box-shadow: ${({ theme }) => theme.boxShadows.primary};
     }
   `,
   secondary: css`
@@ -131,8 +131,7 @@ const text: ButtonColorCss = {
     }
 
     &:focus-visible {
-      box-shadow: ${({ theme }) => `inset ${theme.focus.primary} 0px 0px 0px 2px`};
-    }
+      box-shadow: ${({ theme }) => theme.boxShadows.primary};
   `,
   secondary: css`
     border-radius: 0px;
@@ -148,7 +147,7 @@ const text: ButtonColorCss = {
     }
 
     &:focus-visible {
-      box-shadow: ${({ theme }) => `inset ${theme.focus.primary} 0px 0px 0px 2px`};
+      box-shadow: ${({ theme }) => theme.boxShadows.primary};
     }
   `,
   danger: css`
