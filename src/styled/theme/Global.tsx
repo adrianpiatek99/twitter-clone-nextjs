@@ -9,7 +9,6 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
   }
 
-
   body {
     background-color: ${({ theme }) => theme.background};
     color: ${({ theme }) => theme.neutral20};
@@ -17,6 +16,10 @@ export const GlobalStyle = createGlobalStyle`
     ${({ theme }) => theme.text.m};
     overflow-y: scroll;
     word-wrap: break-word;
+  }
+
+  span {
+    font-family: ${({ theme }) => theme.fontFamily.primary};
   }
 
   h1,
@@ -28,11 +31,14 @@ export const GlobalStyle = createGlobalStyle`
   h6 {
     margin: 0;
     font-family: ${({ theme }) => theme.fontFamily.secondary};
-    ${({ theme }) => theme.heading.xs}
+    ${({ theme }) => theme.heading.xs};
   }
 
   button {
     margin: 0;
+    border: none;
+    outline: none;
+    background-color: transparent;
     ${({ theme }) => theme.text.m};
   }
 

@@ -61,6 +61,10 @@ export const theme: DefaultTheme = {
     primary: "rgba(217, 217, 217, 0.2)",
     secondary: "rgba(29, 155, 240, 0.2)"
   },
+  boxShadows: {
+    primary: "inset rgb(142, 205, 248) 0px 0px 0px 2px",
+    secondary: "inset rgb(239, 243, 244) 0px 0px 0px 2px"
+  },
   ...fonts,
   breakpointSizes,
   breakpoints

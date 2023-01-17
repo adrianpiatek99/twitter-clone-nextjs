@@ -41,6 +41,10 @@ declare module "styled-components" {
       primary: string;
       secondary: string;
     };
+    boxShadows: {
+      primary: string;
+      secondary: string;
+    };
     breakpointSizes: {
       xs: string;
       sm: string;
