@@ -1,8 +1,8 @@
 import React from "react";
 import { useState } from "react";
 
-import GoogleIcon from "@mui/icons-material/Google";
 import { Button, LinearProgress } from "components/core";
+import GoogleIcon from "icons/GoogleIcon";
 import { Logo } from "shared/Logo";
 import { Tab, TabGroup } from "shared/Tabs";
 import { useAppSelector } from "store/store";

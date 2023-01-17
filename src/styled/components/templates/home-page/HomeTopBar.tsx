@@ -1,8 +1,8 @@
 import React from "react";
-import { HiOutlineSparkles } from "react-icons/hi";
 
 import { IconButton } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
+import SparklesIcon from "icons/SparklesIcon";
 import { Avatar } from "shared/Avatar";
 import { Logo } from "shared/Logo";
 import { TopBar, TopBarHeading } from "shared/TopBar";
@@ -18,7 +18,7 @@ export const HomeTopBar = () => {
     <TopBar
       endIcon={
         <IconButton title="Sort tweets" color="secondary" size="large">
-          <HiOutlineSparkles />
+          <SparklesIcon />
         </IconButton>
       }
     >

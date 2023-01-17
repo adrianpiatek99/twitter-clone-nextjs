@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { CardActionArea } from "@mui/material";
 import { useAppSession } from "hooks/useAppSession";
+import MoreHorizontalIcon from "icons/MoreHorizontalIcon";
 import { Avatar } from "shared/Avatar";
 import { Skeleton } from "shared/Skeleton";
 import styled from "styled-components";
@@ -52,7 +52,7 @@ export const NavSidebarProfile = () => {
           <UserScreenName>{screenName}</UserScreenName>
         </Column>
         <Column>
-          <MoreHorizIcon />
+          <MoreHorizontalIcon />
         </Column>
       </Inner>
       <NavSidebarProfileMenuModal
@@ -70,23 +70,25 @@ const Wrapper = styled.div`
 `;
 
 const Inner = styled(CardActionArea)`
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 12px;
-  border-radius: 50px;
-  padding: 12px;
-  width: 100%;
-  transition: background-color 0.2s;
+  &&& {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    border-radius: 50px;
+    padding: 12px;
+    width: 100%;
+    transition: background-color 0.2s;
 
-  &:hover:not(:disabled),
-  &:focus-visible {
-    background-color: ${({ theme }) => hexToRGBA(theme.neutral00, 0.05)};
-  }
+    &:hover:not(:disabled),
+    &:focus-visible {
+      background-color: ${({ theme }) => hexToRGBA(theme.neutral00, 0.05)};
+    }
 
-  &:focus-visible {
-    box-shadow: ${({ theme }) => theme.neutral20} 0px 0px 0px 2px;
+    &:focus-visible {
+      box-shadow: ${({ theme }) => theme.neutral20} 0px 0px 0px 2px;
+    }
   }
 `;
 
