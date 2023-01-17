@@ -1,7 +1,7 @@
 import React from "react";
 
-import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import { IconButton } from "components/core";
+import BackIcon from "icons/BackIcon";
 import { useRouter } from "next/router";
 import { TopBar, TopBarHeading } from "shared/TopBar";
 
@@ -12,7 +12,7 @@ export const ProfileTopBar = () => {
     <TopBar
       startIcon={
         <IconButton title="Back" onClick={() => back()} color="secondary">
-          <ArrowBackRoundedIcon />
+          <BackIcon />
         </IconButton>
       }
     >

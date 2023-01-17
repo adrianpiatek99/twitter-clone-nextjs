@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { IconButton } from "components/core";
 import { motion } from "framer-motion";
 import { useToasts } from "hooks/useToasts";
+import CloseIcon from "icons/CloseIcon";
 import type { ToastProps } from "store/slices/toastsSlice";
 import styled from "styled-components";
 
@@ -44,7 +44,7 @@ export const Toast = ({ id, message, duration }: ToastProps) => {
           onClick={() => handleRemoveToast(id)}
           disableFocus
         >
-          <CloseRoundedIcon />
+          <CloseIcon />
         </CloseIconButton>
       </Right>
     </ToastWrapper>
@@ -90,9 +90,7 @@ const Right = styled.div`
 `;
 
 const CloseIconButton = styled(IconButton)`
-  &&& {
-    margin-right: -7px;
-    margin-top: -7px;
-    margin-bottom: -7px;
-  }
+  margin-right: -7px;
+  margin-top: -7px;
+  margin-bottom: -7px;
 `;

@@ -1,5 +1,4 @@
-import React, { ComponentPropsWithRef, FC, ReactElement, Ref, useMemo } from "react";
-import { forwardRef } from "react";
+import React, { ComponentPropsWithRef, FC, forwardRef, ReactNode, Ref, useMemo } from "react";
 
 import Tooltip from "@mui/material/Tooltip";
 import Link from "next/link";
@@ -13,7 +12,7 @@ import {
 } from "./iconButtonVariants";
 
 interface IconButtonProps extends Omit<ComponentPropsWithRef<"button">, "color"> {
-  children: ReactElement;
+  children: ReactNode;
   title?: string;
   size?: IconButtonSize;
   color?: IconButtonColor;

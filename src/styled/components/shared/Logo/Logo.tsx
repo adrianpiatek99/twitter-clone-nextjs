@@ -1,6 +1,6 @@
 import React, { ComponentPropsWithoutRef } from "react";
 
-import TwitterIcon from "@mui/icons-material/Twitter";
+import TwitterIcon from "icons/TwitterIcon";
 import styled from "styled-components";
 
 import { LogoColor, logoColors, LogoSize, logoSizeVariants } from "./logoStyleVariants";

@@ -105,14 +105,16 @@ const AvatarButton = styled.button`
 `;
 
 const StyledAvatar = styled(MuiAvatar)<{ size: number }>`
-  position: relative;
-  width: ${({ size }) => `${size}px`};
-  height: ${({ size }) => `${size}px`};
-  cursor: pointer;
-  transition: 0.2s;
+  &&& {
+    position: relative;
+    width: ${({ size }) => `${size}px`};
+    height: ${({ size }) => `${size}px`};
+    cursor: pointer;
+    transition: 0.2s;
 
-  & > img {
-    user-select: none;
-    -webkit-user-drag: none;
+    & > img {
+      user-select: none;
+      -webkit-user-drag: none;
+    }
   }
 `;

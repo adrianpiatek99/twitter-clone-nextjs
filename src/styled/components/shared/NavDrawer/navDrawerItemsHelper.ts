@@ -1,7 +1,8 @@
 import { IconType } from "react-icons";
-import { BsBookmark } from "react-icons/bs";
-import { MdOutlinePerson } from "react-icons/md";
-import { MdOutlineLogout } from "react-icons/md";
+
+import BookmarkOutlinedIcon from "icons/BookmarkOutlinedIcon";
+import LogoutIcon from "icons/LogoutIcon";
+import PersonOutlinedIcon from "icons/PersonOutlinedIcon";
 
 export type NavDrawerItemType = {
   text: string;
@@ -12,18 +13,18 @@ export type NavDrawerItemType = {
 export const navDrawerProfileItem: NavDrawerItemType = {
   text: "Profile",
   href: "/[screenName]",
-  icon: MdOutlinePerson
+  icon: PersonOutlinedIcon
 };
 
 export const navDrawerLogOutItem: NavDrawerItemType = {
   text: "Log out",
-  icon: MdOutlineLogout
+  icon: LogoutIcon
 };
 
 export const navDrawerPrimaryItems: NavDrawerItemType[] = [
   {
     text: "Bookmarks",
     href: "/bookmarks",
-    icon: BsBookmark
+    icon: BookmarkOutlinedIcon
   }
 ];

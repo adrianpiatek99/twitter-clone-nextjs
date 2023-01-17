@@ -1,8 +1,8 @@
 import React, { Dispatch, SetStateAction } from "react";
 
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
+import EyeClosedIcon from "icons/EyeClosedIcon";
+import EyeOpenIcon from "icons/EyeOpenIcon";
+import WarningIcon from "icons/WarningIcon";
 import styled from "styled-components";
 
 import { IconButton } from "../IconButton";
@@ -28,12 +28,12 @@ export const InputIcons = ({
           onClick={() => setIsPasswordVisible(prev => !prev)}
           disableFocus
         >
-          {isPasswordVisible ? <VisibilityOffIcon /> : <VisibilityIcon />}
+          {isPasswordVisible ? <EyeClosedIcon /> : <EyeOpenIcon />}
         </IconButton>
       )}
       {error && (
         <IconButton title={error} isError disableFocus>
-          <WarningRoundedIcon />
+          <WarningIcon />
         </IconButton>
       )}
     </IconsWrapper>

@@ -1,6 +1,6 @@
 import React from "react";
 
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import CloseIcon from "icons/CloseIcon";
 import styled from "styled-components";
 
 import { Button } from "../Button";
@@ -24,7 +24,7 @@ export const ModalHeader = ({
   return (
     <Wrapper>
       <IconButton title="Close" color="secondary" onClick={onClose}>
-        <CloseRoundedIcon />
+        <CloseIcon />
       </IconButton>
       {title && <HeaderTitle>{title}</HeaderTitle>}
       {!!onAccept && (

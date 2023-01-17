@@ -1,16 +1,17 @@
 import { IconType } from "react-icons";
-import { BsBookmark } from "react-icons/bs";
-import { BsBookmarkFill } from "react-icons/bs";
-import { HiHashtag } from "react-icons/hi";
-import { HiOutlineHashtag } from "react-icons/hi";
-import { HiMail } from "react-icons/hi";
-import { HiOutlineMail } from "react-icons/hi";
-import { MdOutlinePerson } from "react-icons/md";
-import { MdPerson } from "react-icons/md";
-import { RiNotification2Line } from "react-icons/ri";
-import { RiNotification2Fill } from "react-icons/ri";
-import { RiHome5Fill } from "react-icons/ri";
-import { RiHome5Line } from "react-icons/ri";
+
+import BookmarkIcon from "icons/BookmarkIcon";
+import BookmarkOutlinedIcon from "icons/BookmarkOutlinedIcon";
+import HashtagIcon from "icons/HashtagIcon";
+import HashtagOutlinedIcon from "icons/HashtagOutlinedIcon";
+import HomeIcon from "icons/HomeIcon";
+import HomeOutlinedIcon from "icons/HomeOutlinedIcon";
+import MailIcon from "icons/MailIcon";
+import MailOutlinedIcon from "icons/MailOutlinedIcon";
+import NotificationIcon from "icons/NotificationIcon";
+import NotificationOutlinedIcon from "icons/NotificationOutlinedIcon";
+import PersonIcon from "icons/PersonIcon";
+import PersonOutlinedIcon from "icons/PersonOutlinedIcon";
 
 export type NavSidebarItem = {
   text: string;
@@ -23,39 +24,39 @@ export const authenticatedNavSidebarItems: NavSidebarItem[] = [
   {
     text: "Explore",
     href: "/explore",
-    icon: HiOutlineHashtag,
-    activeIcon: HiHashtag
+    icon: HashtagOutlinedIcon,
+    activeIcon: HashtagIcon
   },
   {
     text: "Notifications",
     href: "/notifications",
-    icon: RiNotification2Line,
-    activeIcon: RiNotification2Fill
+    icon: NotificationOutlinedIcon,
+    activeIcon: NotificationIcon
   },
   {
     text: "Messages",
     href: "/messages",
-    icon: HiOutlineMail,
-    activeIcon: HiMail
+    icon: MailOutlinedIcon,
+    activeIcon: MailIcon
   },
   {
     text: "Bookmarks",
     href: "/bookmarks",
-    icon: BsBookmark,
-    activeIcon: BsBookmarkFill
+    icon: BookmarkOutlinedIcon,
+    activeIcon: BookmarkIcon
   }
 ];
 
 export const navSidebarHomeItem: NavSidebarItem = {
   text: "Home",
   href: "/home",
-  icon: RiHome5Line,
-  activeIcon: RiHome5Fill
+  icon: HomeOutlinedIcon,
+  activeIcon: HomeIcon
 };
 
 export const navSidebarProfileItem: NavSidebarItem = {
   text: "Profile",
   href: "/[screenName]",
-  icon: MdOutlinePerson,
-  activeIcon: MdPerson
+  icon: PersonOutlinedIcon,
+  activeIcon: PersonIcon
 };

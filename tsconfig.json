@@ -31,6 +31,9 @@
       "network/*": [
         "src/network/*"
       ],
+      "icons/*": [
+        "src/icons/*"
+      ],
       "store/*": [
         "src/store/*"
       ],

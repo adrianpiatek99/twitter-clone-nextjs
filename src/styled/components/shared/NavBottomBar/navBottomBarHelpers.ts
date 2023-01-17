@@ -1,12 +1,13 @@
-import { HiMail } from "react-icons/hi";
-import { HiOutlineMail } from "react-icons/hi";
 import { IconType } from "react-icons/lib";
-import { RiSearchLine } from "react-icons/ri";
-import { RiSearchFill } from "react-icons/ri";
-import { RiHome5Fill } from "react-icons/ri";
-import { RiHome5Line } from "react-icons/ri";
-import { RiNotification2Line } from "react-icons/ri";
-import { RiNotification2Fill } from "react-icons/ri";
+
+import HomeIcon from "icons/HomeIcon";
+import HomeOutlinedIcon from "icons/HomeOutlinedIcon";
+import MailIcon from "icons/MailIcon";
+import MailOutlinedIcon from "icons/MailOutlinedIcon";
+import NotificationIcon from "icons/NotificationIcon";
+import NotificationOutlinedIcon from "icons/NotificationOutlinedIcon";
+import SearchIcon from "icons/SearchIcon";
+import SearchOutlinedIcon from "icons/SearchOutlinedIcon";
 
 export type NavBottomBarItem = {
   text: string;
@@ -19,25 +20,25 @@ export const authenticatedNavBottomBarItems: NavBottomBarItem[] = [
   {
     text: "Home",
     href: "/home",
-    icon: RiHome5Line,
-    activeIcon: RiHome5Fill
+    icon: HomeOutlinedIcon,
+    activeIcon: HomeIcon
   },
   {
     text: "Search",
     href: "/explore",
-    icon: RiSearchLine,
-    activeIcon: RiSearchFill
+    icon: SearchOutlinedIcon,
+    activeIcon: SearchIcon
   },
   {
     text: "Notifications",
     href: "/notifications",
-    icon: RiNotification2Line,
-    activeIcon: RiNotification2Fill
+    icon: NotificationOutlinedIcon,
+    activeIcon: NotificationIcon
   },
   {
     text: "Messages",
     href: "/messages",
-    icon: HiOutlineMail,
-    activeIcon: HiMail
+    icon: MailOutlinedIcon,
+    activeIcon: MailIcon
   }
 ];

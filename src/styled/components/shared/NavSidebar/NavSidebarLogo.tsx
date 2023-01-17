@@ -1,6 +1,6 @@
 import React from "react";
 
-import TwitterIcon from "@mui/icons-material/Twitter";
+import TwitterIcon from "icons/TwitterIcon";
 import Link from "next/link";
 import styled from "styled-components";
 import { hexToRGBA } from "utils/colors";
@@ -25,8 +25,8 @@ const LogoLink = styled(Link)`
 
   & > svg {
     fill: ${({ theme }) => theme.neutral20};
-    height: 32.5px;
-    width: 50px;
+    height: 28px;
+    width: 28px;
   }
 
   &:hover:not(:disabled) {
