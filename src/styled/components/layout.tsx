@@ -1,10 +1,12 @@
 import React, { ReactNode } from "react";
 
+import { useAppSession } from "hooks/useAppSession";
 import { useRouter } from "next/router";
+import { Logo } from "shared/Logo";
 import { NavBottomBar } from "shared/NavBottomBar";
 import { NavDrawer } from "shared/NavDrawer";
 import { NavSidebar } from "shared/NavSidebar";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 interface LayoutProps {
   children: ReactNode;
@@ -12,6 +14,15 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   const { asPath } = useRouter();
+  const { isSessionLoading } = useAppSession();
+
+  if (isSessionLoading) {
+    return (
+      <SessionLoadingWrapper>
+        <Logo color="secondary" size="xl" />
+      </SessionLoadingWrapper>
+    );
+  }
 
   if (asPath === "/") return <>{children}</>;
 
@@ -26,6 +37,29 @@ const Layout = ({ children }: LayoutProps) => {
 };
 
 export default Layout;
+
+const LogoEnterAnimation = keyframes`
+    0% {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.25);
+    }
+    100% {
+      transform: none;
+    }
+`;
+
+const SessionLoadingWrapper = styled.div`
+  position: fixed;
+  inset: 0px;
+  display: grid;
+  place-items: center;
+  background-color: ${({ theme }) => theme.background};
+  animation: ${LogoEnterAnimation} 0.3s;
+`;
 
 const Wrapper = styled.main`
   position: relative;
