@@ -1,7 +1,6 @@
 import React from "react";
 
 import { IconButton } from "components/core";
-import Link from "next/link";
 import styled from "styled-components";
 
 import { NavBottomBarItem } from "./navBottomBarHelpers";
@@ -18,22 +17,18 @@ export const NavBottomBarLink = ({
   activeIcon: ActiveIcon
 }: NavBottomBarLinkProps) => {
   return (
-    <Link href={href} tabIndex={-1}>
-      <TabIconButton aria-label={text} color="secondary" disableFocus={active}>
-        {active ? <ActiveIcon /> : <Icon />}
-      </TabIconButton>
-    </Link>
+    <TabIconButton aria-label={text} color="secondary" href={href} disableFocus={active}>
+      {active ? <ActiveIcon /> : <Icon />}
+    </TabIconButton>
   );
 };
 
 const TabIconButton = styled(IconButton)`
-  &&& {
-    min-width: 46px;
-    min-height: 46px;
+  min-width: 46px;
+  min-height: 46px;
 
-    & > svg {
-      width: 26px;
-      height: 26px;
-    }
+  & > svg {
+    width: 26px;
+    height: 26px;
   }
 `;
