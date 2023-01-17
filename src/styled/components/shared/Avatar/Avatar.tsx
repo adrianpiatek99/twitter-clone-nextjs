@@ -1,14 +1,14 @@
-import React, { ComponentPropsWithoutRef } from "react";
+import React from "react";
 
-import { Avatar as MuiAvatar } from "@mui/material";
 import Link from "next/link";
 import { Skeleton } from "shared/Skeleton";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 type AvatarSize = "small" | "medium" | "large" | "extraLarge";
 
-interface AvatarProps extends ComponentPropsWithoutRef<"button"> {
+interface AvatarProps {
   src: string;
+  onClick?: () => void;
   screenName?: string;
   size?: AvatarSize;
   loading?: boolean;
@@ -17,6 +17,7 @@ interface AvatarProps extends ComponentPropsWithoutRef<"button"> {
 
 export const Avatar = ({
   src,
+  onClick,
   screenName,
   size = "medium",
   loading = false,
@@ -24,6 +25,7 @@ export const Avatar = ({
   ...props
 }: AvatarProps) => {
   const avatarSize = determineSize(size);
+  const href = screenName && `/${screenName}`;
 
   if (loading) {
     return <Skeleton height={avatarSize} width={avatarSize} variant="circular" />;
@@ -31,18 +33,29 @@ export const Avatar = ({
 
   const AvatarComponent = () => {
     return (
-      <AvatarButton disabled={disableFocus} tabIndex={disableFocus ? -1 : 0} {...props}>
-        <StyledAvatar size={avatarSize} src={src} />
-      </AvatarButton>
+      <AvatarWrapper size={avatarSize}>
+        <img src={src} alt={screenName ?? ""} />
+      </AvatarWrapper>
     );
   };
 
-  return screenName ? (
-    <StyledLink href={`/${screenName}`} tabIndex={-1}>
+  if (href) {
+    return (
+      <StyledLink href={href} onClick={onClick} tabIndex={disableFocus ? -1 : 0} {...props}>
+        <AvatarComponent />
+      </StyledLink>
+    );
+  }
+
+  return (
+    <AvatarButton
+      onClick={onClick}
+      disabled={disableFocus}
+      tabIndex={disableFocus ? -1 : 0}
+      {...props}
+    >
       <AvatarComponent />
-    </StyledLink>
-  ) : (
-    <AvatarComponent />
+    </AvatarButton>
   );
 };
 
@@ -62,25 +75,9 @@ const determineSize = (size: AvatarSize) => {
   return 40;
 };
 
-const StyledLink = styled(Link)`
-  -webkit-user-drag: none;
-  border-radius: 50%;
-`;
-
-const AvatarButton = styled.button`
+const sharedStyles = css`
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: transparent;
   border-radius: 50%;
-  outline: none;
-  border: none;
-  cursor: pointer;
-
-  &:disabled {
-    pointer-events: none;
-  }
 
   &::after {
     content: "";
@@ -104,17 +101,38 @@ const AvatarButton = styled.button`
   }
 `;
 
-const StyledAvatar = styled(MuiAvatar)<{ size: number }>`
-  &&& {
-    position: relative;
-    width: ${({ size }) => `${size}px`};
-    height: ${({ size }) => `${size}px`};
-    cursor: pointer;
-    transition: 0.2s;
+const StyledLink = styled(Link)`
+  -webkit-user-drag: none;
+  ${sharedStyles};
+`;
 
-    & > img {
-      user-select: none;
-      -webkit-user-drag: none;
-    }
+const AvatarButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  ${sharedStyles};
+
+  &:disabled {
+    pointer-events: none;
+  }
+`;
+
+const AvatarWrapper = styled.div<{ size: number }>`
+  position: relative;
+  width: ${({ size }) => `${size}px`};
+  height: ${({ size }) => `${size}px`};
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.2s;
+
+  & > img {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    border-radius: inherit;
+    object-fit: cover;
+    user-select: none;
+    -webkit-user-drag: none;
   }
 `;
