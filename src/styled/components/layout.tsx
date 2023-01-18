@@ -86,6 +86,7 @@ const Feed = styled.div`
   flex-direction: column;
   max-width: 600px;
   width: 100%;
+  padding-bottom: 30px;
 
   @media ${({ theme }) => theme.breakpoints.sm} {
     border-left: 1px solid ${({ theme }) => theme.border};

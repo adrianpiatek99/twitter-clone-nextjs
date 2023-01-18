@@ -36,6 +36,7 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 0 16px;
   margin: 0 auto;
+  z-index: 100;
 `;
 
 const StartIcon = styled.div`
