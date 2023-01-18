@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useMutation } from "@tanstack/react-query";
 import { Button, Input, InputType } from "components/core";
 import { useToasts } from "hooks/useToasts";
 import { signUp } from "network/auth/signUp";
@@ -41,22 +42,24 @@ export const DefaultSignUpForm = ({ handleChangeTab }: DefaultSignUpFormProps) =
   });
   const { handleAddToast } = useToasts();
   const dispatch = useAppDispatch();
-  const [isLoading, setIsLoading] = useState(false);
-
-  const onSubmit: SubmitHandler<SignUpValues> = async data => {
-    try {
-      setIsLoading(true);
+  const signUpMutation = useMutation({
+    mutationFn: signUp,
+    onMutate: () => {
       dispatch(setDefaultPageFormLoading(true));
-
-      await signUp(data);
-
+    },
+    onError: (error: any) => {
+      handleAddToast("error", error?.response?.data);
+    },
+    onSuccess: () => {
       handleChangeTab("sign in");
-    } catch (error: any) {
-      handleAddToast("error", error?.response?.data?.message);
-    } finally {
-      setIsLoading(false);
+    },
+    onSettled: () => {
       dispatch(setDefaultPageFormLoading(false));
     }
+  });
+
+  const onSubmit: SubmitHandler<SignUpValues> = async data => {
+    signUpMutation.mutate(data);
   };
 
   return (
@@ -67,11 +70,11 @@ export const DefaultSignUpForm = ({ handleChangeTab }: DefaultSignUpFormProps) =
           {...register(name)}
           value={watch(name)}
           error={errors[name]?.message}
-          loading={isLoading}
+          loading={signUpMutation.isLoading}
           {...props}
         />
       ))}
-      <Button type="submit" loading={isLoading}>
+      <Button type="submit" loading={signUpMutation.isLoading}>
         Sign Up
       </Button>
     </Form>
