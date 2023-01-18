@@ -67,33 +67,40 @@ model User {
   accounts         Account[]
   sessions         Session[]
   tweets           Tweet[]
-  TweetComment     TweetComment[]
+  tweetComments    TweetComment[]
+  likes            Like[]
 }
 
 model Tweet {
-  id             String         @id @default(cuid())
-  text           String
-  user           User           @relation(fields: [userId], references: [id])
-  userId         String
-  imageUrls      String[]
-  hashtags       String[]
-  favourite      String[]
-  favouriteCount Int            @default(0)
-  replyCount     Int            @default(0)
-  retweetCount   Int            @default(0)
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
-  tweetComments  TweetComment[]
+  id            String         @id @default(cuid())
+  text          String
+  author        User           @relation(fields: [authorId], references: [id])
+  authorId      String
+  imageUrls     String[]
+  hashtags      String[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  tweetComments TweetComment[]
+  likes         Like[]
+}
+
+model Like {
+  id      String @id @default(cuid())
+  tweet   Tweet  @relation(fields: [tweetId], references: [id])
+  tweetId String
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String
+
+  @@unique([tweetId, userId])
 }
 
 model TweetComment {
-  id             String   @id @default(cuid())
-  user           User     @relation(fields: [userId], references: [id])
-  userId         String
-  tweet          Tweet    @relation(fields: [tweetId], references: [id])
-  tweetId        String
-  message        String
-  favouriteCount String[]
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  tweet     Tweet    @relation(fields: [tweetId], references: [id])
+  tweetId   String
+  message   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

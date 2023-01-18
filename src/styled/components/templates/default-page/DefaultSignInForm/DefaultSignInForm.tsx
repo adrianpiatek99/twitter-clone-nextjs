@@ -6,11 +6,10 @@ import { Button, Input, InputType } from "components/core";
 import { useToasts } from "hooks/useToasts";
 import { signIn } from "network/auth/signIn";
 import { useRouter } from "next/router";
+import { signInSchema, SignInValues } from "schema/authSchema";
 import { setDefaultPageFormLoading } from "store/slices/pagesSlice";
 import { useAppDispatch } from "store/store";
 import styled from "styled-components";
-
-import { signInSchema, SignInValues } from "../defaultValidator";
 
 type InputData = {
   name: keyof SignInValues;

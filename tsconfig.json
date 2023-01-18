@@ -34,6 +34,9 @@
       "icons/*": [
         "src/icons/*"
       ],
+      "schema/*": [
+        "src/schema/*"
+      ],
       "store/*": [
         "src/store/*"
       ],

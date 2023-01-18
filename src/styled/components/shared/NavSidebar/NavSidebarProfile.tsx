@@ -44,7 +44,7 @@ export const NavSidebarProfile = () => {
     <Wrapper>
       <Content onClick={() => setIsMenuModalOpen(true)}>
         <Column>
-          <Avatar src={profileImageUrl} disableFocus />
+          <Avatar src={profileImageUrl} screenName={screenName} disableFocus />
         </Column>
         <Column>
           <UserName>{name}</UserName>

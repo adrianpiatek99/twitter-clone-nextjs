@@ -7,53 +7,51 @@ export type SignUpRequest = Pick<User, "screenName" | "name" | "email" | "passwo
   repeatPassword: string;
 };
 
-export type SignUpResponse = {
-  user?: Omit<User, "password">;
-  message?: string;
-};
+export type SignUpResponse = Omit<User, "password"> | string;
 
 export const signUpPath = "/api/auth/signUp";
 
 const handler: NextApiHandler<SignUpResponse> = async (req, res) => {
-  const { method, body } = req;
-  const reqBody = body as SignUpRequest;
+  const { method } = req;
+  const body = req.body as SignUpRequest;
 
-  switch (method) {
-    case "POST":
-      {
-        try {
-          const { screenName, name, email, password, repeatPassword } = reqBody;
+  if (method === "POST") {
+    const { screenName, name, email, password, repeatPassword } = body;
+    const emailWithLowerCase = email.toLowerCase();
 
-          const existingEmail = await prisma.user.findUnique({ where: { email } });
-          const existingScreenName = await prisma.user.findUnique({ where: { screenName } });
+    const existingEmail = await prisma.user.findUnique({
+      where: { email: emailWithLowerCase }
+    });
+    const existingScreenName = await prisma.user.findUnique({
+      where: { screenName: screenName.toLowerCase() }
+    });
 
-          if (existingScreenName) {
-            return res.status(404).json({ message: "Screen name is already in use." });
-          }
+    if (existingScreenName) {
+      return res.status(404).send("Screen name is already in use.");
+    }
 
-          if (existingEmail || password !== repeatPassword) {
-            return res.status(404).json({ message: "We cannot create account. Try again." });
-          }
+    if (existingEmail || password !== repeatPassword) {
+      return res.status(404).send("We cannot create account. Try again.");
+    }
 
-          const createdUser = await prisma.user.create({
-            data: {
-              screenName,
-              name,
-              email,
-              password: await hashSync(password, 12)
-            }
-          });
-          const userWithoutPassword = exclude(createdUser, ["password"]);
-
-          res.status(201).json({ user: userWithoutPassword });
-        } catch (error) {
-          res.status(400).json({ message: (error as any).message });
-        }
+    const createdUser = await prisma.user.create({
+      data: {
+        screenName,
+        name,
+        email: emailWithLowerCase,
+        password: await hashSync(password, 12)
       }
-      break;
-    default:
-      res.status(500);
-      break;
+    });
+
+    if (!createdUser) {
+      return res.status(404).send("Failed to create new user.");
+    }
+
+    const userWithoutPassword = exclude(createdUser, ["password"]);
+
+    res.status(201).json(userWithoutPassword);
+  } else {
+    res.status(500);
   }
 };
 
