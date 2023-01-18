@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const TWEET_MAX_LENGTH = 250;
+export const TWEET_MAX_LENGTH = 280;
 
 export type TweetValues = {
   text: string;

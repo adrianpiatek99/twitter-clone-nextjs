@@ -3,6 +3,7 @@ import React from "react";
 import { Button, IconButton } from "components/core";
 import EmojiSmileIcon from "icons/EmojiSmileIcon";
 import MediaIcon from "icons/MediaIcon";
+import { TWEET_MAX_LENGTH } from "schema/tweetSchema";
 import styled from "styled-components";
 
 interface HomeCreateTweetToolbarProps {
@@ -29,7 +30,11 @@ export const HomeCreateTweetToolbar = ({
         </IconButton>
       </ToolbarLeftColumn>
       <ToolbarRightColumn>
-        {!isDisabled && <TweetLength>{tweetLength} / 250</TweetLength>}
+        {!isDisabled && (
+          <TweetLength>
+            {tweetLength} / {TWEET_MAX_LENGTH}
+          </TweetLength>
+        )}
         <Button disabled={isDisabled} onClick={onSubmit} loading={loading}>
           Tweet
         </Button>

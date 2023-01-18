@@ -2,12 +2,12 @@ import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Textarea } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
 import { useToasts } from "hooks/useToasts";
 import { createTweet } from "network/tweet/createTweet";
-import { tweetSchema, TweetValues } from "schema/tweetSchema";
+import { TWEET_MAX_LENGTH, tweetSchema, TweetValues } from "schema/tweetSchema";
 import { Avatar } from "shared/Avatar";
 import styled from "styled-components";
 
@@ -29,9 +29,11 @@ export const HomeCreateTweetForm = () => {
   });
   const { handleAddToast } = useToasts();
   const tweetValue = watch("text");
+  const queryClient = useQueryClient();
   const createTweetMutation = useMutation({
     mutationFn: createTweet,
     onSuccess: () => {
+      queryClient.invalidateQueries(["tweets"]);
       handleAddToast("success", "Tweet was created.");
     },
     onError: (error: any) => {
@@ -52,7 +54,12 @@ export const HomeCreateTweetForm = () => {
         <Avatar src={profileImageUrl} screenName={screenName} size="large" />
       </LeftColumn>
       <RightColumn>
-        <Textarea value={tweetValue} placeholder="What's happening?" {...register("text")} />
+        <Textarea
+          value={tweetValue}
+          placeholder="What's happening?"
+          maxLength={TWEET_MAX_LENGTH}
+          {...register("text")}
+        />
         <HomeCreateTweetToolbar
           tweetLength={tweetValue?.length ?? 0}
           onSubmit={handleSubmit(handleCreateTweet)}
@@ -75,7 +82,6 @@ const Wrapper = styled.div`
 const LeftColumn = styled.div`
   display: flex;
   flex-direction: column;
-  width
 `;
 
 const RightColumn = styled.div`
