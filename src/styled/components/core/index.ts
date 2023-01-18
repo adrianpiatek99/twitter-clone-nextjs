@@ -7,3 +7,4 @@ export { Modal } from "./Modal";
 export { ConfirmModal } from "./ConfirmModal";
 export { MenuModal, MenuModalItem } from "./MenuModal";
 export { Textarea } from "./Textarea";
+export { Text } from "./Text";
