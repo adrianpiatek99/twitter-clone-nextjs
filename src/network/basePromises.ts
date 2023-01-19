@@ -5,12 +5,8 @@ interface Response {
 }
 
 const getErrorMessage = (error: any): string => {
-  if (error?.response?.status === 500) {
-    return "Internal Server Error";
-  }
-
-  if (typeof error?.response?.data === "string") {
-    return error.response.data;
+  if (error?.response?.data?.error) {
+    return error.response.data.error;
   }
 
   return error?.message;

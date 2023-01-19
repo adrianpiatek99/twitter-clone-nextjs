@@ -8,13 +8,13 @@ export type CreateTweetResponse = Tweet;
 
 export const createTweetPath = "/api/tweet/createTweet";
 
-const handler: NextApiHandler<CreateTweetResponse | string> = async (req, res) => {
+const handler: NextApiHandler<CreateTweetResponse | NextApiError> = async (req, res) => {
   const session = await getSession({ req });
   const { method } = req;
   const body = req.body as CreateTweetRequest;
 
   if (!session) {
-    return res.status(401).send("You are not authorized.");
+    return res.status(401).send({ error: "You are not authorized." });
   }
 
   if (method === "POST") {
@@ -23,7 +23,7 @@ const handler: NextApiHandler<CreateTweetResponse | string> = async (req, res) =
     const userId = session.user.id;
 
     if (!textTrim || textTrim.length === 0) {
-      return res.status(403).send("Tweet text is required.");
+      return res.status(403).send({ error: "Tweet text is required." });
     }
 
     const tweet = await prisma.tweet.create({
@@ -40,7 +40,7 @@ const handler: NextApiHandler<CreateTweetResponse | string> = async (req, res) =
 
     res.status(201).json(tweet);
   } else {
-    res.status(405);
+    res.status(400).send({ error: "Bad request." });
   }
 };
 
