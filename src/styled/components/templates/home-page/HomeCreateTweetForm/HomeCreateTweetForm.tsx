@@ -37,7 +37,7 @@ export const HomeCreateTweetForm = () => {
       handleAddToast("success", "Tweet was created.");
     },
     onError: (error: any) => {
-      handleAddToast("error", error?.response?.message);
+      handleAddToast("error", error?.message);
     },
     onSettled: () => {
       reset();

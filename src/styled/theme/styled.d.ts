@@ -2,20 +2,22 @@ import "styled-components";
 
 declare module "styled-components" {
   export interface DefaultTheme {
-    logo: string;
-    primary05: string;
-    neutral00: string;
-    neutral20: string;
-    neutral40: string;
-    neutral100: string;
-    darker10: string;
     background: string;
     background2: string;
     background3: string;
-    darkGray: string;
     border: string;
     border2: string;
     border3: string;
+    primary05: string;
+    white: string;
+    neutral50: string;
+    neutral100: string;
+    neutral150: string;
+    neutral300: string;
+    dark150: string;
+    gray500: string;
+    pink400: string;
+    emerald400: string;
     error20: string;
     error40: string;
     fontFamily: {

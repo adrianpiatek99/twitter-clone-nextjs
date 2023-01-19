@@ -29,7 +29,7 @@ const Heading = styled.div`
 
 const Title = styled.h2`
   ${({ theme }) => theme.text.l}
-  color: ${({ theme }) => theme.neutral40};
+  color: ${({ theme }) => theme.neutral100};
 
   @media ${({ theme }) => theme.breakpoints.sm} {
     ${({ theme }) => theme.heading.xs}
@@ -37,6 +37,6 @@ const Title = styled.h2`
 `;
 
 const Subtitle = styled.span`
-  color: ${({ theme }) => theme.neutral100};
+  color: ${({ theme }) => theme.neutral300};
   ${({ theme }) => theme.text.xs};
 `;

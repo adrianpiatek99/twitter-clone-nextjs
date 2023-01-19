@@ -93,7 +93,7 @@ const Container = styled.div<{ $loading: boolean }>`
 const StyledLabel = styled.label<{ isFilled: boolean; error: boolean }>`
   position: absolute;
   inset: 0;
-  color: ${({ theme }) => theme.neutral100};
+  color: ${({ theme }) => theme.neutral300};
   border: 1px solid ${({ theme }) => theme.border};
   padding-left: 8px;
   border-radius: 4px;
@@ -124,7 +124,7 @@ const StyledInput = styled.input<{ error: boolean; iconsCount: number }>`
   width: 100%;
   height: 100%;
   overflow-wrap: break-word;
-  color: ${({ theme }) => theme.neutral00};
+  color: ${({ theme }) => theme.white};
   outline: none;
   padding-right: ${({ iconsCount }) => `calc(46px * ${iconsCount})`};
 

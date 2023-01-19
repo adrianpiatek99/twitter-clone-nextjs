@@ -48,7 +48,7 @@ export const DefaultSignUpForm = ({ handleChangeTab }: DefaultSignUpFormProps) =
       dispatch(setDefaultPageFormLoading(true));
     },
     onError: (error: any) => {
-      handleAddToast("error", error?.response?.data);
+      handleAddToast("error", error?.message);
     },
     onSuccess: () => {
       handleChangeTab("sign in");

@@ -2,7 +2,7 @@ import { StyledCssReturn } from "styled/theme";
 import { css } from "styled-components";
 import { hexToRGBA } from "utils/colors";
 
-export type IconButtonColor = "primary" | "secondary" | "error" | string;
+export type IconButtonColor = "primary" | "secondary" | "error" | "white" | string;
 export type IconButtonSize = "small" | "medium" | "large";
 
 const small = css`
@@ -26,31 +26,39 @@ const large = css`
   }
 `;
 
-export const getIconButtonColor = (color: string) => {
+export const getIconButtonColor = (color: [string, string]) => {
   return css`
     @media ${({ theme }) => theme.breakpoints.sm} {
       &:hover:not(:disabled) {
-        background-color: ${hexToRGBA(color, 0.1)};
+        background-color: transparent;
       }
     }
 
-    color: ${hexToRGBA(color, 0.5)};
+    color: ${hexToRGBA(color[0], 0.5)};
 
     & > svg {
-      color: ${color};
+      color: ${color[0]};
     }
 
     &:disabled {
       opacity: 0.5;
     }
 
+    &:hover:not(:disabled),
+    &:focus-visible {
+      background-color: ${hexToRGBA(color[1], 0.1)};
+
+      & > svg {
+        color: ${color[1]};
+      }
+    }
+
     &:active:not(:disabled) {
-      background-color: ${hexToRGBA(color, 0.2)};
+      background-color: ${hexToRGBA(color[1], 0.2)};
     }
 
     &:focus-visible {
-      background-color: ${hexToRGBA(color, 0.08)};
-      box-shadow: ${color} 0px 0px 0px 2px;
+      box-shadow: ${hexToRGBA(color[1], 0.85)} 0px 0px 0px 2px;
     }
   `;
 };

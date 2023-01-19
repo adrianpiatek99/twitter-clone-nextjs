@@ -16,7 +16,7 @@ export const NavSidebarItem: FC<NavSidebarItemProps> = ({
   icon: Icon,
   activeIcon: ActiveIcon
 }) => {
-  const { neutral20 } = useTheme();
+  const { neutral50 } = useTheme();
 
   const CorrectIcon = () => {
     return active ? <ActiveIcon /> : <Icon />;
@@ -24,7 +24,7 @@ export const NavSidebarItem: FC<NavSidebarItemProps> = ({
 
   return (
     <li>
-      <NavIconButton title={text} color={neutral20} href={href}>
+      <NavIconButton title={text} color={neutral50} href={href}>
         <CorrectIcon />
       </NavIconButton>
       <NavSidebarButtonLink

@@ -53,7 +53,7 @@ type SharedProps = {
 };
 
 const StyledLink = styled(Link)<SharedProps>`
-  color: ${({ theme, color }) => (color === "secondary" ? theme.neutral100 : theme.neutral20)};
+  color: ${({ theme, color }) => (color === "secondary" ? theme.neutral300 : theme.neutral50)};
   font-weight: ${({ weight }) => weight};
   ${({ theme, size }) => theme.text[size]};
 

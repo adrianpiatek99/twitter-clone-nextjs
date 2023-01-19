@@ -5,7 +5,7 @@ export type LogoColor = "primary" | "secondary";
 export type LogoSize = "xs" | "s" | "m" | "l" | "xl" | "xxl";
 
 const primary = css`
-  color: ${({ theme }) => theme.logo};
+  color: ${({ theme }) => theme.neutral150};
 `;
 
 const secondary = css`

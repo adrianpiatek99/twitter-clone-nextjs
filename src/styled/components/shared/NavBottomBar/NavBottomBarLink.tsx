@@ -17,7 +17,7 @@ export const NavBottomBarLink = ({
   activeIcon: ActiveIcon
 }: NavBottomBarLinkProps) => {
   return (
-    <TabIconButton aria-label={text} color="secondary" href={href} disableFocus={active}>
+    <TabIconButton aria-label={text} color="white" href={href} disableFocus={active}>
       {active ? <ActiveIcon /> : <Icon />}
     </TabIconButton>
   );

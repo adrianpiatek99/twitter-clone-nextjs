@@ -96,7 +96,7 @@ const ProfileName = styled.span`
 
 const ProfileScreenName = styled.div`
   vertical-align: middle;
-  color: ${({ theme }) => theme.neutral100};
+  color: ${({ theme }) => theme.neutral300};
 `;
 
 const FollowsRow = styled.div`
@@ -110,7 +110,7 @@ const FollowLink = styled(Link)`
   ${({ theme }) => theme.text.s};
 
   & > span:last-of-type {
-    color: ${({ theme }) => theme.neutral100};
+    color: ${({ theme }) => theme.neutral300};
   }
 `;
 

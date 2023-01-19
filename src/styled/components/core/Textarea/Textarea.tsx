@@ -65,7 +65,7 @@ const StyledTextarea = styled.textarea`
   padding: 2px 0;
   resize: none;
   background-color: ${({ theme }) => theme.background};
-  color: ${({ theme }) => theme.neutral20};
+  color: ${({ theme }) => theme.neutral50};
   ${({ theme }) => theme.text.xl};
 
   &::placeholder {

@@ -49,7 +49,7 @@ export const DefaultSignInForm = () => {
 
       replace("/home");
     } catch (error: any) {
-      handleAddToast("error", error.message);
+      handleAddToast("error", error?.message);
     } finally {
       setIsLoading(false);
       dispatch(setDefaultPageFormLoading(false));

@@ -65,6 +65,6 @@ const ToolbarRightColumn = styled.div`
 `;
 
 const TweetLength = styled.span`
-  color: ${({ theme }) => theme.neutral100};
+  color: ${({ theme }) => theme.neutral300};
   ${({ theme }) => theme.text.s}
 `;

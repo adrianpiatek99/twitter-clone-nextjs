@@ -23,7 +23,7 @@ export const ModalHeader = ({
 }: ModalHeaderProps) => {
   return (
     <Wrapper>
-      <IconButton title="Close" color="secondary" onClick={onClose}>
+      <IconButton title="Close" color="white" onClick={onClose}>
         <CloseIcon />
       </IconButton>
       {title && <HeaderTitle>{title}</HeaderTitle>}

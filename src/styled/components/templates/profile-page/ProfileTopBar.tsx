@@ -11,7 +11,7 @@ export const ProfileTopBar = () => {
   return (
     <TopBar
       startIcon={
-        <IconButton title="Back" onClick={() => back()} color="secondary">
+        <IconButton title="Back" onClick={() => back()} color="white">
           <BackIcon />
         </IconButton>
       }

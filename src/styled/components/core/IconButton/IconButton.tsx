@@ -36,16 +36,18 @@ export const IconButton: FC<IconButtonProps> = forwardRef(
     },
     ref: Ref<HTMLButtonElement>
   ) => {
-    const { primary05, neutral00, error40 } = useTheme();
+    const { primary05, white, neutral300, error40 } = useTheme();
 
-    const specificColor = useMemo(() => {
-      if (isError) return error40;
+    const specificColor = useMemo((): [string, string] => {
+      if (isError) return [error40, error40];
 
-      if (color === "primary") return primary05;
+      if (color === "primary") return [primary05, primary05];
 
-      if (color === "secondary") return neutral00;
+      if (color === "secondary") return [neutral300, primary05];
 
-      return color;
+      if (color === "white") return [white, white];
+
+      return [neutral300, color];
     }, [isError, color]);
 
     const sharedProps = {
@@ -91,14 +93,16 @@ const sharedStyles = css`
   }
 `;
 
-const StyledLink = styled(Link)<IconButtonProps & { $color: string }>`
+const StyledLink = styled(Link)<IconButtonProps & { $color: [string, string] }>`
   ${sharedStyles}
 
   ${({ $color }) => getIconButtonColor($color)};
   ${({ size }) => iconButtonSizeVariants[size || "medium"]};
 `;
 
-const IconButtonElement = styled.button<IconButtonProps & { $color: string; $isError: boolean }>`
+const IconButtonElement = styled.button<
+  IconButtonProps & { $color: [string, string]; $isError: boolean }
+>`
   ${sharedStyles}
 
   ${({ $color }) => getIconButtonColor($color)};

@@ -122,5 +122,5 @@ const Heading = styled.h2`
 `;
 
 const Text = styled.span`
-  color: ${({ theme }) => theme.neutral100};
+  color: ${({ theme }) => theme.neutral300};
 `;

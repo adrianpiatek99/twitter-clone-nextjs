@@ -17,7 +17,7 @@ export const HomeTopBar = () => {
   return (
     <TopBar
       endIcon={
-        <IconButton title="Sort tweets" color="secondary" size="large">
+        <IconButton title="Sort tweets" color="white" size="large">
           <SparklesIcon />
         </IconButton>
       }

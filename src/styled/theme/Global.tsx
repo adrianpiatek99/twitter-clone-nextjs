@@ -11,7 +11,7 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     background-color: ${({ theme }) => theme.background};
-    color: ${({ theme }) => theme.neutral20};
+    color: ${({ theme }) => theme.neutral50};
     font-family: ${({ theme }) => theme.fontFamily.primary};
     ${({ theme }) => theme.text.m};
     overflow-y: scroll;
@@ -68,8 +68,8 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   .MuiTooltip-tooltip {
-    background-color: ${({ theme }) => theme.darkGray};
-    color: ${({ theme }) => theme.neutral20};
+    background-color: ${({ theme }) => theme.gray500};
+    color: ${({ theme }) => theme.neutral50};
     line-height: 11px;
     font-size: 11px;
     padding: 5px 7px;

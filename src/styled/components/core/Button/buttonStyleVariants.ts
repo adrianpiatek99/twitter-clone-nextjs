@@ -11,7 +11,7 @@ type ButtonColorCss = Record<ButtonColor, StyledCssReturn>;
 const contained: ButtonColorCss = {
   primary: css`
     background-color: ${({ theme }) => theme.primary05};
-    color: ${({ theme }) => theme.neutral20};
+    color: ${({ theme }) => theme.neutral50};
 
     &:hover:not(:disabled),
     &:focus-visible {
@@ -27,25 +27,25 @@ const contained: ButtonColorCss = {
     }
   `,
   secondary: css`
-    background-color: ${({ theme }) => theme.neutral20};
-    color: ${({ theme }) => theme.darker10};
+    background-color: ${({ theme }) => theme.neutral50};
+    color: ${({ theme }) => theme.dark150};
 
     &:hover:not(:disabled),
     &:focus-visible {
-      background-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.85)};
+      background-color: ${({ theme }) => hexToRGBA(theme.neutral50, 0.85)};
     }
 
     &:active:not(:disabled) {
-      background-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.75)};
+      background-color: ${({ theme }) => hexToRGBA(theme.neutral50, 0.75)};
     }
 
     &:focus-visible {
-      box-shadow: ${({ theme }) => `${theme.neutral20} 0px 0px 0px 2px`};
+      box-shadow: ${({ theme }) => `${theme.neutral50} 0px 0px 0px 2px`};
     }
   `,
   danger: css`
     background-color: ${({ theme }) => theme.error20};
-    color: ${({ theme }) => theme.neutral20};
+    color: ${({ theme }) => theme.neutral50};
 
     &:hover:not(:disabled),
     &:focus-visible {
@@ -64,7 +64,7 @@ const contained: ButtonColorCss = {
 
 const outlined: ButtonColorCss = {
   primary: css`
-    color: ${({ theme }) => theme.neutral20};
+    color: ${({ theme }) => theme.neutral50};
     border: 1px solid ${({ theme }) => hexToRGBA(theme.primary05, 0.65)};
 
     &:hover:not(:disabled),
@@ -81,20 +81,20 @@ const outlined: ButtonColorCss = {
     }
   `,
   secondary: css`
-    color: ${({ theme }) => theme.neutral20};
-    border: 1px solid ${({ theme }) => hexToRGBA(theme.neutral20, 0.65)};
+    color: ${({ theme }) => theme.neutral50};
+    border: 1px solid ${({ theme }) => hexToRGBA(theme.neutral50, 0.65)};
 
     &:hover:not(:disabled),
     &:focus-visible {
-      background-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.1)};
+      background-color: ${({ theme }) => hexToRGBA(theme.neutral50, 0.1)};
     }
 
     &:active:not(:disabled) {
-      background-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.15)};
+      background-color: ${({ theme }) => hexToRGBA(theme.neutral50, 0.15)};
     }
 
     &:focus-visible {
-      box-shadow: ${({ theme }) => `${theme.neutral20} 0px 0px 0px 2px`};
+      box-shadow: ${({ theme }) => `${theme.neutral50} 0px 0px 0px 2px`};
     }
   `,
   danger: css`
@@ -135,15 +135,15 @@ const text: ButtonColorCss = {
   `,
   secondary: css`
     border-radius: 0px;
-    color: ${({ theme }) => theme.neutral20};
+    color: ${({ theme }) => theme.neutral50};
 
     &:hover:not(:disabled),
     &:focus-visible {
-      background-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.1)};
+      background-color: ${({ theme }) => hexToRGBA(theme.neutral50, 0.1)};
     }
 
     &:active:not(:disabled) {
-      background-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.15)};
+      background-color: ${({ theme }) => hexToRGBA(theme.neutral50, 0.15)};
     }
 
     &:focus-visible {
