@@ -4,11 +4,11 @@ import { getSession } from "next-auth/react";
 import { prisma } from "prisma/prisma";
 
 export type CreateTweetRequest = Pick<Tweet, "text" | "imageUrls">;
-export type CreateTweetResponse = Tweet | string;
+export type CreateTweetResponse = Tweet;
 
 export const createTweetPath = "/api/tweet/createTweet";
 
-const handler: NextApiHandler<CreateTweetResponse> = async (req, res) => {
+const handler: NextApiHandler<CreateTweetResponse | string> = async (req, res) => {
   const session = await getSession({ req });
   const { method } = req;
   const body = req.body as CreateTweetRequest;

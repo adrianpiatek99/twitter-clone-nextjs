@@ -7,11 +7,11 @@ export type SignUpRequest = Pick<User, "screenName" | "name" | "email" | "passwo
   repeatPassword: string;
 };
 
-export type SignUpResponse = Omit<User, "password"> | string;
+export type SignUpResponse = Omit<User, "password">;
 
 export const signUpPath = "/api/auth/signUp";
 
-const handler: NextApiHandler<SignUpResponse> = async (req, res) => {
+const handler: NextApiHandler<SignUpResponse | string> = async (req, res) => {
   const { method } = req;
   const body = req.body as SignUpRequest;
 
