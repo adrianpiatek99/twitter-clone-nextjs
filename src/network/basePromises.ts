@@ -50,7 +50,7 @@ export async function postPromise<TPayload, TResponse>(
 }
 
 export async function emptyPostPromise<TPayload>(url: string, payload: TPayload) {
-  return axios.post(url, payload).catch(handleError).catch(handleError);
+  return axios.post(url, payload).catch(handleError);
 }
 
 export async function patchPromise<TPayload, TResponse>(url: string, payload: TPayload) {
