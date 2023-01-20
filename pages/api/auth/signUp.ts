@@ -7,11 +7,11 @@ export type SignUpRequest = Pick<User, "screenName" | "name" | "email" | "passwo
   repeatPassword: string;
 };
 
-export type SignUpResponse = Omit<User, "password"> | string;
+export type SignUpResponse = Omit<User, "password">;
 
 export const signUpPath = "/api/auth/signUp";
 
-const handler: NextApiHandler<SignUpResponse> = async (req, res) => {
+const handler: NextApiHandler<SignUpResponse | NextApiError> = async (req, res) => {
   const { method } = req;
   const body = req.body as SignUpRequest;
 
@@ -27,11 +27,11 @@ const handler: NextApiHandler<SignUpResponse> = async (req, res) => {
     });
 
     if (existingScreenName) {
-      return res.status(404).send("Screen name is already in use.");
+      return res.status(404).send({ error: "Screen name is already in use." });
     }
 
     if (existingEmail || password !== repeatPassword) {
-      return res.status(404).send("We cannot create account. Try again.");
+      return res.status(404).send({ error: "We cannot create account. Try again." });
     }
 
     const createdUser = await prisma.user.create({
@@ -44,14 +44,14 @@ const handler: NextApiHandler<SignUpResponse> = async (req, res) => {
     });
 
     if (!createdUser) {
-      return res.status(404).send("Failed to create new user.");
+      return res.status(404).send({ error: "Failed to create new user." });
     }
 
     const userWithoutPassword = exclude(createdUser, ["password"]);
 
     res.status(201).json(userWithoutPassword);
   } else {
-    res.status(500);
+    res.status(400).send({ error: "Bad request." });
   }
 };
 

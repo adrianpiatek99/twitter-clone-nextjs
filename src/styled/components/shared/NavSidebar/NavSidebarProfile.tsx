@@ -44,7 +44,7 @@ export const NavSidebarProfile = () => {
     <Wrapper>
       <Content onClick={() => setIsMenuModalOpen(true)}>
         <Column>
-          <Avatar src={profileImageUrl} screenName={screenName} disableFocus />
+          <Avatar src={profileImageUrl} disableFocus />
         </Column>
         <Column>
           <UserName>{name}</UserName>
@@ -79,17 +79,17 @@ const Content = styled.button`
   padding: 12px;
   width: 100%;
   text-align: left;
-  color: ${({ theme }) => theme.neutral20};
+  color: ${({ theme }) => theme.neutral50};
   cursor: pointer;
   transition: 0.2s;
 
   &:hover:not(:disabled),
   &:focus-visible {
-    background-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.1)};
+    background-color: ${({ theme }) => hexToRGBA(theme.neutral50, 0.1)};
   }
 
   &:active:not(:disabled) {
-    background-color: ${({ theme }) => hexToRGBA(theme.neutral20, 0.15)};
+    background-color: ${({ theme }) => hexToRGBA(theme.neutral50, 0.15)};
   }
 
   &:focus-visible {
@@ -137,5 +137,5 @@ const UserName = styled.span`
 `;
 
 const UserScreenName = styled.span`
-  color: ${({ theme }) => theme.neutral100};
+  color: ${({ theme }) => theme.neutral300};
 `;

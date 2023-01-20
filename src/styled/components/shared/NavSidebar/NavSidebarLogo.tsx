@@ -24,7 +24,7 @@ const LogoLink = styled(Link)`
   transition: 0.2s;
 
   & > svg {
-    fill: ${({ theme }) => theme.neutral20};
+    fill: ${({ theme }) => theme.neutral50};
     height: 28px;
     width: 28px;
   }

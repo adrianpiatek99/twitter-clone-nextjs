@@ -11,12 +11,12 @@ export const Tab = ({ ...props }: TabProps) => {
 
 const TabElement = styled(MuiTab)`
   &&& {
-    color: ${({ theme }) => theme.neutral100};
+    color: ${({ theme }) => theme.neutral300};
     text-transform: capitalize;
     ${({ theme }) => theme.text.m}
 
     &.Mui-selected {
-      color: ${({ theme }) => theme.neutral40};
+      color: ${({ theme }) => theme.neutral100};
     }
   }
 `;

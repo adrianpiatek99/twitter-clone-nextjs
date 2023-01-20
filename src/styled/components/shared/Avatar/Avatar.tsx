@@ -49,6 +49,7 @@ export const Avatar = ({
 
   return (
     <AvatarButton
+      as={onClick ? "button" : "div"}
       onClick={onClick}
       disabled={disableFocus}
       tabIndex={disableFocus ? -1 : 0}

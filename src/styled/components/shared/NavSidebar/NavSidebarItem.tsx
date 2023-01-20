@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 
-import { Button, IconButton } from "components/core";
-import styled, { useTheme } from "styled-components";
+import { ButtonLink, IconLinkButton } from "components/core";
+import styled from "styled-components";
 
 import { NavSidebarItemType } from "./navSidebarItemsHelper";
 
@@ -16,17 +16,15 @@ export const NavSidebarItem: FC<NavSidebarItemProps> = ({
   icon: Icon,
   activeIcon: ActiveIcon
 }) => {
-  const { neutral20 } = useTheme();
-
   const CorrectIcon = () => {
     return active ? <ActiveIcon /> : <Icon />;
   };
 
   return (
     <li>
-      <NavIconButton title={text} color={neutral20} href={href}>
+      <NavIconLink title={text} color="white" href={href}>
         <CorrectIcon />
-      </NavIconButton>
+      </NavIconLink>
       <NavSidebarButtonLink
         startIcon={<CorrectIcon />}
         color="secondary"
@@ -41,7 +39,7 @@ export const NavSidebarItem: FC<NavSidebarItemProps> = ({
   );
 };
 
-const NavSidebarButtonLink = styled(Button)`
+const NavSidebarButtonLink = styled(ButtonLink)`
   display: none;
 
   @media ${({ theme }) => theme.breakpoints.xl} {
@@ -60,7 +58,7 @@ const NavSidebarButtonLink = styled(Button)`
   }
 `;
 
-const NavIconButton = styled(IconButton)`
+const NavIconLink = styled(IconLinkButton)`
   padding: 12px;
   margin: 0 auto;
 

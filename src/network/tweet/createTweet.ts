@@ -1,6 +1,6 @@
 import { createTweetPath, CreateTweetRequest, CreateTweetResponse } from "api/tweet/createTweet";
-import axios from "axios";
+import { postPromise } from "network/basePromises";
 
-export const createTweet = async (payload: CreateTweetRequest) => {
-  return axios.post<CreateTweetRequest, CreateTweetResponse>(createTweetPath, payload);
-};
+export async function createTweet(payload: CreateTweetRequest) {
+  return postPromise<CreateTweetRequest, CreateTweetResponse>(createTweetPath, payload);
+}

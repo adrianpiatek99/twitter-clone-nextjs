@@ -40,7 +40,7 @@ export const Toast = ({ id, message, duration }: ToastProps) => {
       <Right>
         <CloseIconButton
           title="Close"
-          color="secondary"
+          color="white"
           onClick={() => handleRemoveToast(id)}
           disableFocus
         >
@@ -59,7 +59,7 @@ const ToastWrapper = styled(motion.div)`
   width: 100%;
   padding: 12px;
   background-color: ${({ theme }) => theme.primary05};
-  color: ${({ theme }) => theme.neutral00};
+  color: ${({ theme }) => theme.white};
   border-radius: 4px;
   pointer-events: all;
   box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.2);
