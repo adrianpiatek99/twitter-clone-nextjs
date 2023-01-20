@@ -1,5 +1,5 @@
-export { Button } from "./Button";
-export { IconButton } from "./IconButton";
+export { Button, ButtonLink } from "./Button";
+export { IconButton, IconLinkButton, IconButtonWithLabel } from "./IconButton";
 export { Input, type InputType } from "./Input";
 export { Loader } from "./Loader";
 export { LinearProgress } from "./LinearProgress";

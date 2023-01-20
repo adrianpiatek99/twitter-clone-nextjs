@@ -28,29 +28,18 @@ const large = css`
 
 export const getIconButtonColor = (color: [string, string]) => {
   return css`
+    color: ${color[0]};
+
     @media ${({ theme }) => theme.breakpoints.sm} {
       &:hover:not(:disabled) {
         background-color: transparent;
       }
     }
 
-    color: ${hexToRGBA(color[0], 0.5)};
-
-    & > svg {
-      color: ${color[0]};
-    }
-
-    &:disabled {
-      opacity: 0.5;
-    }
-
     &:hover:not(:disabled),
     &:focus-visible {
       background-color: ${hexToRGBA(color[1], 0.1)};
-
-      & > svg {
-        color: ${color[1]};
-      }
+      color: ${color[1]};
     }
 
     &:active:not(:disabled) {
