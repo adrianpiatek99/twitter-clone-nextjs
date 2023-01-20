@@ -1,6 +1,6 @@
 import React, { SVGProps } from "react";
-import { AiOutlineHeart } from "react-icons/ai";
+import { AiFillHeart } from "react-icons/ai";
 
-const HeartIcon = (props: SVGProps<SVGSVGElement>) => <AiOutlineHeart {...props} />;
+const HeartIcon = (props: SVGProps<SVGSVGElement>) => <AiFillHeart {...props} />;
 
 export default HeartIcon;
