@@ -64,8 +64,8 @@ const contained: ButtonColorCss = {
 
 const outlined: ButtonColorCss = {
   primary: css`
-    color: ${({ theme }) => theme.neutral50};
     border: 1px solid ${({ theme }) => hexToRGBA(theme.primary05, 0.65)};
+    color: ${({ theme }) => theme.neutral50};
 
     &:hover:not(:disabled),
     &:focus-visible {
@@ -81,8 +81,8 @@ const outlined: ButtonColorCss = {
     }
   `,
   secondary: css`
-    color: ${({ theme }) => theme.neutral50};
     border: 1px solid ${({ theme }) => hexToRGBA(theme.neutral50, 0.65)};
+    color: ${({ theme }) => theme.neutral50};
 
     &:hover:not(:disabled),
     &:focus-visible {
@@ -98,8 +98,8 @@ const outlined: ButtonColorCss = {
     }
   `,
   danger: css`
-    color: ${({ theme }) => theme.error20};
     border: 1px solid ${({ theme }) => hexToRGBA(theme.error20, 0.65)};
+    color: ${({ theme }) => theme.error20};
 
     &:hover:not(:disabled),
     &:focus-visible {

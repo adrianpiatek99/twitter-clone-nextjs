@@ -18,52 +18,68 @@ export const NavSidebar = () => {
   const { pathname, asPath } = useRouter();
 
   return (
-    <Wrapper>
-      <Inner>
-        <NavWrapper>
-          <NavSidebarLogo />
-          <NavList>
-            <NavSidebarItem
-              {...navSidebarHomeItem}
-              active={asPath.includes(navSidebarHomeItem.href)}
-            />
-            {isAuthenticated && (
-              <>
-                {authenticatedNavSidebarItems.map(({ href, ...props }) => (
+    <Container>
+      <Wrapper>
+        <Inner>
+          <NavWrapper>
+            <NavSidebarLogo />
+            <NavList>
+              <NavSidebarItem
+                {...navSidebarHomeItem}
+                active={asPath.includes(navSidebarHomeItem.href)}
+              />
+              {isAuthenticated && (
+                <>
+                  {authenticatedNavSidebarItems.map(({ href, ...props }) => (
+                    <NavSidebarItem
+                      key={href}
+                      href={href}
+                      active={asPath.includes(href)}
+                      {...props}
+                    />
+                  ))}
                   <NavSidebarItem
-                    key={href}
-                    href={href}
-                    active={asPath.includes(href)}
-                    {...props}
+                    {...navSidebarProfileItem}
+                    href={session?.user.screenName ?? ""}
+                    active={pathname === navSidebarProfileItem.href}
                   />
-                ))}
-                <NavSidebarItem
-                  {...navSidebarProfileItem}
-                  href={session?.user.screenName ?? ""}
-                  active={pathname === navSidebarProfileItem.href}
-                />
-              </>
-            )}
-          </NavList>
-        </NavWrapper>
-        <NavSidebarProfile />
-      </Inner>
-    </Wrapper>
+                </>
+              )}
+            </NavList>
+          </NavWrapper>
+          <NavSidebarProfile />
+        </Inner>
+      </Wrapper>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  display: none;
+
+  @media ${({ theme }) => theme.breakpoints.sm} {
+    display: flex;
+    max-width: 88px;
+    width: 100%;
+  }
+
+  @media ${({ theme }) => theme.breakpoints.xl} {
+    max-width: 275px;
+  }
+`;
 
 const Wrapper = styled.div`
   display: none;
 
   @media ${({ theme }) => theme.breakpoints.sm} {
-    position: sticky;
+    position: fixed;
     top: 0px;
     bottom: 0px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    width: 100%;
     max-width: 88px;
+    width: 100%;
     height: 100vh;
   }
 

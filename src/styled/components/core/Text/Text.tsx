@@ -30,7 +30,7 @@ export const Text = ({
     weight,
     size,
     color,
-    truncate,
+    $truncate: truncate,
     ...props
   };
 
@@ -49,7 +49,7 @@ type SharedProps = {
   size: TextSize;
   weight: TextWeight;
   color: Color;
-  truncate: boolean;
+  $truncate: boolean;
 };
 
 const StyledLink = styled(Link)<SharedProps>`
@@ -57,8 +57,8 @@ const StyledLink = styled(Link)<SharedProps>`
   font-weight: ${({ weight }) => weight};
   ${({ theme, size }) => theme.text[size]};
 
-  ${({ truncate }) =>
-    truncate &&
+  ${({ $truncate }) =>
+    $truncate &&
     css`
       white-space: nowrap;
       overflow: hidden;

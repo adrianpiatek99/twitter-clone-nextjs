@@ -86,10 +86,11 @@ const Feed = styled.div`
   flex-direction: column;
   max-width: 600px;
   width: 100%;
-  padding-bottom: 30px;
+  padding-bottom: 100px;
 
   @media ${({ theme }) => theme.breakpoints.sm} {
     border-left: 1px solid ${({ theme }) => theme.border};
     border-right: 1px solid ${({ theme }) => theme.border};
+    padding-bottom: 200px;
   }
 `;
