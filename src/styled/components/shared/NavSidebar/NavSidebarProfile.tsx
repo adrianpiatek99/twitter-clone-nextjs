@@ -83,9 +83,10 @@ const Content = styled.button`
   cursor: pointer;
   transition: 0.2s;
 
-  &:hover:not(:disabled),
-  &:focus-visible {
-    background-color: ${({ theme }) => hexToRGBA(theme.neutral50, 0.1)};
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      background-color: ${({ theme }) => hexToRGBA(theme.neutral50, 0.1)};
+    }
   }
 
   &:active:not(:disabled) {
@@ -93,6 +94,7 @@ const Content = styled.button`
   }
 
   &:focus-visible {
+    background-color: ${({ theme }) => hexToRGBA(theme.neutral50, 0.1)};
     box-shadow: ${({ theme }) => theme.boxShadows.secondary};
   }
 `;

@@ -62,12 +62,14 @@ const TweetArticle = styled.article`
   outline: none;
   transition: 0.2s;
 
-  &:hover:not(:disabled),
-  &:focus-visible {
-    background-color: ${({ theme }) => hexToRGBA(theme.neutral50, 0.1)};
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      background-color: ${({ theme }) => hexToRGBA(theme.neutral50, 0.1)};
+    }
   }
 
   &:focus-visible {
+    background-color: ${({ theme }) => hexToRGBA(theme.neutral50, 0.1)};
     box-shadow: ${({ theme }) => theme.boxShadows.primary};
   }
 `;

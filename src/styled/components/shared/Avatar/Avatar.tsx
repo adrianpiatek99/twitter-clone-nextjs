@@ -90,15 +90,19 @@ const sharedStyles = css`
     transition: opacity 0.2s ease;
   }
 
-  &:hover,
-  &:focus-visible {
-    &::after {
-      opacity: 1;
+  @media (hover: hover) {
+    &:hover {
+      &::after {
+        opacity: 1;
+      }
     }
   }
 
   &:focus-visible {
     box-shadow: ${({ theme }) => theme.boxShadows.primary};
+    &::after {
+      opacity: 1;
+    }
   }
 `;
 

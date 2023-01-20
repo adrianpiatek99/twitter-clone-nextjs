@@ -27,6 +27,11 @@ const TabIconLinkButton = styled(IconLinkButton)`
   min-width: 46px;
   min-height: 46px;
 
+  &:active:not(:disabled) {
+    background-color: transparent;
+    transform: scale(0.8);
+  }
+
   & > svg {
     width: 26px;
     height: 26px;
