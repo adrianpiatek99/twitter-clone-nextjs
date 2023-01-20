@@ -1,8 +1,8 @@
 import React, { ComponentPropsWithRef, FC, forwardRef, ReactNode, Ref } from "react";
 
-import styled, { css } from "styled-components";
+import Link from "next/link";
+import styled from "styled-components";
 
-import { Loader } from "../Loader";
 import {
   ButtonColor,
   ButtonSize,
@@ -11,59 +11,48 @@ import {
   sizeVariants
 } from "./buttonStyleVariants";
 
-interface ButtonProps extends ComponentPropsWithRef<"button"> {
+interface ButtonLinkProps extends ComponentPropsWithRef<"a"> {
+  href: string;
   variant?: ButtonVariant;
   size?: ButtonSize;
   color?: ButtonColor;
   startIcon?: ReactNode;
-  loading?: boolean;
   fullWidth?: boolean;
 }
 
-export const Button: FC<ButtonProps> = forwardRef(
+export const ButtonLink: FC<ButtonLinkProps> = forwardRef(
   (
     {
       children,
+      href,
       variant = "contained",
       size = "medium",
       color = "primary",
       startIcon,
-      loading = false,
-      disabled = false,
       fullWidth = false,
       ...props
     },
-    ref: Ref<HTMLButtonElement>
+    ref: Ref<HTMLAnchorElement>
   ) => {
-    const loaderColor = color === "primary" ? "secondary" : "primary";
-
     return (
-      <ButtonWrapper
-        aria-label={loading ? "Loading" : undefined}
-        $loading={loading}
-        disabled={loading || disabled}
-        $color={color}
-        $fullWidth={fullWidth}
+      <StyledLink
+        href={href}
         variant={variant}
         size={size}
+        $color={color}
+        $fullWidth={fullWidth}
         {...props}
         ref={ref}
       >
-        {startIcon && !loading && startIcon}
-        {loading && (
-          <LoaderWrapper>
-            <Loader color={loaderColor} />
-          </LoaderWrapper>
-        )}
-        <span>{children}</span>
-      </ButtonWrapper>
+        {startIcon && startIcon}
+        {children}
+      </StyledLink>
     );
   }
 );
 
-const ButtonWrapper = styled.button<
-  ButtonProps & {
-    $loading: boolean;
+const StyledLink = styled(Link)<
+  ButtonLinkProps & {
     $color: ButtonColor;
     $fullWidth: boolean;
   }
@@ -72,17 +61,20 @@ const ButtonWrapper = styled.button<
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "auto")};
   min-width: 36px;
   padding: 0 16px;
+  background-color: transparent;
+  border: none;
   border-radius: 50px;
   overflow-wrap: break-word;
   text-transform: none;
   font-weight: 500;
+  outline: none;
   -webkit-user-select: none;
   user-select: none;
   cursor: pointer;
   transition: 0.2s;
+  width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "auto")};
 
   & > span {
     font-family: ${({ theme }) => theme.fontFamily.primary};
@@ -98,23 +90,8 @@ const ButtonWrapper = styled.button<
   ${({ size }) => sizeVariants[size || "normal"]};
   ${({ $color, variant }) => buttonVariantsWithColor[variant || "contained"][$color]};
 
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
+  &:hover:not(:disabled),
+  &:focus-visible {
+    text-decoration: none;
   }
-
-  ${({ $loading }) =>
-    $loading &&
-    css`
-      & > span {
-        opacity: 0;
-      }
-    `};
-`;
-
-const LoaderWrapper = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 `;
