@@ -19,8 +19,8 @@ const handler: NextApiHandler<CreateTweetResponse | NextApiError> = async (req, 
 
   if (method === "POST") {
     const { text, imageUrls } = body;
-    const textTrim = text.trim();
     const userId = session.user.id;
+    const textTrim = text.trim();
 
     if (!textTrim || textTrim.length === 0) {
       return res.status(403).send({ error: "Tweet text is required." });

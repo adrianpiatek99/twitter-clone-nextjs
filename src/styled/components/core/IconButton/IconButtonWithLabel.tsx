@@ -68,6 +68,7 @@ const IconWrapper = styled.div`
   padding: 0;
   border-radius: 50%;
   margin-right: -8px;
+  transition: background-color 0.2s;
 
   ${iconButtonSizeVariants["medium"]};
 `;
@@ -87,7 +88,7 @@ const ButtonWrapper = styled.button<{
   display: flex;
   align-items: center;
   cursor: pointer;
-  transition: 0.2s;
+  transition: color 0.2s, background-color 0.2s, box-shadow 0.2s, opacity 0.2s;
 
   &:disabled {
     opacity: 0.5;

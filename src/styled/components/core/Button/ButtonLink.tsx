@@ -63,18 +63,15 @@ const StyledLink = styled(Link)<
   justify-content: center;
   min-width: 36px;
   padding: 0 16px;
-  background-color: transparent;
-  border: none;
+  width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "auto")};
   border-radius: 50px;
   overflow-wrap: break-word;
   text-transform: none;
   font-weight: 500;
-  outline: none;
   -webkit-user-select: none;
   user-select: none;
   cursor: pointer;
-  transition: 0.2s;
-  width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "auto")};
+  transition: color 0.2s, background-color 0.2s, box-shadow 0.2s, opacity 0.2s;
 
   & > span {
     font-family: ${({ theme }) => theme.fontFamily.primary};

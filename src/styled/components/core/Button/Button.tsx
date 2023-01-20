@@ -82,7 +82,7 @@ const ButtonWrapper = styled.button<
   -webkit-user-select: none;
   user-select: none;
   cursor: pointer;
-  transition: 0.2s;
+  transition: color 0.2s, background-color 0.2s, box-shadow 0.2s, opacity 0.2s;
 
   & > span {
     font-family: ${({ theme }) => theme.fontFamily.primary};

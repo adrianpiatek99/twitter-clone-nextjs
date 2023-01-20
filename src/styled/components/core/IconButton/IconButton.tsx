@@ -80,7 +80,7 @@ const Wrapper = styled.button<
   padding: 0;
   border-radius: 50%;
   cursor: pointer;
-  transition: 0.2s;
+  transition: color 0.2s, background-color 0.2s, box-shadow 0.2s, opacity 0.2s;
 
   &:disabled {
     opacity: 0.5;
