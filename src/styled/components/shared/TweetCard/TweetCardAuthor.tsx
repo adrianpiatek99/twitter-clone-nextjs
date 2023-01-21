@@ -11,13 +11,15 @@ import { TweetCardMenu } from "./TweetCardMenu";
 interface TweetCardAuthorProps extends Pick<TweetData, "createdAt" | "author"> {
   tweetId: TweetData["id"];
   isOwner: boolean;
+  handleDeleteTweet: () => void;
 }
 
 export const TweetCardAuthor = ({
   tweetId,
   createdAt,
   author: { name, screenName },
-  isOwner
+  isOwner,
+  handleDeleteTweet
 }: TweetCardAuthorProps) => {
   const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
 
@@ -49,6 +51,7 @@ export const TweetCardAuthor = ({
         isOwner={isOwner}
         isOpen={isMenuModalOpen}
         onClose={() => setIsMenuModalOpen(false)}
+        handleDeleteTweet={handleDeleteTweet}
       />
     </Wrapper>
   );

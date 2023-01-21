@@ -3,8 +3,11 @@ import React from "react";
 import { QueryClient } from "@tanstack/react-query";
 import { TweetData } from "api/tweet/timelineTweets";
 import { Text } from "components/core";
+import { useDeleteTweetMutation } from "hooks/useDeleteTweetMutation";
+import { useLikeTweetMutation } from "hooks/useLikeTweetMutation";
 import { Avatar } from "shared/Avatar";
-import styled from "styled-components";
+import { Skeleton } from "shared/Skeleton";
+import styled, { css } from "styled-components";
 import { hexToRGBA } from "utils/colors";
 
 import { TweetCardAuthor } from "./TweetCardAuthor";
@@ -27,39 +30,52 @@ export const TweetCard = ({
   _count
 }: TweetCardProps) => {
   const { screenName, profileImageUrl } = author;
+  const { handleDeleteTweet, deleteLoading } = useDeleteTweetMutation({ queryClient, tweetId: id });
+  const likeTweetMutation = useLikeTweetMutation({
+    queryClient,
+    tweetId: id,
+    userId,
+    likes,
+    disabled: deleteLoading
+  });
   const likeCount = _count.likes;
   const isOwner = userId === author.id;
 
   return (
-    <TweetArticle tabIndex={0}>
-      <LeftColumn>
-        <Avatar src={profileImageUrl} screenName={screenName} size="large" />
-      </LeftColumn>
-      <RightColumn>
-        <TweetCardAuthor tweetId={id} createdAt={createdAt} isOwner={isOwner} author={author} />
-        <Content>
-          <TweetText>
-            <Text>{text}</Text>
-          </TweetText>
-          <TweetCardToolbar
+    <TweetArticle isLoading={deleteLoading} tabIndex={deleteLoading ? -1 : 0}>
+      {deleteLoading && <Skeleton absolute withoutRadius transparent />}
+      <Inner isLoading={deleteLoading}>
+        <LeftColumn>
+          <Avatar src={profileImageUrl} screenName={screenName} size="large" />
+        </LeftColumn>
+        <RightColumn>
+          <TweetCardAuthor
             tweetId={id}
-            likes={likes}
-            likeCount={likeCount}
-            queryClient={queryClient}
+            createdAt={createdAt}
+            isOwner={isOwner}
+            author={author}
+            handleDeleteTweet={handleDeleteTweet}
           />
-        </Content>
-      </RightColumn>
+          <Content>
+            <TweetText>
+              <Text>{text}</Text>
+            </TweetText>
+            <TweetCardToolbar likeCount={likeCount} likeTweetMutation={likeTweetMutation} />
+          </Content>
+        </RightColumn>
+      </Inner>
     </TweetArticle>
   );
 };
 
-const TweetArticle = styled.article`
+const TweetArticle = styled.article<{ isLoading: boolean }>`
+  position: relative;
   display: flex;
   gap: 12px;
   padding: 12px;
   border-bottom: 1px solid ${({ theme }) => theme.border};
-  cursor: pointer;
   outline: none;
+  cursor: pointer;
   transition: 0.2s;
 
   @media (hover: hover) {
@@ -72,6 +88,34 @@ const TweetArticle = styled.article`
     background-color: ${({ theme }) => hexToRGBA(theme.neutral50, 0.1)};
     box-shadow: ${({ theme }) => theme.boxShadows.primary};
   }
+
+  ${({ isLoading }) =>
+    isLoading &&
+    css`
+      pointer-events: none;
+    `}
+`;
+
+const Inner = styled.div<{ isLoading: boolean }>`
+  position: relative;
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  transition: opacity 0.2s, transform 0.2s;
+
+  ${({ isLoading }) =>
+    isLoading &&
+    css`
+      position: relative;
+      transform: scale(0.96);
+      opacity: 0.6;
+
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 0px;
+      }
+    `}
 `;
 
 const LeftColumn = styled.div`
