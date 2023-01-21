@@ -12,10 +12,9 @@ export type SignUpResponse = Omit<User, "password">;
 export const signUpPath = "/api/auth/signUp";
 
 const handler: NextApiHandler<SignUpResponse | NextApiError> = async (req, res) => {
-  const { method } = req;
   const body = req.body as SignUpRequest;
 
-  if (method === "POST") {
+  if (req.method === "POST") {
     const { screenName, name, email, password, repeatPassword } = body;
     const emailWithLowerCase = email.toLowerCase();
 

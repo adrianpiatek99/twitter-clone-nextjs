@@ -4,15 +4,15 @@ import { prisma } from "prisma/prisma";
 
 import { TweetData } from "./timelineTweets";
 
-export type UnlikeTweetRequest = {
+export type DeleteTweetRequest = {
   tweetId: TweetData["id"];
 };
 
-export const unlikeTweetPath = "api/tweet/unlikeTweet";
+export const deleteTweetPath = "api/tweet/deleteTweet";
 
 const handler: NextApiHandler<NextApiError> = async (req, res) => {
   const session = await getSession({ req });
-  const query = req.query as UnlikeTweetRequest;
+  const query = req.query as DeleteTweetRequest;
 
   if (!session) {
     return res.status(401).send({ error: "You are not authorized." });
@@ -22,17 +22,17 @@ const handler: NextApiHandler<NextApiError> = async (req, res) => {
     const userId = session.user.id;
     const { tweetId } = query;
 
-    const unlike = await prisma.like.delete({
+    const deletedTweet = await prisma.tweet.delete({
       where: {
-        tweetId_userId: {
-          tweetId,
-          userId
+        id_authorId: {
+          id: tweetId,
+          authorId: userId
         }
       }
     });
 
-    if (!unlike) {
-      return res.status(404).send({ error: "Something went wrong then trying to unlike tweet." });
+    if (!deletedTweet) {
+      return res.status(404).send({ error: "Something went wrong then trying to delete tweet." });
     }
 
     res.status(200).end();

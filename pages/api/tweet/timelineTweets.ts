@@ -3,7 +3,7 @@ import { NextApiHandler } from "next";
 import { getSession } from "next-auth/react";
 import { prisma } from "prisma/prisma";
 
-export type TweetLike = { likes: Pick<Like, "userId">[] };
+type TweetLike = { likes: Pick<Like, "userId">[] };
 
 type TweetAuthor = { author: Pick<User, "id" | "name" | "screenName" | "profileImageUrl"> };
 
@@ -22,10 +22,9 @@ export const timelineTweetsPath = "/api/tweet/timelineTweets";
 
 const handler: NextApiHandler<TimelineTweetsResponse | NextApiError> = async (req, res) => {
   const session = await getSession({ req });
-  const { method } = req;
   const query = req.query as TimelineTweetsRequest;
 
-  if (method === "GET") {
+  if (req.method === "GET") {
     const userId = session?.user?.id;
     const { cursor, limit } = query;
     const queryLimit = limit ? parseInt(limit) : 15;

@@ -98,12 +98,13 @@ const ButtonWrapper = styled.button<{
   ${({ $color }) => css`
     color: ${$color[0]};
 
-    &:hover:not(:disabled),
-    &:focus-visible {
-      color: ${$color[1]};
+    @media (hover: hover) {
+      &:hover:not(:disabled) {
+        color: ${$color[1]};
 
-      ${IconWrapper} {
-        background-color: ${hexToRGBA($color[1], 0.1)};
+        ${IconWrapper} {
+          background-color: ${hexToRGBA($color[1], 0.1)};
+        }
       }
     }
 
@@ -114,7 +115,10 @@ const ButtonWrapper = styled.button<{
     }
 
     &:focus-visible {
+      color: ${$color[1]};
+
       ${IconWrapper} {
+        background-color: ${hexToRGBA($color[1], 0.1)};
         box-shadow: ${hexToRGBA($color[1], 0.85)} 0px 0px 0px 2px;
       }
     }

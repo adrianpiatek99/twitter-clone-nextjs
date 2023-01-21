@@ -2,11 +2,9 @@ import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Textarea } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
-import { useToasts } from "hooks/useToasts";
-import { createTweet } from "network/tweet/createTweet";
+import { useCreateTweetMutation } from "hooks/useCreateTweetMutation";
 import { TWEET_MAX_LENGTH, tweetSchema, TweetValues } from "schema/tweetSchema";
 import { Avatar } from "shared/Avatar";
 import styled from "styled-components";
@@ -27,25 +25,15 @@ export const HomeCreateTweetForm = () => {
       text: ""
     }
   });
-  const { handleAddToast } = useToasts();
   const tweetValue = watch("text");
-  const queryClient = useQueryClient();
-  const createTweetMutation = useMutation({
-    mutationFn: createTweet,
-    onSuccess: () => {
-      queryClient.invalidateQueries(["tweets"]);
-      handleAddToast("success", "Tweet was created.");
-    },
-    onError: (error: any) => {
-      handleAddToast("error", error?.message);
-    },
+  const { handleCreateTweet, createTweetLoading } = useCreateTweetMutation({
     onSettled: () => {
       reset();
     }
   });
 
-  const handleCreateTweet: SubmitHandler<TweetValues> = data => {
-    createTweetMutation.mutate({ ...data, imageUrls: [] });
+  const onSubmit: SubmitHandler<TweetValues> = data => {
+    handleCreateTweet({ ...data, imageUrls: [] });
   };
 
   return (
@@ -62,8 +50,8 @@ export const HomeCreateTweetForm = () => {
         />
         <HomeCreateTweetToolbar
           tweetLength={tweetValue?.length ?? 0}
-          onSubmit={handleSubmit(handleCreateTweet)}
-          loading={createTweetMutation.isLoading}
+          onSubmit={handleSubmit(onSubmit)}
+          loading={createTweetLoading}
         />
       </RightColumn>
     </Wrapper>

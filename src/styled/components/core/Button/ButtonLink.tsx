@@ -87,7 +87,12 @@ const StyledLink = styled(Link)<
   ${({ size }) => sizeVariants[size || "normal"]};
   ${({ $color, variant }) => buttonVariantsWithColor[variant || "contained"][$color]};
 
-  &:hover:not(:disabled),
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      text-decoration: none;
+    }
+  }
+
   &:focus-visible {
     text-decoration: none;
   }

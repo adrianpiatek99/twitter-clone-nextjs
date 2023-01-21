@@ -1,41 +1,27 @@
 import React from "react";
 
-import { QueryClient } from "@tanstack/react-query";
-import { TweetData } from "api/tweet/timelineTweets";
 import { IconButton, IconButtonWithLabel } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
-import { useLikeTweet } from "hooks/useLikeTweet";
+import { UseLikeTweetMutationReturn } from "hooks/useLikeTweetMutation";
 import HeartIcon from "icons/HeartIcon";
 import HeartOutlinedIcon from "icons/HeartOutlinedIcon";
 import MessageIcon from "icons/MessageIcon";
 import styled, { useTheme } from "styled-components";
 
 interface TweetCardToolbarProps {
-  queryClient: QueryClient;
-  tweetId: TweetData["id"];
-  likes: TweetData["likes"];
+  likeTweetMutation: UseLikeTweetMutationReturn;
   likeCount: number;
 }
 
 export const TweetCardToolbar = ({
-  queryClient,
-  tweetId,
   likeCount,
-  likes
+  likeTweetMutation: { likeLoading, unlikeLoading, isLiked, handleLikeTweet }
 }: TweetCardToolbarProps) => {
-  const { session, isUnauthenticated } = useAppSession();
-  const userId = session?.user?.id;
-  const { handleLikeTweet, likeLoading, unlikeLoading, isLiked } = useLikeTweet({
-    queryClient,
-    tweetId,
-    userId,
-    likes
-  });
-  const likeCountLabel = likeCount ? String(likeCount) : "";
-
+  const { isUnauthenticated } = useAppSession();
   const { pink400 } = useTheme();
-
-  const loadingLikeButton = likeLoading || unlikeLoading;
+  const likeCountLabel = likeCount ? String(likeCount) : "";
+  const loadingLikeButton = likeLoading || unlikeLoading || isUnauthenticated;
+  const likeTitle = isLiked ? "Unlike" : "Like";
 
   return (
     <Wrapper>
@@ -43,12 +29,12 @@ export const TweetCardToolbar = ({
         <MessageIcon />
       </IconButton>
       <IconButtonWithLabel
-        title={isLiked ? "Unlike" : "Like"}
+        title={likeTitle}
         label={likeCountLabel}
         onClick={handleLikeTweet}
         color={pink400}
         isSelected={isLiked}
-        disabled={loadingLikeButton || isUnauthenticated}
+        disabled={loadingLikeButton}
       >
         {isLiked ? <HeartIcon /> : <HeartOutlinedIcon />}
       </IconButtonWithLabel>

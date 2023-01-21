@@ -29,8 +29,10 @@ const LogoLink = styled(Link)`
     width: 28px;
   }
 
-  &:hover:not(:disabled) {
-    background-color: ${({ theme }) => `${hexToRGBA(theme.primary05, 0.1)}`};
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      background-color: ${({ theme }) => `${hexToRGBA(theme.primary05, 0.1)}`};
+    }
   }
 
   &:focus-visible {

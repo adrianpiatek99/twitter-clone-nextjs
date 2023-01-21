@@ -18,6 +18,7 @@ interface ButtonProps extends ComponentPropsWithRef<"button"> {
   startIcon?: ReactNode;
   loading?: boolean;
   fullWidth?: boolean;
+  textAlign?: "left" | "center";
 }
 
 export const Button: FC<ButtonProps> = forwardRef(
@@ -31,6 +32,7 @@ export const Button: FC<ButtonProps> = forwardRef(
       loading = false,
       disabled = false,
       fullWidth = false,
+      textAlign = "center",
       ...props
     },
     ref: Ref<HTMLButtonElement>
@@ -46,6 +48,7 @@ export const Button: FC<ButtonProps> = forwardRef(
         $fullWidth={fullWidth}
         variant={variant}
         size={size}
+        textAlign={textAlign}
         {...props}
         ref={ref}
       >
@@ -71,10 +74,10 @@ const ButtonWrapper = styled.button<
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: ${({ textAlign }) => (textAlign === "center" ? "center" : "start")};
   width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "auto")};
   min-width: 36px;
-  padding: 0 16px;
+  padding: 0 24px;
   border-radius: 50px;
   overflow-wrap: break-word;
   text-transform: none;

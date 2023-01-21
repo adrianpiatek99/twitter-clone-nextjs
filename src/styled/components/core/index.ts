@@ -8,3 +8,4 @@ export { ConfirmModal } from "./ConfirmModal";
 export { MenuModal, MenuModalItem } from "./MenuModal";
 export { Textarea } from "./Textarea";
 export { Text } from "./Text";
+export { Heading } from "./Heading";

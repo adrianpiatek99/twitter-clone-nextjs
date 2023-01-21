@@ -2,19 +2,19 @@ import { useRef } from "react";
 
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-interface UseInfinitePaginationProps<TRequest, TResponse> {
+interface UseInfiniteScrollQueryProps<TRequest, TResponse> {
   queryKey: string[];
   queryFn: (props: TRequest) => Promise<TResponse>;
 }
 
-export const useInfiniteScroll = <
+export const useInfiniteScrollQuery = <
   TRequest extends { cursor?: string | null | undefined },
   TResponse extends { nextCursor: string | undefined },
   TData
 >({
   queryKey,
   queryFn
-}: UseInfinitePaginationProps<TRequest, TResponse>) => {
+}: UseInfiniteScrollQueryProps<TRequest, TResponse>) => {
   const { data: queryData, ...restData } = useInfiniteQuery<TResponse>({
     queryKey: [...queryKey, "infinite"],
     getNextPageParam: lastPage => lastPage.nextCursor,

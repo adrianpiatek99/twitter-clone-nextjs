@@ -67,7 +67,7 @@ const LinkWrapper = styled(Link)<IconLinkButtonProps & { $color: [string, string
   padding: 0;
   border-radius: 50%;
   cursor: pointer;
-  transition: color 0.2s, background-color 0.2s, box-shadow 0.2s, opacity 0.2s;
+  transition: color 0.2s, background-color 0.2s, box-shadow 0.2s, opacity 0.2s, transform 0.2s;
 
   ${({ $color }) => getIconButtonColor($color)};
   ${({ size }) => iconButtonSizeVariants[size || "medium"]};

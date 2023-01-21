@@ -2,6 +2,7 @@ import React, { ComponentPropsWithoutRef, FC, ReactElement, useEffect } from "re
 
 import { FocusTrap } from "@mui/base";
 import { AnimatePresence, motion } from "framer-motion";
+import CloseIcon from "icons/CloseIcon";
 import { Portal } from "shared/Portal";
 import styled from "styled-components";
 
@@ -44,7 +45,9 @@ export const MenuModal: FC<MenuModalProps> = ({
             <FocusTrap open>
               <Content onClick={e => e.stopPropagation()} variants={contentVariants} tabIndex={-1}>
                 {children}
-                <MenuModalItem onClick={onClose}>Cancel</MenuModalItem>
+                <MenuModalItem startIcon={<CloseIcon />} onClick={onClose}>
+                  Cancel
+                </MenuModalItem>
               </Content>
             </FocusTrap>
           </ModalOverlay>

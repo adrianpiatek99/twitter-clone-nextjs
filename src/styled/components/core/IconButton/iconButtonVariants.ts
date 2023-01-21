@@ -30,16 +30,11 @@ export const getIconButtonColor = (color: [string, string]) => {
   return css`
     color: ${color[0]};
 
-    @media ${({ theme }) => theme.breakpoints.sm} {
+    @media (hover: hover) {
       &:hover:not(:disabled) {
-        background-color: transparent;
+        background-color: ${hexToRGBA(color[1], 0.1)};
+        color: ${color[1]};
       }
-    }
-
-    &:hover:not(:disabled),
-    &:focus-visible {
-      background-color: ${hexToRGBA(color[1], 0.1)};
-      color: ${color[1]};
     }
 
     &:active:not(:disabled) {
@@ -47,6 +42,8 @@ export const getIconButtonColor = (color: [string, string]) => {
     }
 
     &:focus-visible {
+      background-color: ${hexToRGBA(color[1], 0.1)};
+      color: ${color[1]};
       box-shadow: ${hexToRGBA(color[1], 0.85)} 0px 0px 0px 2px;
     }
   `;

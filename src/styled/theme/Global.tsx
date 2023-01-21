@@ -57,7 +57,12 @@ export const GlobalStyle = createGlobalStyle`
     outline: none;
     width: max-content;
 
-    &:hover:not(:disabled),
+    @media (hover: hover) {
+      &:hover:not(:disabled){
+        text-decoration: underline;
+      }
+    }
+
     &:focus-visible {
       text-decoration: underline;
     }
