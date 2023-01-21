@@ -3,7 +3,7 @@ import { NextApiHandler } from "next";
 import { getSession } from "next-auth/react";
 import { prisma } from "prisma/prisma";
 
-export type TweetLike = { likes: Pick<Like, "userId">[] };
+type TweetLike = { likes: Pick<Like, "userId">[] };
 
 type TweetAuthor = { author: Pick<User, "id" | "name" | "screenName" | "profileImageUrl"> };
 

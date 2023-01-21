@@ -3,8 +3,10 @@ import { NextApiHandler } from "next";
 import { getSession } from "next-auth/react";
 import { prisma } from "prisma/prisma";
 
+import { TweetData } from "./timelineTweets";
+
 export type CreateTweetRequest = Pick<Tweet, "text" | "imageUrls">;
-export type CreateTweetResponse = Tweet;
+export type CreateTweetResponse = TweetData;
 
 export const createTweetPath = "/api/tweet/createTweet";
 
@@ -32,6 +34,27 @@ const handler: NextApiHandler<CreateTweetResponse | NextApiError> = async (req, 
         author: {
           connect: {
             id: userId
+          }
+        }
+      },
+      include: {
+        likes: {
+          where: { userId },
+          select: {
+            userId: true
+          }
+        },
+        author: {
+          select: {
+            id: true,
+            name: true,
+            screenName: true,
+            profileImageUrl: true
+          }
+        },
+        _count: {
+          select: {
+            likes: true
           }
         }
       }
