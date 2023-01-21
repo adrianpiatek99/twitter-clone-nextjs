@@ -1,60 +1,66 @@
-import React, { ComponentPropsWithoutRef, FC, ReactElement, useEffect } from "react";
+import React, { ComponentPropsWithoutRef, ReactElement } from "react";
 
 import { FocusTrap } from "@mui/base";
 import { AnimatePresence, motion } from "framer-motion";
+import { useMediaQuery } from "hooks/useMediaQuery";
 import CloseIcon from "icons/CloseIcon";
 import { Portal } from "shared/Portal";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 
-import { ModalOverlay } from "../Modal";
+import { ModalPanel } from "../Modal";
 import { MenuModalItem } from "./MenuModalItem";
 
-interface MenuModalProps extends ComponentPropsWithoutRef<"div"> {
+interface MenuModalProps extends ComponentPropsWithoutRef<typeof motion.div> {
   children: ReactElement | ReactElement[];
   isOpen: boolean;
   onClose: () => void;
-  preventClosingOnOutside?: boolean;
 }
 
-export const MenuModal: FC<MenuModalProps> = ({
-  children,
-  isOpen,
-  onClose,
-  preventClosingOnOutside = false,
-  ...props
-}) => {
-  useEffect(() => {
-    if (isOpen) {
-      const handleEscape = event => {
-        if (event.key === "Escape") {
-          onClose();
-        }
-      };
-
-      window.addEventListener("keydown", handleEscape, false);
-
-      return () => window.removeEventListener("keydown", handleEscape, false);
-    }
-  }, [isOpen]);
+export const MenuModal = ({ children, isOpen, onClose, ...props }: MenuModalProps) => {
+  const {
+    breakpoints: { sm }
+  } = useTheme();
+  const isMobile = useMediaQuery(sm);
 
   return (
     <Portal rootId="modal">
       <AnimatePresence>
         {isOpen && (
-          <ModalOverlay onClose={() => !preventClosingOnOutside && onClose()} {...props}>
+          <ModalPanel isOpen={isOpen} onClose={onClose}>
             <FocusTrap open>
-              <Content onClick={e => e.stopPropagation()} variants={contentVariants} tabIndex={-1}>
+              <Content
+                onClick={e => e.stopPropagation()}
+                variants={isMobile ? mobileContentVariants : contentVariants}
+                initial="inactive"
+                animate="active"
+                exit="inactive"
+                tabIndex={-1}
+                {...props}
+              >
                 {children}
                 <MenuModalItem startIcon={<CloseIcon />} onClick={onClose}>
                   Cancel
                 </MenuModalItem>
               </Content>
             </FocusTrap>
-          </ModalOverlay>
+          </ModalPanel>
         )}
       </AnimatePresence>
     </Portal>
   );
+};
+
+const mobileContentVariants = {
+  inactive: {
+    y: "100%",
+    opacity: 0,
+    transition: { duration: 0.15 }
+  },
+  active: {
+    y: "0%",
+    opacity: 1,
+    transition: { duration: 0.15 }
+  }
 };
 
 const contentVariants = {
@@ -71,16 +77,25 @@ const contentVariants = {
 };
 
 const Content = styled(motion.div)`
+  position: absolute;
+  bottom: calc(24px + env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
-  width: 100%;
-  max-width: 260px;
-  margin: 12px;
+  max-width: 375px;
+  width: 95%;
+  margin: 0 12px;
   border-radius: 16px;
   padding: 12px 0;
   background-color: ${({ theme }) => theme.background};
   overflow: hidden;
   outline: none;
+
+  @media ${({ theme }) => theme.breakpoints.sm} {
+    position: static;
+    max-width: 260px;
+    margin: 12px;
+    width: 100%;
+  }
 
   @media ${({ theme }) => theme.breakpoints.md} {
     max-width: 400px;

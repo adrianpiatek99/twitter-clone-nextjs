@@ -84,7 +84,7 @@ const Wrapper = styled.main`
 const Feed = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 600px;
+  max-width: 100%;
   width: 100%;
   padding-bottom: 100px;
 
@@ -92,5 +92,6 @@ const Feed = styled.div`
     border-left: 1px solid ${({ theme }) => theme.border};
     border-right: 1px solid ${({ theme }) => theme.border};
     padding-bottom: 200px;
+    max-width: 600px;
   }
 `;

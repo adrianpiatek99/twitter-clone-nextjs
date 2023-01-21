@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import FocusTrap from "@mui/base/FocusTrap";
-import { ModalOverlay } from "components/core/Modal";
+import { ModalPanel } from "components/core/Modal";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAppSession } from "hooks/useAppSession";
 import { Portal } from "shared/Portal";
@@ -20,32 +20,19 @@ export const NavDrawer = () => {
 
   const onClose = () => dispatch(setNavDrawerOpen(false));
 
-  useEffect(() => {
-    if (isOpen) {
-      const handleEscape = event => {
-        if (event.key === "Escape") {
-          onClose();
-        }
-      };
-
-      window.addEventListener("keydown", handleEscape, false);
-
-      return () => {
-        window.removeEventListener("keydown", handleEscape, false);
-      };
-    }
-  }, [isOpen]);
-
   return (
     <>
       <AnimatePresence>
         {isOpen && (
           <Portal rootId="modal">
-            <ModalOverlay onClose={onClose} duration={0.25}>
+            <ModalPanel isOpen={isOpen} onClose={onClose} duration={0.25}>
               <FocusTrap open>
                 <DrawerWrapper
                   variants={drawerVariants}
                   onClick={e => e.stopPropagation()}
+                  initial="inactive"
+                  animate="active"
+                  exit="inactive"
                   tabIndex={-1}
                 >
                   <NavDrawerHeader onClose={onClose} />
@@ -58,7 +45,7 @@ export const NavDrawer = () => {
                   )}
                 </DrawerWrapper>
               </FocusTrap>
-            </ModalOverlay>
+            </ModalPanel>
           </Portal>
         )}
       </AnimatePresence>
@@ -69,11 +56,11 @@ export const NavDrawer = () => {
 const drawerVariants = {
   inactive: {
     x: "-100%",
-    transition: { duration: 0.25 }
+    transition: { duration: 0.2 }
   },
   active: {
     x: 0,
-    transition: { duration: 0.25 }
+    transition: { duration: 0.2 }
   }
 };
 
@@ -88,6 +75,7 @@ const DrawerWrapper = styled(motion.div)`
   width: 90%;
   background-color: ${({ theme }) => theme.background};
   border-right: 1px solid ${({ theme }) => theme.border};
+  border-radius: 0 16px 16px 0;
   outline: none;
 `;
 

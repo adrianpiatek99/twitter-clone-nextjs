@@ -1,4 +1,4 @@
-import React, { ComponentPropsWithoutRef, FC, ReactElement, useEffect } from "react";
+import React, { ComponentPropsWithoutRef, ReactElement } from "react";
 
 import FocusTrap from "@mui/base/FocusTrap";
 import { AnimatePresence, motion } from "framer-motion";
@@ -6,9 +6,9 @@ import { Portal } from "shared/Portal";
 import styled from "styled-components";
 
 import { ModalHeader } from "./ModalHeader";
-import { ModalOverlay } from "./ModalOverlay";
+import { ModalPanel } from "./ModalPanel";
 
-interface ModalProps extends ComponentPropsWithoutRef<"div"> {
+interface ModalProps extends ComponentPropsWithoutRef<typeof motion.div> {
   children: ReactElement | ReactElement[];
   isOpen: boolean;
   onClose: () => void;
@@ -19,7 +19,7 @@ interface ModalProps extends ComponentPropsWithoutRef<"div"> {
   preventClosingOnOutside?: boolean;
 }
 
-export const Modal: FC<ModalProps> = ({
+export const Modal = ({
   children,
   isOpen,
   onClose,
@@ -29,30 +29,23 @@ export const Modal: FC<ModalProps> = ({
   acceptButtonText = "Save",
   preventClosingOnOutside = false,
   ...props
-}) => {
-  useEffect(() => {
-    if (isOpen) {
-      const handleEscape = event => {
-        if (event.key === "Escape") {
-          onClose();
-        }
-      };
-
-      window.addEventListener("keydown", handleEscape, false);
-
-      return () => {
-        window.removeEventListener("keydown", handleEscape, false);
-      };
-    }
-  }, [isOpen]);
-
+}: ModalProps) => {
   return (
     <Portal rootId="modal">
       <AnimatePresence>
         {isOpen && (
-          <ModalOverlay onClose={() => !preventClosingOnOutside && onClose()} {...props}>
+          <ModalPanel
+            isOpen={isOpen}
+            onClose={onClose}
+            preventClosingOnOutside={preventClosingOnOutside}
+          >
             <FocusTrap open>
-              <Content onClick={e => e.stopPropagation()} variants={contentVariants} tabIndex={-1}>
+              <Content
+                onClick={e => e.stopPropagation()}
+                variants={contentVariants}
+                tabIndex={-1}
+                {...props}
+              >
                 <ModalHeader
                   key="modal"
                   onClose={onClose}
@@ -64,7 +57,7 @@ export const Modal: FC<ModalProps> = ({
                 {children}
               </Content>
             </FocusTrap>
-          </ModalOverlay>
+          </ModalPanel>
         )}
       </AnimatePresence>
     </Portal>

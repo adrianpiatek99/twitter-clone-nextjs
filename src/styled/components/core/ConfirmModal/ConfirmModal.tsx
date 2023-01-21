@@ -1,4 +1,4 @@
-import React, { ComponentPropsWithoutRef, FC, useEffect } from "react";
+import React, { ComponentPropsWithoutRef, FC } from "react";
 
 import FocusTrap from "@mui/base/FocusTrap";
 import { AnimatePresence, motion } from "framer-motion";
@@ -6,7 +6,7 @@ import { Portal } from "shared/Portal";
 import styled from "styled-components";
 
 import { Heading } from "../Heading";
-import { ModalOverlay } from "../Modal";
+import { ModalPanel } from "../Modal";
 import { Text } from "../Text";
 import { ConfirmModalActions } from "./ConfirmModalActions";
 
@@ -41,29 +41,20 @@ export const ConfirmModal: FC<ConfirmModalProps> = ({
     onClose();
   };
 
-  useEffect(() => {
-    if (isOpen) {
-      const handleEscape = event => {
-        if (event.key === "Escape") {
-          onClose();
-        }
-      };
-
-      window.addEventListener("keydown", handleEscape, false);
-
-      return () => {
-        window.removeEventListener("keydown", handleEscape, false);
-      };
-    }
-  }, [isOpen]);
-
   return (
     <Portal rootId="modal">
       <AnimatePresence>
         {isOpen && (
-          <ModalOverlay onClose={onClose}>
+          <ModalPanel isOpen={isOpen} onClose={onClose}>
             <FocusTrap open>
-              <Content onClick={e => e.stopPropagation()} variants={contentVariants} tabIndex={-1}>
+              <Content
+                onClick={e => e.stopPropagation()}
+                initial="inactive"
+                animate="active"
+                exit="inactive"
+                variants={contentVariants}
+                tabIndex={-1}
+              >
                 <Header>
                   <Heading>{heading}</Heading>
                   <Text color="secondary">{text}</Text>
@@ -77,7 +68,7 @@ export const ConfirmModal: FC<ConfirmModalProps> = ({
                 />
               </Content>
             </FocusTrap>
-          </ModalOverlay>
+          </ModalPanel>
         )}
       </AnimatePresence>
     </Portal>
