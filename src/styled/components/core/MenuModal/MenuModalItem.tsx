@@ -12,7 +12,7 @@ interface MenuModalItemProps extends ComponentPropsWithoutRef<typeof Button> {
 
 export const MenuModalItem: FC<MenuModalItemProps> = ({ children, onClick, ...props }) => {
   return (
-    <MenuButton onClick={onClick} variant="text" color="secondary" {...props}>
+    <MenuButton onClick={onClick} variant="text" textAlign="left" color="secondary" {...props}>
       {children}
     </MenuButton>
   );

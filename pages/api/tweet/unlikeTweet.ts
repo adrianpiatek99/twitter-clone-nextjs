@@ -2,22 +2,23 @@ import { NextApiHandler } from "next";
 import { getSession } from "next-auth/react";
 import { prisma } from "prisma/prisma";
 
+import { TweetData } from "./timelineTweets";
+
 export type UnlikeTweetRequest = {
-  tweetId: string;
+  tweetId: TweetData["id"];
 };
 
 export const unlikeTweetPath = "api/tweet/unlikeTweet";
 
 const handler: NextApiHandler<NextApiError> = async (req, res) => {
   const session = await getSession({ req });
-  const { method } = req;
   const query = req.query as UnlikeTweetRequest;
 
   if (!session) {
     return res.status(401).send({ error: "You are not authorized." });
   }
 
-  if (method === "DELETE") {
+  if (req.method === "DELETE") {
     const userId = session.user.id;
     const { tweetId } = query;
 

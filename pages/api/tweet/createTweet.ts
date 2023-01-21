@@ -10,14 +10,13 @@ export const createTweetPath = "/api/tweet/createTweet";
 
 const handler: NextApiHandler<CreateTweetResponse | NextApiError> = async (req, res) => {
   const session = await getSession({ req });
-  const { method } = req;
   const body = req.body as CreateTweetRequest;
 
   if (!session) {
     return res.status(401).send({ error: "You are not authorized." });
   }
 
-  if (method === "POST") {
+  if (req.method === "POST") {
     const { text, imageUrls } = body;
     const userId = session.user.id;
     const textTrim = text.trim();

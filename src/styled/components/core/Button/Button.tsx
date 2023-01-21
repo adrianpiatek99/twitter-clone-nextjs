@@ -77,7 +77,7 @@ const ButtonWrapper = styled.button<
   justify-content: ${({ textAlign }) => (textAlign === "center" ? "center" : "start")};
   width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "auto")};
   min-width: 36px;
-  padding: 0 16px;
+  padding: 0 24px;
   border-radius: 50px;
   overflow-wrap: break-word;
   text-transform: none;
@@ -99,9 +99,7 @@ const ButtonWrapper = styled.button<
 
   ${({ theme }) => theme.text.m};
   ${({ size }) => sizeVariants[size || "normal"]};
-  @media (hover: hover) {
-    ${({ $color, variant }) => buttonVariantsWithColor[variant || "contained"][$color]};
-  }
+  ${({ $color, variant }) => buttonVariantsWithColor[variant || "contained"][$color]};
 
   &:disabled {
     cursor: not-allowed;

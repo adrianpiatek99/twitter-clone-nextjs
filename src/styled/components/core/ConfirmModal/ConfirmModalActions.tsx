@@ -21,11 +21,26 @@ export const ConfirmModalActions = ({
 }: ConfirmModalActionsProps) => {
   return (
     <Wrapper>
-      <Button onClick={onAccept} loading={loading} color="secondary" fullWidth>
-        {acceptButtonText}
-      </Button>
-      <Button onClick={onCancel} disabled={loading} variant="outlined" color="secondary" fullWidth>
+      <Button
+        variant="text"
+        onClick={onCancel}
+        disabled={loading}
+        color="primary"
+        size="large"
+        fullWidth
+      >
         {cancelButtonText}
+      </Button>
+      <Divider />
+      <Button
+        variant="text"
+        onClick={onAccept}
+        loading={loading}
+        color="danger"
+        size="large"
+        fullWidth
+      >
+        {acceptButtonText}
       </Button>
     </Wrapper>
   );
@@ -33,10 +48,21 @@ export const ConfirmModalActions = ({
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 24px;
-  margin-bottom: 12px;
+  height: 100%;
+  border-top: 1px solid ${({ theme }) => theme.border};
+
+  & button {
+    &:first-of-type {
+      border-bottom-left-radius: 16px;
+    }
+
+    &:last-of-type {
+      border-bottom-right-radius: 16px;
+    }
+  }
+`;
+
+const Divider = styled.div`
+  width: 2px;
+  background-color: ${({ theme }) => theme.border};
 `;

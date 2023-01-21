@@ -5,7 +5,7 @@ import { TimelineTweetsRequest, TimelineTweetsResponse, TweetData } from "api/tw
 import { Loader } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
 import { useAutoAnimate } from "hooks/useAutoAnimate";
-import { useInfiniteScroll } from "hooks/useInfiniteScroll";
+import { useInfiniteScrollQuery } from "hooks/useInfiniteScrollQuery";
 import { homeGlobalTimeline } from "network/tweet/timelineTweets";
 import { TweetCard } from "shared/TweetCard";
 import styled from "styled-components";
@@ -17,7 +17,7 @@ export const HomeTimeline = () => {
   });
   const queryClient = useQueryClient();
   const { data, isLoading, isFetching, lastItemRef, hasNextPage, isError, error } =
-    useInfiniteScroll<TimelineTweetsRequest, TimelineTweetsResponse, TweetData>({
+    useInfiniteScrollQuery<TimelineTweetsRequest, TimelineTweetsResponse, TweetData>({
       queryKey: ["tweets"],
       queryFn: homeGlobalTimeline
     });

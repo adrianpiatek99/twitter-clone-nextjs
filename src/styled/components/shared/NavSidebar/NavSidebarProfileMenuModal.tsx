@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { MenuModal, MenuModalItem } from "components/core";
+import LogoutIcon from "icons/LogoutIcon";
 import { ConfirmLogOutModal } from "shared/Modals";
 
 interface NavSidebarProfileMenuModalProps {
@@ -24,7 +25,9 @@ export const NavSidebarProfileMenuModal = ({
   return (
     <>
       <MenuModal isOpen={isOpen} onClose={onClose}>
-        <MenuModalItem onClick={handleLagOutClick}>Log out</MenuModalItem>
+        <MenuModalItem onClick={handleLagOutClick} color="danger" startIcon={<LogoutIcon />}>
+          Log out
+        </MenuModalItem>
       </MenuModal>
       <ConfirmLogOutModal
         isOpen={isConfirmModalOpen}

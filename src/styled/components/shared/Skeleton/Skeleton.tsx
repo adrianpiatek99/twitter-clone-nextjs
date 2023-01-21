@@ -10,6 +10,7 @@ interface SkeletonProps extends ComponentPropsWithoutRef<"div"> {
   variant?: SkeletonVariant;
   absolute?: boolean;
   withoutRadius?: boolean;
+  transparent?: boolean;
 }
 
 export const Skeleton = ({
@@ -18,6 +19,7 @@ export const Skeleton = ({
   variant = "rect",
   absolute = false,
   withoutRadius = false,
+  transparent = false,
   ...props
 }: SkeletonProps) => {
   return (
@@ -27,6 +29,7 @@ export const Skeleton = ({
       variant={variant}
       absolute={absolute}
       withoutRadius={withoutRadius}
+      transparent={transparent}
       {...props}
     >
       <Swipe />
@@ -48,7 +51,8 @@ const Container = styled.div<SkeletonProps>`
   inset: none;
   height: ${({ height }) => (height ? `${height}px` : "100%")};
   width: ${({ width }) => (width ? `${width}px` : "100%")};
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: ${({ transparent }) =>
+    transparent ? "transparent" : "rgba(255, 255, 255, 0.1)"};
   border-radius: ${({ variant }) => (variant === "circular" ? "50%" : "16px")};
   overflow: hidden;
 

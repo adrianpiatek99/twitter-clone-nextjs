@@ -22,10 +22,9 @@ export const timelineTweetsPath = "/api/tweet/timelineTweets";
 
 const handler: NextApiHandler<TimelineTweetsResponse | NextApiError> = async (req, res) => {
   const session = await getSession({ req });
-  const { method } = req;
   const query = req.query as TimelineTweetsRequest;
 
-  if (method === "GET") {
+  if (req.method === "GET") {
     const userId = session?.user?.id;
     const { cursor, limit } = query;
     const queryLimit = limit ? parseInt(limit) : 15;

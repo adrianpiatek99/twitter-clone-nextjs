@@ -10,14 +10,13 @@ export const likeTweetPath = "api/tweet/likeTweet";
 
 const handler: NextApiHandler<NextApiError> = async (req, res) => {
   const session = await getSession({ req });
-  const { method } = req;
   const body = req.body as LikeTweetRequest;
 
   if (!session) {
     return res.status(401).send({ error: "You are not authorized." });
   }
 
-  if (method === "POST") {
+  if (req.method === "POST") {
     const userId = session.user.id;
     const { tweetId } = body;
 

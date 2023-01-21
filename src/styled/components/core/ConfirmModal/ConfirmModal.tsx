@@ -2,20 +2,21 @@ import React, { ComponentPropsWithoutRef, FC, useEffect } from "react";
 
 import FocusTrap from "@mui/base/FocusTrap";
 import { AnimatePresence, motion } from "framer-motion";
-import { Logo } from "shared/Logo";
 import { Portal } from "shared/Portal";
 import styled from "styled-components";
 
+import { Heading } from "../Heading";
 import { ModalOverlay } from "../Modal";
+import { Text } from "../Text";
 import { ConfirmModalActions } from "./ConfirmModalActions";
 
 interface ConfirmModalProps extends ComponentPropsWithoutRef<"div"> {
   isOpen: boolean;
+  heading: string;
   text: string;
   onClose: () => void;
   onAccept: () => void;
   loading?: boolean;
-  heading?: string;
   onCancel?: () => void;
   acceptButtonText?: string;
   cancelButtonText?: string;
@@ -63,11 +64,10 @@ export const ConfirmModal: FC<ConfirmModalProps> = ({
           <ModalOverlay onClose={onClose}>
             <FocusTrap open>
               <Content onClick={e => e.stopPropagation()} variants={contentVariants} tabIndex={-1}>
-                <LogoWrapper>
-                  <Logo size="m" />
-                </LogoWrapper>
-                {heading && <Heading>{heading}</Heading>}
-                <Text>{text}</Text>
+                <Header>
+                  <Heading>{heading}</Heading>
+                  <Text color="secondary">{text}</Text>
+                </Header>
                 <ConfirmModalActions
                   onAccept={onAccept}
                   onCancel={handleCancelClick}
@@ -100,27 +100,18 @@ const contentVariants = {
 const Content = styled(motion.div)`
   display: flex;
   flex-direction: column;
+  gap: 12px;
   border-radius: 16px;
+  text-align: center;
   max-width: 320px;
   width: 90%;
-  padding: 32px;
   background-color: ${({ theme }) => theme.background};
   outline: none;
 `;
 
-const LogoWrapper = styled.div`
+const Header = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin-bottom: 16px;
-`;
-
-const Heading = styled.h2`
-  ${({ theme }) => theme.heading.xs};
-  margin-bottom: 8px;
-`;
-
-const Text = styled.span`
-  color: ${({ theme }) => theme.neutral300};
+  flex-direction: column;
+  gap: 8px;
+  padding: 24px 24px 0;
 `;

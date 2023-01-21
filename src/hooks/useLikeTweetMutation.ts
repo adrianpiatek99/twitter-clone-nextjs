@@ -1,21 +1,34 @@
-import { useMutation } from "@tanstack/react-query";
-import { QueryClient } from "@tanstack/react-query";
+import { QueryClient, useMutation } from "@tanstack/react-query";
 import { TimelineTweetsResponse, TweetData } from "api/tweet/timelineTweets";
 import { likeTweet } from "network/tweet/likeTweet";
 import { unlikeTweet } from "network/tweet/unlikeTweet";
 
 import { useToasts } from "./useToasts";
 
-interface UseLikeTweetProps {
+interface UseLikeTweetMutationProps {
   queryClient: QueryClient;
   userId: string | undefined;
   tweetId: TweetData["id"];
   likes: TweetData["likes"];
+  disabled?: boolean;
+}
+
+export interface UseLikeTweetMutationReturn {
+  likeLoading: boolean;
+  unlikeLoading: boolean;
+  handleLikeTweet: () => void;
+  isLiked: boolean;
 }
 
 type LikeQueryData = { pages: TimelineTweetsResponse[] };
 
-export const useLikeTweet = ({ queryClient, tweetId, userId = "", likes }: UseLikeTweetProps) => {
+export const useLikeTweetMutation = ({
+  queryClient,
+  tweetId,
+  userId = "",
+  likes,
+  disabled = false
+}: UseLikeTweetMutationProps): UseLikeTweetMutationReturn => {
   const { handleAddToast } = useToasts();
   const isLiked = likes.some(like => like.userId === userId);
   const queryKey = ["tweets", "infinite"];
@@ -44,6 +57,8 @@ export const useLikeTweet = ({ queryClient, tweetId, userId = "", likes }: UseLi
     onSuccess: () => {
       queryClient.setQueryData<LikeQueryData>(queryKey, oldData => {
         if (oldData) return updateCache(oldData, "like");
+
+        return oldData;
       });
     },
     onError: (error: any) => {
@@ -56,6 +71,8 @@ export const useLikeTweet = ({ queryClient, tweetId, userId = "", likes }: UseLi
     onSuccess: () => {
       queryClient.setQueryData<LikeQueryData>(queryKey, oldData => {
         if (oldData) return updateCache(oldData, "unlike");
+
+        return oldData;
       });
     },
     onError: (error: any) => {
@@ -67,7 +84,7 @@ export const useLikeTweet = ({ queryClient, tweetId, userId = "", likes }: UseLi
   const unlikeLoading = unlikeMutation.isLoading;
 
   const handleLikeTweet = () => {
-    if (likeLoading || unlikeLoading || !userId) return;
+    if (likeLoading || unlikeLoading || !userId || disabled) return;
 
     if (isLiked) {
       unlikeMutation.mutate({ tweetId });
@@ -78,5 +95,5 @@ export const useLikeTweet = ({ queryClient, tweetId, userId = "", likes }: UseLi
     likeMutation.mutate({ tweetId });
   };
 
-  return { likeMutation, unlikeMutation, likeLoading, unlikeLoading, handleLikeTweet, isLiked };
+  return { likeLoading, unlikeLoading, handleLikeTweet, isLiked };
 };

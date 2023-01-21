@@ -85,9 +85,7 @@ const StyledLink = styled(Link)<
 
   ${({ theme }) => theme.text.m};
   ${({ size }) => sizeVariants[size || "normal"]};
-  @media (hover: hover) {
-    ${({ $color, variant }) => buttonVariantsWithColor[variant || "contained"][$color]};
-  }
+  ${({ $color, variant }) => buttonVariantsWithColor[variant || "contained"][$color]};
 
   @media (hover: hover) {
     &:hover:not(:disabled) {
