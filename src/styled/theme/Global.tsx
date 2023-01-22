@@ -72,6 +72,25 @@ export const GlobalStyle = createGlobalStyle`
     list-style: none;
   }
 
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 50px;
+    border: 3px solid rgba(0, 0, 0, 0);
+    background-clip: padding-box;
+    background-color: rgba(116, 114, 114, 0.7);
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(116, 114, 114, 0.8);
+  }
+
+  &::-webkit-scrollbar-thumb:active {
+    border: 2px solid rgba(0, 0, 0, 0);
+  }
+
   .MuiTooltip-tooltip {
     background-color: ${({ theme }) => theme.gray500};
     color: ${({ theme }) => theme.neutral50};

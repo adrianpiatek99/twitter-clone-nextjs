@@ -28,13 +28,20 @@ export const Avatar = ({
   const href = screenName && `/${screenName}`;
 
   if (loading) {
-    return <Skeleton height={avatarSize} width={avatarSize} variant="circular" />;
+    return <Skeleton absolute variant="circular" />;
   }
 
   const AvatarComponent = () => {
     return (
-      <AvatarWrapper size={avatarSize}>
-        <img src={src} alt={screenName ?? ""} />
+      <AvatarWrapper size={avatarSize} {...props}>
+        <img
+          src={
+            src
+              ? src
+              : "https://abs.twimg.com/sticky/default_profile_images/default_profile_200x200.png"
+          }
+          alt={screenName ?? "Profile image"}
+        />
       </AvatarWrapper>
     );
   };
@@ -52,8 +59,7 @@ export const Avatar = ({
       as={onClick ? "button" : "div"}
       onClick={onClick}
       disabled={disableFocus}
-      tabIndex={disableFocus ? -1 : 0}
-      {...props}
+      tabIndex={disableFocus || !onClick ? -1 : 0}
     >
       <AvatarComponent />
     </AvatarButton>
@@ -125,6 +131,8 @@ const AvatarButton = styled.button`
 
 const AvatarWrapper = styled.div<{ size: number }>`
   position: relative;
+  display: grid;
+  place-items: center;
   width: ${({ size }) => `${size}px`};
   height: ${({ size }) => `${size}px`};
   border-radius: 50%;

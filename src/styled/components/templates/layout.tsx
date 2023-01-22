@@ -8,13 +8,16 @@ import { NavDrawer } from "shared/NavDrawer";
 import { NavSidebar } from "shared/NavSidebar";
 import styled, { keyframes } from "styled-components";
 
+import { ProfileLayout } from "./profile-page";
+
 interface LayoutProps {
   children: ReactNode;
 }
 
 const Layout = ({ children }: LayoutProps) => {
-  const { asPath } = useRouter();
+  const { asPath, pathname } = useRouter();
   const { isSessionLoading } = useAppSession();
+  const isProfilePage = pathname === "/[screenName]";
 
   if (isSessionLoading) {
     return (
@@ -30,7 +33,7 @@ const Layout = ({ children }: LayoutProps) => {
     <Wrapper>
       <NavDrawer />
       <NavSidebar />
-      <Feed>{children}</Feed>
+      <Feed>{isProfilePage ? <ProfileLayout>{children}</ProfileLayout> : children}</Feed>
       <NavBottomBar />
     </Wrapper>
   );

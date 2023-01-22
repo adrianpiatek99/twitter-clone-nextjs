@@ -2,6 +2,8 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import updateLocale from "dayjs/plugin/updateLocale";
 
+type DateType = Date | string | number | dayjs.Dayjs;
+
 dayjs.extend(relativeTime);
 dayjs.extend(updateLocale);
 
@@ -15,7 +17,7 @@ dayjs.updateLocale("en", {
     h: "1h",
     hh: "%dh",
     d: "1d",
-    dd: "%dh",
+    dd: "%dd",
     M: "1M",
     MM: "%dM",
     y: "1y",
@@ -23,5 +25,7 @@ dayjs.updateLocale("en", {
   }
 });
 
-export const getRelativeTime = (date: Date | string | number | dayjs.Dayjs) =>
-  dayjs(date).fromNow(true);
+export const getRelativeTime = (date: DateType) => dayjs(date).fromNow(true);
+
+export const getFormattedDate = (date: DateType, format = "MMMM D, YYYY") =>
+  dayjs(date).format(format);
