@@ -50,7 +50,7 @@ export const ModalPanel: FC<ModalPanelProps> = ({
   );
 };
 
-const overlayVariants = (duration = 0.15) => {
+const overlayVariants = (duration = 0.2) => {
   return {
     inactive: { opacity: 0, transition: { duration } },
     active: { opacity: 1, transition: { duration } }

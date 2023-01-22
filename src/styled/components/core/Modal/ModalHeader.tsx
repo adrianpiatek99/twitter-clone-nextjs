@@ -42,7 +42,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
-  height: 53px;
+  min-height: 53px;
   width: 100%;
   padding: 0 16px;
 `;

@@ -48,7 +48,6 @@ export const ConfirmModal: FC<ConfirmModalProps> = ({
           <ModalPanel isOpen={isOpen} onClose={onClose}>
             <FocusTrap open>
               <Content
-                onClick={e => e.stopPropagation()}
                 initial="inactive"
                 animate="active"
                 exit="inactive"
@@ -79,12 +78,12 @@ const contentVariants = {
   inactive: {
     scale: 0.9,
     opacity: 0,
-    transition: { duration: 0.15 }
+    transition: { duration: 0.2 }
   },
   active: {
     scale: 1,
     opacity: 1,
-    transition: { duration: 0.15 }
+    transition: { duration: 0.2 }
   }
 };
 

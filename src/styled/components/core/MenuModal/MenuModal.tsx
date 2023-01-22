@@ -29,7 +29,6 @@ export const MenuModal = ({ children, isOpen, onClose, ...props }: MenuModalProp
           <ModalPanel isOpen={isOpen} onClose={onClose}>
             <FocusTrap open>
               <Content
-                onClick={e => e.stopPropagation()}
                 variants={isMobile ? mobileContentVariants : contentVariants}
                 initial="inactive"
                 animate="active"
@@ -54,12 +53,12 @@ const mobileContentVariants = {
   inactive: {
     y: "100%",
     opacity: 0,
-    transition: { duration: 0.15 }
+    transition: { duration: 0.2 }
   },
   active: {
     y: "0%",
     opacity: 1,
-    transition: { duration: 0.15 }
+    transition: { duration: 0.2 }
   }
 };
 
@@ -67,18 +66,18 @@ const contentVariants = {
   inactive: {
     scale: 0.9,
     opacity: 0,
-    transition: { duration: 0.15 }
+    transition: { duration: 0.2 }
   },
   active: {
     scale: 1,
     opacity: 1,
-    transition: { duration: 0.15 }
+    transition: { duration: 0.2 }
   }
 };
 
 const Content = styled(motion.div)`
   position: absolute;
-  bottom: calc(24px + env(safe-area-inset-bottom));
+  bottom: calc(12px + env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
   max-width: 375px;
