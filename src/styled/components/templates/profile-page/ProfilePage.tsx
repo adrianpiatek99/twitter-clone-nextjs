@@ -1,5 +1,9 @@
 import React from "react";
 
-export const ProfilePageTemplate = () => {
-  return <></>;
+import { ProfilePageProps } from "pages/[screenName]";
+
+export const ProfilePageTemplate = ({ userData }: ProfilePageProps) => {
+  console.log("userData", userData);
+
+  return <div>{userData.screenName}</div>;
 };

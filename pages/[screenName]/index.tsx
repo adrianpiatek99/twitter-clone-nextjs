@@ -1,13 +1,18 @@
 import React from "react";
 
+import { UserData } from "api/user/userByScreenName";
 import { ProfilePageTemplate } from "templates/profile-page";
 
-const Profile = () => {
-  return (
-    <>
-      <ProfilePageTemplate />
-    </>
-  );
+export interface ProfilePageProps {
+  userData: UserData;
+}
+
+const Profile = ({ userData }: ProfilePageProps) => {
+  if (!userData) {
+    return null;
+  }
+
+  return <ProfilePageTemplate userData={userData} />;
 };
 
 export default Profile;
