@@ -40,9 +40,9 @@ const handler: NextApiHandler<NextApiError> = async (req, res) => {
     }
 
     res.status(200).end();
-  } else {
-    res.status(400).send({ error: "Bad request." });
   }
+
+  return res.status(400).send({ error: "Bad request." });
 };
 
 export default handler;

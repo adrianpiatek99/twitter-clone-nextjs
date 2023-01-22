@@ -70,9 +70,9 @@ const handler: NextApiHandler<TimelineTweetsResponse | NextApiError> = async (re
     }
 
     return res.status(200).json({ tweets, nextCursor });
-  } else {
-    res.status(400).send({ error: "Bad request." });
   }
+
+  return res.status(400).send({ error: "Bad request." });
 };
 
 export default handler;

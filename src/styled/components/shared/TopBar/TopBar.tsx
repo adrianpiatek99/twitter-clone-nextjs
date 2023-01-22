@@ -8,7 +8,7 @@ interface TopBarProps extends ComponentPropsWithoutRef<"div"> {
   children: ReactNode;
   startIcon?: ReactElement;
   endIcon?: ReactElement;
-  loading?: string;
+  loading?: boolean;
 }
 
 export const TopBar: FC<TopBarProps> = ({ children, startIcon, endIcon, loading, ...props }) => {
