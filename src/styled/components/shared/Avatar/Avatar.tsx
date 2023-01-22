@@ -126,6 +126,7 @@ const AvatarButton = styled.button`
 
   &:disabled {
     pointer-events: none;
+    cursor: default;
   }
 `;
 
@@ -136,7 +137,6 @@ const AvatarWrapper = styled.div<{ size: number }>`
   width: ${({ size }) => `${size}px`};
   height: ${({ size }) => `${size}px`};
   border-radius: 50%;
-  cursor: pointer;
   transition: 0.2s;
 
   & > img {

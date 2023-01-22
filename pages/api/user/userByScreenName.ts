@@ -18,8 +18,8 @@ const handler: NextApiHandler<UserByScreenNameResponse | NextApiError> = async (
   if (req.method === "GET") {
     const { screenName } = req.query as UserByScreenNameRequest;
 
-    const user = await prisma.user.findUnique({
-      where: { screenName },
+    const user = await prisma.user.findFirst({
+      where: { screenName: { equals: screenName, mode: "insensitive" } },
       include: {
         _count: {
           select: {

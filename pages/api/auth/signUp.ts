@@ -21,8 +21,8 @@ const handler: NextApiHandler<SignUpResponse | NextApiError> = async (req, res) 
     const existingEmail = await prisma.user.findUnique({
       where: { email: emailWithLowerCase }
     });
-    const existingScreenName = await prisma.user.findUnique({
-      where: { screenName: screenName.toLowerCase() }
+    const existingScreenName = await prisma.user.findFirst({
+      where: { screenName: { equals: screenName, mode: "insensitive" } }
     });
 
     if (existingScreenName) {
