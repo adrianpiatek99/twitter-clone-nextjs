@@ -8,6 +8,7 @@ import { useAutoAnimate } from "hooks/useAutoAnimate";
 import { useInfiniteScrollQuery } from "hooks/useInfiniteScrollQuery";
 import { userTweets } from "network/tweet/userTweets";
 import { ProfilePageProps } from "pages/[screenName]";
+import { ErrorMessage } from "shared/ErrorMessage";
 import { TweetCard } from "shared/TweetCard";
 import styled from "styled-components";
 
@@ -16,17 +17,18 @@ export const ProfilePageTemplate = ({ userData: { id: userId } }: ProfilePagePro
   const [tweetSectionRef] = useAutoAnimate<HTMLTableSectionElement>({
     duration: 250
   });
-  const { data, isLoading, isFetching, lastItemRef, hasNextPage } = useInfiniteScrollQuery<
-    UserTweetsRequest,
-    UserTweetsResponse,
-    TweetData
-  >({
-    queryKey: ["tweets", "user", userId],
-    queryFn: userTweets,
-    params: {
-      userId
-    }
-  });
+  const { data, isLoading, isFetching, lastItemRef, hasNextPage, isError, error } =
+    useInfiniteScrollQuery<UserTweetsRequest, UserTweetsResponse, TweetData>({
+      queryKey: ["tweets", "user", userId],
+      queryFn: userTweets,
+      params: {
+        userId
+      }
+    });
+
+  if (isError) {
+    return <ErrorMessage message={error?.message} />;
+  }
 
   return (
     <TweetsSection ref={tweetSectionRef}>

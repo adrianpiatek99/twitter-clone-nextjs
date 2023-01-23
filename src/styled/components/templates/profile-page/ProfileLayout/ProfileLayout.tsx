@@ -23,7 +23,7 @@ export const ProfileLayout = ({ children }: ProfileLayoutProps) => {
   const queryScreenName = query.screenName as string;
   const { session, isSessionLoading } = useAppSession();
   const itsMe = queryScreenName?.toLowerCase() === session?.user.screenName.toLowerCase();
-  const { data, userByScreenNameLoading, isError, errorMessage } = useUserByScreenNameQuery({
+  const { data, userByScreenNameLoading, isError, error } = useUserByScreenNameQuery({
     queryScreenName,
     enabled: !itsMe
   });
@@ -55,7 +55,7 @@ export const ProfileLayout = ({ children }: ProfileLayoutProps) => {
             <Text size="xl" weight={700}>
               @{queryScreenName}
             </Text>
-            <ErrorMessage message={errorMessage} />
+            <ErrorMessage message={error?.message} />
           </>
         )}
       </ProfileInfoWrapper>
