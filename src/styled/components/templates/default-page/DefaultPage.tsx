@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button, LinearProgress } from "components/core";
 import GoogleIcon from "icons/GoogleIcon";
 import { Logo } from "shared/Logo";
-import { Tab, TabGroup } from "shared/Tabs";
+import { Tab, Tabs } from "shared/Tabs";
 import { useAppSelector } from "store/store";
 import styled from "styled-components";
 
@@ -20,7 +20,9 @@ export const DefaultPageTemplate = () => {
   const { formLoading } = useAppSelector(state => state.pages.defaultPage);
   const [currentTab, setCurrentTab] = useState<DefaultTabs>(tabs[0]);
 
-  const handleChangeTab = (tab: DefaultTabs) => setCurrentTab(tab);
+  const handleChangeTab = (tab: DefaultTabs) => {
+    setCurrentTab(tab);
+  };
 
   return (
     <Wrapper>
@@ -32,15 +34,11 @@ export const DefaultPageTemplate = () => {
             <Logo size="xl" />
           </Header>
           <TabGroupWrapper>
-            <TabGroup
-              variant="fullWidth"
-              value={currentTab}
-              onChange={(_, tab: DefaultTabs) => handleChangeTab(tab)}
-            >
+            <Tabs value={currentTab} onChange={handleChangeTab}>
               {tabs.map(tab => (
-                <Tab key={tab} label={tab} value={tab} />
+                <Tab key={tab} value={tab} />
               ))}
-            </TabGroup>
+            </Tabs>
           </TabGroupWrapper>
           <DefaultCurrentTab currentTab={currentTab} handleChangeTab={handleChangeTab} />
           <Button variant="outlined" color="secondary" startIcon={<GoogleIcon />} disabled>
