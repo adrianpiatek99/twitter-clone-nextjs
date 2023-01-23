@@ -1,6 +1,6 @@
 import React, { ComponentPropsWithoutRef, ReactElement } from "react";
 
-import FocusTrap from "@mui/base/FocusTrap";
+import FocusTrap from "focus-trap-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMediaQuery } from "hooks/useMediaQuery";
 import { Portal } from "shared/Portal";
@@ -45,7 +45,7 @@ export const Modal = ({
             onClose={onClose}
             preventClosingOnOutside={preventClosingOnOutside}
           >
-            <FocusTrap open>
+            <FocusTrap>
               <Content
                 initial="inactive"
                 animate="active"
