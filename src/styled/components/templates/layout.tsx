@@ -6,6 +6,7 @@ import { Logo } from "shared/Logo";
 import { NavBottomBar } from "shared/NavBottomBar";
 import { NavDrawer } from "shared/NavDrawer";
 import { NavSidebar } from "shared/NavSidebar";
+import { Toaster } from "shared/Toast";
 import styled, { keyframes } from "styled-components";
 
 import { ProfileLayout } from "./profile-page";
@@ -35,6 +36,7 @@ const Layout = ({ children }: LayoutProps) => {
       <NavSidebar />
       <Feed>{isProfilePage ? <ProfileLayout>{children}</ProfileLayout> : children}</Feed>
       <NavBottomBar />
+      <Toaster />
     </Wrapper>
   );
 };
