@@ -1,10 +1,14 @@
 import { useRef } from "react";
 
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+
+type Params<T> = Omit<T, "cursor">;
 
 interface UseInfiniteScrollQueryProps<TRequest, TResponse> {
   queryKey: string[];
   queryFn: (props: TRequest) => Promise<TResponse>;
+  params?: Params<TRequest>;
 }
 
 export const useInfiniteScrollQuery = <
@@ -13,12 +17,13 @@ export const useInfiniteScrollQuery = <
   TData
 >({
   queryKey,
-  queryFn
+  queryFn,
+  params
 }: UseInfiniteScrollQueryProps<TRequest, TResponse>) => {
-  const { data: queryData, ...restData } = useInfiniteQuery<TResponse>({
+  const { data: queryData, ...restData } = useInfiniteQuery<TResponse, AxiosError, TRequest>({
     queryKey: [...queryKey, "infinite"],
     getNextPageParam: lastPage => lastPage.nextCursor,
-    queryFn: ({ pageParam }) => queryFn({ cursor: pageParam } as TRequest)
+    queryFn: ({ pageParam }) => queryFn({ ...params, cursor: pageParam } as TRequest)
   });
   const data: TData[] = queryData?.pages.flatMap(page => page[queryKey[0]]) ?? [];
   const observer = useRef<IntersectionObserver>(null!);
