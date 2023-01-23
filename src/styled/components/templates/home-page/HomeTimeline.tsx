@@ -3,15 +3,13 @@ import React from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { TimelineTweetsRequest, TimelineTweetsResponse, TweetData } from "api/tweet/timelineTweets";
 import { Loader } from "components/core";
-import { useAppSession } from "hooks/useAppSession";
 import { useAutoAnimate } from "hooks/useAutoAnimate";
 import { useInfiniteScrollQuery } from "hooks/useInfiniteScrollQuery";
-import { homeGlobalTimeline } from "network/tweet/timelineTweets";
+import { timelineTweets } from "network/tweet/timelineTweets";
 import { TweetCard } from "shared/TweetCard";
 import styled from "styled-components";
 
 export const HomeTimeline = () => {
-  const { session } = useAppSession();
   const [tweetSectionRef] = useAutoAnimate<HTMLTableSectionElement>({
     duration: 250
   });
@@ -19,7 +17,7 @@ export const HomeTimeline = () => {
   const { data, isLoading, isFetching, lastItemRef, hasNextPage, isError, error } =
     useInfiniteScrollQuery<TimelineTweetsRequest, TimelineTweetsResponse, TweetData>({
       queryKey: ["tweets"],
-      queryFn: homeGlobalTimeline
+      queryFn: timelineTweets
     });
 
   if (isError) {
@@ -33,14 +31,7 @@ export const HomeTimeline = () => {
           <Loader center />
         </LoaderWrapper>
       ) : (
-        data.map(tweet => (
-          <TweetCard
-            key={tweet.id}
-            queryClient={queryClient}
-            userId={session?.user.id}
-            {...tweet}
-          />
-        ))
+        data.map(tweet => <TweetCard key={tweet.id} queryClient={queryClient} {...tweet} />)
       )}
       {isFetching && !isLoading && (
         <LoaderWrapper additionalPadding>

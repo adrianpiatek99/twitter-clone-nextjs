@@ -3,6 +3,7 @@ import React from "react";
 import { QueryClient } from "@tanstack/react-query";
 import { TweetData } from "api/tweet/timelineTweets";
 import { Text } from "components/core";
+import { useAppSession } from "hooks/useAppSession";
 import { useDeleteTweetMutation } from "hooks/useDeleteTweetMutation";
 import { useLikeTweetMutation } from "hooks/useLikeTweetMutation";
 import { Avatar } from "shared/Avatar";
@@ -16,7 +17,6 @@ import { TweetCardToolbar } from "./TweetCardToolbar";
 interface TweetCardProps extends TweetData {
   queryClient: QueryClient;
   isProfile?: boolean;
-  userId: string | undefined;
 }
 
 export const TweetCard = ({
@@ -24,17 +24,22 @@ export const TweetCard = ({
   id,
   text,
   createdAt,
-  userId,
   author,
   likes,
   _count
 }: TweetCardProps) => {
+  const { session } = useAppSession();
+  const userId = session?.user.id;
   const { screenName, profileImageUrl } = author;
-  const { handleDeleteTweet, deleteLoading } = useDeleteTweetMutation({ queryClient, tweetId: id });
+  const { handleDeleteTweet, deleteLoading } = useDeleteTweetMutation({
+    queryClient,
+    tweetId: id,
+    userId: userId ?? ""
+  });
   const likeTweetMutation = useLikeTweetMutation({
     queryClient,
     tweetId: id,
-    userId,
+    userId: userId ?? "",
     likes,
     disabled: deleteLoading
   });
