@@ -48,7 +48,7 @@ const handler: NextApiHandler<SignUpResponse | NextApiError> = async (req, res) 
 
     const userWithoutPassword = exclude(createdUser, ["password"]);
 
-    res.status(201).json(userWithoutPassword);
+    return res.status(201).json(userWithoutPassword);
   }
 
   return res.status(400).send({ error: "Bad request." });

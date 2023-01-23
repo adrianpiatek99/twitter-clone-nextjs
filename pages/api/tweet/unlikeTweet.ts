@@ -35,7 +35,7 @@ const handler: NextApiHandler<NextApiError> = async (req, res) => {
       return res.status(404).send({ error: "Something went wrong then trying to unlike tweet." });
     }
 
-    res.status(200).end();
+    return res.status(200).end();
   }
 
   return res.status(400).send({ error: "Bad request." });

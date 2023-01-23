@@ -27,7 +27,7 @@ const handler: NextApiHandler<TimelineTweetsResponse | NextApiError> = async (re
   if (req.method === "GET") {
     const userId = session?.user?.id;
     const { cursor, limit } = query;
-    const queryLimit = limit ? parseInt(limit) : 15;
+    const queryLimit = limit ? parseInt(limit) : 20;
     const prismaCursor = cursor ? { id: cursor } : undefined;
 
     const tweets = await prisma.tweet.findMany({
