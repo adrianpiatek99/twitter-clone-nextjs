@@ -1,51 +1,37 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CreateTweetRequest } from "api/tweet/createTweet";
-import { TimelineTweetsResponse } from "api/tweet/timelineTweets";
+import { CreateTweetRequest, CreateTweetResponse } from "api/tweet/createTweet";
+import { TimelineTweetsResponse, TweetData } from "api/tweet/timelineTweets";
+import { AxiosError } from "axios";
 import { createTweet } from "network/tweet/createTweet";
+import { reloadSession } from "utils/session";
 
 import { useToasts } from "./useToasts";
 
 interface UseCreateTweetMutationProps {
+  userId: string;
   onSettled?: () => void;
 }
 
-interface UseCreateTweetMutationReturn {
+export interface UseCreateTweetMutationReturn {
   handleCreateTweet: (data: CreateTweetRequest) => void;
   createTweetLoading: boolean;
 }
 
-export const useCreateTweetMutation = ({
-  onSettled
-}: UseCreateTweetMutationProps): UseCreateTweetMutationReturn => {
+export const useCreateTweetMutation = ({ userId, onSettled }: UseCreateTweetMutationProps) => {
   const { handleAddToast } = useToasts();
   const queryClient = useQueryClient();
-  const createTweetMutation = useMutation({
+  const createTweetMutation = useMutation<CreateTweetResponse, AxiosError, CreateTweetRequest>({
     mutationFn: createTweet,
     onSuccess: data => {
-      queryClient.setQueryData<{ pages: TimelineTweetsResponse[] }>(
-        ["tweets", "infinite"],
-        oldData => {
-          if (oldData) {
-            const newTweets = oldData.pages.map((page, index) => {
-              if (index === 0) {
-                const tweets = [data, ...page.tweets];
+      // Add the new tweet to cached tweets on the home page
+      updateCache(data, ["tweets", "infinite"]);
+      // Add the new tweet to cached tweets on the profile page
+      updateCache(data, ["tweets", "user", userId, "infinite"]);
 
-                return { ...page, tweets };
-              }
-
-              return page;
-            });
-
-            return { ...oldData, pages: newTweets };
-          }
-
-          return oldData;
-        }
-      );
-
+      reloadSession();
       handleAddToast("success", "Tweet was created.");
     },
-    onError: (error: any) => {
+    onError: error => {
       handleAddToast("error", error?.message);
     },
     onSettled: () => {
@@ -53,6 +39,26 @@ export const useCreateTweetMutation = ({
     }
   });
   const createTweetLoading = createTweetMutation.isLoading;
+
+  const updateCache = (data: TweetData, queryKey: string[]) => {
+    queryClient.setQueryData<{ pages: TimelineTweetsResponse[] }>(queryKey, oldData => {
+      if (oldData) {
+        const newTweets = oldData.pages.map((page, index) => {
+          if (index === 0) {
+            const tweets = [data, ...page.tweets];
+
+            return { ...page, tweets };
+          }
+
+          return page;
+        });
+
+        return { ...oldData, pages: newTweets };
+      }
+
+      return oldData;
+    });
+  };
 
   const handleCreateTweet = (data: CreateTweetRequest) => {
     if (createTweetLoading) return;
