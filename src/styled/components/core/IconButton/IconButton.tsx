@@ -1,6 +1,5 @@
 import React, { ComponentPropsWithRef, FC, forwardRef, ReactNode, Ref, useMemo } from "react";
 
-import Tooltip from "@mui/material/Tooltip";
 import styled, { css, useTheme } from "styled-components";
 
 import {
@@ -49,25 +48,25 @@ export const IconButton: FC<IconButtonProps> = forwardRef(
     }, [isError, color]);
 
     return (
-      <Tooltip title={title} disableInteractive enterNextDelay={150}>
-        <Wrapper
-          type="button"
-          $color={iconButtonColors}
-          size={size}
-          $isError={isError}
-          $loading={loading}
-          tabIndex={disableFocus ? -1 : 0}
-          {...props}
-          ref={ref}
-        >
-          {children}
-        </Wrapper>
-      </Tooltip>
+      <ButtonElement
+        aria-label={title}
+        title={title}
+        type="button"
+        $color={iconButtonColors}
+        size={size}
+        $isError={isError}
+        $loading={loading}
+        tabIndex={disableFocus ? -1 : 0}
+        {...props}
+        ref={ref}
+      >
+        {children}
+      </ButtonElement>
     );
   }
 );
 
-const Wrapper = styled.button<
+const ButtonElement = styled.button<
   IconButtonProps & { $color: [string, string]; $isError: boolean; $loading: boolean }
 >`
   position: relative;

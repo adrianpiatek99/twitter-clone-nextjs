@@ -1,6 +1,5 @@
 import React, { ComponentPropsWithoutRef, FC, forwardRef, ReactNode, Ref, useMemo } from "react";
 
-import { Tooltip } from "@mui/material";
 import styled, { css, useTheme } from "styled-components";
 import { hexToRGBA } from "utils/colors";
 
@@ -45,14 +44,19 @@ export const IconButtonWithLabel: FC<IconLinkButtonProps> = forwardRef(
     }, [isError, color]);
 
     return (
-      <Tooltip title={title} disableInteractive enterNextDelay={100}>
-        <ButtonWrapper $color={iconButtonColors} isSelected={isSelected} {...props} ref={ref}>
-          <IconWrapper>{children}</IconWrapper>
-          <LabelWrapper>
-            <Text>{label}</Text>
-          </LabelWrapper>
-        </ButtonWrapper>
-      </Tooltip>
+      <ButtonElement
+        aria-label={title}
+        title={title}
+        $color={iconButtonColors}
+        isSelected={isSelected}
+        {...props}
+        ref={ref}
+      >
+        <IconWrapper>{children}</IconWrapper>
+        <LabelWrapper>
+          <Text>{label}</Text>
+        </LabelWrapper>
+      </ButtonElement>
     );
   }
 );
@@ -81,7 +85,7 @@ const LabelWrapper = styled.div`
   }
 `;
 
-const ButtonWrapper = styled.button<{
+const ButtonElement = styled.button<{
   $color: [string, string];
   isSelected: boolean;
 }>`

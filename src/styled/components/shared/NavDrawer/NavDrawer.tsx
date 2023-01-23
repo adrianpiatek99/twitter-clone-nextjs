@@ -1,7 +1,7 @@
 import React from "react";
 
-import FocusTrap from "@mui/base/FocusTrap";
 import { ModalPanel } from "components/core/Modal";
+import FocusTrap from "focus-trap-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAppSession } from "hooks/useAppSession";
 import { Portal } from "shared/Portal";
@@ -26,7 +26,7 @@ export const NavDrawer = () => {
         {isOpen && (
           <Portal rootId="modal">
             <ModalPanel isOpen={isOpen} onClose={onClose} duration={0.25}>
-              <FocusTrap open>
+              <FocusTrap>
                 <DrawerWrapper
                   variants={drawerVariants}
                   onClick={e => e.stopPropagation()}

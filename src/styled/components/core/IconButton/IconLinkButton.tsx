@@ -1,6 +1,5 @@
 import React, { ComponentPropsWithoutRef, ReactNode, useMemo } from "react";
 
-import { Tooltip } from "@mui/material";
 import Link from "next/link";
 import styled, { useTheme } from "styled-components";
 
@@ -42,21 +41,21 @@ export const IconLinkButton = ({
   }, [color]);
 
   return (
-    <Tooltip title={title} disableInteractive enterNextDelay={150}>
-      <LinkWrapper
-        href={href}
-        size={size}
-        $color={iconButtonColors}
-        tabIndex={disableFocus ? -1 : 0}
-        {...props}
-      >
-        {children}
-      </LinkWrapper>
-    </Tooltip>
+    <LinkElement
+      aria-label={title}
+      title={title}
+      href={href}
+      size={size}
+      $color={iconButtonColors}
+      tabIndex={disableFocus ? -1 : 0}
+      {...props}
+    >
+      {children}
+    </LinkElement>
   );
 };
 
-const LinkWrapper = styled(Link)<IconLinkButtonProps & { $color: [string, string] }>`
+const LinkElement = styled(Link)<IconLinkButtonProps & { $color: [string, string] }>`
   position: relative;
   display: flex;
   justify-content: center;
