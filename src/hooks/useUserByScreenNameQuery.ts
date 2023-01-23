@@ -26,8 +26,7 @@ export const useUserByScreenNameQuery = ({
     refetchOnWindowFocus: !isQueryError
   });
 
-  const { data, isLoading: userByScreenNameLoading, isError, error } = userByScreenNameQuery;
-  const errorMessage = error?.message;
+  const userByScreenNameLoading = userByScreenNameQuery.isLoading;
 
-  return { data, userByScreenNameLoading, isError, error, errorMessage };
+  return { userByScreenNameLoading, ...userByScreenNameQuery };
 };

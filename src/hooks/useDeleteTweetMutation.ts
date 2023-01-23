@@ -1,5 +1,7 @@
 import { QueryClient, useMutation } from "@tanstack/react-query";
+import { DeleteTweetRequest } from "api/tweet/deleteTweet";
 import { TimelineTweetsResponse } from "api/tweet/timelineTweets";
+import { AxiosError } from "axios";
 import { deleteTweet } from "network/tweet/deleteTweet";
 import { reloadSession } from "utils/session";
 
@@ -22,7 +24,7 @@ export const useDeleteTweetMutation = ({
   userId
 }: UseDeleteTweetMutationProps) => {
   const { handleAddToast } = useToasts();
-  const deleteTweetMutation = useMutation({
+  const deleteTweetMutation = useMutation<unknown, AxiosError, DeleteTweetRequest>({
     mutationFn: deleteTweet,
     onSuccess: () => {
       // Remove the tweet from the cache on the home page
@@ -60,5 +62,5 @@ export const useDeleteTweetMutation = ({
     deleteTweetMutation.mutate({ tweetId });
   };
 
-  return { handleDeleteTweet, deleteLoading };
+  return { handleDeleteTweet, deleteLoading, ...deleteTweetMutation };
 };

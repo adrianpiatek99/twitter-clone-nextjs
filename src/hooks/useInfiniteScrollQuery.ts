@@ -31,7 +31,7 @@ export const useInfiniteScrollQuery = <
     threshold: 0
   };
 
-  function lastItemRef(node: HTMLDivElement) {
+  const lastItemRef = (node: HTMLDivElement) => {
     const { isFetching, hasNextPage, fetchNextPage } = restData;
 
     if (isFetching || !hasNextPage || !window.IntersectionObserver) return;
@@ -49,7 +49,7 @@ export const useInfiniteScrollQuery = <
     if (node) {
       observer.current.observe(node);
     }
-  }
+  };
 
   return { data, queryData, lastItemRef, ...restData };
 };

@@ -1,5 +1,7 @@
 import { QueryClient, useMutation } from "@tanstack/react-query";
+import { LikeTweetRequest } from "api/tweet/likeTweet";
 import { TimelineTweetsResponse, TweetData } from "api/tweet/timelineTweets";
+import { AxiosError } from "axios";
 import { likeTweet } from "network/tweet/likeTweet";
 import { unlikeTweet } from "network/tweet/unlikeTweet";
 import { reloadSession } from "utils/session";
@@ -30,7 +32,7 @@ export const useLikeTweetMutation = ({
 }: UseLikeTweetMutationProps) => {
   const { handleAddToast } = useToasts();
   const isLiked = likes.some(like => like.userId === userId);
-  const likeMutation = useMutation({
+  const likeMutation = useMutation<unknown, AxiosError, LikeTweetRequest>({
     mutationFn: likeTweet,
     onSuccess: () => {
       // Update the like for the specific cached tweet on the home page
@@ -96,5 +98,12 @@ export const useLikeTweetMutation = ({
     likeMutation.mutate({ tweetId });
   };
 
-  return { likeLoading, unlikeLoading, handleLikeTweet, isLiked };
+  return {
+    handleLikeTweet,
+    likeLoading,
+    unlikeLoading,
+    isLiked,
+    like: { ...likeMutation },
+    unLike: { ...unlikeMutation }
+  };
 };
