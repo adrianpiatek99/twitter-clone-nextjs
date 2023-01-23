@@ -5,6 +5,6 @@ import {
 } from "api/tweet/timelineTweets";
 import { getPromise } from "network/basePromises";
 
-export async function homeGlobalTimeline(payload: TimelineTweetsRequest) {
+export async function timelineTweets(payload: TimelineTweetsRequest) {
   return getPromise<TimelineTweetsRequest, TimelineTweetsResponse>(timelineTweetsPath, payload);
 }
