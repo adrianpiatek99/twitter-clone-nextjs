@@ -1,6 +1,6 @@
 import React, { ComponentPropsWithoutRef, ReactElement } from "react";
 
-import FocusTrap from "@mui/base/FocusTrap";
+import FocusTrap from "focus-trap-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Portal } from "shared/Portal";
 import styled from "styled-components";
@@ -39,7 +39,7 @@ export const Modal = ({
             onClose={onClose}
             preventClosingOnOutside={preventClosingOnOutside}
           >
-            <FocusTrap open>
+            <FocusTrap>
               <Content
                 onClick={e => e.stopPropagation()}
                 variants={contentVariants}

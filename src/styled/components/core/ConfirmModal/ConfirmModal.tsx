@@ -1,6 +1,6 @@
 import React, { ComponentPropsWithoutRef, FC } from "react";
 
-import FocusTrap from "@mui/base/FocusTrap";
+import FocusTrap from "focus-trap-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Portal } from "shared/Portal";
 import styled from "styled-components";
@@ -46,7 +46,7 @@ export const ConfirmModal: FC<ConfirmModalProps> = ({
       <AnimatePresence>
         {isOpen && (
           <ModalPanel isOpen={isOpen} onClose={onClose}>
-            <FocusTrap open>
+            <FocusTrap>
               <Content
                 onClick={e => e.stopPropagation()}
                 initial="inactive"
