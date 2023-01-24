@@ -18,7 +18,7 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   const { asPath, pathname } = useRouter();
   const { isSessionLoading } = useAppSession();
-  const isProfilePage = pathname === "/[screenName]";
+  const isProfilePage = pathname.includes("/[screenName]");
 
   if (isSessionLoading) {
     return (
