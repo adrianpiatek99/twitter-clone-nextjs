@@ -3,11 +3,12 @@
 	"parserOptions": {
     "project": "./tsconfig.json"
   },
-	"plugins": ["@typescript-eslint", "simple-import-sort", "prettier"],
+	"plugins": ["@typescript-eslint", "simple-import-sort", "react-hooks", "prettier"],
 	"extends": [
 		"eslint:recommended",
 		"plugin:react/recommended",
 		"plugin:@typescript-eslint/recommended",
+		"plugin:react-hooks/recommended",
 		"prettier"
 	],
 	"env": {
@@ -36,6 +37,8 @@
 		"@typescript-eslint/no-non-null-assertion": 0,
 		"import/order": 0,
 		"@typescript-eslint/consistent-type-imports": "warn",
+		"react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
 		"@typescript-eslint/no-unused-vars": [
 			2,
 			{
