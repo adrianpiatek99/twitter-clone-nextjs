@@ -61,7 +61,7 @@ export const ProfileLayout = ({ children }: ProfileLayoutProps) => {
           </>
         )}
       </ProfileInfoWrapper>
-      {userData && <ProfileTabs />}
+      {userData && <ProfileTabs screenName={userData.screenName} />}
       {childrenWithProps}
     </Wrapper>
   );
