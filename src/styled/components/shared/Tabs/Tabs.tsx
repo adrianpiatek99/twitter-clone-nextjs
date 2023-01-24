@@ -12,7 +12,7 @@ type TabComponent = ReactElement<ComponentProps<typeof Tab> & TabRestProps>;
 interface TabsProps<T> extends Omit<ComponentPropsWithoutRef<"nav">, "onChange"> {
   children: TabComponent | TabComponent[];
   value: T & string;
-  onChange: (tab: T & string) => void;
+  onChange?: (tab: T & string) => void;
 }
 
 export const Tabs = <T,>({ children, value, onChange, ...props }: TabsProps<T>) => {
@@ -30,7 +30,7 @@ export const Tabs = <T,>({ children, value, onChange, ...props }: TabsProps<T>) 
 
       return React.cloneElement(child, {
         selected,
-        onClick: () => onChange(childValue as T & string)
+        onClick: () => onChange?.(childValue as T & string)
       });
     }
 

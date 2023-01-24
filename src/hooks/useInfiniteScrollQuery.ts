@@ -1,10 +1,14 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+
+type Params<T> = Omit<T, "cursor">;
 
 interface UseInfiniteScrollQueryProps<TRequest, TResponse> {
   queryKey: string[];
   queryFn: (props: TRequest) => Promise<TResponse>;
+  params?: Params<TRequest>;
 }
 
 export const useInfiniteScrollQuery = <
@@ -13,12 +17,19 @@ export const useInfiniteScrollQuery = <
   TData
 >({
   queryKey,
-  queryFn
+  queryFn,
+  params
 }: UseInfiniteScrollQueryProps<TRequest, TResponse>) => {
-  const { data: queryData, ...restData } = useInfiniteQuery<TResponse>({
+  const [isQueryError, setIsQueryError] = useState(false);
+  const { data: queryData, ...restData } = useInfiniteQuery<TResponse, AxiosError, TRequest>({
     queryKey: [...queryKey, "infinite"],
     getNextPageParam: lastPage => lastPage.nextCursor,
-    queryFn: ({ pageParam }) => queryFn({ cursor: pageParam } as TRequest)
+    queryFn: ({ pageParam }) => queryFn({ ...params, cursor: pageParam } as TRequest),
+    onError: () => {
+      setIsQueryError(true);
+    },
+    retry: false,
+    refetchOnWindowFocus: !isQueryError
   });
   const data: TData[] = queryData?.pages.flatMap(page => page[queryKey[0]]) ?? [];
   const observer = useRef<IntersectionObserver>(null!);
@@ -26,7 +37,7 @@ export const useInfiniteScrollQuery = <
     threshold: 0
   };
 
-  function lastItemRef(node: HTMLDivElement) {
+  const lastItemRef = (node: HTMLDivElement) => {
     const { isFetching, hasNextPage, fetchNextPage } = restData;
 
     if (isFetching || !hasNextPage || !window.IntersectionObserver) return;
@@ -44,7 +55,7 @@ export const useInfiniteScrollQuery = <
     if (node) {
       observer.current.observe(node);
     }
-  }
+  };
 
   return { data, queryData, lastItemRef, ...restData };
 };

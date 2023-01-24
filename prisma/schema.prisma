@@ -55,11 +55,6 @@ model User {
   profileBannerUrl String         @default("")
   description      String         @default("")
   url              String?
-  followers        String[]
-  following        String[]
-  followerCount    Int            @default(0)
-  followingCount   Int            @default(0)
-  tweetCount       Int            @default(0)
   emailVerified    DateTime?
   role             Role           @default(USER)
   createdAt        DateTime       @default(now())

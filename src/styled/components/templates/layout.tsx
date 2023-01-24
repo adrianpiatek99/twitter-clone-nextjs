@@ -6,15 +6,19 @@ import { Logo } from "shared/Logo";
 import { NavBottomBar } from "shared/NavBottomBar";
 import { NavDrawer } from "shared/NavDrawer";
 import { NavSidebar } from "shared/NavSidebar";
+import { Toaster } from "shared/Toast";
 import styled, { keyframes } from "styled-components";
+
+import { ProfileLayout } from "./profile-page";
 
 interface LayoutProps {
   children: ReactNode;
 }
 
 const Layout = ({ children }: LayoutProps) => {
-  const { asPath } = useRouter();
+  const { asPath, pathname } = useRouter();
   const { isSessionLoading } = useAppSession();
+  const isProfilePage = pathname.includes("/[screenName]");
 
   if (isSessionLoading) {
     return (
@@ -30,8 +34,9 @@ const Layout = ({ children }: LayoutProps) => {
     <Wrapper>
       <NavDrawer />
       <NavSidebar />
-      <Feed>{children}</Feed>
+      <Feed>{isProfilePage ? <ProfileLayout>{children}</ProfileLayout> : children}</Feed>
       <NavBottomBar />
+      <Toaster />
     </Wrapper>
   );
 };

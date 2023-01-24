@@ -48,7 +48,14 @@ const authOptions: NextAuthOptions = {
 
         try {
           const dbUser = await prisma.user.findUnique({
-            where: { email: user.email as string }
+            where: { email: user.email as string },
+            include: {
+              _count: {
+                select: {
+                  tweets: true
+                }
+              }
+            }
           });
 
           if (dbUser) {

@@ -1,9 +1,10 @@
 import React, { ComponentPropsWithoutRef, ReactElement } from "react";
+import FocusLock from "react-focus-lock";
 
-import FocusTrap from "focus-trap-react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useMediaQuery } from "hooks/useMediaQuery";
 import { Portal } from "shared/Portal";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 
 import { ModalHeader } from "./ModalHeader";
 import { ModalPanel } from "./ModalPanel";
@@ -30,19 +31,26 @@ export const Modal = ({
   preventClosingOnOutside = false,
   ...props
 }: ModalProps) => {
+  const {
+    breakpoints: { sm }
+  } = useTheme();
+  const isMobile = useMediaQuery(sm);
+
   return (
     <Portal rootId="modal">
       <AnimatePresence>
         {isOpen && (
-          <ModalPanel
-            isOpen={isOpen}
-            onClose={onClose}
-            preventClosingOnOutside={preventClosingOnOutside}
-          >
-            <FocusTrap>
+          <FocusLock>
+            <ModalPanel
+              isOpen={isOpen}
+              onClose={onClose}
+              preventClosingOnOutside={preventClosingOnOutside}
+            >
               <Content
-                onClick={e => e.stopPropagation()}
-                variants={contentVariants}
+                initial="inactive"
+                animate="active"
+                exit="inactive"
+                variants={isMobile ? mobileContentVariants : contentVariants}
                 tabIndex={-1}
                 {...props}
               >
@@ -56,36 +64,62 @@ export const Modal = ({
                 />
                 {children}
               </Content>
-            </FocusTrap>
-          </ModalPanel>
+            </ModalPanel>
+          </FocusLock>
         )}
       </AnimatePresence>
     </Portal>
   );
 };
 
+const mobileContentVariants = {
+  inactive: {
+    y: "100%",
+    opacity: 0,
+    transition: { duration: 0.2 }
+  },
+  active: {
+    y: "0%",
+    opacity: 1,
+    transition: { duration: 0.2 }
+  }
+};
+
 const contentVariants = {
   inactive: {
     scale: 0.9,
     opacity: 0,
-    transition: { duration: 0.15 }
+    transition: { duration: 0.2 }
   },
   active: {
     scale: 1,
     opacity: 1,
-    transition: { duration: 0.15 }
+    transition: { duration: 0.2 }
   }
 };
 
 const Content = styled(motion.div)`
+  position: absolute;
+  bottom: calc(env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
-  max-width: 600px;
-  width: 90%;
+  max-width: 450px;
+  width: 98%;
+  min-height: 350px;
   max-height: 90vh;
-  min-height: 400px;
   background-color: ${({ theme }) => theme.background};
-  border-radius: 16px;
+  border-radius: 16px 16px 0px 0px;
   overflow-y: overlay;
   outline: none;
+
+  &::-webkit-scrollbar-track {
+    margin: 10px 0;
+  }
+
+  @media ${({ theme }) => theme.breakpoints.sm} {
+    position: static;
+    max-width: 600px;
+    width: 95%;
+    border-radius: 16px;
+  }
 `;

@@ -17,7 +17,7 @@ export const HomeCreateTweetForm = () => {
   if (isUnauthenticated || !session) return null;
 
   const {
-    user: { screenName, profileImageUrl }
+    user: { id, screenName, profileImageUrl }
   } = session;
   const { register, handleSubmit, watch, reset } = useForm<TweetValues>({
     resolver: yupResolver(tweetSchema),
@@ -27,6 +27,7 @@ export const HomeCreateTweetForm = () => {
   });
   const tweetValue = watch("text");
   const { handleCreateTweet, createTweetLoading } = useCreateTweetMutation({
+    userId: id,
     onSettled: () => {
       reset();
     }

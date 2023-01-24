@@ -50,7 +50,8 @@ const Container = styled.div<SkeletonProps>`
   position: relative;
   inset: none;
   height: ${({ height }) => (height ? `${height}px` : "100%")};
-  width: ${({ width }) => (width ? `${width}px` : "100%")};
+  max-width: ${({ width }) => (width ? `${width}px` : "100%")};
+  width: 100%;
   background-color: ${({ transparent }) =>
     transparent ? "transparent" : "rgba(255, 255, 255, 0.1)"};
   border-radius: ${({ variant }) => (variant === "circular" ? "50%" : "16px")};

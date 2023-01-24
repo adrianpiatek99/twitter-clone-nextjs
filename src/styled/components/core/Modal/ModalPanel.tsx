@@ -50,7 +50,7 @@ export const ModalPanel: FC<ModalPanelProps> = ({
   );
 };
 
-const overlayVariants = (duration = 0.15) => {
+const overlayVariants = (duration = 0.2) => {
   return {
     inactive: { opacity: 0, transition: { duration } },
     active: { opacity: 1, transition: { duration } }
@@ -69,6 +69,7 @@ const Panel = styled.div`
 const Overlay = styled(motion.div)`
   position: fixed;
   inset: 0px;
-  background-color: rgba(91, 112, 131, 0.4);
+  background-color: rgba(91, 112, 131, 0.3);
   z-index: -1;
+  backdrop-filter: blur(5px);
 `;

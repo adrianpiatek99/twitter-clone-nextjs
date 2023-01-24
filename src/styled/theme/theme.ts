@@ -38,7 +38,7 @@ const breakpoints = {
 };
 
 export const theme: DefaultTheme = {
-  background: "#000",
+  background: "#000000",
   background2: "#1C1F23",
   background3: "rgb(22, 24, 28)",
   border: "#2f3336",

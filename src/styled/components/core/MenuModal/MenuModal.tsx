@@ -1,6 +1,6 @@
 import React, { ComponentPropsWithoutRef, ReactElement } from "react";
+import FocusLock from "react-focus-lock";
 
-import FocusTrap from "focus-trap-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMediaQuery } from "hooks/useMediaQuery";
 import CloseIcon from "icons/CloseIcon";
@@ -26,10 +26,9 @@ export const MenuModal = ({ children, isOpen, onClose, ...props }: MenuModalProp
     <Portal rootId="modal">
       <AnimatePresence>
         {isOpen && (
-          <ModalPanel isOpen={isOpen} onClose={onClose}>
-            <FocusTrap>
+          <FocusLock>
+            <ModalPanel isOpen={isOpen} onClose={onClose}>
               <Content
-                onClick={e => e.stopPropagation()}
                 variants={isMobile ? mobileContentVariants : contentVariants}
                 initial="inactive"
                 animate="active"
@@ -42,8 +41,8 @@ export const MenuModal = ({ children, isOpen, onClose, ...props }: MenuModalProp
                   Cancel
                 </MenuModalItem>
               </Content>
-            </FocusTrap>
-          </ModalPanel>
+            </ModalPanel>
+          </FocusLock>
         )}
       </AnimatePresence>
     </Portal>
@@ -54,12 +53,12 @@ const mobileContentVariants = {
   inactive: {
     y: "100%",
     opacity: 0,
-    transition: { duration: 0.15 }
+    transition: { duration: 0.2 }
   },
   active: {
     y: "0%",
     opacity: 1,
-    transition: { duration: 0.15 }
+    transition: { duration: 0.2 }
   }
 };
 
@@ -67,18 +66,18 @@ const contentVariants = {
   inactive: {
     scale: 0.9,
     opacity: 0,
-    transition: { duration: 0.15 }
+    transition: { duration: 0.2 }
   },
   active: {
     scale: 1,
     opacity: 1,
-    transition: { duration: 0.15 }
+    transition: { duration: 0.2 }
   }
 };
 
 const Content = styled(motion.div)`
   position: absolute;
-  bottom: calc(24px + env(safe-area-inset-bottom));
+  bottom: calc(12px + env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
   max-width: 375px;

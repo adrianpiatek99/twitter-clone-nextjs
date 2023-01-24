@@ -60,10 +60,10 @@ const handler: NextApiHandler<CreateTweetResponse | NextApiError> = async (req, 
       }
     });
 
-    res.status(201).json(tweet);
-  } else {
-    res.status(400).send({ error: "Bad request." });
+    return res.status(201).json(tweet);
   }
+
+  res.status(400).send({ error: "Bad request." });
 };
 
 export default handler;

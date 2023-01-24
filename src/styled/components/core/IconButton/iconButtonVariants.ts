@@ -20,6 +20,8 @@ const medium = css`
 `;
 
 const large = css`
+  min-width: 42px;
+  min-height: 42px;
   & > svg {
     width: 24px;
     height: 24px;
