@@ -50,9 +50,11 @@ export const ProfileInformation = ({ userData, isLoading }: ProfileInformationPr
             </Text>
             <Text color="secondary">@{userData.screenName}</Text>
           </NamesRow>
-          <DescriptionRow>
-            <Text>{userData.description}</Text>
-          </DescriptionRow>
+          {userData.description && (
+            <DescriptionRow>
+              <Text>{userData.description}</Text>
+            </DescriptionRow>
+          )}
           <InfoAndLinksRow>
             <Text>
               <CalendarIcon />

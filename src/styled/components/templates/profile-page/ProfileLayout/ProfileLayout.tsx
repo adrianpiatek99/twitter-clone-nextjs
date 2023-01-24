@@ -20,9 +20,11 @@ interface ProfileLayoutProps {
 
 export const ProfileLayout = ({ children }: ProfileLayoutProps) => {
   const { query } = useRouter();
-  const queryScreenName = query.screenName as string;
+  const queryScreenName = typeof query.screenName === "string" ? query.screenName : "";
   const { session, isSessionLoading } = useAppSession();
-  const itsMe = queryScreenName?.toLowerCase() === session?.user.screenName.toLowerCase();
+  const itsMe = session
+    ? queryScreenName.toLowerCase() === session.user.screenName.toLowerCase()
+    : false;
   const { data, userByScreenNameLoading, isError, error } = useUserByScreenNameQuery({
     queryScreenName,
     enabled: !itsMe
