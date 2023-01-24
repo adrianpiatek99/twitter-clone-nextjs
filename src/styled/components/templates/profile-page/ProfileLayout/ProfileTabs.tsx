@@ -30,7 +30,7 @@ export const ProfileTabs = ({ screenName }: ProfileTabsProps) => {
       return tab.value;
     }
 
-    return tabs[0].value;
+    return tabs[0]!.value;
   }, [pathname]);
 
   return (

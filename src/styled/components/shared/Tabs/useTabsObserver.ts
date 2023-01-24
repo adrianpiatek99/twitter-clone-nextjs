@@ -1,4 +1,4 @@
-import type { RefObject} from "react";
+import type { RefObject } from "react";
 import { useEffect, useState } from "react";
 
 type ScrollTo = "forward" | "backward";
@@ -40,7 +40,7 @@ export const useTabsObserver = (tabGroupRef: RefObject<HTMLElement>) => {
 
       const observerFnc = () => {
         const firstChildObserver = new IntersectionObserver(entries => {
-          setBackwardArrow(!entries[0].isIntersecting);
+          setBackwardArrow(!entries[0]!.isIntersecting);
         }, observerOptions);
 
         if (firstChild) {
@@ -72,7 +72,7 @@ export const useTabsObserver = (tabGroupRef: RefObject<HTMLElement>) => {
 
       const observerFnc = () => {
         const lastChildObserver = new IntersectionObserver(entries => {
-          setForwardArrow(!entries[0].isIntersecting);
+          setForwardArrow(!entries[0]!.isIntersecting);
         }, observerOptions);
 
         if (lastChild) {

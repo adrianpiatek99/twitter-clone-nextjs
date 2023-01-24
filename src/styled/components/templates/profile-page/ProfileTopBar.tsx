@@ -1,6 +1,6 @@
 import React from "react";
 
-import { UserData } from "api/user/userByScreenName";
+import type { UserData } from "api/user/userByScreenName";
 import { IconButton } from "components/core";
 import BackIcon from "icons/BackIcon";
 import { useRouter } from "next/router";

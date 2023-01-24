@@ -1,13 +1,13 @@
 import React from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { TweetData } from "api/tweet/timelineTweets";
-import { UserTweetsRequest, UserTweetsResponse } from "api/tweet/userTweets";
+import type { TweetData } from "api/tweet/timelineTweets";
+import type { UserTweetsRequest, UserTweetsResponse } from "api/tweet/userTweets";
 import { Loader } from "components/core";
 import { useAutoAnimate } from "hooks/useAutoAnimate";
 import { useInfiniteScrollQuery } from "hooks/useInfiniteScrollQuery";
 import { userTweets } from "network/tweet/userTweets";
-import { ProfilePageProps } from "pages/[screenName]";
+import type { ProfilePageProps } from "pages/[screenName]";
 import { ErrorMessage } from "shared/ErrorMessage";
 import { TweetCard } from "shared/TweetCard";
 import styled from "styled-components";

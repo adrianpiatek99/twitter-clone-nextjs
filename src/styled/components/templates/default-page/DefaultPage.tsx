@@ -18,7 +18,7 @@ const tabs: DefaultTabs[] = ["sign in", "sign up"];
 
 export const DefaultPageTemplate = () => {
   const { formLoading } = useAppSelector(state => state.pages.defaultPage);
-  const [currentTab, setCurrentTab] = useState<DefaultTabs>(tabs[0]);
+  const [currentTab, setCurrentTab] = useState<DefaultTabs>(tabs[0]!);
 
   const handleChangeTab = (tab: DefaultTabs) => {
     setCurrentTab(tab);

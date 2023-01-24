@@ -31,7 +31,7 @@ export const useInfiniteScrollQuery = <
     retry: false,
     refetchOnWindowFocus: !isQueryError
   });
-  const data: TData[] = queryData?.pages.flatMap(page => page[queryKey[0]]) ?? [];
+  const data: TData[] = queryData?.pages.flatMap(page => page[queryKey[0]!]) ?? [];
   const observer = useRef<IntersectionObserver>(null!);
   const observerOptions = {
     threshold: 0
@@ -47,7 +47,7 @@ export const useInfiniteScrollQuery = <
     }
 
     observer.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && hasNextPage) {
+      if (entries?.[0]?.isIntersecting && hasNextPage) {
         fetchNextPage();
       }
     }, observerOptions);
