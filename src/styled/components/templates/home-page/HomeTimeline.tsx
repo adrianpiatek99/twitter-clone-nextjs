@@ -1,7 +1,7 @@
 import React from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { TimelineTweetsRequest, TimelineTweetsResponse, TweetData } from "api/tweet/timelineTweets";
+import type { TimelineTweetsRequest, TimelineTweetsResponse, TweetData } from "api/tweet/timelineTweets";
 import { Loader } from "components/core";
 import { useAutoAnimate } from "hooks/useAutoAnimate";
 import { useInfiniteScrollQuery } from "hooks/useInfiniteScrollQuery";

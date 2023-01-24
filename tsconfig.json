@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"jsx": "preserve",
-		"target": "ES2015",
+    "target": "es2017",
 		"baseUrl": ".",
 		"paths": {
       "assets/*": [
@@ -62,16 +62,9 @@
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"downlevelIteration": true,
-		"incremental": true
+		"incremental": true,
+    "noUncheckedIndexedAccess": true
 	},
 	"exclude": ["node_modules", ".next", "out"],
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js"],
-  "ts-node": {
-    "compilerOptions": {
-      "target": "es5",
-      "module": "commonjs",
-      "moduleResolution": "node",
-      "isolatedModules": false
-    }
-  }
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js"]
 }

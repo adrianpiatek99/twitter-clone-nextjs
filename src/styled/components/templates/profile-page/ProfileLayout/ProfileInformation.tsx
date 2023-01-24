@@ -1,6 +1,6 @@
 import React from "react";
 
-import { UserData } from "api/user/userByScreenName";
+import type { UserData } from "api/user/userByScreenName";
 import { Text } from "components/core";
 import { useAutoAnimate } from "hooks/useAutoAnimate";
 import CalendarIcon from "icons/CalendarIcon";

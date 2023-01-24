@@ -1,9 +1,10 @@
-import React, { FC } from "react";
+import type { FC } from "react";
+import React from "react";
 
 import { ButtonLink, IconLinkButton } from "components/core";
 import styled from "styled-components";
 
-import { NavSidebarItemType } from "./navSidebarItemsHelper";
+import type { NavSidebarItemType } from "./navSidebarItemsHelper";
 
 interface NavSidebarItemProps extends NavSidebarItemType {
   active: boolean;

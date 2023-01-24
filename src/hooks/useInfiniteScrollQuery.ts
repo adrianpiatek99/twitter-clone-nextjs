@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 
 type Params<T> = Omit<T, "cursor">;
 

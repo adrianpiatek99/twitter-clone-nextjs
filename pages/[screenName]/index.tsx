@@ -1,6 +1,6 @@
 import React from "react";
 
-import { UserData } from "api/user/userByScreenName";
+import type { UserData } from "api/user/userByScreenName";
 import { ProfilePageTemplate } from "templates/profile-page";
 
 export interface ProfilePageProps {

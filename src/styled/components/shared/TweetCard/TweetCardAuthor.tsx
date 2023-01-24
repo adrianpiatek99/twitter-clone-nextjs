@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { TweetData } from "api/tweet/timelineTweets";
+import type { TweetData } from "api/tweet/timelineTweets";
 import { IconButton, Text } from "components/core";
 import MoreHorizontalIcon from "icons/MoreHorizontalIcon";
 import styled from "styled-components";

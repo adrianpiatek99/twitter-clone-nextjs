@@ -1,4 +1,5 @@
-import React, { ComponentPropsWithRef, FC, forwardRef, Ref, useEffect, useRef } from "react";
+import type { ComponentPropsWithRef, FC, Ref} from "react";
+import React, { forwardRef, useEffect, useRef } from "react";
 
 import styled from "styled-components";
 

@@ -9,17 +9,21 @@ import { IconButton } from "../IconButton";
 interface ModalHeaderProps {
   onClose: () => void;
   acceptButtonText: string;
+  acceptButtonDisabled: boolean;
   title?: string;
   loading?: boolean;
   onAccept?: () => void;
+  formId?: string;
 }
 
 export const ModalHeader = ({
   onClose,
   acceptButtonText,
+  acceptButtonDisabled,
   title,
   loading = false,
-  onAccept
+  onAccept,
+  formId
 }: ModalHeaderProps) => {
   return (
     <Wrapper>
@@ -29,7 +33,14 @@ export const ModalHeader = ({
       {title && <HeaderTitle>{title}</HeaderTitle>}
       {!!onAccept && (
         <ButtonRow>
-          <Button onClick={onAccept} color="secondary" size="small" loading={loading}>
+          <Button
+            onClick={onAccept}
+            color="secondary"
+            size="small"
+            loading={loading}
+            disabled={acceptButtonDisabled}
+            form={formId}
+          >
             {acceptButtonText}
           </Button>
         </ButtonRow>

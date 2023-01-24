@@ -1,7 +1,8 @@
-import { QueryClient, useMutation } from "@tanstack/react-query";
-import { DeleteTweetRequest } from "api/tweet/deleteTweet";
-import { TimelineTweetsResponse } from "api/tweet/timelineTweets";
-import { AxiosError } from "axios";
+import type { QueryClient} from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
+import type { DeleteTweetRequest } from "api/tweet/deleteTweet";
+import type { TimelineTweetsResponse } from "api/tweet/timelineTweets";
+import type { AxiosError } from "axios";
 import { deleteTweet } from "network/tweet/deleteTweet";
 import { reloadSession } from "utils/session";
 

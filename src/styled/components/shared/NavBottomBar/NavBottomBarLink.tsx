@@ -3,7 +3,7 @@ import React from "react";
 import { IconLinkButton } from "components/core";
 import styled from "styled-components";
 
-import { NavBottomBarItem } from "./navBottomBarHelpers";
+import type { NavBottomBarItem } from "./navBottomBarHelpers";
 
 interface NavBottomBarLinkProps extends NavBottomBarItem {
   active: boolean;

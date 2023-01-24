@@ -1,11 +1,13 @@
 import React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import type { SubmitHandler} from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Textarea } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
 import { useCreateTweetMutation } from "hooks/useCreateTweetMutation";
-import { TWEET_MAX_LENGTH, tweetSchema, TweetValues } from "schema/tweetSchema";
+import type { TweetValues } from "schema/tweetSchema";
+import { TWEET_MAX_LENGTH, tweetSchema } from "schema/tweetSchema";
 import { Avatar } from "shared/Avatar";
 import styled from "styled-components";
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { TweetData } from "api/tweet/timelineTweets";
+import type { TweetData } from "api/tweet/timelineTweets";
 import { MenuModal, MenuModalItem } from "components/core";
 import TrashIcon from "icons/TrashIcon";
 import { ConfirmDeleteTweetModal } from "shared/Modals/ConfirmDeleteTweetModal";

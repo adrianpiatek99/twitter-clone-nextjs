@@ -1,12 +1,14 @@
-import React, { ComponentPropsWithRef, FC, forwardRef, ReactNode, Ref } from "react";
+import type { ComponentPropsWithRef, FC, ReactNode, Ref } from "react";
+import React, { forwardRef } from "react";
 
 import styled, { css } from "styled-components";
 
 import { Loader } from "../Loader";
-import {
+import type {
   ButtonColor,
   ButtonSize,
-  ButtonVariant,
+  ButtonVariant} from "./buttonStyleVariants";
+import {
   buttonVariantsWithColor,
   sizeVariants
 } from "./buttonStyleVariants";

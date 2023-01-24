@@ -1,4 +1,5 @@
-import React, { Children, cloneElement, isValidElement, ReactNode } from "react";
+import type { ReactNode } from "react";
+import React, { Children, cloneElement, isValidElement } from "react";
 
 import { Text } from "components/core";
 import { useAppSession } from "hooks/useAppSession";

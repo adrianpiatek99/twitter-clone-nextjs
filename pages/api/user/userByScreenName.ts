@@ -1,5 +1,5 @@
-import { User } from "@prisma/client";
-import { NextApiHandler } from "next";
+import type { User } from "@prisma/client";
+import type { NextApiHandler } from "next";
 import { exclude, prisma } from "prisma/prisma";
 
 type UserCount = { _count: { tweets: number } };

@@ -1,5 +1,5 @@
-import { Like, Tweet, User } from "@prisma/client";
-import { NextApiHandler } from "next";
+import type { Like, Tweet, User } from "@prisma/client";
+import type { NextApiHandler } from "next";
 import { getSession } from "next-auth/react";
 import { prisma } from "prisma/prisma";
 

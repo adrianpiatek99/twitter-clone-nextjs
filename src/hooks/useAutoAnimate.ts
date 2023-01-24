@@ -1,10 +1,12 @@
-import { RefObject, useEffect, useRef, useState } from "react";
+import type { RefObject} from "react";
+import { useEffect, useRef, useState } from "react";
 
-import autoAnimate, {
+import type {
   AnimationController,
   AutoAnimateOptions,
   AutoAnimationPlugin
 } from "utils/autoAnimateUtils";
+import autoAnimate from "utils/autoAnimateUtils";
 
 export const useAutoAnimate = <T extends Element>(
   options?: Partial<AutoAnimateOptions> | AutoAnimationPlugin

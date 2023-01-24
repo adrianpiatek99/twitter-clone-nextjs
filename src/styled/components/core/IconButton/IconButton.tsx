@@ -1,11 +1,13 @@
-import React, { ComponentPropsWithRef, FC, forwardRef, ReactNode, Ref, useMemo } from "react";
+import type { ComponentPropsWithRef, FC, ReactNode, Ref} from "react";
+import React, { forwardRef, useMemo } from "react";
 
 import styled, { css, useTheme } from "styled-components";
 
+import type {
+  IconButtonColor,
+  IconButtonSize} from "./iconButtonVariants";
 import {
   getIconButtonColor,
-  IconButtonColor,
-  IconButtonSize,
   iconButtonSizeVariants
 } from "./iconButtonVariants";
 

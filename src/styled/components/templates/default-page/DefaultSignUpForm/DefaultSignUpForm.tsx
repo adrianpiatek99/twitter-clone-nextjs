@@ -1,17 +1,20 @@
 import React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import type { SubmitHandler} from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
-import { Button, Input, InputType } from "components/core";
+import type { InputType } from "components/core";
+import { Button, Input } from "components/core";
 import { useToasts } from "hooks/useToasts";
 import { signUp } from "network/auth/signUp";
-import { signUpSchema, SignUpValues } from "schema/authSchema";
+import type { SignUpValues } from "schema/authSchema";
+import { signUpSchema } from "schema/authSchema";
 import { setDefaultPageFormLoading } from "store/slices/pagesSlice";
 import { useAppDispatch } from "store/store";
 import styled from "styled-components";
 
-import { DefaultTabs } from "../DefaultPage";
+import type { DefaultTabs } from "../DefaultPage";
 
 interface DefaultSignUpFormProps {
   handleChangeTab: (tab: DefaultTabs) => void;
@@ -24,7 +27,7 @@ type InputData = {
 };
 
 const inputs: InputData[] = [
-  { name: "screenName", label: "@Screen Name" },
+  { name: "screenName", label: "Username (unique)" },
   { name: "name", label: "Name" },
   { name: "email", label: "Email Address" },
   { name: "password", type: "password", label: "Password" },
@@ -84,6 +87,5 @@ export const DefaultSignUpForm = ({ handleChangeTab }: DefaultSignUpFormProps) =
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  gap: 12px 0;
+  gap: 12px;
 `;

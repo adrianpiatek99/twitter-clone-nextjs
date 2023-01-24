@@ -1,6 +1,6 @@
-import { User } from "@prisma/client";
+import type { User } from "@prisma/client";
 import { hashSync } from "bcryptjs";
-import { NextApiHandler } from "next";
+import type { NextApiHandler } from "next";
 import { exclude, prisma } from "prisma/prisma";
 
 export type SignUpRequest = Pick<User, "screenName" | "name" | "email" | "password"> & {

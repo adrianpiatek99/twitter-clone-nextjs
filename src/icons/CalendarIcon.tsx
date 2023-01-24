@@ -1,4 +1,5 @@
-import React, { SVGProps } from "react";
+import type { SVGProps } from "react";
+import React from "react";
 import { BiCalendar } from "react-icons/bi";
 
 const CalendarIcon = (props: SVGProps<SVGSVGElement>) => <BiCalendar {...props} />;

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { DefaultTabs } from "./DefaultPage";
+import type { DefaultTabs } from "./DefaultPage";
 import { DefaultSignInForm } from "./DefaultSignInForm/DefaultSignInForm";
 import { DefaultSignUpForm } from "./DefaultSignUpForm/DefaultSignUpForm";
 

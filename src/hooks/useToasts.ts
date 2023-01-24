@@ -1,4 +1,5 @@
-import { addToast, removeToast, ToastType } from "store/slices/toastsSlice";
+import type { ToastType } from "store/slices/toastsSlice";
+import { addToast, removeToast } from "store/slices/toastsSlice";
 import { useAppDispatch } from "store/store";
 
 const DEFAULT_TOAST_DURATION = 4000;

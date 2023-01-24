@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 
-import Link, { LinkProps } from "next/link";
+import type { LinkProps } from "next/link";
+import Link from "next/link";
 import styled, { css } from "styled-components";
 import { hexToRGBA } from "utils/colors";
 

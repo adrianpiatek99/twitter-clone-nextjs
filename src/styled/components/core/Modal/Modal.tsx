@@ -1,4 +1,5 @@
-import React, { ComponentPropsWithoutRef, ReactElement } from "react";
+import type { ComponentPropsWithoutRef, ReactElement } from "react";
+import React from "react";
 import FocusLock from "react-focus-lock";
 
 import { AnimatePresence, motion } from "framer-motion";
@@ -17,7 +18,9 @@ interface ModalProps extends ComponentPropsWithoutRef<typeof motion.div> {
   loading?: boolean;
   headerTitle?: string;
   acceptButtonText?: string;
+  acceptButtonDisabled?: boolean;
   preventClosingOnOutside?: boolean;
+  formId?: string;
 }
 
 export const Modal = ({
@@ -28,7 +31,9 @@ export const Modal = ({
   loading = false,
   headerTitle,
   acceptButtonText = "Save",
+  acceptButtonDisabled = false,
   preventClosingOnOutside = false,
+  formId,
   ...props
 }: ModalProps) => {
   const {
@@ -56,10 +61,12 @@ export const Modal = ({
               >
                 <ModalHeader
                   key="modal"
+                  formId={formId}
                   onClose={onClose}
                   title={headerTitle}
                   loading={loading}
                   acceptButtonText={acceptButtonText}
+                  acceptButtonDisabled={acceptButtonDisabled}
                   onAccept={onAccept}
                 />
                 {children}

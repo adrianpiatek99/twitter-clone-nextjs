@@ -2,7 +2,7 @@ import React from "react";
 
 import { IconButton, IconButtonWithLabel } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
-import { UseLikeTweetMutationReturn } from "hooks/useLikeTweetMutation";
+import type { UseLikeTweetMutationReturn } from "hooks/useLikeTweetMutation";
 import HeartIcon from "icons/HeartIcon";
 import HeartOutlinedIcon from "icons/HeartOutlinedIcon";
 import MessageIcon from "icons/MessageIcon";

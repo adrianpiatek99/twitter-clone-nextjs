@@ -1,12 +1,14 @@
-import React, { ComponentPropsWithoutRef, ReactNode, useMemo } from "react";
+import type { ComponentPropsWithoutRef, ReactNode} from "react";
+import React, { useMemo } from "react";
 
 import Link from "next/link";
 import styled, { useTheme } from "styled-components";
 
+import type {
+  IconButtonColor,
+  IconButtonSize} from "./iconButtonVariants";
 import {
   getIconButtonColor,
-  IconButtonColor,
-  IconButtonSize,
   iconButtonSizeVariants
 } from "./iconButtonVariants";
 
