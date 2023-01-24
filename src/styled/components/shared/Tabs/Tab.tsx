@@ -6,7 +6,7 @@ import { hexToRGBA } from "utils/colors";
 
 export interface TabProps {
   value: string;
-  linkProps?: LinkProps;
+  linkProps?: Omit<LinkProps, "as">;
 }
 
 export interface TabRestProps {
@@ -29,18 +29,17 @@ export const Tab = ({ value, linkProps, ...props }: TabProps) => {
 
   if (linkProps) {
     return (
-      <Link {...linkProps}>
-        <TabItemLink
-          value={value}
-          ref={tabLinkRef}
-          selected={selected}
-          draggable={false}
-          tabIndex={selected ? 0 : -1}
-          {...restProps}
-        >
-          {value}
-        </TabItemLink>
-      </Link>
+      <TabItemLink
+        value={value}
+        ref={tabLinkRef}
+        selected={selected}
+        draggable={false}
+        tabIndex={selected ? 0 : -1}
+        {...linkProps}
+        {...restProps}
+      >
+        {value}
+      </TabItemLink>
     );
   }
 
@@ -118,13 +117,24 @@ const sharedStyles = css<SharedProps>`
   ${({ selected }) => selected && selectedStyles}
 `;
 
-const TabItemLink = styled.a<SharedProps>`
+const TabItemLink = styled(Link)<SharedProps>`
+  width: 100%;
   text-decoration: none;
-  ${sharedStyles}
+  ${sharedStyles};
+
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      text-decoration: none;
+    }
+  }
+
+  &:focus-visible {
+    text-decoration: none;
+  }
 `;
 
 const TabItemButton = styled.button<SharedProps>`
-  ${sharedStyles}
+  ${sharedStyles};
 
   &:disabled {
     cursor: default;
