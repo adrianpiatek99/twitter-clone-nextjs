@@ -1,6 +1,6 @@
 import React, { ComponentPropsWithoutRef, FC } from "react";
+import FocusLock from "react-focus-lock";
 
-import FocusTrap from "focus-trap-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Portal } from "shared/Portal";
 import styled from "styled-components";
@@ -45,8 +45,8 @@ export const ConfirmModal: FC<ConfirmModalProps> = ({
     <Portal rootId="modal">
       <AnimatePresence>
         {isOpen && (
-          <ModalPanel isOpen={isOpen} onClose={onClose}>
-            <FocusTrap>
+          <FocusLock>
+            <ModalPanel isOpen={isOpen} onClose={onClose}>
               <Content
                 initial="inactive"
                 animate="active"
@@ -66,8 +66,8 @@ export const ConfirmModal: FC<ConfirmModalProps> = ({
                   cancelButtonText={cancelButtonText}
                 />
               </Content>
-            </FocusTrap>
-          </ModalPanel>
+            </ModalPanel>
+          </FocusLock>
         )}
       </AnimatePresence>
     </Portal>

@@ -1,6 +1,6 @@
 import React, { ComponentPropsWithoutRef, ReactElement } from "react";
+import FocusLock from "react-focus-lock";
 
-import FocusTrap from "focus-trap-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMediaQuery } from "hooks/useMediaQuery";
 import CloseIcon from "icons/CloseIcon";
@@ -26,8 +26,8 @@ export const MenuModal = ({ children, isOpen, onClose, ...props }: MenuModalProp
     <Portal rootId="modal">
       <AnimatePresence>
         {isOpen && (
-          <ModalPanel isOpen={isOpen} onClose={onClose}>
-            <FocusTrap>
+          <FocusLock>
+            <ModalPanel isOpen={isOpen} onClose={onClose}>
               <Content
                 variants={isMobile ? mobileContentVariants : contentVariants}
                 initial="inactive"
@@ -41,8 +41,8 @@ export const MenuModal = ({ children, isOpen, onClose, ...props }: MenuModalProp
                   Cancel
                 </MenuModalItem>
               </Content>
-            </FocusTrap>
-          </ModalPanel>
+            </ModalPanel>
+          </FocusLock>
         )}
       </AnimatePresence>
     </Portal>

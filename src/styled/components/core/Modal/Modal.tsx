@@ -1,6 +1,6 @@
 import React, { ComponentPropsWithoutRef, ReactElement } from "react";
+import FocusLock from "react-focus-lock";
 
-import FocusTrap from "focus-trap-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMediaQuery } from "hooks/useMediaQuery";
 import { Portal } from "shared/Portal";
@@ -40,12 +40,12 @@ export const Modal = ({
     <Portal rootId="modal">
       <AnimatePresence>
         {isOpen && (
-          <ModalPanel
-            isOpen={isOpen}
-            onClose={onClose}
-            preventClosingOnOutside={preventClosingOnOutside}
-          >
-            <FocusTrap>
+          <FocusLock>
+            <ModalPanel
+              isOpen={isOpen}
+              onClose={onClose}
+              preventClosingOnOutside={preventClosingOnOutside}
+            >
               <Content
                 initial="inactive"
                 animate="active"
@@ -64,8 +64,8 @@ export const Modal = ({
                 />
                 {children}
               </Content>
-            </FocusTrap>
-          </ModalPanel>
+            </ModalPanel>
+          </FocusLock>
         )}
       </AnimatePresence>
     </Portal>

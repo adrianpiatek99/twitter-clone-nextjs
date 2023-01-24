@@ -1,7 +1,7 @@
 import React from "react";
+import FocusLock from "react-focus-lock";
 
 import { ModalPanel } from "components/core/Modal";
-import FocusTrap from "focus-trap-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAppSession } from "hooks/useAppSession";
 import { Portal } from "shared/Portal";
@@ -25,8 +25,8 @@ export const NavDrawer = () => {
       <AnimatePresence>
         {isOpen && (
           <Portal rootId="modal">
-            <ModalPanel isOpen={isOpen} onClose={onClose} duration={0.25}>
-              <FocusTrap>
+            <FocusLock>
+              <ModalPanel isOpen={isOpen} onClose={onClose} duration={0.25}>
                 <DrawerWrapper
                   variants={drawerVariants}
                   onClick={e => e.stopPropagation()}
@@ -44,8 +44,8 @@ export const NavDrawer = () => {
                     </>
                   )}
                 </DrawerWrapper>
-              </FocusTrap>
-            </ModalPanel>
+              </ModalPanel>
+            </FocusLock>
           </Portal>
         )}
       </AnimatePresence>
