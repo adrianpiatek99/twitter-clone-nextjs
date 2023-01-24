@@ -25,8 +25,8 @@ export const ProfileTopBar = ({ userData, isLoading }: ProfileTopBarProps) => {
       }
     >
       <TopBarHeading
-        title={!userData ? "Profile" : userData.name}
-        subtitle={!userData ? "" : `${String(tweetCount)} Tweets`}
+        title={userData ? userData.name : "Profile"}
+        subtitle={userData ? `${String(tweetCount)} Tweets` : ""}
       />
     </TopBar>
   );

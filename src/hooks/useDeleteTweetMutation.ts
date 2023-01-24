@@ -10,7 +10,7 @@ import { useToasts } from "./useToasts";
 interface UseDeleteTweetMutationProps {
   queryClient: QueryClient;
   tweetId: string;
-  userId: string;
+  userId: string | undefined;
 }
 
 export interface UseDeleteTweetMutationReturn {
@@ -21,7 +21,7 @@ export interface UseDeleteTweetMutationReturn {
 export const useDeleteTweetMutation = ({
   queryClient,
   tweetId,
-  userId
+  userId = ""
 }: UseDeleteTweetMutationProps) => {
   const { handleAddToast } = useToasts();
   const deleteTweetMutation = useMutation<unknown, AxiosError, DeleteTweetRequest>({

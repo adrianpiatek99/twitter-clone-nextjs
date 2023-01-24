@@ -34,12 +34,12 @@ export const TweetCard = ({
   const { handleDeleteTweet, deleteLoading } = useDeleteTweetMutation({
     queryClient,
     tweetId: id,
-    userId: userId ?? ""
+    userId
   });
   const likeTweetMutation = useLikeTweetMutation({
     queryClient,
     tweetId: id,
-    userId: userId ?? "",
+    userId,
     likes,
     disabled: deleteLoading
   });

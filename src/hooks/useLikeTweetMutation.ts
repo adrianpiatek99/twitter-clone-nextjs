@@ -10,7 +10,7 @@ import { useToasts } from "./useToasts";
 
 interface UseLikeTweetMutationProps {
   queryClient: QueryClient;
-  userId: string;
+  userId: string | undefined;
   tweetId: string;
   likes: TweetData["likes"];
   disabled?: boolean;
