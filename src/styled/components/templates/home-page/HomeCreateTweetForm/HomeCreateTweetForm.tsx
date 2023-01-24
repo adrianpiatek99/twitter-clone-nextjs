@@ -1,10 +1,10 @@
 import React from "react";
-import type { SubmitHandler} from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
+import type { UserData } from "api/user/userByScreenName";
 import { Textarea } from "components/core";
-import { useAppSession } from "hooks/useAppSession";
 import { useCreateTweetMutation } from "hooks/useCreateTweetMutation";
 import type { TweetValues } from "schema/tweetSchema";
 import { TWEET_MAX_LENGTH, tweetSchema } from "schema/tweetSchema";
@@ -13,14 +13,12 @@ import styled from "styled-components";
 
 import { HomeCreateTweetToolbar } from "./HomeCreateTweetToolbar";
 
-export const HomeCreateTweetForm = () => {
-  const { session, isUnauthenticated } = useAppSession();
+interface HomeCreateTweetFormProps {
+  userData: UserData;
+}
 
-  if (isUnauthenticated || !session) return null;
-
-  const {
-    user: { id, screenName, profileImageUrl }
-  } = session;
+export const HomeCreateTweetForm = ({ userData }: HomeCreateTweetFormProps) => {
+  const { id, screenName, profileImageUrl } = userData;
   const { register, handleSubmit, watch, reset } = useForm<TweetValues>({
     resolver: yupResolver(tweetSchema),
     defaultValues: {

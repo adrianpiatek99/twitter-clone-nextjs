@@ -1,4 +1,4 @@
-import type { RefObject} from "react";
+import type { RefObject } from "react";
 import { useEffect, useRef, useState } from "react";
 
 import type {
@@ -22,7 +22,7 @@ export const useAutoAnimate = <T extends Element>(
   useEffect(() => {
     if (element.current instanceof HTMLElement)
       setController(autoAnimate(element.current, options || {}));
-  }, []);
+  }, [options]);
 
   return [element, setEnabled];
 };

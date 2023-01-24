@@ -1,4 +1,4 @@
-import type { FC, ReactElement} from "react";
+import type { FC, ReactElement } from "react";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
@@ -14,7 +14,7 @@ export const Portal: FC<PortalProps> = ({ children, rootId }) => {
   useEffect(() => {
     ref.current = document.getElementById(rootId);
     setMounted(true);
-  }, []);
+  }, [rootId]);
 
   return mounted && ref.current ? createPortal(children, ref.current) : null;
 };
