@@ -1,8 +1,12 @@
 import React from "react";
 
+import Image from "next/image";
 import Link from "next/link";
 import { Skeleton } from "shared/Skeleton";
 import styled, { css } from "styled-components";
+
+const defaultAvatarUrl =
+  "https://abs.twimg.com/sticky/default_profile_images/default_profile_200x200.png";
 
 type AvatarSize = "small" | "medium" | "large" | "extraLarge";
 
@@ -13,6 +17,7 @@ interface AvatarProps {
   size?: AvatarSize;
   loading?: boolean;
   disableFocus?: boolean;
+  absolute?: boolean;
 }
 
 export const Avatar = ({
@@ -22,6 +27,7 @@ export const Avatar = ({
   size = "medium",
   loading = false,
   disableFocus = false,
+  absolute = false,
   ...props
 }: AvatarProps) => {
   const avatarSize = determineSize(size);
@@ -33,13 +39,11 @@ export const Avatar = ({
 
   const AvatarComponent = () => {
     return (
-      <AvatarWrapper size={avatarSize} {...props}>
-        <img
-          src={
-            src
-              ? src
-              : "https://abs.twimg.com/sticky/default_profile_images/default_profile_200x200.png"
-          }
+      <AvatarWrapper {...props}>
+        <Image
+          unoptimized={true}
+          src={src || defaultAvatarUrl}
+          fill
           alt={screenName ?? "Profile image"}
         />
       </AvatarWrapper>
@@ -48,7 +52,14 @@ export const Avatar = ({
 
   if (href) {
     return (
-      <StyledLink href={href} onClick={onClick} tabIndex={disableFocus ? -1 : 0} {...props}>
+      <StyledLink
+        $absolute={absolute}
+        size={avatarSize}
+        href={href}
+        onClick={onClick}
+        tabIndex={disableFocus ? -1 : 0}
+        {...props}
+      >
         <AvatarComponent />
       </StyledLink>
     );
@@ -56,6 +67,8 @@ export const Avatar = ({
 
   return (
     <AvatarButton
+      $absolute={absolute}
+      size={avatarSize}
       as={onClick ? "button" : "div"}
       onClick={onClick}
       disabled={disableFocus}
@@ -82,8 +95,10 @@ const determineSize = (size: AvatarSize) => {
   return 40;
 };
 
-const sharedStyles = css`
+const sharedStyles = css<{ size: number; $absolute: boolean }>`
   position: relative;
+  width: ${({ size }) => `${size}px`};
+  height: ${({ size }) => `${size}px`};
   border-radius: 50%;
 
   &::after {
@@ -110,6 +125,15 @@ const sharedStyles = css`
       opacity: 1;
     }
   }
+
+  ${({ $absolute }) =>
+    $absolute &&
+    css`
+      position: absolute;
+      inset: 0px;
+      width: 100%;
+      height: 100%;
+    `}
 `;
 
 const StyledLink = styled(Link)`
@@ -121,6 +145,8 @@ const AvatarButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 100%;
   cursor: pointer;
   ${sharedStyles};
 
@@ -130,16 +156,16 @@ const AvatarButton = styled.button`
   }
 `;
 
-const AvatarWrapper = styled.div<{ size: number }>`
+const AvatarWrapper = styled.div`
   position: relative;
-  display: grid;
-  place-items: center;
-  width: ${({ size }) => `${size}px`};
-  height: ${({ size }) => `${size}px`};
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   transition: 0.2s;
 
   & > img {
+    position: absolute;
+    inset: 0px;
     width: 100%;
     height: 100%;
     text-align: center;
