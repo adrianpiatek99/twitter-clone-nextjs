@@ -1,10 +1,11 @@
-import React, { ComponentProps, ComponentPropsWithoutRef, ReactElement, useRef } from "react";
+import type { ComponentProps, ComponentPropsWithoutRef, ReactElement} from "react";
+import React, { useRef } from "react";
 import { HiChevronLeft } from "react-icons/hi";
 
 import { IconButton } from "components/core";
 import styled, { css } from "styled-components";
 
-import { Tab, TabRestProps } from "./Tab";
+import type { Tab, TabRestProps } from "./Tab";
 import { useTabsObserver } from "./useTabsObserver";
 
 type TabComponent = ReactElement<ComponentProps<typeof Tab> & TabRestProps>;

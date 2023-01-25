@@ -1,13 +1,15 @@
 import React from "react";
 
-import { UserData } from "api/user/userByScreenName";
+import type { UserData } from "api/user/userByScreenName";
 import { Text } from "components/core";
 import { useAutoAnimate } from "hooks/useAutoAnimate";
 import CalendarIcon from "icons/CalendarIcon";
+import LinkIcon from "icons/LinkIcon";
 import Link from "next/link";
 import { Skeleton } from "shared/Skeleton";
 import styled from "styled-components";
 import { getFormattedDate } from "utils/timeUtils";
+import { removeHttp } from "utils/urlUtils";
 
 interface ProfileInformationProps {
   userData: UserData | undefined;
@@ -15,7 +17,7 @@ interface ProfileInformationProps {
 }
 
 export const ProfileInformation = ({ userData, isLoading }: ProfileInformationProps) => {
-  const [contentRef] = useAutoAnimate<HTMLDivElement>({ duration: 200 });
+  const [contentRef] = useAutoAnimate<HTMLDivElement>();
 
   return (
     <Content ref={contentRef}>
@@ -60,6 +62,19 @@ export const ProfileInformation = ({ userData, isLoading }: ProfileInformationPr
               <CalendarIcon />
               {getFormattedDate(userData.createdAt)}
             </Text>
+            {userData.url && (
+              <Text>
+                <LinkIcon />
+                <a
+                  target="_blank"
+                  href={userData.url}
+                  rel="noopener noreferrer"
+                  title={userData.url}
+                >
+                  {removeHttp(userData.url)}
+                </a>
+              </Text>
+            )}
           </InfoAndLinksRow>
           <FollowsRow>
             <FollowLink href={`/${userData.screenName}/following`}>
@@ -101,7 +116,7 @@ const InfoAndLinksRow = styled.div`
   overflow-wrap: break-word;
   white-space: pre-wrap;
   color: ${({ theme }) => theme.neutral300};
-  margin-left: -3px;
+  margin-left: -1px;
   margin-bottom: 12px;
 
   & > div {

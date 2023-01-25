@@ -1,4 +1,5 @@
-import React, { FC, ReactNode, useEffect } from "react";
+import type { FC, ReactNode } from "react";
+import React, { useEffect } from "react";
 import { RemoveScrollBar } from "react-remove-scroll-bar";
 
 import { motion } from "framer-motion";
@@ -32,7 +33,7 @@ export const ModalPanel: FC<ModalPanelProps> = ({
 
       return () => window.removeEventListener("keydown", handleEscape, false);
     }
-  }, [isOpen]);
+  }, [isOpen, onClose]);
 
   return (
     <Panel>

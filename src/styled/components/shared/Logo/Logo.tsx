@@ -3,7 +3,8 @@ import React from "react";
 import TwitterIcon from "icons/TwitterIcon";
 import styled from "styled-components";
 
-import { LogoColor, logoColors, LogoSize, logoSizeVariants } from "./logoStyleVariants";
+import type { LogoColor, LogoSize} from "./logoStyleVariants";
+import { logoColors, logoSizeVariants } from "./logoStyleVariants";
 
 interface LogoProps {
   color?: LogoColor;

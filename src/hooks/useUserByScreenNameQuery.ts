@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
-import { UserData } from "api/user/userByScreenName";
-import { AxiosError } from "axios";
+import type { UserData } from "api/user/userByScreenName";
+import type { AxiosError } from "axios";
 import { userByScreenName } from "network/user/userByScreenName";
 
 interface UseUserByScreenNameQueryProps {

@@ -1,6 +1,6 @@
-import { User } from "@prisma/client";
-import { TweetData } from "api/tweet/timelineTweets";
-import { NextApiHandler } from "next";
+import type { User } from "@prisma/client";
+import type { TweetData } from "api/tweet/timelineTweets";
+import type { NextApiHandler } from "next";
 import { getSession } from "next-auth/react";
 import { prisma } from "prisma/prisma";
 

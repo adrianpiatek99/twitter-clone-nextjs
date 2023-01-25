@@ -1,10 +1,12 @@
-import React, { ComponentPropsWithoutRef, FC, forwardRef, ReactNode, Ref, useMemo } from "react";
+import type { ComponentPropsWithoutRef, FC, ReactNode, Ref } from "react";
+import React, { forwardRef, useMemo } from "react";
 
 import styled, { css, useTheme } from "styled-components";
 import { hexToRGBA } from "utils/colors";
 
 import { Text } from "../Text";
-import { IconButtonColor, iconButtonSizeVariants } from "./iconButtonVariants";
+import type { IconButtonColor } from "./iconButtonVariants";
+import { iconButtonSizeVariants } from "./iconButtonVariants";
 
 interface IconLinkButtonProps extends ComponentPropsWithoutRef<"button"> {
   children: ReactNode;
@@ -41,6 +43,7 @@ export const IconButtonWithLabel: FC<IconLinkButtonProps> = forwardRef(
       if (color === "white") return [white, white];
 
       return [neutral300, color];
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isError, color]);
 
     return (

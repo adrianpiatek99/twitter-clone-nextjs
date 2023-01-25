@@ -38,11 +38,13 @@ export const NavSidebar = () => {
                       {...props}
                     />
                   ))}
-                  <NavSidebarItem
-                    {...navSidebarProfileItem}
-                    href={session?.user.screenName ?? ""}
-                    active={pathname === navSidebarProfileItem.href}
-                  />
+                  {session && (
+                    <NavSidebarItem
+                      {...navSidebarProfileItem}
+                      href={`/${session.user.screenName}`}
+                      active={pathname.includes(navSidebarProfileItem.href)}
+                    />
+                  )}
                 </>
               )}
             </NavList>

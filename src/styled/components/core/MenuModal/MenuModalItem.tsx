@@ -1,4 +1,5 @@
-import React, { ComponentPropsWithoutRef, FC } from "react";
+import type { ComponentPropsWithoutRef, FC } from "react";
+import React from "react";
 
 import styled from "styled-components";
 

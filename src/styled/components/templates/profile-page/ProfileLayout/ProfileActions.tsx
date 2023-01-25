@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 
-import { UserData } from "api/user/userByScreenName";
+import type { UserData } from "api/user/userByScreenName";
 import { Button } from "components/core";
-import { EditProfileModal } from "shared/Modals/EditProfileModal";
 import styled from "styled-components";
+
+import { EditProfileModal } from "../Modals/EditProfileModal";
 
 interface ProfileActionsProps {
   itsMe: boolean;

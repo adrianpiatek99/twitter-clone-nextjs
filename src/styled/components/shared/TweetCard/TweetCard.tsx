@@ -1,7 +1,7 @@
 import React from "react";
 
-import { QueryClient } from "@tanstack/react-query";
-import { TweetData } from "api/tweet/timelineTweets";
+import type { QueryClient } from "@tanstack/react-query";
+import type { TweetData } from "api/tweet/timelineTweets";
 import { Text } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
 import { useDeleteTweetMutation } from "hooks/useDeleteTweetMutation";

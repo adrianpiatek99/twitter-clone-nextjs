@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import type { SubmitHandler} from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Input, InputType } from "components/core";
+import type { InputType } from "components/core";
+import { Button, Input } from "components/core";
 import { useToasts } from "hooks/useToasts";
 import { signIn } from "network/auth/signIn";
 import { useRouter } from "next/router";
-import { signInSchema, SignInValues } from "schema/authSchema";
+import type { SignInValues } from "schema/authSchema";
+import { signInSchema } from "schema/authSchema";
 import { setDefaultPageFormLoading } from "store/slices/pagesSlice";
 import { useAppDispatch } from "store/store";
 import styled from "styled-components";

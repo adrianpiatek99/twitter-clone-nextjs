@@ -5,21 +5,26 @@ import styled from "styled-components";
 
 import { Button } from "../Button";
 import { IconButton } from "../IconButton";
+import { LinearProgress } from "../LinearProgress";
 
 interface ModalHeaderProps {
   onClose: () => void;
   acceptButtonText: string;
+  acceptButtonDisabled: boolean;
   title?: string;
   loading?: boolean;
   onAccept?: () => void;
+  formId?: string;
 }
 
 export const ModalHeader = ({
   onClose,
   acceptButtonText,
+  acceptButtonDisabled,
   title,
   loading = false,
-  onAccept
+  onAccept,
+  formId
 }: ModalHeaderProps) => {
   return (
     <Wrapper>
@@ -29,16 +34,25 @@ export const ModalHeader = ({
       {title && <HeaderTitle>{title}</HeaderTitle>}
       {!!onAccept && (
         <ButtonRow>
-          <Button onClick={onAccept} color="secondary" size="small" loading={loading}>
+          <Button
+            onClick={onAccept}
+            color="secondary"
+            size="small"
+            loading={loading}
+            disabled={acceptButtonDisabled}
+            form={formId}
+          >
             {acceptButtonText}
           </Button>
         </ButtonRow>
       )}
+      {loading && <LinearProgress />}
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   gap: 16px;

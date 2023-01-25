@@ -1,4 +1,5 @@
-import React, { ComponentPropsWithRef, FC, forwardRef, Ref, useMemo, useState } from "react";
+import type { ComponentPropsWithRef, FC, Ref } from "react";
+import React, { forwardRef, useMemo, useRef, useState } from "react";
 
 import styled, { css } from "styled-components";
 
@@ -31,6 +32,7 @@ export const Input: FC<InputProps> = forwardRef(
     ref: Ref<HTMLInputElement>
   ) => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const wrapperRef = useRef<HTMLDivElement>(null);
     const inputType = isPasswordVisible ? "text" : type;
     const isPasswordIcon = type === "password";
 
@@ -46,8 +48,16 @@ export const Input: FC<InputProps> = forwardRef(
       return 0;
     }, [isPasswordIcon, error]);
 
+    const setFocus = event => {
+      if (event.target === wrapperRef.current) {
+        const input = event.target.querySelector(":scope > input") as HTMLInputElement;
+
+        input.focus();
+      }
+    };
+
     return (
-      <Container $loading={loading}>
+      <Wrapper $loading={loading} ref={wrapperRef} onClick={setFocus}>
         <StyledInput
           id={label}
           type={inputType}
@@ -71,15 +81,17 @@ export const Input: FC<InputProps> = forwardRef(
           setIsPasswordVisible={setIsPasswordVisible}
           error={error}
         />
-      </Container>
+      </Wrapper>
     );
   }
 );
 
-const Container = styled.div<{ $loading: boolean }>`
+const Wrapper = styled.div<{ $loading: boolean }>`
   position: relative;
   background: ${({ theme }) => theme.background};
   border-radius: 4px;
+  height: 50px;
+  cursor: text;
   transition: opacity 0.2s;
 
   ${({ $loading }) =>
@@ -120,13 +132,14 @@ const StyledLabel = styled.label<{ isFilled: boolean; error: boolean }>`
 
 const StyledInput = styled.input<{ error: boolean; iconsCount: number }>`
   background: transparent;
-  padding: 22px 8px 8px;
+  padding: 0px 8px;
+  margin: 24px 0 6px 0;
   width: 100%;
-  height: 100%;
+  height: 20px;
   overflow-wrap: break-word;
   color: ${({ theme }) => theme.white};
   outline: none;
-  padding-right: ${({ iconsCount }) => `calc(46px * ${iconsCount})`};
+  padding-right: ${({ iconsCount }) => (iconsCount ? `calc(46px * ${iconsCount})` : "8px")};
 
   &:focus-visible + ${StyledLabel} {
     box-shadow: ${({ theme, error }) =>

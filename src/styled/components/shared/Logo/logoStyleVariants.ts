@@ -1,4 +1,4 @@
-import { StyledCssReturn } from "styled/theme";
+import type { StyledCssReturn } from "styled/theme";
 import { css } from "styled-components";
 
 export type LogoColor = "primary" | "secondary";

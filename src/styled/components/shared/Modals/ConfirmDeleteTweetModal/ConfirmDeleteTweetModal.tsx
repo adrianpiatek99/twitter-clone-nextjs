@@ -1,6 +1,6 @@
 import React from "react";
 
-import { TweetData } from "api/tweet/timelineTweets";
+import type { TweetData } from "api/tweet/timelineTweets";
 import { ConfirmModal } from "components/core";
 
 interface ConfirmDeleteTweetModalProps {

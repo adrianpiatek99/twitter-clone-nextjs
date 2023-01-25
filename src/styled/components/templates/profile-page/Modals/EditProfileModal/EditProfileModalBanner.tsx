@@ -1,5 +1,8 @@
+import type { ChangeEvent } from "react";
+import { useRef } from "react";
 import React from "react";
 
+import { imageFileTypes } from "constants/fileTypes";
 import CameraPlusIcon from "icons/CameraPlusIcon";
 import CloseIcon from "icons/CloseIcon";
 import styled from "styled-components";
@@ -8,33 +11,52 @@ import { EditProfileModalIconButton } from "./EditProfileModalIconButton";
 
 interface EditProfileModalBannerProps {
   src: string;
-  isLoading: boolean;
+  onFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  removeBannerPhoto: () => void;
 }
 
-export const EditProfileModalBanner = ({ src }: EditProfileModalBannerProps) => {
+export const EditProfileModalBanner = ({
+  src,
+  onFileChange,
+  removeBannerPhoto
+}: EditProfileModalBannerProps) => {
+  const filePickerRef = useRef<HTMLInputElement>(null);
+
+  const handleFilePicker = () => filePickerRef.current?.click();
+
   return (
-    <Wrapper isLoading>
+    <Wrapper>
       <Inner>
         <BannerImage src={src} />
       </Inner>
       <ButtonsWrapper>
-        <EditProfileModalIconButton title="Add photo">
+        <EditProfileModalIconButton title="Add photo" onClick={handleFilePicker}>
           <CameraPlusIcon />
         </EditProfileModalIconButton>
-        <EditProfileModalIconButton title="Remove photo">
-          <CloseIcon />
-        </EditProfileModalIconButton>
+        {src && (
+          <EditProfileModalIconButton title="Remove photo" onClick={removeBannerPhoto}>
+            <CloseIcon />
+          </EditProfileModalIconButton>
+        )}
       </ButtonsWrapper>
+      <input
+        aria-label="Profile banner picker"
+        ref={filePickerRef}
+        type="file"
+        onChange={onFileChange}
+        hidden
+        accept={imageFileTypes.toString()}
+      />
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div<{ isLoading: boolean }>`
+const Wrapper = styled.div`
   position: relative;
   display: grid;
   place-items: center;
   margin: 0 2px;
-  background-color: ${({ isLoading }) => !isLoading && "rgb(47, 51, 54)"};
+  background-color: rgb(47, 51, 54);
   overflow: hidden;
 `;
 

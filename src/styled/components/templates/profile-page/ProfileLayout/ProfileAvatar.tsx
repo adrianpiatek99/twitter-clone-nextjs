@@ -11,31 +11,29 @@ interface ProfileAvatarProps {
 export const ProfileAvatar = ({ src, isLoading }: ProfileAvatarProps) => {
   return (
     <Wrapper>
-      <div style={{ paddingBottom: "100%" }} />
       <Inner>
-        <StyledAvatar loading={isLoading} src={src} />
+        <StyledAvatar loading={isLoading} src={src} absolute />
       </Inner>
     </Wrapper>
   );
 };
 const Wrapper = styled.div`
   position: relative;
-  display: block;
+  display: flex;
   width: 24%;
   min-width: 48px;
   margin-top: -15%;
   margin-bottom: 12px;
+
+  &::after {
+    content: "";
+    padding-bottom: 100%;
+  }
 `;
 
 const Inner = styled.div`
-  position: absolute;
   width: 100%;
   height: 100%;
-  top: 0px;
-  left: 0px;
-  bottom: 0px;
-  display: grid;
-  place-items: center;
   background-color: ${({ theme }) => theme.background};
   border-radius: 50%;
 
@@ -53,7 +51,5 @@ const Inner = styled.div`
 
 const StyledAvatar = styled(Avatar)`
   box-shadow: rgba(255, 255, 255, 0.03) 0px 0px 2px inset;
-  height: 100%;
-  width: 100%;
   background-color: rgb(45, 49, 51);
 `;

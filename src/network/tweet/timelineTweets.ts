@@ -1,7 +1,9 @@
-import {
-  timelineTweetsPath,
+import type {
   TimelineTweetsRequest,
   TimelineTweetsResponse
+} from "api/tweet/timelineTweets";
+import {
+  timelineTweetsPath
 } from "api/tweet/timelineTweets";
 import { getPromise } from "network/basePromises";
 

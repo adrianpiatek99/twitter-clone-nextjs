@@ -168,7 +168,7 @@ function getElements(mutations: MutationRecord[]): Set<Element> | false {
         for (let i = 0; i < mutation.removedNodes.length; i++) {
           const child = mutation.removedNodes[i];
 
-          if (DEL in child) return false;
+          if (DEL in child!) return false;
 
           if (child instanceof Element) {
             elements.add(child);
@@ -447,7 +447,7 @@ function deletePosition(el: Element): [top: number, left: number, width: number,
   const top = Math.round(oldCoords.top - parentCoords.top) - raw(parentStyles.borderTopWidth);
   const left = Math.round(oldCoords.left - parentCoords.left) - raw(parentStyles.borderLeftWidth);
 
-  return [top, left, width, height];
+  return [top, left, width!, height!];
 }
 
 export interface AutoAnimateOptions {

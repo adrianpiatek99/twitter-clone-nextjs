@@ -1,4 +1,5 @@
-import React, { ComponentPropsWithoutRef, ReactElement } from "react";
+import type { ComponentPropsWithoutRef, ReactElement } from "react";
+import React from "react";
 import FocusLock from "react-focus-lock";
 
 import { AnimatePresence, motion } from "framer-motion";

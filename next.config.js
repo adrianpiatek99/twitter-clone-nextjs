@@ -1,12 +1,13 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const config = {
   reactStrictMode: true,
+  swcMinify: true,
   images: {
-    domains: ["media2.giphy.com"]
+    domains: ["media2.giphy.com", "abs.twimg.com", "res.cloudinary.com"]
   },
   compiler: {
     styledComponents: true
   }
 };
 
-module.exports = nextConfig;
+module.export = config;

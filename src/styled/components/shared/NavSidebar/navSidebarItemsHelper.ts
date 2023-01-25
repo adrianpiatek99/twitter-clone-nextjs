@@ -1,4 +1,4 @@
-import { IconType } from "react-icons";
+import type { IconType } from "react-icons";
 
 import BookmarkIcon from "icons/BookmarkIcon";
 import BookmarkOutlinedIcon from "icons/BookmarkOutlinedIcon";

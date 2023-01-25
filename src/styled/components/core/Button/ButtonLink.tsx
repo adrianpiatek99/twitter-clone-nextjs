@@ -1,12 +1,14 @@
-import React, { ComponentPropsWithRef, FC, forwardRef, ReactNode, Ref } from "react";
+import type { ComponentPropsWithRef, FC, ReactNode, Ref } from "react";
+import React, { forwardRef } from "react";
 
 import Link from "next/link";
 import styled from "styled-components";
 
-import {
+import type {
   ButtonColor,
   ButtonSize,
-  ButtonVariant,
+  ButtonVariant} from "./buttonStyleVariants";
+import {
   buttonVariantsWithColor,
   sizeVariants
 } from "./buttonStyleVariants";

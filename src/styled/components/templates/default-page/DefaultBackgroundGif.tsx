@@ -1,4 +1,5 @@
-import React, { FC } from "react";
+import type { FC } from "react";
+import React from "react";
 
 import Image from "next/image";
 import styled, { css } from "styled-components";
@@ -13,7 +14,13 @@ const imageUrl =
 export const DefaultBackgroundGif: FC<DefaultBackgroundGifProps> = ({ withBlur = false }) => {
   return (
     <ImageWrapper withBlur={withBlur}>
-      <Image alt="dfg" src={imageUrl} fill draggable="false" />
+      <Image
+        alt="Default background image"
+        unoptimized={true}
+        src={imageUrl}
+        fill
+        draggable="false"
+      />
     </ImageWrapper>
   );
 };

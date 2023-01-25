@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CreateTweetRequest, CreateTweetResponse } from "api/tweet/createTweet";
-import { TimelineTweetsResponse, TweetData } from "api/tweet/timelineTweets";
-import { AxiosError } from "axios";
+import type { CreateTweetRequest, CreateTweetResponse } from "api/tweet/createTweet";
+import type { TimelineTweetsResponse, TweetData } from "api/tweet/timelineTweets";
+import type { AxiosError } from "axios";
 import { createTweet } from "network/tweet/createTweet";
 import { reloadSession } from "utils/session";
 

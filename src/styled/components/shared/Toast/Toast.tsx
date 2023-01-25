@@ -16,7 +16,7 @@ export const Toast = ({ id, message, duration }: ToastProps) => {
     }, duration);
 
     return () => clearTimeout(timeoutId);
-  }, [id, duration]);
+  }, [handleRemoveToast, id, duration]);
 
   return (
     <ToastWrapper

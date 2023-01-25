@@ -1,4 +1,5 @@
-import React, { cloneElement, ComponentPropsWithoutRef, FC, ReactElement, ReactNode } from "react";
+import type { ComponentPropsWithoutRef, FC, ReactElement, ReactNode } from "react";
+import React, { cloneElement } from "react";
 
 import { LinearProgress } from "components/core";
 import styled from "styled-components";

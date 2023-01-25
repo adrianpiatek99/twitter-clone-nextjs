@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AppProps } from "next/app";
+import type { AppProps } from "next/app";
 import { SessionProvider } from "next-auth/react";
 import ReduxStoreProvider from "store/ReduxStoreProvider";
 import { GlobalStyle, ThemeProvider } from "styled/theme";

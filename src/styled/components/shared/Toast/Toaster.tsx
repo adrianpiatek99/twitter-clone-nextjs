@@ -20,7 +20,7 @@ export const Toaster = () => {
 
       toastsToRemove.forEach(({ id }) => handleRemoveToast(id));
     }
-  }, [toasts]);
+  }, [handleRemoveToast, toasts]);
 
   return (
     <Portal rootId="toasts">

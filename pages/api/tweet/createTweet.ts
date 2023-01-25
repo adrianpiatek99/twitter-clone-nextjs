@@ -1,9 +1,9 @@
-import { Tweet } from "@prisma/client";
-import { NextApiHandler } from "next";
+import type { Tweet } from "@prisma/client";
+import type { NextApiHandler } from "next";
 import { getSession } from "next-auth/react";
 import { prisma } from "prisma/prisma";
 
-import { TweetData } from "./timelineTweets";
+import type { TweetData } from "./timelineTweets";
 
 export type CreateTweetRequest = Pick<Tweet, "text" | "imageUrls">;
 export type CreateTweetResponse = TweetData;

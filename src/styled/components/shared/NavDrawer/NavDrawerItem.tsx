@@ -1,9 +1,10 @@
-import React, { ComponentPropsWithoutRef } from "react";
+import type { ComponentPropsWithoutRef } from "react";
+import React from "react";
 
 import { Button } from "components/core";
 import styled from "styled-components";
 
-import { NavDrawerItemType } from "./navDrawerItemsHelper";
+import type { NavDrawerItemType } from "./navDrawerItemsHelper";
 
 type NavDrawerItemProps = NavDrawerItemType & ComponentPropsWithoutRef<typeof Button>;
 
