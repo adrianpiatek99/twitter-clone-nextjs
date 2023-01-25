@@ -14,7 +14,13 @@ const imageUrl =
 export const DefaultBackgroundGif: FC<DefaultBackgroundGifProps> = ({ withBlur = false }) => {
   return (
     <ImageWrapper withBlur={withBlur}>
-      <Image alt="dfg" src={imageUrl} fill draggable="false" />
+      <Image
+        alt="Default background image"
+        unoptimized={true}
+        src={imageUrl}
+        fill
+        draggable="false"
+      />
     </ImageWrapper>
   );
 };
