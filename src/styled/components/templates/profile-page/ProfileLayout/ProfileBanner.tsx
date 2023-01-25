@@ -11,13 +11,7 @@ interface ProfileBannerProps {
 export const ProfileBanner = ({ src, isLoading }: ProfileBannerProps) => {
   return (
     <Wrapper isLoading={isLoading}>
-      <Inner>
-        {isLoading ? (
-          <Skeleton absolute withoutRadius />
-        ) : (
-          <BannerImage className="appear" src={src} />
-        )}
-      </Inner>
+      <Inner>{isLoading ? <Skeleton absolute withoutRadius /> : <BannerImage src={src} />}</Inner>
     </Wrapper>
   );
 };

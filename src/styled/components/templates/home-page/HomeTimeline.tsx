@@ -1,7 +1,11 @@
 import React from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
-import type { TimelineTweetsRequest, TimelineTweetsResponse, TweetData } from "api/tweet/timelineTweets";
+import type {
+  TimelineTweetsRequest,
+  TimelineTweetsResponse,
+  TweetData
+} from "api/tweet/timelineTweets";
 import { Loader } from "components/core";
 import { useAutoAnimate } from "hooks/useAutoAnimate";
 import { useInfiniteScrollQuery } from "hooks/useInfiniteScrollQuery";
@@ -10,9 +14,7 @@ import { TweetCard } from "shared/TweetCard";
 import styled from "styled-components";
 
 export const HomeTimeline = () => {
-  const [tweetSectionRef] = useAutoAnimate<HTMLTableSectionElement>({
-    duration: 250
-  });
+  const [tweetSectionRef] = useAutoAnimate<HTMLTableSectionElement>();
   const queryClient = useQueryClient();
   const { data, isLoading, isFetching, lastItemRef, hasNextPage, isError, error } =
     useInfiniteScrollQuery<TimelineTweetsRequest, TimelineTweetsResponse, TweetData>({

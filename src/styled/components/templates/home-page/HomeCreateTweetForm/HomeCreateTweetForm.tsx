@@ -44,7 +44,6 @@ export const HomeCreateTweetForm = ({ userData }: HomeCreateTweetFormProps) => {
       </LeftColumn>
       <RightColumn>
         <Textarea
-          value={tweetValue}
           placeholder="What's happening?"
           maxLength={TWEET_MAX_LENGTH}
           {...register("text")}

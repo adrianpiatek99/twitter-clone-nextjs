@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 import { Button } from "../Button";
 import { IconButton } from "../IconButton";
+import { LinearProgress } from "../LinearProgress";
 
 interface ModalHeaderProps {
   onClose: () => void;
@@ -45,11 +46,13 @@ export const ModalHeader = ({
           </Button>
         </ButtonRow>
       )}
+      {loading && <LinearProgress />}
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   gap: 16px;

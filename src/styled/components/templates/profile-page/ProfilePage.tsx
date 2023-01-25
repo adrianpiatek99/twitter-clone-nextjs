@@ -14,9 +14,7 @@ import styled from "styled-components";
 
 export const ProfilePageTemplate = ({ userData: { id: userId } }: ProfilePageProps) => {
   const queryClient = useQueryClient();
-  const [tweetSectionRef] = useAutoAnimate<HTMLTableSectionElement>({
-    duration: 250
-  });
+  const [tweetSectionRef] = useAutoAnimate<HTMLTableSectionElement>();
   const { data, isLoading, isFetching, lastItemRef, hasNextPage, isError, error } =
     useInfiniteScrollQuery<UserTweetsRequest, UserTweetsResponse, TweetData>({
       queryKey: ["tweets", "user", userId],
