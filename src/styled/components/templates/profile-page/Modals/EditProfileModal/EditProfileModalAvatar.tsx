@@ -1,27 +1,41 @@
-import React from "react";
+import type { ChangeEvent } from "react";
+import React, { useRef } from "react";
 
+import { imageFileTypes } from "constants/fileTypes";
 import CameraPlusIcon from "icons/CameraPlusIcon";
 import { Avatar } from "shared/Avatar";
 import styled from "styled-components";
 
 import { EditProfileModalIconButton } from "./EditProfileModalIconButton";
 
-interface EditProfileAvatarProps {
+interface EditProfileModalAvatarProps {
   src: string;
+  onFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const EditProfileAvatar = ({ src }: EditProfileAvatarProps) => {
+export const EditProfileModalAvatar = ({ src, onFileChange }: EditProfileModalAvatarProps) => {
+  const filePickerRef = useRef<HTMLInputElement>(null);
+
+  const handleFilePicker = () => filePickerRef.current?.click();
+
   return (
     <Wrapper>
-      <div style={{ paddingBottom: "100%" }} />
       <Inner>
-        <StyledAvatar src={src} disableFocus />
+        <StyledAvatar src={src} absolute disableFocus />
       </Inner>
       <ButtonsWrapper>
-        <EditProfileModalIconButton title="Add photo">
+        <EditProfileModalIconButton title="Add photo" onClick={handleFilePicker}>
           <CameraPlusIcon />
         </EditProfileModalIconButton>
       </ButtonsWrapper>
+      <input
+        aria-label="Profile avatar picker"
+        ref={filePickerRef}
+        type="file"
+        onChange={onFileChange}
+        hidden
+        accept={imageFileTypes.toString()}
+      />
     </Wrapper>
   );
 };
@@ -36,17 +50,17 @@ const Wrapper = styled.div`
   margin-bottom: 1px;
   width: 24%;
   border-radius: 50%;
+
+  &::before {
+    content: "";
+    padding-bottom: 100%;
+  }
 `;
 
 const Inner = styled.div`
-  position: absolute;
   width: 100%;
   height: 100%;
-  top: 0px;
-  left: 0px;
-  bottom: 0px;
   background-color: ${({ theme }) => theme.background};
-  border-radius: 50%;
 
   &::before {
     content: "";
@@ -70,8 +84,6 @@ const Inner = styled.div`
 
 const StyledAvatar = styled(Avatar)`
   box-shadow: rgba(255, 255, 255, 0.03) 0px 0px 2px inset;
-  height: 100%;
-  width: 100%;
   background-color: rgb(45, 49, 51);
 `;
 
