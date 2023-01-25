@@ -13,6 +13,9 @@
       "hooks/*": [
         "src/hooks/*"
       ],
+      "constants/*": [
+        "src/constants/*"
+      ],
       "@types/*": [
         "src/@types/*"
       ],
