@@ -1,13 +1,5 @@
-import type {
-  ComponentPropsWithRef,
-  FC,
-  Ref} from "react";
-import React, {
-  forwardRef,
-  useMemo,
-  useRef,
-  useState
-} from "react";
+import type { ComponentPropsWithRef, FC, Ref } from "react";
+import React, { forwardRef, useMemo, useRef, useState } from "react";
 
 import styled, { css } from "styled-components";
 
@@ -98,8 +90,8 @@ const Wrapper = styled.div<{ $loading: boolean }>`
   position: relative;
   background: ${({ theme }) => theme.background};
   border-radius: 4px;
-  cursor: pointer;
   height: 50px;
+  cursor: text;
   transition: opacity 0.2s;
 
   ${({ $loading }) =>
