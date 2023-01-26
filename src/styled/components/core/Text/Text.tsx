@@ -53,7 +53,7 @@ type SharedProps = {
   $truncate: boolean;
 };
 
-const StyledLink = styled(Link)<SharedProps>`
+const sharedStyles = css<SharedProps>`
   color: ${({ theme, color }) => (color === "secondary" ? theme.neutral300 : theme.neutral50)};
   font-weight: ${({ weight }) => weight};
   ${({ theme, size }) => theme.text[size]};
@@ -67,4 +67,20 @@ const StyledLink = styled(Link)<SharedProps>`
     `};
 `;
 
-const TextWrapper = styled(StyledLink)``;
+const StyledLink = styled(Link)`
+  ${sharedStyles};
+
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      text-decoration: underline;
+    }
+  }
+
+  &:focus-visible {
+    text-decoration: underline;
+  }
+`;
+
+const TextWrapper = styled.span`
+  ${sharedStyles};
+`;
