@@ -19,7 +19,8 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   const { asPath, pathname } = useRouter();
   const { isSessionLoading } = useAppSession();
-  const isProfilePage = pathname.includes("/[screenName]");
+  const isProfilePage =
+    pathname.includes("/[screenName]") && !pathname.includes("/[screenName]/tweet/");
 
   if (isSessionLoading) {
     return (
