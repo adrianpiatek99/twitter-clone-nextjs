@@ -6,7 +6,7 @@ export type LikeTweetRequest = {
   tweetId: string;
 };
 
-export const likeTweetPath = "api/tweet/likeTweet";
+export const likeTweetPath = "/api/tweet/likeTweet";
 
 const handler: NextApiHandler<NextApiError> = async (req, res) => {
   const session = await getSession({ req });

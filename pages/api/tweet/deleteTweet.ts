@@ -2,13 +2,11 @@ import type { NextApiHandler } from "next";
 import { getSession } from "next-auth/react";
 import { prisma } from "prisma/prisma";
 
-import type { TweetData } from "./timelineTweets";
-
 export type DeleteTweetRequest = {
-  tweetId: TweetData["id"];
+  tweetId: string;
 };
 
-export const deleteTweetPath = "api/tweet/deleteTweet";
+export const deleteTweetPath = "/api/tweet/deleteTweet";
 
 const handler: NextApiHandler<NextApiError> = async (req, res) => {
   const session = await getSession({ req });
