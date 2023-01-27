@@ -5,10 +5,10 @@ import type { AxiosError } from "axios";
 import { createTweet } from "network/tweet/createTweet";
 import { reloadSession } from "utils/session";
 
+import { useAppSession } from "./useAppSession";
 import { useToasts } from "./useToasts";
 
 interface UseCreateTweetMutationProps {
-  userId: string;
   onSettled?: () => void;
 }
 
@@ -17,16 +17,19 @@ export interface UseCreateTweetMutationReturn {
   createTweetLoading: boolean;
 }
 
-export const useCreateTweetMutation = ({ userId, onSettled }: UseCreateTweetMutationProps) => {
-  const { handleAddToast } = useToasts();
+export const useCreateTweetMutation = ({ onSettled }: UseCreateTweetMutationProps) => {
+  const { session } = useAppSession();
   const queryClient = useQueryClient();
+  const { handleAddToast } = useToasts();
+  const screenName = session?.user.screenName ?? "";
+
   const createTweetMutation = useMutation<CreateTweetResponse, AxiosError, CreateTweetRequest>({
     mutationFn: createTweet,
     onSuccess: data => {
       // Add the new tweet to cached tweets on the home page
       updateCache(data, ["tweets", "infinite"]);
       // Add the new tweet to cached tweets on the profile page
-      updateCache(data, ["tweets", "user", userId, "infinite"]);
+      updateCache(data, ["tweets", screenName, "infinite"]);
 
       reloadSession();
       handleAddToast("success", "Tweet was created.");
