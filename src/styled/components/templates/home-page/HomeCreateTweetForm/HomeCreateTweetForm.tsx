@@ -17,8 +17,9 @@ interface HomeCreateTweetFormProps {
   userData: UserData;
 }
 
-export const HomeCreateTweetForm = ({ userData }: HomeCreateTweetFormProps) => {
-  const { id, screenName, profileImageUrl } = userData;
+export const HomeCreateTweetForm = ({
+  userData: { screenName, profileImageUrl }
+}: HomeCreateTweetFormProps) => {
   const { register, handleSubmit, watch, reset } = useForm<TweetValues>({
     resolver: yupResolver(tweetSchema),
     defaultValues: {
@@ -27,7 +28,6 @@ export const HomeCreateTweetForm = ({ userData }: HomeCreateTweetFormProps) => {
   });
   const tweetValue = watch("text");
   const { handleCreateTweet, createTweetLoading } = useCreateTweetMutation({
-    userId: id,
     onSettled: () => {
       reset();
     }

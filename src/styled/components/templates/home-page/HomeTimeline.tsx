@@ -1,6 +1,5 @@
 import React from "react";
 
-import { useQueryClient } from "@tanstack/react-query";
 import type {
   TimelineTweetsRequest,
   TimelineTweetsResponse,
@@ -15,7 +14,6 @@ import styled from "styled-components";
 
 export const HomeTimeline = () => {
   const [tweetSectionRef] = useAutoAnimate<HTMLTableSectionElement>();
-  const queryClient = useQueryClient();
   const { data, isLoading, isFetching, lastItemRef, hasNextPage, isError, error } =
     useInfiniteScrollQuery<TimelineTweetsRequest, TimelineTweetsResponse, TweetData>({
       queryKey: ["tweets"],
@@ -33,7 +31,7 @@ export const HomeTimeline = () => {
           <Loader center />
         </LoaderWrapper>
       ) : (
-        data.map(tweet => <TweetCard key={tweet.id} queryClient={queryClient} {...tweet} />)
+        data.map(tweet => <TweetCard key={tweet.id} tweetData={tweet} />)
       )}
       {isFetching && !isLoading && (
         <LoaderWrapper additionalPadding>

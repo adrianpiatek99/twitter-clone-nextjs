@@ -1,5 +1,6 @@
 import React from "react";
 
+import type { TweetData } from "api/tweet/timelineTweets";
 import { IconButton, IconButtonWithLabel } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
 import type { UseLikeTweetMutationReturn } from "hooks/useLikeTweetMutation";
@@ -9,13 +10,15 @@ import MessageIcon from "icons/MessageIcon";
 import styled, { useTheme } from "styled-components";
 
 interface TweetCardToolbarProps {
+  tweetData: TweetData;
   likeTweetMutation: UseLikeTweetMutationReturn;
-  likeCount: number;
 }
 
 export const TweetCardToolbar = ({
-  likeCount,
-  likeTweetMutation: { likeLoading, unlikeLoading, isLiked, handleLikeTweet }
+  likeTweetMutation: { likeLoading, unlikeLoading, isLiked, handleLikeTweet },
+  tweetData: {
+    _count: { likes: likeCount }
+  }
 }: TweetCardToolbarProps) => {
   const { isUnauthenticated } = useAppSession();
   const { pink400 } = useTheme();
@@ -45,8 +48,8 @@ export const TweetCardToolbar = ({
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  max-width: 425px;
-  width: 100%;
-  margin-top: 12px;
+  justify-content: flex-start;
+  width: max-content;
   gap: 12px;
+  z-index: 1;
 `;
