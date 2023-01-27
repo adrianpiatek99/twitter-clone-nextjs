@@ -16,6 +16,7 @@ interface TextProps extends ComponentPropsWithoutRef<"span"> {
   color?: Color;
   truncate?: boolean;
   href?: string;
+  breakWord?: boolean;
 }
 
 export const Text = ({
@@ -25,6 +26,7 @@ export const Text = ({
   color = "primary",
   href,
   truncate = false,
+  breakWord = false,
   ...props
 }: TextProps) => {
   const sharedProps = {
@@ -32,6 +34,7 @@ export const Text = ({
     size,
     color,
     $truncate: truncate,
+    $breakWord: breakWord,
     ...props
   };
 
@@ -51,12 +54,14 @@ type SharedProps = {
   weight: TextWeight;
   color: Color;
   $truncate: boolean;
+  $breakWord: boolean;
 };
 
-const StyledLink = styled(Link)<SharedProps>`
+const sharedStyles = css<SharedProps>`
   color: ${({ theme, color }) => (color === "secondary" ? theme.neutral300 : theme.neutral50)};
   font-weight: ${({ weight }) => weight};
   ${({ theme, size }) => theme.text[size]};
+  word-break: ${({ $breakWord }) => $breakWord && "break-word"};
 
   ${({ $truncate }) =>
     $truncate &&
@@ -67,4 +72,20 @@ const StyledLink = styled(Link)<SharedProps>`
     `};
 `;
 
-const TextWrapper = styled(StyledLink)``;
+const StyledLink = styled(Link)`
+  ${sharedStyles};
+
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      text-decoration: underline;
+    }
+  }
+
+  &:focus-visible {
+    text-decoration: underline;
+  }
+`;
+
+const TextWrapper = styled.span`
+  ${sharedStyles};
+`;

@@ -103,6 +103,8 @@ const NamesRow = styled.div`
   align-items: flex-start;
   flex-shrink: 1;
   margin-bottom: 12px;
+
+  word-break: break-word;
 `;
 
 const DescriptionRow = styled.div`

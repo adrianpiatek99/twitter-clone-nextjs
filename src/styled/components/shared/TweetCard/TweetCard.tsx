@@ -1,11 +1,11 @@
 import React from "react";
 
-import type { QueryClient } from "@tanstack/react-query";
 import type { TweetData } from "api/tweet/timelineTweets";
 import { Text } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
 import { useDeleteTweetMutation } from "hooks/useDeleteTweetMutation";
 import { useLikeTweetMutation } from "hooks/useLikeTweetMutation";
+import Link from "next/link";
 import { Avatar } from "shared/Avatar";
 import { Skeleton } from "shared/Skeleton";
 import styled, { css } from "styled-components";
@@ -14,40 +14,32 @@ import { hexToRGBA } from "utils/colors";
 import { TweetCardAuthor } from "./TweetCardAuthor";
 import { TweetCardToolbar } from "./TweetCardToolbar";
 
-interface TweetCardProps extends TweetData {
-  queryClient: QueryClient;
+interface TweetCardProps {
+  tweetData: TweetData;
   isProfile?: boolean;
 }
 
-export const TweetCard = ({
-  queryClient,
-  id,
-  text,
-  createdAt,
-  author,
-  likes,
-  _count
-}: TweetCardProps) => {
+export const TweetCard = ({ tweetData }: TweetCardProps) => {
   const { session } = useAppSession();
-  const userId = session?.user.id;
+  const { id, text, author, authorId } = tweetData;
   const { screenName, profileImageUrl } = author;
-  const { handleDeleteTweet, deleteLoading } = useDeleteTweetMutation({
-    queryClient,
-    tweetId: id,
-    userId
+  const isOwner = session?.user.id === authorId;
+  const deleteTweetMutation = useDeleteTweetMutation({
+    tweetData
   });
+  const { deleteLoading } = deleteTweetMutation;
   const likeTweetMutation = useLikeTweetMutation({
-    queryClient,
-    tweetId: id,
-    userId,
-    likes,
+    tweetData,
     disabled: deleteLoading
   });
-  const likeCount = _count.likes;
-  const isOwner = userId === author.id;
 
   return (
-    <TweetArticle isLoading={deleteLoading} tabIndex={deleteLoading ? -1 : 0}>
+    <TweetArticle isLoading={deleteLoading}>
+      <StyledLink
+        href={deleteLoading ? "" : `${screenName}/tweet/${id}`}
+        $isLoading={deleteLoading}
+        tabIndex={deleteLoading ? -1 : 0}
+      />
       {deleteLoading && <Skeleton absolute withoutRadius transparent />}
       <Inner isLoading={deleteLoading}>
         <LeftColumn>
@@ -55,17 +47,15 @@ export const TweetCard = ({
         </LeftColumn>
         <RightColumn>
           <TweetCardAuthor
-            tweetId={id}
-            createdAt={createdAt}
             isOwner={isOwner}
-            author={author}
-            handleDeleteTweet={handleDeleteTweet}
+            tweetData={tweetData}
+            deleteTweetMutation={deleteTweetMutation}
           />
           <Content>
             <TweetText>
               <Text>{text}</Text>
             </TweetText>
-            <TweetCardToolbar likeCount={likeCount} likeTweetMutation={likeTweetMutation} />
+            <TweetCardToolbar tweetData={tweetData} likeTweetMutation={likeTweetMutation} />
           </Content>
         </RightColumn>
       </Inner>
@@ -77,11 +67,11 @@ const TweetArticle = styled.article<{ isLoading: boolean }>`
   position: relative;
   display: flex;
   gap: 12px;
-  padding: 12px;
+  padding: 12px 16px;
   border-bottom: 1px solid ${({ theme }) => theme.border};
   outline: none;
   cursor: pointer;
-  transition: 0.2s;
+  transition: background-color 0.2s;
 
   @media (hover: hover) {
     &:hover:not(:disabled) {
@@ -89,16 +79,25 @@ const TweetArticle = styled.article<{ isLoading: boolean }>`
     }
   }
 
-  &:focus-visible {
-    background-color: ${({ theme }) => hexToRGBA(theme.neutral50, 0.1)};
-    box-shadow: ${({ theme }) => theme.boxShadows.primary};
-  }
-
   ${({ isLoading }) =>
     isLoading &&
     css`
       pointer-events: none;
     `}
+`;
+
+const StyledLink = styled(Link)<{ $isLoading: boolean }>`
+  position: absolute;
+  inset: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  transition: background-color 0.2s, box-shadow 0.2s;
+
+  &:focus-visible {
+    background-color: ${({ theme }) => hexToRGBA(theme.neutral50, 0.1)};
+    box-shadow: ${({ theme }) => theme.boxShadows.primary};
+  }
 `;
 
 const Inner = styled.div<{ isLoading: boolean }>`
@@ -126,6 +125,10 @@ const Inner = styled.div<{ isLoading: boolean }>`
 const LeftColumn = styled.div`
   display: flex;
   flex-direction: column;
+
+  & > a {
+    z-index: 1;
+  }
 `;
 
 const RightColumn = styled.div`
@@ -139,6 +142,7 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  gap: 12px;
   margin-top: 2px;
 `;
 

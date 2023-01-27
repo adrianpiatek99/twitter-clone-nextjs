@@ -1,11 +1,9 @@
 import React from "react";
 
-import type { TweetData } from "api/tweet/timelineTweets";
 import { ConfirmModal } from "components/core";
 
 interface ConfirmDeleteTweetModalProps {
   isOpen: boolean;
-  tweetId: TweetData["id"];
   onAcceptSuccess: () => void;
   onClose: () => void;
 }

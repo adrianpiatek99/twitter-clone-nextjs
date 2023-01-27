@@ -16,7 +16,7 @@ export const DefaultBackgroundGif: FC<DefaultBackgroundGifProps> = ({ withBlur =
     <ImageWrapper withBlur={withBlur}>
       <Image
         alt="Default background image"
-        unoptimized={true}
+        loader={() => imageUrl}
         src={imageUrl}
         fill
         draggable="false"

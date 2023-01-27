@@ -1,17 +1,16 @@
-import type { QueryClient} from "@tanstack/react-query";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { DeleteTweetRequest } from "api/tweet/deleteTweet";
-import type { TimelineTweetsResponse } from "api/tweet/timelineTweets";
+import type { TimelineTweetsResponse, TweetData } from "api/tweet/timelineTweets";
 import type { AxiosError } from "axios";
 import { deleteTweet } from "network/tweet/deleteTweet";
 import { reloadSession } from "utils/session";
 
+import { useAppSession } from "./useAppSession";
 import { useToasts } from "./useToasts";
 
 interface UseDeleteTweetMutationProps {
-  queryClient: QueryClient;
-  tweetId: string;
-  userId: string | undefined;
+  tweetData: TweetData;
+  onSuccess?: () => void;
 }
 
 export interface UseDeleteTweetMutationReturn {
@@ -20,18 +19,26 @@ export interface UseDeleteTweetMutationReturn {
 }
 
 export const useDeleteTweetMutation = ({
-  queryClient,
-  tweetId,
-  userId = ""
+  tweetData: {
+    id: tweetId,
+    authorId,
+    author: { screenName }
+  },
+  onSuccess
 }: UseDeleteTweetMutationProps) => {
+  const queryClient = useQueryClient();
+  const { session } = useAppSession();
   const { handleAddToast } = useToasts();
+  const currentUserId = session?.user.id;
+
   const deleteTweetMutation = useMutation<unknown, AxiosError, DeleteTweetRequest>({
     mutationFn: deleteTweet,
     onSuccess: () => {
-      // Remove the tweet from the cache on the home page
       updateCache(["tweets", "infinite"]);
-      // Remove the tweet from the cache on the  profile page
-      updateCache(["tweets", "user", userId, "infinite"]);
+      updateCache(["tweets", screenName, "infinite"]);
+      queryClient.removeQueries(["tweets", tweetId]);
+
+      onSuccess?.();
 
       reloadSession();
     },
@@ -58,7 +65,7 @@ export const useDeleteTweetMutation = ({
   };
 
   const handleDeleteTweet = () => {
-    if (deleteLoading) return;
+    if (deleteLoading || currentUserId !== authorId) return;
 
     deleteTweetMutation.mutate({ tweetId });
   };

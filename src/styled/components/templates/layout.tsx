@@ -19,7 +19,8 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   const { asPath, pathname } = useRouter();
   const { isSessionLoading } = useAppSession();
-  const isProfilePage = pathname.includes("/[screenName]");
+  const isProfilePage =
+    pathname.includes("/[screenName]") && !pathname.includes("/[screenName]/tweet/");
 
   if (isSessionLoading) {
     return (
@@ -92,6 +93,7 @@ const Feed = styled.div`
   flex-direction: column;
   max-width: 100%;
   width: 100%;
+  min-width: 0px;
   padding-bottom: 100px;
 
   @media ${({ theme }) => theme.breakpoints.sm} {

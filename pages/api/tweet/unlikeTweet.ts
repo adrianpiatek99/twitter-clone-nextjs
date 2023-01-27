@@ -8,7 +8,7 @@ export type UnlikeTweetRequest = {
   tweetId: TweetData["id"];
 };
 
-export const unlikeTweetPath = "api/tweet/unlikeTweet";
+export const unlikeTweetPath = "/api/tweet/unlikeTweet";
 
 const handler: NextApiHandler<NextApiError> = async (req, res) => {
   const session = await getSession({ req });

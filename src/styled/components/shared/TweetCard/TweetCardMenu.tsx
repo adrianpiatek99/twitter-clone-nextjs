@@ -1,24 +1,22 @@
 import React, { useState } from "react";
 
-import type { TweetData } from "api/tweet/timelineTweets";
 import { MenuModal, MenuModalItem } from "components/core";
+import type { UseDeleteTweetMutationReturn } from "hooks/useDeleteTweetMutation";
 import TrashIcon from "icons/TrashIcon";
 import { ConfirmDeleteTweetModal } from "shared/Modals/ConfirmDeleteTweetModal";
 
 interface TweetCardMenuProps {
-  handleDeleteTweet: () => void;
   isOpen: boolean;
   isOwner: boolean;
-  tweetId: TweetData["id"];
   onClose: () => void;
+  deleteTweetMutation: UseDeleteTweetMutationReturn;
 }
 
 export const TweetCardMenu = ({
   isOpen,
   isOwner,
-  tweetId,
   onClose,
-  handleDeleteTweet
+  deleteTweetMutation: { handleDeleteTweet }
 }: TweetCardMenuProps) => {
   const [isDeleteTweetModalOpen, setIsDeleteTweetModalOpen] = useState(false);
 
@@ -30,9 +28,7 @@ export const TweetCardMenu = ({
   const handleAcceptDeleteTweet = () => {
     setIsDeleteTweetModalOpen(false);
 
-    if (isOwner) {
-      handleDeleteTweet();
-    }
+    handleDeleteTweet();
   };
 
   return (
@@ -50,12 +46,13 @@ export const TweetCardMenu = ({
           )}
         </>
       </MenuModal>
-      <ConfirmDeleteTweetModal
-        isOpen={isDeleteTweetModalOpen}
-        onAcceptSuccess={handleAcceptDeleteTweet}
-        onClose={() => setIsDeleteTweetModalOpen(false)}
-        tweetId={tweetId}
-      />
+      {isOwner && (
+        <ConfirmDeleteTweetModal
+          isOpen={isDeleteTweetModalOpen}
+          onAcceptSuccess={handleAcceptDeleteTweet}
+          onClose={() => setIsDeleteTweetModalOpen(false)}
+        />
+      )}
     </>
   );
 };

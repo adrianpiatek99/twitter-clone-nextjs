@@ -1,6 +1,5 @@
 import React from "react";
 
-import { useQueryClient } from "@tanstack/react-query";
 import type { TweetData } from "api/tweet/timelineTweets";
 import type { UserTweetsRequest, UserTweetsResponse } from "api/tweet/userTweets";
 import { Loader } from "components/core";
@@ -12,12 +11,11 @@ import { ErrorMessage } from "shared/ErrorMessage";
 import { TweetCard } from "shared/TweetCard";
 import styled from "styled-components";
 
-export const ProfilePageTemplate = ({ userData: { id: userId } }: ProfilePageProps) => {
-  const queryClient = useQueryClient();
+export const ProfilePageTemplate = ({ userData: { id: userId, screenName } }: ProfilePageProps) => {
   const [tweetSectionRef] = useAutoAnimate<HTMLTableSectionElement>();
   const { data, isLoading, isFetching, lastItemRef, hasNextPage, isError, error } =
     useInfiniteScrollQuery<UserTweetsRequest, UserTweetsResponse, TweetData>({
-      queryKey: ["tweets", "user", userId],
+      queryKey: ["tweets", screenName],
       queryFn: userTweets,
       params: {
         userId
@@ -35,7 +33,7 @@ export const ProfilePageTemplate = ({ userData: { id: userId } }: ProfilePagePro
           <Loader center />
         </LoaderWrapper>
       ) : (
-        data.map(tweet => <TweetCard key={tweet.id} queryClient={queryClient} {...tweet} />)
+        data.map(tweet => <TweetCard key={tweet.id} tweetData={tweet} />)
       )}
       {isFetching && !isLoading && (
         <LoaderWrapper additionalPadding>

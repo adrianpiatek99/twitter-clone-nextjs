@@ -4,45 +4,40 @@ import type { TweetData } from "api/tweet/timelineTweets";
 import { IconButton, Text } from "components/core";
 import type { UseDeleteTweetMutationReturn } from "hooks/useDeleteTweetMutation";
 import MoreHorizontalIcon from "icons/MoreHorizontalIcon";
+import { Avatar } from "shared/Avatar";
+import { TweetCardMenu } from "shared/TweetCard/TweetCardMenu";
 import styled from "styled-components";
-import { getRelativeTime } from "utils/timeUtils";
 
-import { TweetCardMenu } from "./TweetCardMenu";
-
-interface TweetCardAuthorProps {
-  isOwner: boolean;
+interface TweetArticleAuthorProps {
   tweetData: TweetData;
+  isOwner: boolean;
   deleteTweetMutation: UseDeleteTweetMutationReturn;
 }
 
-export const TweetCardAuthor = ({
-  isOwner,
+export const TweetArticleAuthor = ({
   tweetData: {
-    author: { name, screenName },
-    createdAt
+    author: { name, screenName, profileImageUrl }
   },
+  isOwner,
   deleteTweetMutation
-}: TweetCardAuthorProps) => {
+}: TweetArticleAuthorProps) => {
   const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
 
   return (
     <Wrapper>
-      <LeftColumn>
-        <Text weight={700} href={`/${screenName}`} truncate>
-          {name}
-        </Text>
-        <Text color="secondary" href={`/${screenName}`} truncate>
-          @{screenName}
-        </Text>
-        <Text color="secondary" truncate>
-          ·
-        </Text>
-        <Text color="secondary" href={`/${screenName}`}>
-          {getRelativeTime(createdAt)}
-        </Text>
-      </LeftColumn>
+      <Content>
+        <Avatar src={profileImageUrl} screenName={screenName} size="large" />
+        <NamesWrapper>
+          <Text weight={700} href={`/${screenName}`} truncate>
+            {name}
+          </Text>
+          <Text color="secondary" href={`/${screenName}`} truncate>
+            @{screenName}
+          </Text>
+        </NamesWrapper>
+      </Content>
       {isOwner && (
-        <RightColumn>
+        <Actions>
           <IconButton onClick={() => setIsMenuModalOpen(prev => !prev)} color="secondary">
             <MoreHorizontalIcon />
           </IconButton>
@@ -52,7 +47,7 @@ export const TweetCardAuthor = ({
             onClose={() => setIsMenuModalOpen(false)}
             deleteTweetMutation={deleteTweetMutation}
           />
-        </RightColumn>
+        </Actions>
       )}
     </Wrapper>
   );
@@ -60,23 +55,31 @@ export const TweetCardAuthor = ({
 
 const Wrapper = styled.div`
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  align-items: center;
+  gap: 4px;
   color: ${({ theme }) => theme.neutral300};
 `;
 
-const LeftColumn = styled.div`
+const Content = styled.div`
   display: flex;
   align-items: center;
-  gap: 4px;
-  overflow: hidden;
-  z-index: 1;
+  gap: 12px;
+  min-width: 0px;
 `;
 
-const RightColumn = styled.div`
+const NamesWrapper = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+
+  & * {
+    width: 100%;
+  }
+`;
+
+const Actions = styled.div`
+  display: flex;
+  align-self: start;
   margin: -8px -6px -8px;
-  z-index: 1;
 `;

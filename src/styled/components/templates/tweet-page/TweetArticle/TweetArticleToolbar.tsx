@@ -1,29 +1,21 @@
 import React from "react";
 
-import type { TweetData } from "api/tweet/timelineTweets";
-import { IconButton, IconButtonWithLabel } from "components/core";
-import { useAppSession } from "hooks/useAppSession";
+import { IconButton } from "components/core";
 import type { UseLikeTweetMutationReturn } from "hooks/useLikeTweetMutation";
 import HeartIcon from "icons/HeartIcon";
 import HeartOutlinedIcon from "icons/HeartOutlinedIcon";
 import MessageIcon from "icons/MessageIcon";
 import styled, { useTheme } from "styled-components";
 
-interface TweetCardToolbarProps {
-  tweetData: TweetData;
+interface TweetArticleToolbarProps {
   likeTweetMutation: UseLikeTweetMutationReturn;
 }
 
-export const TweetCardToolbar = ({
-  likeTweetMutation: { likeLoading, unlikeLoading, isLiked, handleLikeTweet },
-  tweetData: {
-    _count: { likes: likeCount }
-  }
-}: TweetCardToolbarProps) => {
-  const { isUnauthenticated } = useAppSession();
+export const TweetArticleToolbar = ({
+  likeTweetMutation: { likeLoading, unlikeLoading, isLiked, handleLikeTweet }
+}: TweetArticleToolbarProps) => {
   const { pink400 } = useTheme();
-  const likeCountLabel = likeCount ? String(likeCount) : "";
-  const loadingLikeButton = likeLoading || unlikeLoading || isUnauthenticated;
+  const loadingLikeButton = likeLoading || unlikeLoading;
   const likeTitle = isLiked ? "Unlike" : "Like";
 
   return (
@@ -31,16 +23,15 @@ export const TweetCardToolbar = ({
       <IconButton color="secondary">
         <MessageIcon />
       </IconButton>
-      <IconButtonWithLabel
+      <IconButton
         title={likeTitle}
-        label={likeCountLabel}
         onClick={handleLikeTweet}
         color={pink400}
         isSelected={isLiked}
         disabled={loadingLikeButton}
       >
         {isLiked ? <HeartIcon /> : <HeartOutlinedIcon />}
-      </IconButtonWithLabel>
+      </IconButton>
     </Wrapper>
   );
 };
@@ -48,8 +39,10 @@ export const TweetCardToolbar = ({
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  width: max-content;
+  justify-content: space-around;
+  max-width: 425px;
+  width: 100%;
+  margin: 0 auto;
   gap: 12px;
   z-index: 1;
 `;
