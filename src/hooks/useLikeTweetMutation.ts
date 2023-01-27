@@ -1,5 +1,4 @@
-import type { QueryClient} from "@tanstack/react-query";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { LikeTweetRequest } from "api/tweet/likeTweet";
 import type { TimelineTweetsResponse, TweetData } from "api/tweet/timelineTweets";
 import type { AxiosError } from "axios";
@@ -7,13 +6,13 @@ import { likeTweet } from "network/tweet/likeTweet";
 import { unlikeTweet } from "network/tweet/unlikeTweet";
 import { reloadSession } from "utils/session";
 
+import { useAppSession } from "./useAppSession";
 import { useToasts } from "./useToasts";
 
+type Action = "like" | "unlike";
+
 interface UseLikeTweetMutationProps {
-  queryClient: QueryClient;
-  userId: string | undefined;
-  tweetId: string;
-  likes: TweetData["likes"];
+  tweetData: TweetData;
   disabled?: boolean;
 }
 
@@ -25,21 +24,25 @@ export interface UseLikeTweetMutationReturn {
 }
 
 export const useLikeTweetMutation = ({
-  queryClient,
-  tweetId,
-  userId = "",
-  likes,
+  tweetData: {
+    id: tweetId,
+    likes,
+    author: { screenName }
+  },
   disabled = false
 }: UseLikeTweetMutationProps) => {
+  const queryClient = useQueryClient();
+  const { session } = useAppSession();
   const { handleAddToast } = useToasts();
-  const isLiked = likes.some(like => like.userId === userId);
+  const currentUserId = session?.user.id ?? "";
+
+  const isLiked = likes.some(like => like.userId === currentUserId);
   const likeMutation = useMutation<unknown, AxiosError, LikeTweetRequest>({
     mutationFn: likeTweet,
     onSuccess: () => {
-      // Update the like for the specific cached tweet on the home page
-      updateCache("like", ["tweets", "infinite"]);
-      // Update the like for the specific cached tweet on the profile page
-      updateCache("like", ["tweets", "user", userId, "infinite"]);
+      updateTweetsCache("like", ["tweets", "infinite"]);
+      updateTweetsCache("like", ["tweets", screenName, "infinite"]);
+      updateTweetCache("like", ["tweets", tweetId]);
 
       reloadSession();
     },
@@ -50,8 +53,9 @@ export const useLikeTweetMutation = ({
   const unlikeMutation = useMutation({
     mutationFn: unlikeTweet,
     onSuccess: () => {
-      updateCache("unlike", ["tweets", "infinite"]);
-      updateCache("unlike", ["tweets", "user", userId, "infinite"]);
+      updateTweetsCache("unlike", ["tweets", "infinite"]);
+      updateTweetsCache("unlike", ["tweets", screenName, "infinite"]);
+      updateTweetCache("unlike", ["tweets", tweetId]);
 
       reloadSession();
     },
@@ -62,11 +66,11 @@ export const useLikeTweetMutation = ({
   const likeLoading = likeMutation.isLoading;
   const unlikeLoading = unlikeMutation.isLoading;
 
-  const updateCache = (action: "like" | "unlike", queryKey: string[]) => {
+  const updateTweetsCache = (action: Action, queryKey: string[]) => {
     queryClient.setQueryData<{ pages: TimelineTweetsResponse[] }>(queryKey, oldData => {
       if (oldData) {
         const count = action === "like" ? 1 : -1;
-        const likesArray = action === "like" ? [{ userId }] : [];
+        const likesArray = action === "like" ? [{ userId: currentUserId }] : [];
 
         const newTweets = oldData.pages.map(page => {
           const tweets = page.tweets.map(tweet => {
@@ -87,8 +91,19 @@ export const useLikeTweetMutation = ({
     });
   };
 
+  const updateTweetCache = (action: Action, queryKey: string[]) => {
+    queryClient.setQueryData<TweetData>(queryKey, oldData => {
+      if (oldData) {
+        const count = action === "like" ? 1 : -1;
+        const likesArray = action === "like" ? [{ userId: currentUserId }] : [];
+
+        return { ...oldData, _count: { likes: oldData._count.likes + count }, likes: likesArray };
+      }
+    });
+  };
+
   const handleLikeTweet = () => {
-    if (likeLoading || unlikeLoading || !userId || disabled) return;
+    if (likeLoading || unlikeLoading || !currentUserId || disabled) return;
 
     if (isLiked) {
       unlikeMutation.mutate({ tweetId });
