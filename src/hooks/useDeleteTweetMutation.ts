@@ -1,18 +1,15 @@
-import type { QueryClient } from "@tanstack/react-query";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { DeleteTweetRequest } from "api/tweet/deleteTweet";
-import type { TimelineTweetsResponse } from "api/tweet/timelineTweets";
+import type { TimelineTweetsResponse, TweetData } from "api/tweet/timelineTweets";
 import type { AxiosError } from "axios";
 import { deleteTweet } from "network/tweet/deleteTweet";
 import { reloadSession } from "utils/session";
 
+import { useAppSession } from "./useAppSession";
 import { useToasts } from "./useToasts";
 
 interface UseDeleteTweetMutationProps {
-  queryClient: QueryClient;
-  tweetId: string;
-  currentUserId: string | undefined;
-  authorId: string | undefined;
+  tweetData: TweetData;
   onSuccess?: () => void;
 }
 
@@ -22,24 +19,26 @@ export interface UseDeleteTweetMutationReturn {
 }
 
 export const useDeleteTweetMutation = ({
-  queryClient,
-  tweetId,
-  currentUserId = "",
-  authorId = "",
+  tweetData: {
+    id: tweetId,
+    authorId,
+    author: { screenName }
+  },
   onSuccess
 }: UseDeleteTweetMutationProps) => {
+  const queryClient = useQueryClient();
+  const { session } = useAppSession();
   const { handleAddToast } = useToasts();
+  const currentUserId = session?.user.id;
+
   const deleteTweetMutation = useMutation<unknown, AxiosError, DeleteTweetRequest>({
     mutationFn: deleteTweet,
     onSuccess: () => {
-      onSuccess?.();
-
-      // Remove the tweet from the cache on the home page
       updateCache(["tweets", "infinite"]);
-      // Remove the tweet from the cache on the  profile page
-      updateCache(["tweets", "user", authorId, "infinite"]);
+      updateCache(["tweets", screenName, "infinite"]);
+      queryClient.removeQueries(["tweets", tweetId]);
 
-      queryClient.removeQueries(["tweet", tweetId]);
+      onSuccess?.();
 
       reloadSession();
     },
