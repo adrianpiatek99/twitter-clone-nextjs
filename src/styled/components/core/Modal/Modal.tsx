@@ -112,7 +112,7 @@ const Content = styled(motion.div)`
   flex-direction: column;
   max-width: 450px;
   width: 98%;
-  min-height: 350px;
+  min-height: 500px;
   max-height: 90vh;
   background-color: ${({ theme }) => theme.background};
   border-radius: 16px 16px 0px 0px;

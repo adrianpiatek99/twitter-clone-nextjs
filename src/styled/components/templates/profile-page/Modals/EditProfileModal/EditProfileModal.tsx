@@ -175,7 +175,7 @@ const Content = styled.div`
   flex-direction: column;
   gap: 12px;
   width: 100%;
-  padding: 0 16px 48px 16px;
+  padding: 0 16px 32px 16px;
 `;
 
 const Form = styled.form`

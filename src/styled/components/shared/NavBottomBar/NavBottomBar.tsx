@@ -28,7 +28,7 @@ const Wrapper = styled.div`
   left: 0px;
   right: 0px;
   backdrop-filter: saturate(180%) blur(20px);
-  background-color: rgba(85, 85, 85, 0.2);
+  background-color: rgba(28, 28, 30, 0.65);
   padding-bottom: env(safe-area-inset-bottom);
   z-index: 1000;
 
