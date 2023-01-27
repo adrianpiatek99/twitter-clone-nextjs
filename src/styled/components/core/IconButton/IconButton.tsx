@@ -13,6 +13,7 @@ interface IconButtonProps extends Omit<ComponentPropsWithRef<"button">, "color">
   color?: IconButtonColor;
   loading?: boolean;
   isError?: boolean;
+  isSelected?: boolean;
   disableFocus?: boolean;
 }
 
@@ -25,6 +26,7 @@ export const IconButton: FC<IconButtonProps> = forwardRef(
       color = "primary",
       isError = false,
       loading = false,
+      isSelected = false,
       disableFocus = false,
       ...props
     },
@@ -54,6 +56,7 @@ export const IconButton: FC<IconButtonProps> = forwardRef(
         size={size}
         $isError={isError}
         $loading={loading}
+        isSelected={isSelected}
         tabIndex={disableFocus ? -1 : 0}
         {...props}
         ref={ref}
@@ -64,9 +67,14 @@ export const IconButton: FC<IconButtonProps> = forwardRef(
   }
 );
 
-const ButtonElement = styled.button<
-  IconButtonProps & { $color: [string, string]; $isError: boolean; $loading: boolean }
->`
+type StyledButtonProps = IconButtonProps & {
+  $color: [string, string];
+  $isError: boolean;
+  $loading: boolean;
+  isSelected: boolean;
+};
+
+const ButtonElement = styled.button<StyledButtonProps>`
   position: relative;
   display: flex;
   justify-content: center;
@@ -102,5 +110,11 @@ const ButtonElement = styled.button<
       pointer-events: none;
       opacity: 0.65;
       cursor: default;
+    `};
+
+  ${({ isSelected, $color }) =>
+    isSelected &&
+    css`
+      color: ${$color[1]};
     `};
 `;

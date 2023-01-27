@@ -23,6 +23,12 @@ const ErrorContent = styled.div`
   margin: 32px auto;
 
   & > span {
-    ${({ theme }) => theme.heading.s}
+    ${({ theme }) => theme.text.xxl}
+  }
+
+  @media ${({ theme }) => theme.breakpoints.sm} {
+    & > span {
+      ${({ theme }) => theme.heading.s}
+    }
   }
 `;

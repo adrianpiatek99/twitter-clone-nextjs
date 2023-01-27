@@ -93,6 +93,7 @@ const Feed = styled.div`
   flex-direction: column;
   max-width: 100%;
   width: 100%;
+  min-width: 0px;
   padding-bottom: 100px;
 
   @media ${({ theme }) => theme.breakpoints.sm} {

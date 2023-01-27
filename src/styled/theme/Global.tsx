@@ -59,12 +59,12 @@ export const GlobalStyle = createGlobalStyle`
 
     @media (hover: hover) {
       &:hover:not(:disabled){
-        text-decoration: underline;
+        text-decoration: none;
       }
     }
 
     &:focus-visible {
-      text-decoration: underline;
+      text-decoration: none;
     }
   }
 

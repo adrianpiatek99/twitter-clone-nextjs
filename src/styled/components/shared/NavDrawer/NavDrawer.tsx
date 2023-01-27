@@ -77,6 +77,7 @@ const DrawerWrapper = styled(motion.div)`
   border-right: 1px solid ${({ theme }) => theme.border};
   border-radius: 0 16px 16px 0;
   outline: none;
+  overflow: hidden;
 `;
 
 const Divider = styled.div`

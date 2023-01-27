@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import { Text } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
 import MoreHorizontalIcon from "icons/MoreHorizontalIcon";
 import { Avatar } from "shared/Avatar";
@@ -47,8 +48,12 @@ export const NavSidebarProfile = () => {
           <Avatar src={profileImageUrl} disableFocus />
         </Column>
         <Column>
-          <UserName>{name}</UserName>
-          <UserScreenName>@{screenName}</UserScreenName>
+          <Text weight={700} truncate>
+            {name}
+          </Text>
+          <Text color="secondary" truncate>
+            @{screenName}
+          </Text>
         </Column>
         <Column>
           <MoreHorizontalIcon />
@@ -64,7 +69,6 @@ export const NavSidebarProfile = () => {
 
 const Wrapper = styled.div`
   display: flex;
-  width: 100%;
   margin: 12px 0;
 `;
 
@@ -77,11 +81,11 @@ const Content = styled.button`
   gap: 12px;
   border-radius: 50px;
   padding: 12px;
-  width: 100%;
   text-align: left;
   color: ${({ theme }) => theme.neutral50};
   cursor: pointer;
   transition: 0.2s;
+  min-width: 0px;
 
   @media (hover: hover) {
     &:hover:not(:disabled) {
@@ -114,11 +118,11 @@ const Column = styled.div`
     &:nth-child(2),
     &:nth-child(3) {
       display: flex;
+      min-width: 0px;
     }
 
     &:nth-child(3) {
       align-items: flex-end;
-      flex-grow: 1;
 
       & > svg {
         width: 20px;
@@ -132,12 +136,4 @@ const ColumnSkeletons = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
-`;
-
-const UserName = styled.span`
-  font-weight: 700;
-`;
-
-const UserScreenName = styled.span`
-  color: ${({ theme }) => theme.neutral300};
 `;

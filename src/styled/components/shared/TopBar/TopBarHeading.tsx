@@ -22,6 +22,7 @@ const Heading = styled.div`
   flex-direction: column;
   gap: 1px;
   flex-grow: 1;
+  min-width: 0px;
 
   @media ${({ theme }) => theme.breakpoints.sm} {
     gap: 2px;
@@ -29,7 +30,10 @@ const Heading = styled.div`
 `;
 
 const Title = styled.h2`
-  ${({ theme }) => theme.text.l}
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  ${({ theme }) => theme.text.l};
   color: ${({ theme }) => theme.neutral100};
 
   @media ${({ theme }) => theme.breakpoints.sm} {

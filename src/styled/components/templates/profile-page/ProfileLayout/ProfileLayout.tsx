@@ -52,14 +52,15 @@ export const ProfileLayout = ({ children }: ProfileLayoutProps) => {
           <ProfileAvatar isLoading={userLoading} src={userData?.profileImageUrl ?? ""} />
           {userData && <ProfileActions itsMe={itsMe} userData={userData} />}
         </FirstRow>
-        <ProfileInformation userData={userData} isLoading={userLoading} />
-        {isError && (
+        {isError ? (
           <>
             <Text size="xl" weight={700}>
               @{queryScreenName}
             </Text>
-            <ErrorMessage message={error?.message} />
+            <ErrorMessage message={error.message} />
           </>
+        ) : (
+          <ProfileInformation userData={userData} isLoading={userLoading} />
         )}
       </ProfileInfoWrapper>
       {userData && <ProfileTabs screenName={userData.screenName} />}

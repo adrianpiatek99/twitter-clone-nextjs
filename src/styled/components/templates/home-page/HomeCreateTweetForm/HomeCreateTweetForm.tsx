@@ -61,7 +61,7 @@ export const HomeCreateTweetForm = ({ userData }: HomeCreateTweetFormProps) => {
 const Wrapper = styled.div`
   display: flex;
   gap: 12px;
-  padding: 8px 16px;
+  padding: 12px 16px;
   border-top: 1px solid ${({ theme }) => theme.border};
   border-bottom: 1px solid ${({ theme }) => theme.border};
   margin-bottom: 4px;

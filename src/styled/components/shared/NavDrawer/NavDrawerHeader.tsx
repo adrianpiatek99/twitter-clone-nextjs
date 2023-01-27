@@ -1,5 +1,6 @@
 import React from "react";
 
+import { Text } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
 import Link from "next/link";
 import { Avatar } from "shared/Avatar";
@@ -44,12 +45,12 @@ export const NavDrawerHeader = ({ onClose }: NavDrawerHeaderProps) => {
       </AvatarRow>
       <Content>
         <ProfileNamesRow>
-          <Link href={`/${screenName}`} onClick={onClose}>
-            <ProfileName>{name}</ProfileName>
-          </Link>
-          <Link href={`/${screenName}`} onClick={onClose}>
-            <ProfileScreenName>{screenName && `@${screenName}`}</ProfileScreenName>
-          </Link>
+          <Text href={`/${screenName}`} onClick={onClose} size="l" weight={700} truncate>
+            {name}
+          </Text>
+          <Text href={`/${screenName}`} onClick={onClose} color="secondary" truncate>
+            {screenName && `@${screenName}`}
+          </Text>
         </ProfileNamesRow>
         <FollowsRow>
           <FollowLink href={`/${screenName}/following`} onClick={onClose}>
@@ -87,16 +88,10 @@ const Content = styled.div`
 const ProfileNamesRow = styled.div`
   display: flex;
   flex-direction: column;
-`;
 
-const ProfileName = styled.span`
-  font-weight: 700;
-  ${({ theme }) => theme.text.l};
-`;
-
-const ProfileScreenName = styled.div`
-  vertical-align: middle;
-  color: ${({ theme }) => theme.neutral300};
+  & * {
+    width: 100%;
+  }
 `;
 
 const FollowsRow = styled.div`
