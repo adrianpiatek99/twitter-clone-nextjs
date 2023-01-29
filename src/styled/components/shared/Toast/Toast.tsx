@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 
 import { IconButton } from "components/core";
 import { motion } from "framer-motion";
@@ -9,14 +9,21 @@ import styled from "styled-components";
 
 export const Toast = ({ id, message, duration }: ToastProps) => {
   const { handleRemoveToast } = useToasts();
+  const timeoutIdRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       handleRemoveToast(id);
     }, duration);
 
-    return () => clearTimeout(timeoutId);
+    timeoutIdRef.current = timeoutId;
   }, [handleRemoveToast, id, duration]);
+
+  useEffect(() => {
+    if (timeoutIdRef.current) {
+      return () => clearTimeout(timeoutIdRef.current);
+    }
+  }, []);
 
   return (
     <ToastWrapper
