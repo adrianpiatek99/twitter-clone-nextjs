@@ -474,6 +474,18 @@
     "@tanstack/query-core" "4.20.9"
     use-sync-external-store "^1.2.0"
 
+"@tanstack/react-virtual@3.0.0-beta.41":
+  version "3.0.0-beta.41"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-virtual/-/react-virtual-3.0.0-beta.41.tgz#955ade67189e98579513c0ea9a5b5b3a1379c36f"
+  integrity sha512-7G0ouhCWpMnX1UNcRESaQ7j0AW7xLOUoXwandrLWtMw6EmxjoIBHsx6eOsjgXEGh0KUV5g0gUTbn1oLKxWlKQQ==
+  dependencies:
+    "@tanstack/virtual-core" "3.0.0-beta.41"
+
+"@tanstack/virtual-core@3.0.0-beta.41":
+  version "3.0.0-beta.41"
+  resolved "https://registry.yarnpkg.com/@tanstack/virtual-core/-/virtual-core-3.0.0-beta.41.tgz#80d093418b85963135018159e821233d4dc29d69"
+  integrity sha512-dqnaR9dK9rp7QyXhEdg8jr1FKxUbbClRtqp0nuirmyDGQFN1IqlGCvnKXeRyZP1SU7ZisePxFdjbFOgy5T51tg==
+
 "@types/hoist-non-react-statics@*", "@types/hoist-non-react-statics@^3.3.0", "@types/hoist-non-react-statics@^3.3.1":
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz#1124aafe5118cb591977aeb1ceaaed1070eb039f"
@@ -928,7 +940,7 @@ css-to-react-native@^3.0.0:
     css-color-keywords "^1.0.0"
     postcss-value-parser "^4.0.2"
 
-csstype@^3.0.2:
+csstype@^3.0.2, csstype@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.1.tgz#841b532c45c758ee546a11d5bd7b7b473c8c30b9"
   integrity sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==

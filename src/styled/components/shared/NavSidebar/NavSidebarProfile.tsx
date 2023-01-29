@@ -76,6 +76,7 @@ const Content = styled.button`
   position: relative;
   display: flex;
   align-items: center;
+  width: 100%;
   -webkit-box-pack: start;
   justify-content: flex-start;
   gap: 12px;
@@ -85,7 +86,6 @@ const Content = styled.button`
   color: ${({ theme }) => theme.neutral50};
   cursor: pointer;
   transition: 0.2s;
-  min-width: 0px;
 
   @media (hover: hover) {
     &:hover:not(:disabled) {
@@ -115,15 +115,17 @@ const Column = styled.div`
     justify-content: center;
     height: 100%;
 
+    &:nth-child(2) {
+      overflow: hidden;
+      flex-grow: 1;
+    }
+
     &:nth-child(2),
     &:nth-child(3) {
       display: flex;
-      min-width: 0px;
     }
 
     &:nth-child(3) {
-      align-items: flex-end;
-
       & > svg {
         width: 20px;
         height: 20px;
