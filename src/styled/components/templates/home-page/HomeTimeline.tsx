@@ -10,7 +10,7 @@ import { useInfiniteScrollQuery } from "hooks/useInfiniteScrollQuery";
 import { useVirtualScroll } from "hooks/useVirtualScroll";
 import { timelineTweets } from "network/tweet/timelineTweets";
 import { ErrorMessage } from "shared/ErrorMessage";
-import { TweetCard } from "shared/TweetCard";
+import { TweetCard, TweetCardSkeleton } from "shared/TweetCard";
 import styled from "styled-components";
 
 export const HomeTimeline = () => {
@@ -20,6 +20,9 @@ export const HomeTimeline = () => {
       queryFn: timelineTweets
     });
   const { items, measureElement, outerWrapperStyle, getItemStyle } = useVirtualScroll(data, 50);
+  const skeletons = Array(3)
+    .fill("")
+    .map((_, i) => i + 1);
 
   if (isError) {
     return <ErrorMessage message={error.message} />;
@@ -28,9 +31,7 @@ export const HomeTimeline = () => {
   return (
     <TweetsSection>
       {isLoading ? (
-        <LoaderWrapper>
-          <Loader center />
-        </LoaderWrapper>
+        skeletons.map(skeleton => <TweetCardSkeleton key={skeleton} isEven={skeleton % 2 === 0} />)
       ) : (
         <div style={outerWrapperStyle}>
           {items.map(virtualRow => {

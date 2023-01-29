@@ -8,7 +8,7 @@ import { useVirtualScroll } from "hooks/useVirtualScroll";
 import { userTweets } from "network/tweet/userTweets";
 import type { ProfilePageProps } from "pages/[screenName]";
 import { ErrorMessage } from "shared/ErrorMessage";
-import { TweetCard } from "shared/TweetCard";
+import { TweetCard, TweetCardSkeleton } from "shared/TweetCard";
 import styled from "styled-components";
 
 export const ProfilePageTemplate = ({ userData: { id: userId, screenName } }: ProfilePageProps) => {
@@ -21,6 +21,9 @@ export const ProfilePageTemplate = ({ userData: { id: userId, screenName } }: Pr
       }
     });
   const { items, measureElement, outerWrapperStyle, getItemStyle } = useVirtualScroll(data, 600);
+  const skeletons = Array(3)
+    .fill("")
+    .map((_, i) => i + 1);
 
   if (isError) {
     return <ErrorMessage message={error?.message} />;
@@ -29,9 +32,7 @@ export const ProfilePageTemplate = ({ userData: { id: userId, screenName } }: Pr
   return (
     <TweetsSection>
       {isLoading ? (
-        <LoaderWrapper>
-          <Loader center />
-        </LoaderWrapper>
+        skeletons.map(skeleton => <TweetCardSkeleton key={skeleton} isEven={skeleton % 2 === 0} />)
       ) : (
         <div style={outerWrapperStyle}>
           {items.map(virtualRow => {
