@@ -84,7 +84,7 @@ const StatsRow = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
-  margin: 12px 0;
+  margin: 4px 0;
 `;
 
 const Toolbar = styled.div`
