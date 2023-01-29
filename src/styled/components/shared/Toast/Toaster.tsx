@@ -37,7 +37,7 @@ export const Toaster = () => {
 
 const ToastsWrapper = styled.div`
   position: fixed;
-  bottom: 0px;
+  bottom: 53px;
   right: 0px;
   left: 0px;
   display: flex;
@@ -47,4 +47,8 @@ const ToastsWrapper = styled.div`
   padding: 12px;
   pointer-events: none;
   z-index: 1500;
+
+  @media ${({ theme }) => theme.breakpoints.sm} {
+    bottom: 0px;
+  }
 `;
