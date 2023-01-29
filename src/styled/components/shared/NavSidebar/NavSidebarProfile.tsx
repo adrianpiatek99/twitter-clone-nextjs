@@ -117,6 +117,7 @@ const Column = styled.div`
 
     &:nth-child(2) {
       overflow: hidden;
+      flex-grow: 1;
     }
 
     &:nth-child(2),
@@ -125,8 +126,6 @@ const Column = styled.div`
     }
 
     &:nth-child(3) {
-      align-items: flex-end;
-
       & > svg {
         width: 20px;
         height: 20px;

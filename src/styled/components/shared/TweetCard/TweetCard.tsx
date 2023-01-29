@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type ComponentPropsWithRef, type Ref, forwardRef } from "react";
 
 import type { TweetData } from "api/tweet/timelineTweets";
 import { Text } from "components/core";
@@ -8,60 +8,71 @@ import { useLikeTweetMutation } from "hooks/useLikeTweetMutation";
 import Link from "next/link";
 import { Avatar } from "shared/Avatar";
 import { Skeleton } from "shared/Skeleton";
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { hexToRGBA } from "utils/colors";
 
 import { TweetCardAuthor } from "./TweetCardAuthor";
 import { TweetCardToolbar } from "./TweetCardToolbar";
 
-interface TweetCardProps {
+interface TweetCardProps extends ComponentPropsWithRef<"article"> {
   tweetData: TweetData;
   isProfile?: boolean;
 }
 
-export const TweetCard = ({ tweetData }: TweetCardProps) => {
-  const { session } = useAppSession();
-  const { id, text, author, authorId } = tweetData;
-  const { screenName, profileImageUrl } = author;
-  const isOwner = session?.user.id === authorId;
-  const deleteTweetMutation = useDeleteTweetMutation({
-    tweetData
-  });
-  const { deleteLoading } = deleteTweetMutation;
-  const likeTweetMutation = useLikeTweetMutation({
-    tweetData,
-    disabled: deleteLoading
-  });
+export const TweetCard = forwardRef(
+  ({ tweetData, ...props }: TweetCardProps, ref: Ref<HTMLElement>) => {
+    const { session } = useAppSession();
+    const { id, text, author, authorId } = tweetData;
+    const { screenName, profileImageUrl } = author;
+    const isOwner = session?.user.id === authorId;
+    const deleteTweetMutation = useDeleteTweetMutation({
+      tweetData
+    });
+    const { deleteLoading } = deleteTweetMutation;
+    const likeTweetMutation = useLikeTweetMutation({
+      tweetData,
+      disabled: deleteLoading
+    });
 
-  return (
-    <TweetArticle isLoading={deleteLoading}>
-      <StyledLink
-        href={deleteLoading ? "" : `${screenName}/tweet/${id}`}
-        $isLoading={deleteLoading}
-        tabIndex={deleteLoading ? -1 : 0}
-      />
-      {deleteLoading && <Skeleton absolute withoutRadius transparent />}
-      <Inner isLoading={deleteLoading}>
-        <LeftColumn>
-          <Avatar src={profileImageUrl} screenName={screenName} size="large" />
-        </LeftColumn>
-        <RightColumn>
-          <TweetCardAuthor
-            isOwner={isOwner}
-            tweetData={tweetData}
-            deleteTweetMutation={deleteTweetMutation}
-          />
-          <Content>
-            <TweetText>
-              <Text>{text}</Text>
-            </TweetText>
-            <TweetCardToolbar tweetData={tweetData} likeTweetMutation={likeTweetMutation} />
-          </Content>
-        </RightColumn>
-      </Inner>
-    </TweetArticle>
-  );
-};
+    return (
+      <TweetArticle isLoading={deleteLoading} {...props} ref={ref}>
+        <StyledLink
+          href={deleteLoading ? "" : `${screenName}/tweet/${id}`}
+          $isLoading={deleteLoading}
+          tabIndex={deleteLoading ? -1 : 0}
+        />
+        {deleteLoading && <Skeleton absolute withoutRadius transparent />}
+        <Inner isLoading={deleteLoading}>
+          <LeftColumn>
+            <Avatar src={profileImageUrl} screenName={screenName} size="large" />
+          </LeftColumn>
+          <RightColumn>
+            <TweetCardAuthor
+              isOwner={isOwner}
+              tweetData={tweetData}
+              deleteTweetMutation={deleteTweetMutation}
+            />
+            <Content>
+              <TweetText>
+                <Text>{text}</Text>
+              </TweetText>
+              <TweetCardToolbar tweetData={tweetData} likeTweetMutation={likeTweetMutation} />
+            </Content>
+          </RightColumn>
+        </Inner>
+      </TweetArticle>
+    );
+  }
+);
+
+const enterTweetAnimation = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
 
 const TweetArticle = styled.article<{ isLoading: boolean }>`
   position: relative;
@@ -72,6 +83,7 @@ const TweetArticle = styled.article<{ isLoading: boolean }>`
   outline: none;
   cursor: pointer;
   transition: background-color 0.2s;
+  animation: ${enterTweetAnimation} 0.3s ease-out;
 
   @media (hover: hover) {
     &:hover:not(:disabled) {
