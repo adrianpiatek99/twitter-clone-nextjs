@@ -38,19 +38,18 @@ export const useTweetDetailsQuery = ({ tweetId, screenName }: UseTweetDetailsQue
   const cachedTweet = handleGetTweetDetailsFromCache(queryClient, tweetId, screenName);
   const [isQueryError, setIsQueryError] = useState(false);
   const tweetDetailsQuery = useQuery<TweetData, AxiosError>({
-    queryKey: ["tweets", tweetId],
+    queryKey: ["tweet", screenName, tweetId],
     queryFn: () => tweetDetails({ screenName, tweetId }),
     onError: () => {
       setIsQueryError(true);
     },
-    enabled: !cachedTweet,
     retry: false,
-    refetchOnWindowFocus: !isQueryError
+    refetchOnWindowFocus: !isQueryError,
+    initialData: cachedTweet
   });
 
   return {
-    cachedTweet,
     ...tweetDetailsQuery,
-    isLoading: tweetDetailsQuery.isLoading && !cachedTweet
+    isLoading: tweetDetailsQuery.isLoading
   };
 };

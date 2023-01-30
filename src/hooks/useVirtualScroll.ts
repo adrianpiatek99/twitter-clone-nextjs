@@ -1,5 +1,4 @@
 import { observeWindowOffset, useWindowVirtualizer } from "@tanstack/react-virtual";
-import type { Properties } from "csstype";
 
 export const useVirtualScroll = <TData>(data: TData[], parentElementOffset = 0) => {
   const { getVirtualItems, getTotalSize, measureElement } = useWindowVirtualizer({
@@ -13,21 +12,5 @@ export const useVirtualScroll = <TData>(data: TData[], parentElementOffset = 0) 
   const items = getVirtualItems();
   const totalSize = getTotalSize();
 
-  const outerWrapperStyle: Properties = {
-    position: "relative",
-    width: "100%",
-    height: `${totalSize}px`
-  };
-
-  const getItemStyle = (start: number): Properties => {
-    return {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      transform: `translateY(${start}px)`
-    };
-  };
-
-  return { items, totalSize, measureElement, outerWrapperStyle, getItemStyle };
+  return { items, totalSize, measureElement };
 };

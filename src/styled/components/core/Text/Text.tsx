@@ -1,4 +1,5 @@
 import type { ComponentPropsWithoutRef } from "react";
+import { memo } from "react";
 import React from "react";
 
 import Link from "next/link";
@@ -19,35 +20,37 @@ interface TextProps extends ComponentPropsWithoutRef<"span"> {
   breakWord?: boolean;
 }
 
-export const Text = ({
-  tag = "span",
-  weight = 400,
-  size = "m",
-  color = "primary",
-  href,
-  truncate = false,
-  breakWord = false,
-  ...props
-}: TextProps) => {
-  const sharedProps = {
-    weight,
-    size,
-    color,
-    $truncate: truncate,
-    $breakWord: breakWord,
+export const Text = memo(
+  ({
+    tag = "span",
+    weight = 400,
+    size = "m",
+    color = "primary",
+    href,
+    truncate = false,
+    breakWord = false,
     ...props
-  };
+  }: TextProps) => {
+    const sharedProps = {
+      weight,
+      size,
+      color,
+      $truncate: truncate,
+      $breakWord: breakWord,
+      ...props
+    };
 
-  if (href) {
-    return (
-      <StyledLink href={href} {...sharedProps}>
-        <TextWrapper as={tag} {...sharedProps} />
-      </StyledLink>
-    );
+    if (href) {
+      return (
+        <StyledLink href={href} {...sharedProps}>
+          <TextWrapper as={tag} {...sharedProps} />
+        </StyledLink>
+      );
+    }
+
+    return <TextWrapper as={tag} {...sharedProps} />;
   }
-
-  return <TextWrapper as={tag} {...sharedProps} />;
-};
+);
 
 type SharedProps = {
   size: TextSize;

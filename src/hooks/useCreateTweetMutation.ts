@@ -1,9 +1,10 @@
+import { useCallback } from "react";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { CreateTweetRequest, CreateTweetResponse } from "api/tweet/createTweet";
 import type { TimelineTweetsResponse, TweetData } from "api/tweet/timelineTweets";
 import type { AxiosError } from "axios";
 import { createTweet } from "network/tweet/createTweet";
-import { reloadSession } from "utils/session";
 
 import { useAppSession } from "./useAppSession";
 import { useToasts } from "./useToasts";
@@ -18,20 +19,21 @@ export interface UseCreateTweetMutationReturn {
 }
 
 export const useCreateTweetMutation = ({ onSettled }: UseCreateTweetMutationProps) => {
-  const { session } = useAppSession();
   const queryClient = useQueryClient();
+  const { session } = useAppSession();
   const { handleAddToast } = useToasts();
   const screenName = session?.user.screenName ?? "";
 
-  const createTweetMutation = useMutation<CreateTweetResponse, AxiosError, CreateTweetRequest>({
+  const { mutate, isLoading: createTweetLoading } = useMutation<
+    CreateTweetResponse,
+    AxiosError,
+    CreateTweetRequest
+  >({
     mutationFn: createTweet,
     onSuccess: data => {
-      // Add the new tweet to cached tweets on the home page
       updateCache(data, ["tweets", "infinite"]);
-      // Add the new tweet to cached tweets on the profile page
       updateCache(data, ["tweets", screenName, "infinite"]);
 
-      reloadSession();
       handleAddToast("success", "Tweet was created.");
     },
     onError: error => {
@@ -41,7 +43,6 @@ export const useCreateTweetMutation = ({ onSettled }: UseCreateTweetMutationProp
       onSettled?.();
     }
   });
-  const createTweetLoading = createTweetMutation.isLoading;
 
   const updateCache = (data: TweetData, queryKey: string[]) => {
     queryClient.setQueryData<{ pages: TimelineTweetsResponse[] }>(queryKey, oldData => {
@@ -63,11 +64,14 @@ export const useCreateTweetMutation = ({ onSettled }: UseCreateTweetMutationProp
     });
   };
 
-  const handleCreateTweet = (data: CreateTweetRequest) => {
-    if (createTweetLoading) return;
+  const handleCreateTweet = useCallback(
+    (data: CreateTweetRequest) => {
+      if (createTweetLoading) return;
 
-    createTweetMutation.mutate(data);
-  };
+      mutate(data);
+    },
+    [mutate, createTweetLoading]
+  );
 
   return { handleCreateTweet, createTweetLoading };
 };
