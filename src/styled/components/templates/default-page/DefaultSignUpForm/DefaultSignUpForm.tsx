@@ -1,5 +1,5 @@
 import React from "react";
-import type { SubmitHandler} from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,8 +8,14 @@ import type { InputType } from "components/core";
 import { Button, Input } from "components/core";
 import { useToasts } from "hooks/useToasts";
 import { signUp } from "network/auth/signUp";
-import type { SignUpValues } from "schema/authSchema";
-import { signUpSchema } from "schema/authSchema";
+import {
+  type SignUpValues,
+  PROFILE_EMAIL_MAX_LENGTH,
+  PROFILE_NAME_MAX_LENGTH,
+  PROFILE_PASSWORD_MAX_LENGTH,
+  PROFILE_SCREEN_NAME_MAX_LENGTH,
+  signUpSchema
+} from "schema/authSchema";
 import { setDefaultPageFormLoading } from "store/slices/pagesSlice";
 import { useAppDispatch } from "store/store";
 import styled from "styled-components";
@@ -24,14 +30,20 @@ type InputData = {
   name: keyof SignUpValues;
   label: string;
   type?: InputType;
+  maxLength: number;
 };
 
 const inputs: InputData[] = [
-  { name: "screenName", label: "Username (unique)" },
-  { name: "name", label: "Name" },
-  { name: "email", label: "Email Address" },
-  { name: "password", type: "password", label: "Password" },
-  { name: "repeatPassword", type: "password", label: "Repeat password" }
+  { name: "screenName", label: "Username", maxLength: PROFILE_SCREEN_NAME_MAX_LENGTH },
+  { name: "name", label: "Name", maxLength: PROFILE_NAME_MAX_LENGTH },
+  { name: "email", label: "Email Address", maxLength: PROFILE_EMAIL_MAX_LENGTH },
+  { name: "password", type: "password", label: "Password", maxLength: PROFILE_PASSWORD_MAX_LENGTH },
+  {
+    name: "repeatPassword",
+    type: "password",
+    label: "Repeat password",
+    maxLength: PROFILE_PASSWORD_MAX_LENGTH
+  }
 ];
 
 export const DefaultSignUpForm = ({ handleChangeTab }: DefaultSignUpFormProps) => {

@@ -1,8 +1,10 @@
 import type { ComponentPropsWithRef, Ref } from "react";
 import React, { forwardRef, useMemo, useRef, useState } from "react";
 
+import AtSignIcon from "icons/AtSignIcon";
 import styled, { css } from "styled-components";
 
+import { Text } from "../Text";
 import { InputIcons } from "./InputIcons";
 
 export type InputType = "text" | "password" | "email" | "number" | "tel" | "url";
@@ -27,6 +29,7 @@ export const Input = forwardRef(
       onValueChange = () => null,
       type = "text",
       error,
+      maxLength = 255,
       ...props
     }: InputProps,
     ref: Ref<HTMLInputElement>
@@ -35,6 +38,8 @@ export const Input = forwardRef(
     const wrapperRef = useRef<HTMLDivElement>(null);
     const inputType = isPasswordVisible ? "text" : type;
     const isPasswordIcon = type === "password";
+    const valueLength = typeof value === "string" ? value.length : 0;
+    const isScreenName = name === "screenName";
 
     const iconsCount = useMemo(() => {
       if (isPasswordIcon && !!error) {
@@ -58,6 +63,7 @@ export const Input = forwardRef(
 
     return (
       <Wrapper $loading={loading} ref={wrapperRef} onClick={setFocus}>
+        {isScreenName && <AtSign isFilled={!!valueLength} />}
         <StyledInput
           id={label}
           type={inputType}
@@ -66,15 +72,20 @@ export const Input = forwardRef(
           onChange={e => onValueChange(e.target.value)}
           iconsCount={iconsCount}
           autoComplete="off"
-          maxLength={255}
+          maxLength={maxLength}
           error={!!error}
           disabled={loading || disabled}
+          isScreenName={isScreenName}
           {...props}
           ref={ref}
         />
         <StyledLabel isFilled={!!value} error={!!error}>
-          <span>{label}</span>
+          <span>
+            {label}
+            <InputLengthText color="secondary">{`${valueLength} / ${maxLength}`}</InputLengthText>
+          </span>
         </StyledLabel>
+
         <InputIcons
           isPasswordIcon={isPasswordIcon}
           isPasswordVisible={isPasswordVisible}
@@ -100,6 +111,20 @@ const Wrapper = styled.div<{ $loading: boolean }>`
       opacity: 0.5;
       pointer-events: none;
     `}
+`;
+
+const AtSign = styled(AtSignIcon)<{ isFilled: boolean }>`
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  color: ${({ theme }) => theme.neutral300};
+  opacity: ${({ isFilled }) => (isFilled ? 1 : 0)};
+  pointer-events: none;
+  transition: opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+
+  ${Wrapper}:focus-within & {
+    opacity: 1;
+  }
 `;
 
 const StyledLabel = styled.label<{ isFilled: boolean; error: boolean }>`
@@ -130,7 +155,7 @@ const StyledLabel = styled.label<{ isFilled: boolean; error: boolean }>`
     `}
 `;
 
-const StyledInput = styled.input<{ error: boolean; iconsCount: number }>`
+const StyledInput = styled.input<{ error: boolean; iconsCount: number; isScreenName: boolean }>`
   background: transparent;
   padding: 0px 8px;
   margin: 24px 0 6px 0;
@@ -142,15 +167,20 @@ const StyledInput = styled.input<{ error: boolean; iconsCount: number }>`
   padding-right: ${({ iconsCount }) => (iconsCount ? `calc(46px * ${iconsCount})` : "8px")};
 
   &:focus-visible + ${StyledLabel} {
-    box-shadow: ${({ theme, error }) =>
-      error ? `${theme.error40}` : `${theme.primary05} 0px 0px 0px 1px`};
-    border-color: ${({ theme, error }) => (error ? `${theme.error40}` : theme.primary05)};
+    box-shadow: ${({ theme, error }) => (error ? theme.error40 : theme.primary05)} 0px 0px 0px 1px;
+    border-color: ${({ theme, error }) => (error ? theme.error40 : theme.primary05)};
     color: ${({ theme }) => theme.primary05};
 
     & > span {
       transform: translate(-1px, -110%) scale(0.8);
     }
   }
+
+  ${({ isScreenName }) =>
+    isScreenName &&
+    css`
+      padding-left: 24px;
+    `};
 
   ${({ error }) =>
     error &&
@@ -159,4 +189,15 @@ const StyledInput = styled.input<{ error: boolean; iconsCount: number }>`
         color: ${({ theme }) => theme.error40};
       }
     `};
+`;
+
+const InputLengthText = styled(Text)`
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  padding-left: 6px;
+
+  ${Wrapper}:focus-within & {
+    opacity: 1;
+  }
 `;
