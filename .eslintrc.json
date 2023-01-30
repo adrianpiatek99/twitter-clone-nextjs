@@ -3,13 +3,14 @@
 	"parserOptions": {
     "project": "./tsconfig.json"
   },
-	"plugins": ["@typescript-eslint", "simple-import-sort", "react-hooks", "prettier"],
+	"plugins": ["@typescript-eslint", "simple-import-sort", "react-hooks", "prettier", "@tanstack/query"],
 	"extends": [
 		"eslint:recommended",
 		"plugin:react/recommended",
 		"plugin:@typescript-eslint/recommended",
 		"plugin:react-hooks/recommended",
-		"prettier"
+		"prettier",
+		"plugin:@tanstack/eslint-plugin-query/recommended"
 	],
 	"env": {
 		"es6": true,
@@ -39,6 +40,8 @@
 		"@typescript-eslint/consistent-type-imports": "warn",
 		"react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
+		"@tanstack/query/exhaustive-deps": "error",
+    "@tanstack/query/prefer-query-object-syntax": "error",
 		"@typescript-eslint/no-unused-vars": [
 			2,
 			{

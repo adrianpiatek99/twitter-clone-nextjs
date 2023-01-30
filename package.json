@@ -45,6 +45,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^4.24.0",
     "@types/react-redux": "^7.1.25",
     "@types/styled-components": "^5.1.26",
     "@types/uuid": "^9.0.0",
