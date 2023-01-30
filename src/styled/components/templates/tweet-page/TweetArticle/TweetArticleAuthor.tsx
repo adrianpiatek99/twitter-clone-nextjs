@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 
 import type { TweetData } from "api/tweet/timelineTweets";
 import { IconButton, Text } from "components/core";
-import type { UseDeleteTweetMutationReturn } from "hooks/useDeleteTweetMutation";
 import MoreHorizontalIcon from "icons/MoreHorizontalIcon";
 import { Avatar } from "shared/Avatar";
 import { TweetCardMenu } from "shared/TweetCard/TweetCardMenu";
@@ -11,47 +10,49 @@ import styled from "styled-components";
 interface TweetArticleAuthorProps {
   tweetData: TweetData;
   isOwner: boolean;
-  deleteTweetMutation: UseDeleteTweetMutationReturn;
+  handleDeleteTweet: () => void;
 }
 
-export const TweetArticleAuthor = ({
-  tweetData: {
-    author: { name, screenName, profileImageUrl }
-  },
-  isOwner,
-  deleteTweetMutation
-}: TweetArticleAuthorProps) => {
-  const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
+export const TweetArticleAuthor = memo(
+  ({
+    tweetData: {
+      author: { name, screenName, profileImageUrl }
+    },
+    isOwner,
+    handleDeleteTweet
+  }: TweetArticleAuthorProps) => {
+    const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
 
-  return (
-    <Wrapper>
-      <Content>
-        <Avatar src={profileImageUrl} screenName={screenName} size="large" />
-        <NamesWrapper>
-          <Text weight={700} href={`/${screenName}`} truncate>
-            {name}
-          </Text>
-          <Text color="secondary" href={`/${screenName}`} truncate>
-            @{screenName}
-          </Text>
-        </NamesWrapper>
-      </Content>
-      {isOwner && (
-        <Actions>
-          <IconButton onClick={() => setIsMenuModalOpen(prev => !prev)} color="secondary">
-            <MoreHorizontalIcon />
-          </IconButton>
-          <TweetCardMenu
-            isOwner={isOwner}
-            isOpen={isMenuModalOpen}
-            onClose={() => setIsMenuModalOpen(false)}
-            deleteTweetMutation={deleteTweetMutation}
-          />
-        </Actions>
-      )}
-    </Wrapper>
-  );
-};
+    return (
+      <Wrapper>
+        <Content>
+          <Avatar src={profileImageUrl} screenName={screenName} size="large" />
+          <NamesWrapper>
+            <Text weight={700} href={`/${screenName}`} truncate>
+              {name}
+            </Text>
+            <Text color="secondary" href={`/${screenName}`} truncate>
+              @{screenName}
+            </Text>
+          </NamesWrapper>
+        </Content>
+        {isOwner && (
+          <Actions>
+            <IconButton onClick={() => setIsMenuModalOpen(prev => !prev)} color="secondary">
+              <MoreHorizontalIcon />
+            </IconButton>
+            <TweetCardMenu
+              isOwner={isOwner}
+              isOpen={isMenuModalOpen}
+              onClose={() => setIsMenuModalOpen(false)}
+              handleDeleteTweet={handleDeleteTweet}
+            />
+          </Actions>
+        )}
+      </Wrapper>
+    );
+  }
+);
 
 const Wrapper = styled.div`
   display: flex;

@@ -21,11 +21,10 @@ export const TweetPageTemplate = () => {
   const itsMe = session
     ? queryScreenName.toLowerCase() === session.user.screenName.toLowerCase()
     : false;
-  const { cachedTweet, data, isLoading, isError, error } = useTweetDetailsQuery({
+  const { data, isLoading, isError, error } = useTweetDetailsQuery({
     tweetId: queryTweetId,
     screenName: queryScreenName
   });
-  const tweetData = cachedTweet ?? data;
 
   return (
     <Wrapper>
@@ -43,7 +42,7 @@ export const TweetPageTemplate = () => {
       ) : (
         <Section ref={sectionRef}>
           {isLoading && <TweetArticleSkeleton />}
-          {!isLoading && tweetData && <TweetArticle isOwner={itsMe} tweetData={tweetData} />}
+          {!isLoading && data && <TweetArticle isOwner={itsMe} tweetData={data} />}
         </Section>
       )}
     </Wrapper>
