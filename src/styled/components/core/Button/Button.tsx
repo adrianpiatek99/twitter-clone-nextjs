@@ -1,17 +1,11 @@
-import type { ComponentPropsWithRef, FC, ReactNode, Ref } from "react";
+import type { ComponentPropsWithRef, ReactNode, Ref } from "react";
 import React, { forwardRef } from "react";
 
 import styled, { css } from "styled-components";
 
 import { Loader } from "../Loader";
-import type {
-  ButtonColor,
-  ButtonSize,
-  ButtonVariant} from "./buttonStyleVariants";
-import {
-  buttonVariantsWithColor,
-  sizeVariants
-} from "./buttonStyleVariants";
+import type { ButtonColor, ButtonSize, ButtonVariant } from "./buttonStyleVariants";
+import { buttonVariantsWithColor, sizeVariants } from "./buttonStyleVariants";
 
 interface ButtonProps extends ComponentPropsWithRef<"button"> {
   variant?: ButtonVariant;
@@ -23,7 +17,7 @@ interface ButtonProps extends ComponentPropsWithRef<"button"> {
   textAlign?: "left" | "center";
 }
 
-export const Button: FC<ButtonProps> = forwardRef(
+export const Button = forwardRef(
   (
     {
       children,
@@ -36,7 +30,7 @@ export const Button: FC<ButtonProps> = forwardRef(
       fullWidth = false,
       textAlign = "center",
       ...props
-    },
+    }: ButtonProps,
     ref: Ref<HTMLButtonElement>
   ) => {
     const loaderColor = color === "primary" ? "secondary" : "primary";

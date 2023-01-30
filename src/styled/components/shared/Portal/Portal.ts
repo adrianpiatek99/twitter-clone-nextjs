@@ -1,4 +1,4 @@
-import type { FC, ReactElement } from "react";
+import type { ReactElement } from "react";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
@@ -7,7 +7,7 @@ interface PortalProps {
   rootId: string;
 }
 
-export const Portal: FC<PortalProps> = ({ children, rootId }) => {
+export const Portal = ({ children, rootId }: PortalProps) => {
   const ref = useRef<Element | null>(null);
   const [mounted, setMounted] = useState(false);
 
