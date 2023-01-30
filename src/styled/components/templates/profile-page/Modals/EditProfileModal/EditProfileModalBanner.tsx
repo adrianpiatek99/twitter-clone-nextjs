@@ -5,6 +5,7 @@ import React from "react";
 import { imageFileTypes } from "constants/fileTypes";
 import CameraPlusIcon from "icons/CameraPlusIcon";
 import CloseIcon from "icons/CloseIcon";
+import Image from "next/image";
 import styled from "styled-components";
 
 import { EditProfileModalIconButton } from "./EditProfileModalIconButton";
@@ -27,7 +28,7 @@ export const EditProfileModalBanner = ({
   return (
     <Wrapper>
       <Inner>
-        <BannerImage src={src} />
+        <Image src={src} loader={() => src} fill alt={"Profile banner"} />
       </Inner>
       <ButtonsWrapper>
         <EditProfileModalIconButton title="Add photo" onClick={handleFilePicker}>
@@ -65,17 +66,10 @@ const Inner = styled.div`
   display: block;
   padding-bottom: 33.3333%;
   width: 100%;
-`;
 
-const BannerImage = styled.div<{ src: string }>`
-  position: absolute;
-  inset: 0px;
-  width: 100%;
-  height: 100%;
-  background-image: ${({ src }) => `url(${src})`};
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
+  & > img {
+    object-fit: cover;
+  }
 
   &::after {
     content: "";

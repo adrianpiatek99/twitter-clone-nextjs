@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { memo, useCallback, useState } from "react";
 
 import type { TweetData } from "api/tweet/timelineTweets";
 import { IconButton, Text } from "components/core";
-import type { UseDeleteTweetMutationReturn } from "hooks/useDeleteTweetMutation";
 import MoreHorizontalIcon from "icons/MoreHorizontalIcon";
 import styled from "styled-components";
 import { getRelativeTime } from "utils/timeUtils";
@@ -11,52 +10,55 @@ import { TweetCardMenu } from "./TweetCardMenu";
 
 interface TweetCardAuthorProps {
   isOwner: boolean;
-  tweetData: TweetData;
-  deleteTweetMutation: UseDeleteTweetMutationReturn;
+  author: TweetData["author"];
+  createdAt: TweetData["createdAt"];
+  handleDeleteTweet: () => void;
 }
 
-export const TweetCardAuthor = ({
-  isOwner,
-  tweetData: {
+export const TweetCardAuthor = memo(
+  ({
+    isOwner,
     author: { name, screenName },
-    createdAt
-  },
-  deleteTweetMutation
-}: TweetCardAuthorProps) => {
-  const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
+    createdAt,
+    handleDeleteTweet
+  }: TweetCardAuthorProps) => {
+    const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
 
-  return (
-    <Wrapper>
-      <LeftColumn>
-        <Text weight={700} href={`/${screenName}`} truncate>
-          {name}
-        </Text>
-        <Text color="secondary" href={`/${screenName}`} truncate>
-          @{screenName}
-        </Text>
-        <Text color="secondary" truncate>
-          ·
-        </Text>
-        <Text color="secondary" href={`/${screenName}`}>
-          {getRelativeTime(createdAt)}
-        </Text>
-      </LeftColumn>
-      {isOwner && (
-        <RightColumn>
-          <IconButton onClick={() => setIsMenuModalOpen(prev => !prev)} color="secondary">
-            <MoreHorizontalIcon />
-          </IconButton>
-          <TweetCardMenu
-            isOwner={isOwner}
-            isOpen={isMenuModalOpen}
-            onClose={() => setIsMenuModalOpen(false)}
-            deleteTweetMutation={deleteTweetMutation}
-          />
-        </RightColumn>
-      )}
-    </Wrapper>
-  );
-};
+    const handleToggleMenuModal = useCallback(() => setIsMenuModalOpen(prev => !prev), []);
+
+    return (
+      <Wrapper>
+        <LeftColumn>
+          <Text weight={700} href={`/${screenName}`} truncate>
+            {name}
+          </Text>
+          <Text color="secondary" href={`/${screenName}`} truncate>
+            @{screenName}
+          </Text>
+          <Text color="secondary" truncate>
+            ·
+          </Text>
+          <Text color="secondary" href={`/${screenName}`}>
+            {getRelativeTime(createdAt)}
+          </Text>
+        </LeftColumn>
+        {isOwner && (
+          <RightColumn>
+            <IconButton onClick={handleToggleMenuModal} color="secondary">
+              <MoreHorizontalIcon />
+            </IconButton>
+            <TweetCardMenu
+              isOwner={isOwner}
+              isOpen={isMenuModalOpen}
+              onClose={() => setIsMenuModalOpen(false)}
+              handleDeleteTweet={handleDeleteTweet}
+            />
+          </RightColumn>
+        )}
+      </Wrapper>
+    );
+  }
+);
 
 const Wrapper = styled.div`
   display: flex;

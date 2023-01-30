@@ -1,5 +1,6 @@
-import React from "react";
+import React, { memo } from "react";
 
+import Image from "next/image";
 import { Skeleton } from "shared/Skeleton";
 import styled from "styled-components";
 
@@ -8,13 +9,19 @@ interface ProfileBannerProps {
   isLoading: boolean;
 }
 
-export const ProfileBanner = ({ src, isLoading }: ProfileBannerProps) => {
+export const ProfileBanner = memo(({ src, isLoading }: ProfileBannerProps) => {
   return (
     <Wrapper isLoading={isLoading}>
-      <Inner>{isLoading ? <Skeleton absolute withoutRadius /> : <BannerImage src={src} />}</Inner>
+      <Inner>
+        {isLoading ? (
+          <Skeleton absolute withoutRadius />
+        ) : (
+          <Image src={src} loader={() => src} fill alt={"Profile banner"} />
+        )}
+      </Inner>
     </Wrapper>
   );
-};
+});
 
 const Wrapper = styled.div<{ isLoading: boolean }>`
   display: block;
@@ -27,15 +34,8 @@ const Inner = styled.div`
   display: block;
   padding-bottom: 33.3333%;
   width: 100%;
-`;
 
-const BannerImage = styled.div<{ src: string }>`
-  position: absolute;
-  inset: 0px;
-  width: 100%;
-  height: 100%;
-  background-image: ${({ src }) => `url(${src})`};
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
+  & > img {
+    object-fit: cover;
+  }
 `;

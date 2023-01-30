@@ -1,4 +1,4 @@
-import type { ComponentPropsWithRef, FC, Ref } from "react";
+import type { ComponentPropsWithRef, Ref } from "react";
 import React, { forwardRef, useMemo, useRef, useState } from "react";
 
 import styled, { css } from "styled-components";
@@ -16,7 +16,7 @@ interface InputProps extends Omit<ComponentPropsWithRef<"input">, "type" | "size
   error?: string;
 }
 
-export const Input: FC<InputProps> = forwardRef(
+export const Input = forwardRef(
   (
     {
       label,
@@ -28,7 +28,7 @@ export const Input: FC<InputProps> = forwardRef(
       type = "text",
       error,
       ...props
-    },
+    }: InputProps,
     ref: Ref<HTMLInputElement>
   ) => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);

@@ -1,4 +1,4 @@
-import type { ComponentPropsWithRef, FC, ReactNode, Ref } from "react";
+import type { ComponentPropsWithRef, ReactNode, Ref } from "react";
 import React, { forwardRef, useMemo } from "react";
 
 import styled, { css, useTheme } from "styled-components";
@@ -17,7 +17,7 @@ interface IconButtonProps extends Omit<ComponentPropsWithRef<"button">, "color">
   disableFocus?: boolean;
 }
 
-export const IconButton: FC<IconButtonProps> = forwardRef(
+export const IconButton = forwardRef(
   (
     {
       children,
@@ -29,7 +29,7 @@ export const IconButton: FC<IconButtonProps> = forwardRef(
       isSelected = false,
       disableFocus = false,
       ...props
-    },
+    }: IconButtonProps,
     ref: Ref<HTMLButtonElement>
   ) => {
     const { primary05, white, neutral300, error40 } = useTheme();

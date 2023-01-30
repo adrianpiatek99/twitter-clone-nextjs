@@ -1,23 +1,22 @@
-import type { FC } from "react";
 import React from "react";
 
 import Image from "next/image";
 import styled, { css } from "styled-components";
 
+const IMAGE_URL =
+  "https://media2.giphy.com/media/3oEjHREpGw73bnR7Ow/giphy.gif?cid=ecf05e47rxmkjsxcti8xmyopot15mx7ksisqfo9hms38cckh&rid=giphy.gif&ct=g";
+
 interface DefaultBackgroundGifProps {
   withBlur?: boolean;
 }
 
-const imageUrl =
-  "https://media2.giphy.com/media/3oEjHREpGw73bnR7Ow/giphy.gif?cid=ecf05e47rxmkjsxcti8xmyopot15mx7ksisqfo9hms38cckh&rid=giphy.gif&ct=g";
-
-export const DefaultBackgroundGif: FC<DefaultBackgroundGifProps> = ({ withBlur = false }) => {
+export const DefaultBackgroundGif = ({ withBlur = false }: DefaultBackgroundGifProps) => {
   return (
     <ImageWrapper withBlur={withBlur}>
       <Image
         alt="Default background image"
-        loader={() => imageUrl}
-        src={imageUrl}
+        loader={() => IMAGE_URL}
+        src={IMAGE_URL}
         fill
         draggable="false"
       />

@@ -19,7 +19,7 @@ export const HomeTimeline = () => {
       queryKey: ["tweets"],
       queryFn: timelineTweets
     });
-  const { items, measureElement, outerWrapperStyle, getItemStyle } = useVirtualScroll(data, 50);
+  const { items, measureElement, totalSize } = useVirtualScroll(data, 50);
   const skeletons = Array(3)
     .fill("")
     .map((_, i) => i + 1);
@@ -33,18 +33,23 @@ export const HomeTimeline = () => {
       {isLoading ? (
         skeletons.map(skeleton => <TweetCardSkeleton key={skeleton} isEven={skeleton % 2 === 0} />)
       ) : (
-        <div style={outerWrapperStyle}>
-          {items.map(virtualRow => {
-            const { index, start } = virtualRow;
+        <div
+          style={{
+            position: "relative",
+            width: "100%",
+            height: `${totalSize}px`
+          }}
+        >
+          {items.map(({ index, start }) => {
             const tweet = data[index] as TweetData;
 
             return (
               <TweetCard
                 key={tweet.id}
-                data-index={index}
                 ref={measureElement}
+                data-index={index}
                 tweetData={tweet}
-                style={getItemStyle(start)}
+                start={start}
               />
             );
           })}

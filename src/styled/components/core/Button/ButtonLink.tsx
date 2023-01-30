@@ -1,17 +1,11 @@
-import type { ComponentPropsWithRef, FC, ReactNode, Ref } from "react";
+import type { ComponentPropsWithRef, ReactNode, Ref } from "react";
 import React, { forwardRef } from "react";
 
 import Link from "next/link";
 import styled from "styled-components";
 
-import type {
-  ButtonColor,
-  ButtonSize,
-  ButtonVariant} from "./buttonStyleVariants";
-import {
-  buttonVariantsWithColor,
-  sizeVariants
-} from "./buttonStyleVariants";
+import type { ButtonColor, ButtonSize, ButtonVariant } from "./buttonStyleVariants";
+import { buttonVariantsWithColor, sizeVariants } from "./buttonStyleVariants";
 
 interface ButtonLinkProps extends ComponentPropsWithRef<"a"> {
   href: string;
@@ -22,7 +16,7 @@ interface ButtonLinkProps extends ComponentPropsWithRef<"a"> {
   fullWidth?: boolean;
 }
 
-export const ButtonLink: FC<ButtonLinkProps> = forwardRef(
+export const ButtonLink = forwardRef(
   (
     {
       children,
@@ -33,7 +27,7 @@ export const ButtonLink: FC<ButtonLinkProps> = forwardRef(
       startIcon,
       fullWidth = false,
       ...props
-    },
+    }: ButtonLinkProps,
     ref: Ref<HTMLAnchorElement>
   ) => {
     return (

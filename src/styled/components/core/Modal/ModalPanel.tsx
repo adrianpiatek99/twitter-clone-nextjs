@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from "react";
+import type { ReactNode } from "react";
 import React, { useEffect } from "react";
 import { RemoveScrollBar } from "react-remove-scroll-bar";
 
@@ -13,14 +13,14 @@ interface ModalPanelProps {
   preventClosingOnOutside?: boolean;
 }
 
-export const ModalPanel: FC<ModalPanelProps> = ({
+export const ModalPanel = ({
   children,
   isOpen,
   onClose,
   duration,
   preventClosingOnOutside = false,
   ...props
-}) => {
+}: ModalPanelProps) => {
   useEffect(() => {
     if (isOpen) {
       const handleEscape = event => {

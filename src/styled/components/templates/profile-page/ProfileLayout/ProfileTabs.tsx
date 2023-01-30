@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { memo, useMemo } from "react";
 
 import { useRouter } from "next/router";
 import { Tab, Tabs } from "shared/Tabs";
@@ -17,7 +17,7 @@ interface ProfileTabsProps {
   screenName: string;
 }
 
-export const ProfileTabs = ({ screenName }: ProfileTabsProps) => {
+export const ProfileTabs = memo(({ screenName }: ProfileTabsProps) => {
   const { pathname } = useRouter();
 
   const tabValue = useMemo(() => {
@@ -42,7 +42,7 @@ export const ProfileTabs = ({ screenName }: ProfileTabsProps) => {
       </Tabs>
     </Wrapper>
   );
-};
+});
 
 const Wrapper = styled.div`
   display: flex;

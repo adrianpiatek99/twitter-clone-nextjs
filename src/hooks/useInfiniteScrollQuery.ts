@@ -22,6 +22,7 @@ export const useInfiniteScrollQuery = <
 }: UseInfiniteScrollQueryProps<TRequest, TResponse>) => {
   const [isQueryError, setIsQueryError] = useState(false);
   const { data: queryData, ...restData } = useInfiniteQuery<TResponse, AxiosError, TRequest>({
+    // eslint-disable-next-line @tanstack/query/exhaustive-deps
     queryKey: [...queryKey, "infinite"],
     getNextPageParam: lastPage => lastPage.nextCursor,
     queryFn: ({ pageParam }) => queryFn({ ...params, cursor: pageParam } as TRequest),

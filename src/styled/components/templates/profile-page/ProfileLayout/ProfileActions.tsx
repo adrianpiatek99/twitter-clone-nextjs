@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 
 import type { UserData } from "api/user/userByScreenName";
 import { Button } from "components/core";
@@ -11,7 +11,7 @@ interface ProfileActionsProps {
   userData: UserData;
 }
 
-export const ProfileActions = ({ itsMe, userData }: ProfileActionsProps) => {
+export const ProfileActions = memo(({ itsMe, userData }: ProfileActionsProps) => {
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
 
   return (
@@ -38,7 +38,7 @@ export const ProfileActions = ({ itsMe, userData }: ProfileActionsProps) => {
       )}
     </Wrapper>
   );
-};
+});
 
 const Wrapper = styled.div`
   display: flex;

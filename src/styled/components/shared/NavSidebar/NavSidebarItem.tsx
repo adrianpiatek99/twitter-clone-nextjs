@@ -1,5 +1,4 @@
-import type { FC } from "react";
-import React from "react";
+import React, { memo } from "react";
 
 import { ButtonLink, IconLinkButton } from "components/core";
 import styled from "styled-components";
@@ -10,35 +9,31 @@ interface NavSidebarItemProps extends NavSidebarItemType {
   active: boolean;
 }
 
-export const NavSidebarItem: FC<NavSidebarItemProps> = ({
-  text,
-  href,
-  active,
-  icon: Icon,
-  activeIcon: ActiveIcon
-}) => {
-  const CorrectIcon = () => {
-    return active ? <ActiveIcon /> : <Icon />;
-  };
+export const NavSidebarItem = memo(
+  ({ text, href, active, icon: Icon, activeIcon: ActiveIcon }: NavSidebarItemProps) => {
+    const CorrectIcon = () => {
+      return active ? <ActiveIcon /> : <Icon />;
+    };
 
-  return (
-    <li>
-      <NavIconLink title={text} color="white" href={href}>
-        <CorrectIcon />
-      </NavIconLink>
-      <NavSidebarButtonLink
-        startIcon={<CorrectIcon />}
-        color="secondary"
-        variant="text"
-        size="large"
-        href={href}
-        fullWidth
-      >
-        {text}
-      </NavSidebarButtonLink>
-    </li>
-  );
-};
+    return (
+      <li>
+        <NavIconLink title={text} color="white" href={href}>
+          <CorrectIcon />
+        </NavIconLink>
+        <NavSidebarButtonLink
+          startIcon={<CorrectIcon />}
+          color="secondary"
+          variant="text"
+          size="large"
+          href={href}
+          fullWidth
+        >
+          {text}
+        </NavSidebarButtonLink>
+      </li>
+    );
+  }
+);
 
 const NavSidebarButtonLink = styled(ButtonLink)`
   display: none;

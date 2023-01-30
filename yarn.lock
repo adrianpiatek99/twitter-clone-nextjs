@@ -461,6 +461,11 @@
   dependencies:
     tslib "^2.4.0"
 
+"@tanstack/eslint-plugin-query@^4.24.0":
+  version "4.24.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/eslint-plugin-query/-/eslint-plugin-query-4.24.0.tgz#c5532db082306c038f6163061dd384410b2598bd"
+  integrity sha512-I2tLnW42yk72c0ceFPt8iFMRDgyrwa0UtUXe2E5D5kOenGx25/Npbhpj1dVHr7XO6lcQDZw5mSyv8wPikq7eLQ==
+
 "@tanstack/query-core@4.20.9":
   version "4.20.9"
   resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.20.9.tgz#62eb14c2fd6688eaa507452881c96a2c8b6d2544"

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -21,49 +21,56 @@ interface AvatarProps {
   absolute?: boolean;
 }
 
-export const Avatar = ({
-  src,
-  onClick,
-  screenName,
-  size = "medium",
-  loading = false,
-  disableFocus = false,
-  absolute = false,
-  ...props
-}: AvatarProps) => {
-  const href = screenName && `/${screenName}`;
-  const avatarSrc = src || DEFAULT_AVATAR_URL;
+export const Avatar = memo(
+  ({
+    src,
+    onClick,
+    screenName,
+    size = "medium",
+    loading = false,
+    disableFocus = false,
+    absolute = false,
+    ...props
+  }: AvatarProps) => {
+    const href = screenName && `/${screenName}`;
+    const avatarSrc = src || DEFAULT_AVATAR_URL;
 
-  if (loading) {
-    return <Skeleton absolute variant="circular" />;
+    if (loading) {
+      return <Skeleton absolute variant="circular" />;
+    }
+
+    const AvatarComponent = () => {
+      return (
+        <AvatarWrapper
+          as={onClick ? "button" : "div"}
+          onClick={onClick}
+          disabled={disableFocus}
+          tabIndex={disableFocus || !onClick ? -1 : 0}
+          size={size}
+          $absolute={absolute}
+          {...props}
+        >
+          <Image
+            src={avatarSrc}
+            loader={() => avatarSrc}
+            fill
+            alt={screenName ?? "Profile image"}
+          />
+        </AvatarWrapper>
+      );
+    };
+
+    if (href) {
+      return (
+        <StyledLink href={href} onClick={onClick} tabIndex={disableFocus ? -1 : 0} {...props}>
+          <AvatarComponent />
+        </StyledLink>
+      );
+    }
+
+    return <AvatarComponent />;
   }
-
-  const AvatarComponent = () => {
-    return (
-      <AvatarWrapper
-        as={onClick ? "button" : "div"}
-        onClick={onClick}
-        disabled={disableFocus}
-        tabIndex={disableFocus || !onClick ? -1 : 0}
-        size={size}
-        $absolute={absolute}
-        {...props}
-      >
-        <Image src={avatarSrc} loader={() => avatarSrc} fill alt={screenName ?? "Profile image"} />
-      </AvatarWrapper>
-    );
-  };
-
-  if (href) {
-    return (
-      <StyledLink href={href} onClick={onClick} tabIndex={disableFocus ? -1 : 0} {...props}>
-        <AvatarComponent />
-      </StyledLink>
-    );
-  }
-
-  return <AvatarComponent />;
-};
+);
 
 const sharedStyles = css`
   &::after {

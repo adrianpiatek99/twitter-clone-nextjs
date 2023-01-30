@@ -1,5 +1,4 @@
-import type { ComponentPropsWithoutRef, FC } from "react";
-import React from "react";
+import React, { type ComponentPropsWithoutRef } from "react";
 
 import styled from "styled-components";
 
@@ -11,7 +10,7 @@ interface MenuModalItemProps extends ComponentPropsWithoutRef<typeof Button> {
   loading?: boolean;
 }
 
-export const MenuModalItem: FC<MenuModalItemProps> = ({ children, onClick, ...props }) => {
+export const MenuModalItem = ({ children, onClick, ...props }: MenuModalItemProps) => {
   return (
     <MenuButton onClick={onClick} variant="text" textAlign="left" color="secondary" {...props}>
       {children}
