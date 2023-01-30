@@ -1,4 +1,4 @@
-import type { ComponentPropsWithRef, FC, Ref } from "react";
+import type { ComponentPropsWithRef, Ref } from "react";
 import React, { forwardRef, useMemo, useRef, useState } from "react";
 
 import AtSignIcon from "icons/AtSignIcon";
@@ -18,7 +18,7 @@ interface InputProps extends Omit<ComponentPropsWithRef<"input">, "type" | "size
   error?: string;
 }
 
-export const Input: FC<InputProps> = forwardRef(
+export const Input = forwardRef(
   (
     {
       label,
@@ -31,7 +31,7 @@ export const Input: FC<InputProps> = forwardRef(
       error,
       maxLength = 255,
       ...props
-    },
+    }: InputProps,
     ref: Ref<HTMLInputElement>
   ) => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);

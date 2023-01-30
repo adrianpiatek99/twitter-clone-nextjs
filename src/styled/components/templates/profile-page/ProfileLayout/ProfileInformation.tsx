@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 import type { UserData } from "api/user/userByScreenName";
 import { Text } from "components/core";
@@ -16,7 +16,7 @@ interface ProfileInformationProps {
   isLoading: boolean;
 }
 
-export const ProfileInformation = ({ userData, isLoading }: ProfileInformationProps) => {
+export const ProfileInformation = memo(({ userData, isLoading }: ProfileInformationProps) => {
   const [contentRef] = useAutoAnimate<HTMLDivElement>();
 
   return (
@@ -90,7 +90,7 @@ export const ProfileInformation = ({ userData, isLoading }: ProfileInformationPr
       )}
     </Content>
   );
-};
+});
 
 const Content = styled.div`
   display: flex;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 import { MenuModal, MenuModalItem } from "components/core";
 import LogoutIcon from "icons/LogoutIcon";
@@ -15,12 +15,12 @@ export const NavSidebarProfileMenuModal = ({
 }: NavSidebarProfileMenuModalProps) => {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
-  const handleCloseConfirmationModal = () => setIsConfirmModalOpen(false);
+  const handleCloseConfirmationModal = useCallback(() => setIsConfirmModalOpen(false), []);
 
-  const handleLagOutClick = () => {
+  const handleLagOutClick = useCallback(() => {
     onClose();
     setIsConfirmModalOpen(true);
-  };
+  }, [onClose]);
 
   return (
     <>

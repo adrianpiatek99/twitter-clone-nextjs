@@ -1,4 +1,4 @@
-import React, { type ComponentPropsWithRef, type Ref, forwardRef } from "react";
+import React, { type ComponentPropsWithRef, type Ref, forwardRef, memo } from "react";
 
 import type { TweetData } from "api/tweet/timelineTweets";
 import { Text } from "components/core";
@@ -14,28 +14,39 @@ import { hexToRGBA } from "utils/colors";
 import { TweetCardAuthor } from "./TweetCardAuthor";
 import { TweetCardToolbar } from "./TweetCardToolbar";
 
-interface TweetCardProps extends ComponentPropsWithRef<"article"> {
-  tweetData: TweetData;
+interface TweetCardProps extends Omit<ComponentPropsWithRef<"article">, "id"> {
   isProfile?: boolean;
+  start: number;
+  tweetData: TweetData;
 }
 
-export const TweetCard = forwardRef(
-  ({ tweetData, ...props }: TweetCardProps, ref: Ref<HTMLElement>) => {
+export const TweetCard = memo(
+  forwardRef(({ tweetData, start, ...props }: TweetCardProps, ref: Ref<HTMLElement>) => {
+    const { id, text, author, createdAt, _count, authorId } = tweetData;
     const { session } = useAppSession();
-    const { id, text, author, authorId } = tweetData;
     const { screenName, profileImageUrl } = author;
     const isOwner = session?.user.id === authorId;
-    const deleteTweetMutation = useDeleteTweetMutation({
+    const { handleDeleteTweet, deleteLoading } = useDeleteTweetMutation({
       tweetData
     });
-    const { deleteLoading } = deleteTweetMutation;
-    const likeTweetMutation = useLikeTweetMutation({
+    const { handleLikeTweet, likeLoading, unlikeLoading, isLiked } = useLikeTweetMutation({
       tweetData,
       disabled: deleteLoading
     });
 
     return (
-      <TweetArticle isLoading={deleteLoading} {...props} ref={ref}>
+      <TweetArticle
+        isLoading={deleteLoading}
+        {...props}
+        ref={ref}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          transform: `translateY(${start}px)`
+        }}
+      >
         <StyledLink
           href={deleteLoading ? "" : `${screenName}/tweet/${id}`}
           $isLoading={deleteLoading}
@@ -43,26 +54,30 @@ export const TweetCard = forwardRef(
         />
         {deleteLoading && <Skeleton absolute withoutRadius transparent />}
         <Inner isLoading={deleteLoading}>
-          <LeftColumn>
-            <Avatar src={profileImageUrl} screenName={screenName} size="large" />
-          </LeftColumn>
+          <StyledAvatar src={profileImageUrl} screenName={screenName} size="large" />
           <RightColumn>
             <TweetCardAuthor
               isOwner={isOwner}
-              tweetData={tweetData}
-              deleteTweetMutation={deleteTweetMutation}
+              author={author}
+              createdAt={createdAt}
+              handleDeleteTweet={handleDeleteTweet}
             />
             <Content>
               <TweetText>
                 <Text>{text}</Text>
               </TweetText>
-              <TweetCardToolbar tweetData={tweetData} likeTweetMutation={likeTweetMutation} />
+              <TweetCardToolbar
+                count={_count}
+                isLiked={isLiked}
+                isLoading={likeLoading || unlikeLoading}
+                handleLikeTweet={handleLikeTweet}
+              />
             </Content>
           </RightColumn>
         </Inner>
       </TweetArticle>
     );
-  }
+  })
 );
 
 const enterTweetAnimation = keyframes`
@@ -134,13 +149,9 @@ const Inner = styled.div<{ isLoading: boolean }>`
     `}
 `;
 
-const LeftColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  & > a {
-    z-index: 1;
-  }
+const StyledAvatar = styled(Avatar)`
+  align-self: flex-start;
+  z-index: 1;
 `;
 
 const RightColumn = styled.div`

@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, FC } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 import React from "react";
 import FocusLock from "react-focus-lock";
 
@@ -23,7 +23,7 @@ interface ConfirmModalProps extends ComponentPropsWithoutRef<"div"> {
   cancelButtonText?: string;
 }
 
-export const ConfirmModal: FC<ConfirmModalProps> = ({
+export const ConfirmModal = ({
   isOpen,
   text,
   onClose,
@@ -33,7 +33,7 @@ export const ConfirmModal: FC<ConfirmModalProps> = ({
   onCancel,
   acceptButtonText = "Save",
   cancelButtonText = "Cancel"
-}) => {
+}: ConfirmModalProps) => {
   const handleCancelClick = () => {
     if (onCancel) {
       onCancel();

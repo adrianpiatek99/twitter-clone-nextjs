@@ -1,4 +1,6 @@
 import type { ReactNode } from "react";
+import { memo } from "react";
+import { useEffect } from "react";
 import React, { Children, cloneElement, isValidElement } from "react";
 
 import { Text } from "components/core";
@@ -7,6 +9,7 @@ import { useUserByScreenNameQuery } from "hooks/useUserByScreenNameQuery";
 import { useRouter } from "next/router";
 import { ErrorMessage } from "shared/ErrorMessage";
 import styled from "styled-components";
+import { reloadSession } from "utils/session";
 
 import { ProfileTopBar } from "../ProfileTopBar";
 import { ProfileActions } from "./ProfileActions";
@@ -19,7 +22,7 @@ interface ProfileLayoutProps {
   children: ReactNode;
 }
 
-export const ProfileLayout = ({ children }: ProfileLayoutProps) => {
+export const ProfileLayout = memo(({ children }: ProfileLayoutProps) => {
   const { query } = useRouter();
   const queryScreenName = typeof query.screenName === "string" ? query.screenName : "";
   const { session, isSessionLoading } = useAppSession();
@@ -42,6 +45,10 @@ export const ProfileLayout = ({ children }: ProfileLayoutProps) => {
       return child;
     }
   });
+
+  useEffect(() => {
+    reloadSession();
+  }, []);
 
   return (
     <Wrapper>
@@ -67,7 +74,7 @@ export const ProfileLayout = ({ children }: ProfileLayoutProps) => {
       {childrenWithProps}
     </Wrapper>
   );
-};
+});
 
 const Wrapper = styled.div`
   display: flex;

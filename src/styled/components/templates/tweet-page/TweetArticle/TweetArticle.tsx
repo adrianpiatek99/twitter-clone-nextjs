@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 import type { TweetData } from "api/tweet/timelineTweets";
 import { Loader, Text } from "components/core";
@@ -17,23 +17,23 @@ interface TweetArticleProps {
   isOwner: boolean;
 }
 
-export const TweetArticle = ({ isOwner, tweetData }: TweetArticleProps) => {
+export const TweetArticle = memo(({ isOwner, tweetData }: TweetArticleProps) => {
   const { text, createdAt } = tweetData;
   const { replace } = useRouter();
-  const deleteTweetMutation = useDeleteTweetMutation({
+  const { handleDeleteTweet, deleteLoading } = useDeleteTweetMutation({
     tweetData,
     onSuccess: () => {
       replace("/home");
     }
   });
-  const likeTweetMutation = useLikeTweetMutation({
+  const { handleLikeTweet, likeLoading, unlikeLoading, isLiked } = useLikeTweetMutation({
     tweetData,
-    disabled: deleteTweetMutation.deleteLoading
+    disabled: deleteLoading
   });
 
   return (
     <>
-      {deleteTweetMutation.deleteLoading && (
+      {deleteLoading && (
         <DeleteLoader>
           <Loader />
         </DeleteLoader>
@@ -43,7 +43,7 @@ export const TweetArticle = ({ isOwner, tweetData }: TweetArticleProps) => {
           <TweetArticleAuthor
             tweetData={tweetData}
             isOwner={isOwner}
-            deleteTweetMutation={deleteTweetMutation}
+            handleDeleteTweet={handleDeleteTweet}
           />
           <TweetText>
             <Text size="xxl">{text}</Text>
@@ -55,12 +55,16 @@ export const TweetArticle = ({ isOwner, tweetData }: TweetArticleProps) => {
             </Text>
           </TimeRow>
           <TweetArticleStats tweetData={tweetData} />
-          <TweetArticleToolbar likeTweetMutation={likeTweetMutation} />
+          <TweetArticleToolbar
+            handleLikeTweet={handleLikeTweet}
+            isLoading={likeLoading || unlikeLoading}
+            isLiked={isLiked}
+          />
         </Inner>
       </TweetArticleWrapper>
     </>
   );
-};
+});
 
 const DeleteLoader = styled.div`
   position: absolute;

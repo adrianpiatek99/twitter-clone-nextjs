@@ -1,4 +1,4 @@
-import type { ComponentPropsWithRef, FC, Ref } from "react";
+import type { ComponentPropsWithRef, Ref } from "react";
 import React, { forwardRef, useRef } from "react";
 
 import styled from "styled-components";
@@ -9,9 +9,9 @@ interface TextareaProps extends ComponentPropsWithRef<"textarea"> {
   maxLength?: number;
 }
 
-export const Textarea: FC<TextareaProps> = forwardRef(
+export const Textarea = forwardRef(
   (
-    { placeholder, onValueChange = () => null, maxLength = 250, ...props },
+    { placeholder, onValueChange = () => null, maxLength = 250, ...props }: TextareaProps,
     ref: Ref<HTMLTextAreaElement>
   ) => {
     const labelRef = useRef<HTMLLabelElement>(null);

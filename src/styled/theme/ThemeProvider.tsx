@@ -1,4 +1,4 @@
-import type { FC, ReactElement } from "react";
+import type { ReactNode } from "react";
 import React from "react";
 
 import { ThemeProvider as StyledThemeProvider } from "styled-components";
@@ -6,9 +6,9 @@ import { ThemeProvider as StyledThemeProvider } from "styled-components";
 import { theme } from "./theme";
 
 interface ThemeProviderProps {
-  children: ReactElement | ReactElement[];
+  children: ReactNode | ReactNode[];
 }
 
-export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
+export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   return <StyledThemeProvider theme={theme}>{children}</StyledThemeProvider>;
 };

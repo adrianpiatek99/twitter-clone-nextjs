@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, FC } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 
 import styled, { css } from "styled-components";
 
@@ -14,13 +14,13 @@ export interface HeadingProps extends ComponentPropsWithoutRef<"h2"> {
   truncate?: boolean;
 }
 
-export const Heading: FC<HeadingProps> = ({
+export const Heading = ({
   tag = "h2",
   size = "xs",
   weight = 700,
   truncate = false,
   ...props
-}) => {
+}: HeadingProps) => {
   return <Wrapper as={tag} size={size} weight={weight} $truncate={truncate} {...props} />;
 };
 
