@@ -8,7 +8,13 @@ import type { AxiosError } from "axios";
 import { Input, Modal } from "components/core";
 import { useToasts } from "hooks/useToasts";
 import { editProfile } from "network/user/editProfile";
-import { type ProfileValues, profileSchema } from "schema/profileSchema";
+import { PROFILE_NAME_MAX_LENGTH } from "schema/authSchema";
+import {
+  type ProfileValues,
+  PROFILE_DESCRIPTION_MAX_LENGTH,
+  PROFILE_URL_MAX_LENGTH,
+  profileSchema
+} from "schema/profileSchema";
 import styled, { css } from "styled-components";
 import { reloadSession } from "utils/session";
 
@@ -136,18 +142,21 @@ export const EditProfileModal = ({ isOpen, onClose, userData }: EditProfileModal
               value={watch("name")}
               label="Name"
               error={errors.name?.message}
+              maxLength={PROFILE_NAME_MAX_LENGTH}
             />
             <Input
               {...register("description")}
               value={watch("description")}
               label="Bio"
               error={errors.description?.message}
+              maxLength={PROFILE_DESCRIPTION_MAX_LENGTH}
             />
             <Input
               {...register("url")}
               value={watch("url") ?? ""}
               label="Website"
               error={errors.url?.message}
+              maxLength={PROFILE_URL_MAX_LENGTH}
             />
           </Form>
         </Content>
