@@ -5,6 +5,7 @@ import type { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { exclude, prisma } from "prisma/prisma";
+import { PROFILE_EMAIL_MAX_LENGTH, PROFILE_PASSWORD_MAX_LENGTH } from "schema/authSchema";
 
 export type SignInCredentials = Pick<User, "email" | "password">;
 
@@ -25,6 +26,14 @@ const authOptions: NextAuthOptions = {
 
         const { email, password } = credentials;
         const user = await prisma.user.findUnique({ where: { email } });
+
+        if (email.length > PROFILE_EMAIL_MAX_LENGTH) {
+          throw new Error("Email is too long.");
+        }
+
+        if (password.length > PROFILE_PASSWORD_MAX_LENGTH) {
+          throw new Error("Password is too long.");
+        }
 
         if (!user) {
           throw new Error("Invalid credentials.");
