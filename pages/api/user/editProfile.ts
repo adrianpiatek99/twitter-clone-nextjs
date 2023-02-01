@@ -9,7 +9,7 @@ export type EditProfileRequest = Pick<
   "name" | "description" | "url" | "profileImageUrl" | "profileBannerUrl"
 >;
 
-export type EditProfileResponse = Omit<UserData, "_count">;
+export type EditProfileResponse = Omit<UserData, "_count" | "followers">;
 
 export const editProfilePath = "/api/user/editProfile";
 
