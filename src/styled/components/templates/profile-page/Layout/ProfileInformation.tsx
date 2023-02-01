@@ -78,11 +78,11 @@ export const ProfileInformation = memo(({ userData, isLoading }: ProfileInformat
           </InfoAndLinksRow>
           <FollowsRow>
             <FollowLink href={`/${userData.screenName}/following`}>
-              <span>{0} </span>
+              <span>{userData._count.following} </span>
               <span>Following</span>
             </FollowLink>
             <FollowLink href={`/${userData.screenName}/followers`}>
-              <span>{0} </span>
+              <span>{userData._count.followers} </span>
               <span>Followers</span>
             </FollowLink>
           </FollowsRow>
@@ -166,5 +166,15 @@ const FollowsRow = styled.div`
 const FollowLink = styled(Link)`
   & > span:last-of-type {
     color: ${({ theme }) => theme.neutral300};
+  }
+
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      text-decoration: underline;
+    }
+  }
+
+  &:focus-visible {
+    text-decoration: underline;
   }
 `;

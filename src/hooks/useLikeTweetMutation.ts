@@ -29,7 +29,7 @@ export const useLikeTweetMutation = ({
   const { session } = useAppSession();
   const { handleAddToast } = useToasts();
   const currentUserId = session?.user.id ?? "";
-  const isLiked = likes.some(like => like.userId === currentUserId);
+  const isLiked = likes.some(({ userId }) => userId === currentUserId);
 
   const { mutate: likeMutate, isLoading: likeLoading } = useMutation<
     unknown,
@@ -42,19 +42,23 @@ export const useLikeTweetMutation = ({
       updateTweetsCache("like", ["tweets", screenName, "infinite"]);
       updateTweetCache("like", ["tweet", screenName, tweetId]);
     },
-    onError: (error: any) => {
-      handleAddToast("error", error?.message);
+    onError: error => {
+      handleAddToast("error", error.message);
     }
   });
-  const { mutate: unlikeMutate, isLoading: unlikeLoading } = useMutation({
+  const { mutate: unlikeMutate, isLoading: unlikeLoading } = useMutation<
+    unknown,
+    AxiosError,
+    LikeTweetRequest
+  >({
     mutationFn: unlikeTweet,
     onSuccess: () => {
       updateTweetsCache("unlike", ["tweets", "infinite"]);
       updateTweetsCache("unlike", ["tweets", screenName, "infinite"]);
       updateTweetCache("unlike", ["tweet", screenName, tweetId]);
     },
-    onError: (error: any) => {
-      handleAddToast("error", error?.message);
+    onError: error => {
+      handleAddToast("error", error.message);
     }
   });
 
@@ -95,6 +99,8 @@ export const useLikeTweetMutation = ({
 
         return { ...oldData, _count: { likes: oldData._count.likes + count }, likes: likesArray };
       }
+
+      return oldData;
     });
   };
 

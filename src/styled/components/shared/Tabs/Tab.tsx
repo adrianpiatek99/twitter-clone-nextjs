@@ -36,6 +36,8 @@ export const Tab = ({ value, linkProps, ...props }: TabProps) => {
         selected={selected}
         draggable={false}
         tabIndex={selected ? 0 : -1}
+        scroll={false}
+        replace
         {...linkProps}
         {...restProps}
       >
@@ -61,7 +63,6 @@ type SharedProps = { selected: boolean; value: string };
 
 const selectedStyles = css`
   color: ${({ theme }) => theme.neutral50};
-  background-color: ${({ theme }) => theme.background};
   pointer-events: none;
   cursor: default;
 

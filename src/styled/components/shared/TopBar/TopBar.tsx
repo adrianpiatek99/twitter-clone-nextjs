@@ -18,18 +18,18 @@ export const TopBar = ({ children, startIcon, endIcon, loading, ...props }: TopB
       {startIcon && <StartIcon>{cloneElement(startIcon)}</StartIcon>}
       {children}
       {endIcon && <EndIcon>{cloneElement(endIcon)}</EndIcon>}
-      {loading && <LinearProgress position="bottom" />}
+      {loading && <LinearProgress />}
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
   position: sticky;
-  top: -0px;
+  top: 0px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 30px;
+  gap: 12px 30px;
   height: 53px;
   background-color: ${({ theme }) => hexToRGBA(theme.background, 0.65)};
   backdrop-filter: blur(12px);

@@ -28,6 +28,7 @@ export const profileSchema: yup.SchemaOf<ProfileValues> = yup.object().shape({
     .trim(),
   url: yup
     .string()
+    .nullable()
     .default("")
     .max(
       PROFILE_URL_MAX_LENGTH,

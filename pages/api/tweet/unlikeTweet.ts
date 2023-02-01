@@ -12,15 +12,14 @@ export const unlikeTweetPath = "/api/tweet/unlikeTweet";
 
 const handler: NextApiHandler<NextApiError> = async (req, res) => {
   const session = await getSession({ req });
-  const query = req.query as UnlikeTweetRequest;
 
   if (!session) {
     return res.status(401).send({ error: "You are not authorized." });
   }
 
   if (req.method === "DELETE") {
+    const { tweetId } = req.query as UnlikeTweetRequest;
     const userId = session.user.id;
-    const { tweetId } = query;
 
     const unlike = await prisma.like.delete({
       where: {

@@ -11,7 +11,7 @@ import { ErrorMessage } from "shared/ErrorMessage";
 import { TweetCard, TweetCardSkeleton } from "shared/TweetCard";
 import styled from "styled-components";
 
-export const ProfilePageTemplate = ({ userData: { id: userId, screenName } }: ProfilePageProps) => {
+export const ProfileTimeline = ({ userData: { id: userId, screenName } }: ProfilePageProps) => {
   const { data, isLoading, isFetching, lastItemRef, hasNextPage, isError, error } =
     useInfiniteScrollQuery<UserTweetsRequest, UserTweetsResponse, TweetData>({
       queryKey: ["tweets", screenName],

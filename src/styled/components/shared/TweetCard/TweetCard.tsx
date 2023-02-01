@@ -64,7 +64,7 @@ export const TweetCard = memo(
             />
             <Content>
               <TweetText>
-                <Text>{text}</Text>
+                <Text truncate>{text}</Text>
               </TweetText>
               <TweetCardToolbar
                 count={_count}

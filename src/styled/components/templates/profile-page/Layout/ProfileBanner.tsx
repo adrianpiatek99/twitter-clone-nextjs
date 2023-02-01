@@ -16,7 +16,7 @@ export const ProfileBanner = memo(({ src, isLoading }: ProfileBannerProps) => {
         {isLoading ? (
           <Skeleton absolute withoutRadius />
         ) : (
-          <Image src={src} loader={() => src} fill alt={"Profile banner"} />
+          src && <Image src={src} loader={() => src} fill alt={"Profile banner"} />
         )}
       </Inner>
     </Wrapper>
