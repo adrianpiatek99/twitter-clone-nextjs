@@ -3,7 +3,7 @@ import { getSession } from "next-auth/react";
 import { prisma } from "prisma/prisma";
 
 export type UnfollowUserRequest = {
-  followerId: string;
+  followUserId: string;
 };
 
 export const unfollowUserPath = "/api/user/unfollowUser";
@@ -16,14 +16,14 @@ const handler: NextApiHandler<NextApiError> = async (req, res) => {
   }
 
   if (req.method === "DELETE") {
-    const { followerId } = req.query as UnfollowUserRequest;
+    const { followUserId } = req.query as UnfollowUserRequest;
     const userId = session.user.id;
 
-    const unfollow = await prisma.follow.delete({
+    const unfollow = await prisma.follows.delete({
       where: {
-        userId_followerId: {
-          userId,
-          followerId
+        followerId_followingId: {
+          followerId: userId,
+          followingId: followUserId
         }
       }
     });

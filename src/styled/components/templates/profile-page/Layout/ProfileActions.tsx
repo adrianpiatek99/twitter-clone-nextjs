@@ -15,7 +15,7 @@ interface ProfileActionsProps {
 export const ProfileActions = memo(({ itsMe, userData }: ProfileActionsProps) => {
   const { handleFollowUser, followUserLoading, unfollowUserLoading, isFollowed } =
     useFollowUserMutation({
-      followerData: userData
+      followUser: userData
     });
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
 

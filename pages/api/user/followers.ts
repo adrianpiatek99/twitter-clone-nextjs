@@ -1,8 +1,13 @@
+import type { Follows } from "@prisma/client";
 import type { NextApiHandler } from "next";
 import { getSession } from "next-auth/react";
 import { prisma } from "prisma/prisma";
 
-import type { FollowerData } from "./following";
+import type { FollowUser } from "./following";
+
+export type FollowersData = Follows & {
+  follower: FollowUser;
+};
 
 export type FollowersRequest = {
   screenName: string;
@@ -11,7 +16,7 @@ export type FollowersRequest = {
 };
 
 export type FollowersResponse = {
-  followers: Omit<FollowerData, "follower">[];
+  followers: Omit<FollowersData, "following">[];
   nextCursor: string | undefined;
 };
 
@@ -26,27 +31,27 @@ const handler: NextApiHandler<FollowersResponse | NextApiError> = async (req, re
     const queryLimit = limit ? parseInt(limit) : 20;
     const prismaCursor = cursor ? { id: cursor } : undefined;
 
-    const followers = await prisma.follow.findMany({
+    const followers = await prisma.follows.findMany({
       orderBy: [{ createdAt: "desc" }],
       take: queryLimit + 1,
       cursor: prismaCursor,
       where: {
-        follower: {
+        following: {
           screenName
         }
       },
       include: {
-        user: {
+        follower: {
           select: {
             id: true,
             name: true,
             screenName: true,
             description: true,
             profileImageUrl: true,
-            followers: {
-              where: { userId },
+            followedBy: {
+              where: { followerId: userId },
               select: {
-                userId: true
+                followerId: true
               }
             }
           }

@@ -82,7 +82,7 @@ export const ProfileInformation = memo(({ userData, isLoading }: ProfileInformat
               <span>Following</span>
             </FollowLink>
             <FollowLink href={`/${userData.screenName}/followers`}>
-              <span>{userData._count.followers} </span>
+              <span>{userData._count.followedBy} </span>
               <span>Followers</span>
             </FollowLink>
           </FollowsRow>

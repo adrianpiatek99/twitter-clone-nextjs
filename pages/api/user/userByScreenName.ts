@@ -1,18 +1,18 @@
-import type { Follow, User } from "@prisma/client";
+import type { Follows, User } from "@prisma/client";
 import type { NextApiHandler } from "next";
 import { getSession } from "next-auth/react";
 import { exclude, prisma } from "prisma/prisma";
 
 type UserCount = {
-  _count: { tweets: number; likes: number; following: number; followers: number };
+  _count: { tweets: number; likes: number; followedBy: number; following: number };
 };
 
-export type UserFollower = { followers: Pick<Follow, "userId">[] };
+export type FollowedBy = { followedBy: Pick<Follows, "followerId">[] };
 
-export type UserData = Omit<User, "password" | "email"> & UserCount & UserFollower;
+export type UserData = Omit<User, "password" | "email"> & UserCount & FollowedBy;
 
 export type UserByScreenNameRequest = {
-  screenName: User["screenName"];
+  screenName: string;
 };
 
 export type UserByScreenNameResponse = UserData;
@@ -29,18 +29,18 @@ const handler: NextApiHandler<UserByScreenNameResponse | NextApiError> = async (
     const user = await prisma.user.findFirst({
       where: { screenName: { equals: screenName, mode: "insensitive" } },
       include: {
-        followers: {
-          where: { userId },
+        followedBy: {
+          where: { followerId: userId },
           select: {
-            userId: true
+            followerId: true
           }
         },
         _count: {
           select: {
             tweets: true,
             likes: true,
-            following: true,
-            followers: true
+            followedBy: true,
+            following: true
           }
         }
       }

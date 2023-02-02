@@ -1,9 +1,19 @@
-import type { Follow, User } from "@prisma/client";
+import type { Follows, User } from "@prisma/client";
 import type { NextApiHandler } from "next";
 import { getSession } from "next-auth/react";
 import { prisma } from "prisma/prisma";
 
-import type { UserFollower } from "./userByScreenName";
+import type { FollowedBy } from "./userByScreenName";
+
+export type FollowUser = Pick<
+  User,
+  "id" | "name" | "profileImageUrl" | "screenName" | "description"
+> &
+  FollowedBy;
+
+export type FollowingData = Follows & {
+  following: FollowUser;
+};
 
 export type FollowingRequest = {
   screenName: string;
@@ -11,15 +21,8 @@ export type FollowingRequest = {
   limit?: string;
 };
 
-export type Follower = Pick<User, "id" | "name" | "profileImageUrl" | "screenName" | "description">;
-
-export type FollowerData = Follow & {
-  follower: Follower & UserFollower;
-  user: Follower & UserFollower;
-};
-
 export type FollowingResponse = {
-  following: Omit<FollowerData, "user">[];
+  following: Omit<FollowingData, "follower">[];
   nextCursor: string | undefined;
 };
 
@@ -34,27 +37,27 @@ const handler: NextApiHandler<FollowingResponse | NextApiError> = async (req, re
     const queryLimit = limit ? parseInt(limit) : 20;
     const prismaCursor = cursor ? { id: cursor } : undefined;
 
-    const following = await prisma.follow.findMany({
+    const following = await prisma.follows.findMany({
       orderBy: [{ createdAt: "desc" }],
       take: queryLimit + 1,
       cursor: prismaCursor,
       where: {
-        user: {
+        follower: {
           screenName
         }
       },
       include: {
-        follower: {
+        following: {
           select: {
             id: true,
             name: true,
             screenName: true,
             description: true,
             profileImageUrl: true,
-            followers: {
-              where: { userId },
+            followedBy: {
+              where: { followerId: userId },
               select: {
-                userId: true
+                followerId: true
               }
             }
           }

@@ -64,8 +64,8 @@ const authOptions: NextAuthOptions = {
                 select: {
                   tweets: true,
                   likes: true,
-                  following: true,
-                  followers: true
+                  followedBy: true,
+                  following: true
                 }
               }
             }
