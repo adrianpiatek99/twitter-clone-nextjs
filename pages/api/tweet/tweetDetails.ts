@@ -15,11 +15,10 @@ export const tweetDetailsPath = "/api/tweet/tweetDetails";
 
 const handler: NextApiHandler<TweetDetailsResponse | NextApiError> = async (req, res) => {
   const session = await getSession({ req });
-  const query = req.query as TweetDetailsRequest;
 
   if (req.method === "GET") {
+    const { screenName, tweetId } = req.query as TweetDetailsRequest;
     const userId = session?.user?.id;
-    const { screenName, tweetId } = query;
 
     const tweet = await prisma.tweet.findFirst({
       where: {

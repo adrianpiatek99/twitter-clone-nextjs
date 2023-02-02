@@ -30,8 +30,8 @@ const progressLinearAnimate = keyframes`
 const ProgressElement = styled.progress<LinearProgressProps>`
   position: absolute;
   top: 0px;
-  left: 0px;
-  right: 0px;
+  left: 0.5px;
+  right: 0.5px;
   height: 3px;
   width: 100%;
   -webkit-appearance: none;

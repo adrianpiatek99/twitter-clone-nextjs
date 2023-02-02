@@ -35,7 +35,12 @@ export const NavDrawerHeader = ({ onClose }: NavDrawerHeaderProps) => {
   if (isUnauthenticated || !session) return null;
 
   const {
-    user: { screenName, name, profileImageUrl }
+    user: {
+      screenName,
+      name,
+      profileImageUrl,
+      _count: { following, followedBy }
+    }
   } = session;
 
   return (
@@ -54,11 +59,11 @@ export const NavDrawerHeader = ({ onClose }: NavDrawerHeaderProps) => {
         </ProfileNamesRow>
         <FollowsRow>
           <FollowLink href={`/${screenName}/following`} onClick={onClose}>
-            <span>0 </span>
+            <span>{following} </span>
             <span>Following</span>
           </FollowLink>
           <FollowLink href={`/${screenName}/followers`} onClick={onClose}>
-            <span>0 </span>
+            <span>{followedBy} </span>
             <span>Followers</span>
           </FollowLink>
         </FollowsRow>

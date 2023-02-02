@@ -19,11 +19,10 @@ export const userTweetsPath = "/api/tweet/userTweets";
 
 export const handler: NextApiHandler<UserTweetsResponse | NextApiError> = async (req, res) => {
   const session = await getSession({ req });
-  const query = req.query as UserTweetsRequest;
 
   if (req.method === "GET") {
     const sessionUserId = session?.user?.id;
-    const { cursor, limit, userId } = query;
+    const { cursor, limit, userId } = req.query as UserTweetsRequest;
     const queryLimit = limit ? parseInt(limit) : 20;
     const prismaCursor = cursor ? { id: cursor } : undefined;
 

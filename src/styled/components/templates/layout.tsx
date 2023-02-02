@@ -10,17 +10,34 @@ import { NavSidebar } from "shared/NavSidebar";
 import { Toaster } from "shared/Toast";
 import styled, { keyframes } from "styled-components";
 
+import { ProfileFollowsLayout } from "./profile-follows-page";
 import { ProfileLayout } from "./profile-page";
 
 interface LayoutProps {
   children: ReactNode;
 }
 
+const CurrentLayoutPattern = ({ children }: LayoutProps) => {
+  const { pathname } = useRouter();
+  const isProfileFollowsPage =
+    pathname.includes("/[screenName]/following") || pathname.includes("/[screenName]/followers");
+  const isTweetPage = pathname.includes("/[screenName]/tweet/");
+  const isProfilePage = pathname.includes("/[screenName]") && !isTweetPage && !isProfileFollowsPage;
+
+  if (isProfilePage) {
+    return <ProfileLayout>{children}</ProfileLayout>;
+  }
+
+  if (isProfileFollowsPage) {
+    return <ProfileFollowsLayout>{children}</ProfileFollowsLayout>;
+  }
+
+  return <>{children}</>;
+};
+
 const Layout = ({ children }: LayoutProps) => {
-  const { asPath, pathname } = useRouter();
+  const { asPath } = useRouter();
   const { isSessionLoading } = useAppSession();
-  const isProfilePage =
-    pathname.includes("/[screenName]") && !pathname.includes("/[screenName]/tweet/");
 
   if (isSessionLoading) {
     return (
@@ -36,7 +53,9 @@ const Layout = ({ children }: LayoutProps) => {
     <Wrapper>
       <NavDrawer />
       <NavSidebar />
-      <Feed>{isProfilePage ? <ProfileLayout>{children}</ProfileLayout> : children}</Feed>
+      <Feed>
+        <CurrentLayoutPattern>{children}</CurrentLayoutPattern>
+      </Feed>
       <NavBottomBar />
       <Toaster />
     </Wrapper>

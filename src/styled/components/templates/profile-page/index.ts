@@ -1,2 +1,2 @@
-export { ProfilePageTemplate } from "./ProfilePage";
-export { ProfileLayout } from "./ProfileLayout";
+export { ProfileTimeline } from "./ProfileTimeline";
+export { ProfileLayout } from "./Layout";

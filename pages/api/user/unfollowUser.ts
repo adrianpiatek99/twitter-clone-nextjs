@@ -2,11 +2,11 @@ import type { NextApiHandler } from "next";
 import { getSession } from "next-auth/react";
 import { prisma } from "prisma/prisma";
 
-export type LikeTweetRequest = {
-  tweetId: string;
+export type UnfollowUserRequest = {
+  followUserId: string;
 };
 
-export const likeTweetPath = "/api/tweet/likeTweet";
+export const unfollowUserPath = "/api/user/unfollowUser";
 
 const handler: NextApiHandler<NextApiError> = async (req, res) => {
   const session = await getSession({ req });
@@ -15,27 +15,21 @@ const handler: NextApiHandler<NextApiError> = async (req, res) => {
     return res.status(401).send({ error: "You are not authorized." });
   }
 
-  if (req.method === "POST") {
-    const { tweetId } = req.body as LikeTweetRequest;
+  if (req.method === "DELETE") {
+    const { followUserId } = req.query as UnfollowUserRequest;
     const userId = session.user.id;
 
-    const like = await prisma.like.create({
-      data: {
-        tweet: {
-          connect: {
-            id: tweetId
-          }
-        },
-        user: {
-          connect: {
-            id: userId
-          }
+    const unfollow = await prisma.follows.delete({
+      where: {
+        followerId_followingId: {
+          followerId: userId,
+          followingId: followUserId
         }
       }
     });
 
-    if (!like) {
-      return res.status(404).send({ error: "Something went wrong then trying to like tweet." });
+    if (!unfollow) {
+      return res.status(404).send({ error: "Something went wrong then trying to unfollow user." });
     }
 
     return res.status(200).end();

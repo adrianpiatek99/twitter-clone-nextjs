@@ -10,15 +10,14 @@ export const deleteTweetPath = "/api/tweet/deleteTweet";
 
 const handler: NextApiHandler<NextApiError> = async (req, res) => {
   const session = await getSession({ req });
-  const query = req.query as DeleteTweetRequest;
 
   if (!session) {
     return res.status(401).send({ error: "You are not authorized." });
   }
 
   if (req.method === "DELETE") {
+    const { tweetId } = req.query as DeleteTweetRequest;
     const userId = session.user.id;
-    const { tweetId } = query;
 
     const deletedTweet = await prisma.tweet.delete({
       where: {

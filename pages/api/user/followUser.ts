@@ -2,11 +2,11 @@ import type { NextApiHandler } from "next";
 import { getSession } from "next-auth/react";
 import { prisma } from "prisma/prisma";
 
-export type LikeTweetRequest = {
-  tweetId: string;
+export type FollowUserRequest = {
+  followUserId: string;
 };
 
-export const likeTweetPath = "/api/tweet/likeTweet";
+export const followUserPath = "/api/user/followUser";
 
 const handler: NextApiHandler<NextApiError> = async (req, res) => {
   const session = await getSession({ req });
@@ -16,17 +16,21 @@ const handler: NextApiHandler<NextApiError> = async (req, res) => {
   }
 
   if (req.method === "POST") {
-    const { tweetId } = req.body as LikeTweetRequest;
+    const { followUserId } = req.body as FollowUserRequest;
     const userId = session.user.id;
 
-    const like = await prisma.like.create({
+    if (userId === followUserId) {
+      return res.status(404).send({ error: "You can't follow yourself." });
+    }
+
+    const follow = await prisma.follows.create({
       data: {
-        tweet: {
+        following: {
           connect: {
-            id: tweetId
+            id: followUserId
           }
         },
-        user: {
+        follower: {
           connect: {
             id: userId
           }
@@ -34,8 +38,8 @@ const handler: NextApiHandler<NextApiError> = async (req, res) => {
       }
     });
 
-    if (!like) {
-      return res.status(404).send({ error: "Something went wrong then trying to like tweet." });
+    if (!follow) {
+      return res.status(404).send({ error: "Something went wrong then trying to follow user." });
     }
 
     return res.status(200).end();

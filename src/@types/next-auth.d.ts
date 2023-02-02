@@ -4,7 +4,7 @@ import type { UserData } from "api/user/userByScreenName";
 
 declare module "next-auth" {
   interface Session {
-    user: UserData;
+    user: UserData & { email: string };
     expires: string;
   }
 }

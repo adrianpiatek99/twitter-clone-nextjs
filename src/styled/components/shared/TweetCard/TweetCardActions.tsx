@@ -8,20 +8,20 @@ import { getRelativeTime } from "utils/timeUtils";
 
 import { TweetCardMenu } from "./TweetCardMenu";
 
-interface TweetCardAuthorProps {
+interface TweetCardActionsProps {
   isOwner: boolean;
   author: TweetData["author"];
   createdAt: TweetData["createdAt"];
   handleDeleteTweet: () => void;
 }
 
-export const TweetCardAuthor = memo(
+export const TweetCardActions = memo(
   ({
     isOwner,
     author: { name, screenName },
     createdAt,
     handleDeleteTweet
-  }: TweetCardAuthorProps) => {
+  }: TweetCardActionsProps) => {
     const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
 
     const handleToggleMenuModal = useCallback(() => setIsMenuModalOpen(prev => !prev), []);

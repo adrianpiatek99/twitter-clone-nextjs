@@ -27,9 +27,7 @@ export const EditProfileModalBanner = ({
 
   return (
     <Wrapper>
-      <Inner>
-        <Image src={src} loader={() => src} fill alt={"Profile banner"} />
-      </Inner>
+      <Inner>{src && <Image src={src} loader={() => src} fill alt={"Profile banner"} />}</Inner>
       <ButtonsWrapper>
         <EditProfileModalIconButton title="Add photo" onClick={handleFilePicker}>
           <CameraPlusIcon />

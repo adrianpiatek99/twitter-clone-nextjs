@@ -5,13 +5,12 @@ import { Text } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
 import { useDeleteTweetMutation } from "hooks/useDeleteTweetMutation";
 import { useLikeTweetMutation } from "hooks/useLikeTweetMutation";
-import Link from "next/link";
+import { ActionCard } from "shared/ActionCard";
 import { Avatar } from "shared/Avatar";
 import { Skeleton } from "shared/Skeleton";
-import styled, { css, keyframes } from "styled-components";
-import { hexToRGBA } from "utils/colors";
+import styled, { css } from "styled-components";
 
-import { TweetCardAuthor } from "./TweetCardAuthor";
+import { TweetCardActions } from "./TweetCardActions";
 import { TweetCardToolbar } from "./TweetCardToolbar";
 
 interface TweetCardProps extends Omit<ComponentPropsWithRef<"article">, "id"> {
@@ -21,7 +20,7 @@ interface TweetCardProps extends Omit<ComponentPropsWithRef<"article">, "id"> {
 }
 
 export const TweetCard = memo(
-  forwardRef(({ tweetData, start, ...props }: TweetCardProps, ref: Ref<HTMLElement>) => {
+  forwardRef(({ tweetData, start, ...props }: TweetCardProps, ref: Ref<HTMLDivElement>) => {
     const { id, text, author, createdAt, _count, authorId } = tweetData;
     const { session } = useAppSession();
     const { screenName, profileImageUrl } = author;
@@ -36,7 +35,9 @@ export const TweetCard = memo(
 
     return (
       <TweetArticle
+        tag="article"
         isLoading={deleteLoading}
+        href={`${screenName}/tweet/${id}`}
         {...props}
         ref={ref}
         style={{
@@ -47,16 +48,11 @@ export const TweetCard = memo(
           transform: `translateY(${start}px)`
         }}
       >
-        <StyledLink
-          href={deleteLoading ? "" : `${screenName}/tweet/${id}`}
-          $isLoading={deleteLoading}
-          tabIndex={deleteLoading ? -1 : 0}
-        />
         {deleteLoading && <Skeleton absolute withoutRadius transparent />}
         <Inner isLoading={deleteLoading}>
           <StyledAvatar src={profileImageUrl} screenName={screenName} size="large" />
           <RightColumn>
-            <TweetCardAuthor
+            <TweetCardActions
               isOwner={isOwner}
               author={author}
               createdAt={createdAt}
@@ -64,7 +60,7 @@ export const TweetCard = memo(
             />
             <Content>
               <TweetText>
-                <Text>{text}</Text>
+                <Text truncate>{text}</Text>
               </TweetText>
               <TweetCardToolbar
                 count={_count}
@@ -80,30 +76,11 @@ export const TweetCard = memo(
   })
 );
 
-const enterTweetAnimation = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`;
-
-const TweetArticle = styled.article<{ isLoading: boolean }>`
-  position: relative;
-  display: flex;
-  gap: 12px;
-  padding: 12px 16px;
+const TweetArticle = styled(ActionCard)<{ isLoading: boolean }>`
   border-bottom: 1px solid ${({ theme }) => theme.border};
-  outline: none;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  animation: ${enterTweetAnimation} 0.3s ease-out;
 
-  @media (hover: hover) {
-    &:hover:not(:disabled) {
-      background-color: ${({ theme }) => hexToRGBA(theme.neutral50, 0.1)};
-    }
+  & > a {
+    z-index: 1;
   }
 
   ${({ isLoading }) =>
@@ -111,20 +88,6 @@ const TweetArticle = styled.article<{ isLoading: boolean }>`
     css`
       pointer-events: none;
     `}
-`;
-
-const StyledLink = styled(Link)<{ $isLoading: boolean }>`
-  position: absolute;
-  inset: 0px;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  transition: background-color 0.2s, box-shadow 0.2s;
-
-  &:focus-visible {
-    background-color: ${({ theme }) => hexToRGBA(theme.neutral50, 0.1)};
-    box-shadow: ${({ theme }) => theme.boxShadows.primary};
-  }
 `;
 
 const Inner = styled.div<{ isLoading: boolean }>`

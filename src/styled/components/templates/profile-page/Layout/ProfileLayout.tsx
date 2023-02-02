@@ -4,9 +4,7 @@ import { useEffect } from "react";
 import React, { Children, cloneElement, isValidElement } from "react";
 
 import { Text } from "components/core";
-import { useAppSession } from "hooks/useAppSession";
 import { useUserByScreenNameQuery } from "hooks/useUserByScreenNameQuery";
-import { useRouter } from "next/router";
 import { ErrorMessage } from "shared/ErrorMessage";
 import styled from "styled-components";
 import { reloadSession } from "utils/session";
@@ -23,18 +21,8 @@ interface ProfileLayoutProps {
 }
 
 export const ProfileLayout = memo(({ children }: ProfileLayoutProps) => {
-  const { query } = useRouter();
-  const queryScreenName = typeof query.screenName === "string" ? query.screenName : "";
-  const { session, isSessionLoading } = useAppSession();
-  const itsMe = session
-    ? queryScreenName.toLowerCase() === session.user.screenName.toLowerCase()
-    : false;
-  const { data, userByScreenNameLoading, isError, error } = useUserByScreenNameQuery({
-    queryScreenName,
-    enabled: !itsMe
-  });
-  const userLoading = itsMe ? isSessionLoading : userByScreenNameLoading;
-  const userData = itsMe ? session?.user : data;
+  const { userData, userLoading, itsMe, queryScreenName, isError, error } =
+    useUserByScreenNameQuery({});
 
   const childrenWithProps = Children.map(children, child => {
     if (userData && !isError) {
@@ -64,7 +52,7 @@ export const ProfileLayout = memo(({ children }: ProfileLayoutProps) => {
             <Text size="xl" weight={700}>
               @{queryScreenName}
             </Text>
-            <ErrorMessage message={error.message} />
+            <ErrorMessage message={error?.message} />
           </>
         ) : (
           <ProfileInformation userData={userData} isLoading={userLoading} />

@@ -2,6 +2,7 @@ import React, { memo, useState } from "react";
 
 import type { UserData } from "api/user/userByScreenName";
 import { Button } from "components/core";
+import { useFollowUserMutation } from "hooks/useFollowUserMutation";
 import styled from "styled-components";
 
 import { EditProfileModal } from "../Modals/EditProfileModal";
@@ -12,6 +13,10 @@ interface ProfileActionsProps {
 }
 
 export const ProfileActions = memo(({ itsMe, userData }: ProfileActionsProps) => {
+  const { handleFollowUser, followUserLoading, unfollowUserLoading, isFollowed } =
+    useFollowUserMutation({
+      followUser: userData
+    });
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
 
   return (
@@ -24,8 +29,22 @@ export const ProfileActions = memo(({ itsMe, userData }: ProfileActionsProps) =>
         >
           Edit profile
         </Button>
+      ) : isFollowed ? (
+        <Button
+          color="secondary"
+          variant="outlined"
+          loading={unfollowUserLoading}
+          onClick={handleFollowUser}
+        >
+          Following
+        </Button>
       ) : (
-        <Button color="secondary" variant="contained">
+        <Button
+          color="secondary"
+          variant="contained"
+          loading={followUserLoading}
+          onClick={handleFollowUser}
+        >
           Follow
         </Button>
       )}

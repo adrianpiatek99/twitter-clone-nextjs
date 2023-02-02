@@ -18,10 +18,8 @@ export type SignUpResponse = Omit<User, "password">;
 export const signUpPath = "/api/auth/signUp";
 
 const handler: NextApiHandler<SignUpResponse | NextApiError> = async (req, res) => {
-  const body = req.body as SignUpRequest;
-
   if (req.method === "POST") {
-    const { screenName, name, email, password, repeatPassword } = body;
+    const { screenName, name, email, password, repeatPassword } = req.body as SignUpRequest;
     const emailWithLowerCase = email.toLowerCase();
 
     if (screenName.length > PROFILE_SCREEN_NAME_MAX_LENGTH) {

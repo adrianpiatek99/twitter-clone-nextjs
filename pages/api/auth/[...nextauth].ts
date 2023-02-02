@@ -58,19 +58,22 @@ const authOptions: NextAuthOptions = {
 
         try {
           const dbUser = await prisma.user.findUnique({
-            where: { email: user.email as string },
+            where: { email: user.email },
             include: {
               _count: {
                 select: {
-                  tweets: true
+                  tweets: true,
+                  likes: true,
+                  followedBy: true,
+                  following: true
                 }
               }
             }
           });
 
           if (dbUser) {
-            const userWithoutPassword = exclude(dbUser, ["password"]);
-            const userEntries = Object.entries(userWithoutPassword);
+            const userWithoutSpecificFields = exclude(dbUser, ["password", "email"]);
+            const userEntries = Object.entries(userWithoutSpecificFields);
 
             userEntries.forEach(([key, value]) => {
               user[key] = value;
