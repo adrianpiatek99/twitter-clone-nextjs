@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { ErrorMessage } from "shared/ErrorMessage";
 import { TopBar, TopBarHeading } from "shared/TopBar";
 import styled from "styled-components";
+import { verifyMe } from "utils/session";
 
 import { TweetArticle, TweetArticleSkeleton } from "./TweetArticle";
 
@@ -18,9 +19,7 @@ export const TweetPageTemplate = () => {
   const [sectionRef] = useAutoAnimate<HTMLTableSectionElement>({ duration: 100 });
   const queryScreenName = typeof query.screenName === "string" ? query.screenName : "";
   const queryTweetId = typeof query.tweetId === "string" ? query.tweetId : "";
-  const itsMe = session
-    ? queryScreenName.toLowerCase() === session.user.screenName.toLowerCase()
-    : false;
+  const itsMe = verifyMe(session, queryScreenName);
   const { data, isLoading, isError, error } = useTweetDetailsQuery({
     tweetId: queryTweetId,
     screenName: queryScreenName
