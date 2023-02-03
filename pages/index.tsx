@@ -1,11 +1,11 @@
-import { DefaultPageTemplate } from "templates/default-page";
+import { LoginPage } from "templates/login-page";
 
-const DefaultPage = () => {
+const Login = () => {
   return (
     <>
-      <DefaultPageTemplate />
+      <LoginPage />
     </>
   );
 };
 
-export default DefaultPage;
+export default Login;

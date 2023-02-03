@@ -6,11 +6,11 @@ import styled, { css } from "styled-components";
 const IMAGE_URL =
   "https://media2.giphy.com/media/3oEjHREpGw73bnR7Ow/giphy.gif?cid=ecf05e47rxmkjsxcti8xmyopot15mx7ksisqfo9hms38cckh&rid=giphy.gif&ct=g";
 
-interface DefaultBackgroundGifProps {
+interface LoginBackgroundImageProps {
   withBlur?: boolean;
 }
 
-export const DefaultBackgroundGif = ({ withBlur = false }: DefaultBackgroundGifProps) => {
+export const LoginBackgroundImage = ({ withBlur = false }: LoginBackgroundImageProps) => {
   return (
     <ImageWrapper withBlur={withBlur}>
       <Image

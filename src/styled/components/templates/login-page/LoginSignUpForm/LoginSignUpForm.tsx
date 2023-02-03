@@ -20,10 +20,10 @@ import { setDefaultPageFormLoading } from "store/slices/pagesSlice";
 import { useAppDispatch } from "store/store";
 import styled from "styled-components";
 
-import type { DefaultTabs } from "../DefaultPage";
+import type { LoginTabs } from "../LoginPage";
 
-interface DefaultSignUpFormProps {
-  handleChangeTab: (tab: DefaultTabs) => void;
+interface LoginSignUpFormProps {
+  handleChangeTab: (tab: LoginTabs) => void;
 }
 
 type InputData = {
@@ -46,7 +46,7 @@ const inputs: InputData[] = [
   }
 ];
 
-export const DefaultSignUpForm = ({ handleChangeTab }: DefaultSignUpFormProps) => {
+export const LoginSignUpForm = ({ handleChangeTab }: LoginSignUpFormProps) => {
   const {
     register,
     handleSubmit,

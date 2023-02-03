@@ -30,7 +30,7 @@ const inputs: InputData[] = [
   { name: "password", type: "password", label: "Password", maxLength: PROFILE_PASSWORD_MAX_LENGTH }
 ];
 
-export const DefaultSignInForm = () => {
+export const LoginSignInForm = () => {
   const {
     register,
     handleSubmit,

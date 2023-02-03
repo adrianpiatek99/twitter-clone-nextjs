@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button, MenuModal, MenuModalItem } from "components/core";
 import styled from "styled-components";
 
-export const DefaultExternalLinks = () => {
+export const LoginExternalLinks = () => {
   const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
 
   const handleCloseModal = () => setIsMenuModalOpen(false);

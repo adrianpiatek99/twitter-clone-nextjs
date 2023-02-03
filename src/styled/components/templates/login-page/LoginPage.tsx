@@ -8,26 +8,26 @@ import { Tab, Tabs } from "shared/Tabs";
 import { useAppSelector } from "store/store";
 import styled from "styled-components";
 
-import { DefaultBackgroundGif } from "./DefaultBackgroundGif";
-import { DefaultCurrentTab } from "./DefaultCurrentTab";
-import { DefaultExternalLinks } from "./DefaultExternalLinks";
+import { LoginBackgroundImage } from "./LoginBackgroundImage";
+import { LoginCurrentTab } from "./LoginCurrentTab";
+import { LoginExternalLinks } from "./LoginExternalLinks";
 
-export type DefaultTabs = "sign in" | "sign up";
+export type LoginTabs = "sign in" | "sign up";
 
-const tabs: DefaultTabs[] = ["sign in", "sign up"];
+const tabs: LoginTabs[] = ["sign in", "sign up"];
 
-export const DefaultPageTemplate = () => {
+export const LoginPage = () => {
   const { formLoading } = useAppSelector(state => state.pages.defaultPage);
-  const [currentTab, setCurrentTab] = useState<DefaultTabs>(tabs[0]!);
+  const [currentTab, setCurrentTab] = useState<LoginTabs>(tabs[0]!);
 
-  const handleChangeTab = (tab: DefaultTabs) => {
+  const handleChangeTab = (tab: LoginTabs) => {
     setCurrentTab(tab);
   };
 
   return (
     <Wrapper>
       <LeftPanel>
-        <DefaultBackgroundGif withBlur />
+        <LoginBackgroundImage withBlur />
         <Content>
           {formLoading && <LinearProgress />}
           <Header>
@@ -40,16 +40,16 @@ export const DefaultPageTemplate = () => {
               ))}
             </Tabs>
           </TabGroupWrapper>
-          <DefaultCurrentTab currentTab={currentTab} handleChangeTab={handleChangeTab} />
+          <LoginCurrentTab currentTab={currentTab} handleChangeTab={handleChangeTab} />
           <Button variant="outlined" color="secondary" startIcon={<GoogleIcon />} disabled>
             Sign in with Google
           </Button>
         </Content>
       </LeftPanel>
       <RightPanel>
-        <DefaultBackgroundGif />
+        <LoginBackgroundImage />
       </RightPanel>
-      <DefaultExternalLinks />
+      <LoginExternalLinks />
     </Wrapper>
   );
 };
