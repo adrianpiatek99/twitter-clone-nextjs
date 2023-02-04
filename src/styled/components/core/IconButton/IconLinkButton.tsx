@@ -4,6 +4,7 @@ import React, { useMemo } from "react";
 import Link from "next/link";
 import styled, { useTheme } from "styled-components";
 
+import { Tooltip } from "..";
 import type { IconButtonColor, IconButtonSize } from "./iconButtonVariants";
 import { getIconButtonColor, iconButtonSizeVariants } from "./iconButtonVariants";
 
@@ -39,17 +40,18 @@ export const IconLinkButton = ({
   }, [color]);
 
   return (
-    <LinkElement
-      aria-label={title}
-      title={title}
-      href={href}
-      size={size}
-      $color={iconButtonColors}
-      tabIndex={disableFocus ? -1 : 0}
-      {...props}
-    >
-      {children}
-    </LinkElement>
+    <Tooltip content={title}>
+      <LinkElement
+        aria-label={title}
+        href={href}
+        size={size}
+        $color={iconButtonColors}
+        tabIndex={disableFocus ? -1 : 0}
+        {...props}
+      >
+        {children}
+      </LinkElement>
+    </Tooltip>
   );
 };
 

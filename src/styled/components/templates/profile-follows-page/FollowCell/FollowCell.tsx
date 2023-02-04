@@ -19,7 +19,7 @@ interface FollowCellProps extends ComponentPropsWithRef<"div"> {
 
 export const FollowCell = memo(
   forwardRef(({ followUser, start, ...props }: FollowCellProps, ref: Ref<HTMLDivElement>) => {
-    const { session, isUnauthenticated } = useAppSession();
+    const { session } = useAppSession();
     const { screenName, profileImageUrl, description } = followUser;
     const itsMe = verifyMe(session, followUser.screenName);
 
@@ -38,11 +38,7 @@ export const FollowCell = memo(
       >
         <StyledAvatar src={profileImageUrl} screenName={screenName} size="large" />
         <Inner>
-          <FollowCellActions
-            followUser={followUser}
-            itsMe={itsMe}
-            isUnauthenticated={isUnauthenticated}
-          />
+          <FollowCellActions followUser={followUser} itsMe={itsMe} />
           <DescriptionRow>{description && <Text truncate>{description}</Text>}</DescriptionRow>
         </Inner>
       </ActionCard>

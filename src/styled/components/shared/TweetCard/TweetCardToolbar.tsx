@@ -2,7 +2,6 @@ import React, { memo } from "react";
 
 import type { TweetData } from "api/tweet/timelineTweets";
 import { IconButton, IconButtonWithLabel } from "components/core";
-import { useAppSession } from "hooks/useAppSession";
 import HeartIcon from "icons/HeartIcon";
 import HeartOutlinedIcon from "icons/HeartOutlinedIcon";
 import MessageIcon from "icons/MessageIcon";
@@ -17,15 +16,13 @@ interface TweetCardToolbarProps {
 
 export const TweetCardToolbar = memo(
   ({ handleLikeTweet, isLoading, isLiked, count: { likes: likeCount } }: TweetCardToolbarProps) => {
-    const { isUnauthenticated } = useAppSession();
     const { pink400 } = useTheme();
     const likeCountLabel = likeCount ? String(likeCount) : "";
-    const loadingLikeButton = isLoading || isUnauthenticated;
     const likeTitle = isLiked ? "Unlike" : "Like";
 
     return (
       <Wrapper>
-        <IconButton color="secondary">
+        <IconButton title="Reply" color="secondary">
           <MessageIcon />
         </IconButton>
         <IconButtonWithLabel
@@ -34,7 +31,7 @@ export const TweetCardToolbar = memo(
           onClick={handleLikeTweet}
           color={pink400}
           isSelected={isLiked}
-          disabled={loadingLikeButton}
+          disabled={isLoading}
         >
           {isLiked ? <HeartIcon /> : <HeartOutlinedIcon />}
         </IconButtonWithLabel>
