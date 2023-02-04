@@ -6,6 +6,8 @@ import type { TimelineTweetsResponse, TweetData } from "api/tweet/timelineTweets
 import type { AxiosError } from "axios";
 import { likeTweet } from "network/tweet/likeTweet";
 import { unlikeTweet } from "network/tweet/unlikeTweet";
+import { setAuthRequiredModalOpen } from "store/slices/globalSlice";
+import { useAppDispatch } from "store/store";
 
 import { useAppSession } from "./useAppSession";
 import { useToasts } from "./useToasts";
@@ -27,9 +29,10 @@ export const useLikeTweetMutation = ({
 }: UseLikeTweetMutationProps) => {
   const queryClient = useQueryClient();
   const { session } = useAppSession();
+  const dispatch = useAppDispatch();
   const { handleAddToast } = useToasts();
-  const currentUserId = session?.user.id ?? "";
-  const isLiked = likes.some(({ userId }) => userId === currentUserId);
+  const sessionUserId = session?.user.id ?? "";
+  const isLiked = likes.some(({ userId }) => userId === sessionUserId);
 
   const { mutate: likeMutate, isLoading: likeLoading } = useMutation<
     unknown,
@@ -66,7 +69,7 @@ export const useLikeTweetMutation = ({
     queryClient.setQueryData<{ pages: TimelineTweetsResponse[] }>(queryKey, oldData => {
       if (oldData) {
         const count = action === "like" ? 1 : -1;
-        const likesArray = action === "like" ? [{ userId: currentUserId }] : [];
+        const likesArray = action === "like" ? [{ userId: sessionUserId }] : [];
 
         const newTweets = oldData.pages.map(page => {
           const tweets = page.tweets.map(tweet => {
@@ -95,7 +98,7 @@ export const useLikeTweetMutation = ({
     queryClient.setQueryData<TweetData>(queryKey, oldData => {
       if (oldData) {
         const count = action === "like" ? 1 : -1;
-        const likesArray = action === "like" ? [{ userId: currentUserId }] : [];
+        const likesArray = action === "like" ? [{ userId: sessionUserId }] : [];
 
         return { ...oldData, _count: { likes: oldData._count.likes + count }, likes: likesArray };
       }
@@ -105,7 +108,13 @@ export const useLikeTweetMutation = ({
   };
 
   const handleLikeTweet = useCallback(() => {
-    if (!currentUserId || disabled || likeLoading || unlikeLoading) return;
+    if (!sessionUserId) {
+      dispatch(setAuthRequiredModalOpen(true));
+
+      return;
+    }
+
+    if (disabled || likeLoading || unlikeLoading) return;
 
     if (isLiked) {
       unlikeMutate({ tweetId });
@@ -115,12 +124,13 @@ export const useLikeTweetMutation = ({
 
     likeMutate({ tweetId });
   }, [
+    dispatch,
     unlikeMutate,
     likeMutate,
     likeLoading,
     unlikeLoading,
     isLiked,
-    currentUserId,
+    sessionUserId,
     tweetId,
     disabled
   ]);

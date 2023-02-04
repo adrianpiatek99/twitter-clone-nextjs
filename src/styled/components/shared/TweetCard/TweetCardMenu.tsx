@@ -2,7 +2,7 @@ import React, { memo, useState } from "react";
 
 import { MenuModal, MenuModalItem } from "components/core";
 import TrashIcon from "icons/TrashIcon";
-import { ConfirmDeleteTweetModal } from "shared/Modals/ConfirmDeleteTweetModal";
+import { ConfirmDeleteTweetModal } from "shared/Modals";
 
 interface TweetCardMenuProps {
   isOpen: boolean;

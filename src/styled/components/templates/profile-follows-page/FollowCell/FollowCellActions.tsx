@@ -8,54 +8,50 @@ import styled from "styled-components";
 interface FollowCellActionsProps {
   followUser: FollowersData["follower"];
   itsMe: boolean;
-  isUnauthenticated: boolean;
 }
 
-export const FollowCellActions = memo(
-  ({ followUser, itsMe, isUnauthenticated }: FollowCellActionsProps) => {
-    const { screenName, name } = followUser;
-    const { handleFollowUser, followUserLoading, unfollowUserLoading, isFollowed } =
-      useFollowUserMutation({
-        followUser
-      });
-    const showFollowButton = !itsMe && !isUnauthenticated;
+export const FollowCellActions = memo(({ followUser, itsMe }: FollowCellActionsProps) => {
+  const { screenName, name } = followUser;
+  const { handleFollowUser, followUserLoading, unfollowUserLoading, isFollowed } =
+    useFollowUserMutation({
+      followUser
+    });
 
-    return (
-      <Wrapper>
-        <NamesWrapper>
-          <Text weight={700} href={`/${screenName}`} truncate>
-            {name}
-          </Text>
-          <Text color="secondary" href={`/${screenName}`} truncate>
-            @{screenName}
-          </Text>
-        </NamesWrapper>
-        {showFollowButton &&
-          (isFollowed ? (
-            <Button
-              color="secondary"
-              variant="outlined"
-              loading={unfollowUserLoading}
-              onClick={handleFollowUser}
-              size="small"
-            >
-              Following
-            </Button>
-          ) : (
-            <Button
-              color="secondary"
-              variant="contained"
-              loading={followUserLoading}
-              onClick={handleFollowUser}
-              size="small"
-            >
-              Follow
-            </Button>
-          ))}
-      </Wrapper>
-    );
-  }
-);
+  return (
+    <Wrapper>
+      <NamesWrapper>
+        <Text weight={700} href={`/${screenName}`} truncate>
+          {name}
+        </Text>
+        <Text color="secondary" href={`/${screenName}`} truncate>
+          @{screenName}
+        </Text>
+      </NamesWrapper>
+      {!itsMe &&
+        (isFollowed ? (
+          <Button
+            color="secondary"
+            variant="outlined"
+            loading={unfollowUserLoading}
+            onClick={handleFollowUser}
+            size="small"
+          >
+            Following
+          </Button>
+        ) : (
+          <Button
+            color="secondary"
+            variant="contained"
+            loading={followUserLoading}
+            onClick={handleFollowUser}
+            size="small"
+          >
+            Follow
+          </Button>
+        ))}
+    </Wrapper>
+  );
+});
 
 const Wrapper = styled.div`
   display: flex;
