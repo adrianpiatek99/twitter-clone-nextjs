@@ -31,7 +31,7 @@ const inputs: InputData[] = [
 ];
 
 export const LoginSignInForm = () => {
-  const { replace } = useRouter();
+  const { replace, query } = useRouter();
   const [{ isLoading, email, password }, setStore] = useLoginStore(state => state);
   const {
     register,
@@ -56,6 +56,12 @@ export const LoginSignInForm = () => {
       const ok = response?.ok;
 
       if (!ok) throw Error(response?.error);
+
+      if (typeof query.redirect === "string") {
+        replace(query.redirect);
+
+        return;
+      }
 
       replace("/home");
     } catch (error: any) {
