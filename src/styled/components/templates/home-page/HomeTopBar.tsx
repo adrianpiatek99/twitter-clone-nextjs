@@ -6,7 +6,7 @@ import SparklesIcon from "icons/SparklesIcon";
 import { Avatar } from "shared/Avatar";
 import { Logo } from "shared/Logo";
 import { TopBar, TopBarHeading } from "shared/TopBar";
-import { setNavDrawerOpen } from "store/slices/modalsSlice";
+import { setNavDrawerOpen } from "store/slices/globalSlice";
 import { useAppDispatch } from "store/store";
 import styled from "styled-components";
 

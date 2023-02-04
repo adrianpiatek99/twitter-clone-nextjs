@@ -4,12 +4,12 @@ import { useSelector } from "react-redux";
 
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
-import modalsSlice from "./slices/modalsSlice";
+import globalSlice from "./slices/globalSlice";
 import toastsSlice from "./slices/toastsSlice";
 
 const reducer = combineReducers({
-  toasts: toastsSlice,
-  modals: modalsSlice
+  global: globalSlice,
+  toasts: toastsSlice
 });
 
 export const store = configureStore({ reducer });
