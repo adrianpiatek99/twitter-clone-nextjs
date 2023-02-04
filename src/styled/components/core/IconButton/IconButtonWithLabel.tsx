@@ -4,6 +4,7 @@ import React, { forwardRef, useMemo } from "react";
 import styled, { css, useTheme } from "styled-components";
 import { hexToRGBA } from "utils/colors";
 
+import { Tooltip } from "..";
 import { Text } from "../Text";
 import type { IconButtonColor } from "./iconButtonVariants";
 import { iconButtonSizeVariants } from "./iconButtonVariants";
@@ -47,19 +48,20 @@ export const IconButtonWithLabel = forwardRef(
     }, [isError, color]);
 
     return (
-      <ButtonElement
-        aria-label={title}
-        title={title}
-        $color={iconButtonColors}
-        isSelected={isSelected}
-        {...props}
-        ref={ref}
-      >
-        <IconWrapper>{children}</IconWrapper>
-        <LabelWrapper>
-          <Text>{label}</Text>
-        </LabelWrapper>
-      </ButtonElement>
+      <Tooltip content={title}>
+        <ButtonElement
+          aria-label={title}
+          $color={iconButtonColors}
+          isSelected={isSelected}
+          {...props}
+          ref={ref}
+        >
+          <IconWrapper>{children}</IconWrapper>
+          <LabelWrapper>
+            <Text>{label}</Text>
+          </LabelWrapper>
+        </ButtonElement>
+      </Tooltip>
     );
   }
 );
@@ -74,24 +76,15 @@ const IconWrapper = styled.div`
   width: max-content;
   padding: 0;
   border-radius: 50%;
-  margin-right: -8px;
   transition: background-color 0.2s;
-
   ${iconButtonSizeVariants["medium"]};
-`;
-
-const LabelWrapper = styled.div`
-  padding: 0 12px;
-
-  & > span {
-    color: inherit;
-  }
 `;
 
 const ButtonElement = styled.button<{
   $color: [string, string];
   isSelected: boolean;
 }>`
+  position: relative;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -136,4 +129,14 @@ const ButtonElement = styled.button<{
     css`
       color: ${$color[1]};
     `};
+`;
+
+const LabelWrapper = styled.div`
+  position: absolute;
+  padding: 0 12px;
+  left: 26px;
+
+  & > span {
+    color: inherit;
+  }
 `;
