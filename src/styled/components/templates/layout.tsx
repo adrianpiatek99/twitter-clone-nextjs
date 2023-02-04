@@ -47,7 +47,13 @@ const Layout = ({ children }: LayoutProps) => {
     );
   }
 
-  if (asPath === "/") return <>{children}</>;
+  if (asPath === "/")
+    return (
+      <>
+        {children}
+        <Toaster />
+      </>
+    );
 
   return (
     <Wrapper>
