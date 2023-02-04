@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 
 import { Button, MenuModal, MenuModalItem } from "components/core";
+import GithubIcon from "icons/GithubIcon";
+import WebsiteIcon from "icons/WebsiteIcon";
 import styled from "styled-components";
 
 export const LoginExternalLinks = () => {
@@ -14,14 +16,14 @@ export const LoginExternalLinks = () => {
         External Links
       </Button>
       <MenuModal isOpen={isMenuModalOpen} onClose={handleCloseModal}>
-        <MenuModalItem color="primary" onClick={handleCloseModal}>
+        <MenuModalItem color="primary" onClick={handleCloseModal} startIcon={<GithubIcon />}>
           Project Repository
         </MenuModalItem>
-        <MenuModalItem color="primary" onClick={handleCloseModal}>
-          Portfolio
-        </MenuModalItem>
-        <MenuModalItem color="primary" onClick={handleCloseModal}>
+        <MenuModalItem color="primary" onClick={handleCloseModal} startIcon={<GithubIcon />}>
           GitHub
+        </MenuModalItem>
+        <MenuModalItem color="primary" onClick={handleCloseModal} startIcon={<WebsiteIcon />}>
+          Portfolio
         </MenuModalItem>
       </MenuModal>
     </Wrapper>

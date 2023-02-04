@@ -2,10 +2,10 @@ import React from "react";
 import { useState } from "react";
 
 import { Button, LinearProgress } from "components/core";
+import { useLoginStore } from "context/LoginContext";
 import GoogleIcon from "icons/GoogleIcon";
 import { Logo } from "shared/Logo";
 import { Tab, Tabs } from "shared/Tabs";
-import { useAppSelector } from "store/store";
 import styled from "styled-components";
 
 import { LoginBackgroundImage } from "./LoginBackgroundImage";
@@ -17,7 +17,7 @@ export type LoginTabs = "sign in" | "sign up";
 const tabs: LoginTabs[] = ["sign in", "sign up"];
 
 export const LoginPage = () => {
-  const { formLoading } = useAppSelector(state => state.pages.defaultPage);
+  const [{ isLoading }] = useLoginStore(state => state);
   const [currentTab, setCurrentTab] = useState<LoginTabs>(tabs[0]!);
 
   const handleChangeTab = (tab: LoginTabs) => {
@@ -29,7 +29,7 @@ export const LoginPage = () => {
       <LeftPanel>
         <LoginBackgroundImage withBlur />
         <Content>
-          {formLoading && <LinearProgress />}
+          {isLoading && <LinearProgress />}
           <Header>
             <Logo size="xl" />
           </Header>

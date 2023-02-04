@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
+import { useEffect } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import type { InputType } from "components/core";
 import { Button, Input } from "components/core";
+import { useLoginStore } from "context/LoginContext";
 import { useToasts } from "hooks/useToasts";
 import { signIn } from "network/auth/signIn";
 import { useRouter } from "next/router";
@@ -14,8 +16,6 @@ import {
   PROFILE_PASSWORD_MAX_LENGTH
 } from "schema/authSchema";
 import { signInSchema } from "schema/authSchema";
-import { setDefaultPageFormLoading } from "store/slices/pagesSlice";
-import { useAppDispatch } from "store/store";
 import styled from "styled-components";
 
 type InputData = {
@@ -31,23 +31,25 @@ const inputs: InputData[] = [
 ];
 
 export const LoginSignInForm = () => {
+  const { replace } = useRouter();
+  const [{ isLoading, email, password }, setStore] = useLoginStore(state => state);
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors }
   } = useForm<SignInValues>({
-    resolver: yupResolver(signInSchema)
+    resolver: yupResolver(signInSchema),
+    defaultValues: {
+      email,
+      password
+    }
   });
-  const { replace } = useRouter();
-  const dispatch = useAppDispatch();
   const { handleAddToast } = useToasts();
-  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit: SubmitHandler<SignInValues> = async data => {
     try {
-      setIsLoading(true);
-      dispatch(setDefaultPageFormLoading(true));
+      setStore({ isLoading: true });
 
       const response = await signIn({ ...data });
 
@@ -59,10 +61,16 @@ export const LoginSignInForm = () => {
     } catch (error: any) {
       handleAddToast("error", error?.message);
     } finally {
-      setIsLoading(false);
-      dispatch(setDefaultPageFormLoading(false));
+      setStore({ isLoading: false, email: "", password: "" });
     }
   };
+
+  useEffect(() => {
+    if (email && password) {
+      onSubmit({ email, password });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [email, password]);
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
