@@ -11,12 +11,13 @@ export type ProfileValues = Pick<UserData, "name" | "description" | "url">;
 export const profileSchema: yup.SchemaOf<ProfileValues> = yup.object().shape({
   name: yup
     .string()
-    .min(3, "Name must be at least 3 characters.")
+    .min(4, "Your name cannot be shorter than 4 characters.")
     .max(
       PROFILE_NAME_MAX_LENGTH,
-      `Name can't have more than ${PROFILE_NAME_MAX_LENGTH} characters.`
+      `Your name cannot be longer than ${PROFILE_NAME_MAX_LENGTH} characters.`
     )
     .required("Name is required.")
+    .matches(/^([a-zA-Z0-9]+\s)*[a-zA-Z0-9]+$/g, "Invalid characters or too many blank spaces.")
     .trim(),
   description: yup
     .string()

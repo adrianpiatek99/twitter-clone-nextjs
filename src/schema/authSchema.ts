@@ -1,7 +1,7 @@
 import { containsEmojis } from "utils/strings";
 import * as yup from "yup";
 
-export const PROFILE_EMAIL_MAX_LENGTH = 25;
+export const PROFILE_EMAIL_MAX_LENGTH = 50;
 export const PROFILE_SCREEN_NAME_MAX_LENGTH = 15;
 export const PROFILE_NAME_MAX_LENGTH = 50;
 export const PROFILE_PASSWORD_MAX_LENGTH = 16;
@@ -38,7 +38,6 @@ export const signInSchema: yup.SchemaOf<SignInValues> = yup.object().shape({
     )
     .test("emoji", "⛔ No entry emojis", value => !containsEmojis(value))
     .required("Password is required.")
-    .trim()
 });
 
 export const signUpSchema: yup.SchemaOf<SignUpValues> = yup.object().shape({
@@ -50,6 +49,7 @@ export const signUpSchema: yup.SchemaOf<SignUpValues> = yup.object().shape({
       `Your username cannot be longer than ${PROFILE_SCREEN_NAME_MAX_LENGTH} characters.`
     )
     .required("Screen name is required.")
+    .matches(/^(\w+\S)*\w+$/g, "Invalid characters or blank spaces.")
     .trim(),
   name: yup
     .string()
@@ -59,6 +59,7 @@ export const signUpSchema: yup.SchemaOf<SignUpValues> = yup.object().shape({
       `Your name cannot be longer than ${PROFILE_NAME_MAX_LENGTH} characters.`
     )
     .required("Name is required.")
+    .matches(/^([a-zA-Z0-9]+\s)*[a-zA-Z0-9]+$/g, "Invalid characters or too many blank spaces.")
     .trim(),
   email: yup
     .string()
