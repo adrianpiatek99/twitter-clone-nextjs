@@ -90,48 +90,4 @@ export const GlobalStyle = createGlobalStyle`
   &::-webkit-scrollbar-thumb:active {
     border: 2px solid rgba(0, 0, 0, 0);
   }
-
-  .MuiTooltip-tooltip {
-    background-color: ${({ theme }) => theme.gray500};
-    color: ${({ theme }) => theme.neutral50};
-    line-height: 11px;
-    font-size: 11px;
-    padding: 5px 7px;
-  }
-
-  .MuiTooltip-popper {
-    &[data-popper-placement*="bottom"] {
-      margin-top: -16px !important;
-    };
-
-    &[data-popper-placement*="top"] {
-    margin-bottom: -16px !important;
-    };
-
-    &[data-popper-placement*="right"] {
-      margin-left: -16px !important;
-    };
-
-    &[data-popper-placement*="left"] {
-      margin-right: -16px !important;
-    };
-
-    @media ${({ theme }) => theme.breakpoints.sm} {
-      &[data-popper-placement*="bottom"] {
-        margin-top: -8px !important;
-      };
-
-      &[data-popper-placement*="top"] {
-      margin-bottom: -8px !important;
-      };
-
-      &[data-popper-placement*="right"] {
-        margin-left: -8px !important;
-      };
-
-      &[data-popper-placement*="left"] {
-        margin-right: -8px !important;
-      };
-  }
-  }
 `;
