@@ -2,6 +2,7 @@ import type { IconType } from "react-icons/lib";
 
 import HomeIcon from "icons/HomeIcon";
 import HomeOutlinedIcon from "icons/HomeOutlinedIcon";
+import LoginIcon from "icons/LoginIcon";
 import MailIcon from "icons/MailIcon";
 import MailOutlinedIcon from "icons/MailOutlinedIcon";
 import NotificationIcon from "icons/NotificationIcon";
@@ -16,7 +17,7 @@ export type NavBottomBarItem = {
   activeIcon: IconType;
 };
 
-export const authenticatedNavBottomBarItems: NavBottomBarItem[] = [
+export const navBottomBarItems: NavBottomBarItem[] = [
   {
     text: "Home",
     href: "/home",
@@ -42,3 +43,10 @@ export const authenticatedNavBottomBarItems: NavBottomBarItem[] = [
     activeIcon: MailIcon
   }
 ];
+
+export const navBottomBarSignInItem: NavBottomBarItem = {
+  text: "Sign in",
+  href: "/",
+  icon: LoginIcon,
+  activeIcon: LoginIcon
+};

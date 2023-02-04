@@ -1,21 +1,37 @@
 import React from "react";
 
+import { useAppSession } from "hooks/useAppSession";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 
-import { authenticatedNavBottomBarItems } from "./navBottomBarHelpers";
+import { navBottomBarItems, navBottomBarSignInItem } from "./navBottomBarItems";
 import { NavBottomBarLink } from "./NavBottomBarLink";
 
 export const NavBottomBar = () => {
   const { asPath } = useRouter();
+  const { isAuthenticated } = useAppSession();
 
   return (
     <Wrapper>
       <Content>
-        <NavList>
-          {authenticatedNavBottomBarItems.map(({ href, ...props }) => (
-            <NavBottomBarLink key={href} href={href} active={asPath.includes(href)} {...props} />
-          ))}
+        <NavList isAuthenticated={isAuthenticated}>
+          {isAuthenticated ? (
+            navBottomBarItems.map(({ href, ...props }) => (
+              <NavBottomBarLink key={href} href={href} active={asPath.includes(href)} {...props} />
+            ))
+          ) : (
+            <>
+              {navBottomBarItems.slice(0, 2).map(({ href, ...props }) => (
+                <NavBottomBarLink
+                  key={href}
+                  href={href}
+                  active={asPath.includes(href)}
+                  {...props}
+                />
+              ))}
+              <NavBottomBarLink active={false} {...navBottomBarSignInItem} />
+            </>
+          )}
         </NavList>
       </Content>
     </Wrapper>
@@ -60,10 +76,10 @@ const Content = styled.div`
   z-index: 2;
 `;
 
-const NavList = styled.nav`
+const NavList = styled.nav<{ isAuthenticated: boolean }>`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: ${({ isAuthenticated }) => (isAuthenticated ? "space-between" : "space-around")};
   width: 100%;
   height: 100%;
 `;
