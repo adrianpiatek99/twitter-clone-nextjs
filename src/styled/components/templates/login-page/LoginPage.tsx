@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { useState } from "react";
 
 import { Button, LinearProgress } from "components/core";
 import { useLoginStore } from "context/LoginContext";
 import GoogleIcon from "icons/GoogleIcon";
+import { useRouter } from "next/router";
 import { Logo } from "shared/Logo";
 import { Tab, Tabs } from "shared/Tabs";
 import styled from "styled-components";
@@ -17,12 +18,36 @@ export type LoginTabs = "sign in" | "sign up";
 const tabs: LoginTabs[] = ["sign in", "sign up"];
 
 export const LoginPage = () => {
+  const { pathname, query, push } = useRouter();
   const [{ isLoading }] = useLoginStore(state => state);
   const [currentTab, setCurrentTab] = useState<LoginTabs>(tabs[0]!);
 
   const handleChangeTab = (tab: LoginTabs) => {
     setCurrentTab(tab);
+    push(
+      {
+        pathname,
+        query: { ...query, tab: tab.replace(" ", "-") }
+      },
+      undefined,
+      { shallow: true }
+    );
   };
+
+  useLayoutEffect(() => {
+    const queryTab = query.tab;
+
+    if (queryTab) {
+      const tab = typeof queryTab === "string" ? (queryTab.replace("-", " ") as LoginTabs) : "";
+
+      const tabExists = tabs.find(currentTab => currentTab === tab);
+
+      if (tabExists) {
+        setCurrentTab(tabExists);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Wrapper>
