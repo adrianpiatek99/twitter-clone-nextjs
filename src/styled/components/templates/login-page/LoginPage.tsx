@@ -10,7 +10,7 @@ import styled from "styled-components";
 
 import { LoginBackgroundImage } from "./LoginBackgroundImage";
 import { LoginCurrentTab } from "./LoginCurrentTab";
-import { LoginExternalLinks } from "./LoginExternalLinks";
+import { LoginLinks } from "./LoginLinks";
 
 export type LoginTabs = "sign in" | "sign up";
 
@@ -49,7 +49,7 @@ export const LoginPage = () => {
       <RightPanel>
         <LoginBackgroundImage />
       </RightPanel>
-      <LoginExternalLinks />
+      <LoginLinks />
     </Wrapper>
   );
 };

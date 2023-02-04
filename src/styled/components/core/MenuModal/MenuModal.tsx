@@ -27,7 +27,7 @@ export const MenuModal = ({ children, isOpen, onClose, ...props }: MenuModalProp
     <Portal rootId="modal">
       <AnimatePresence>
         {isOpen && (
-          <FocusLock>
+          <FocusLock autoFocus={false}>
             <ModalPanel isOpen={isOpen} onClose={onClose}>
               <Content
                 variants={isMobile ? mobileContentVariants : contentVariants}
@@ -38,7 +38,11 @@ export const MenuModal = ({ children, isOpen, onClose, ...props }: MenuModalProp
                 {...props}
               >
                 {children}
-                <MenuModalItem startIcon={<CloseIcon />} onClick={onClose}>
+                <MenuModalItem
+                  startIcon={<CloseIcon />}
+                  onClick={onClose}
+                  style={{ border: "none" }}
+                >
                   Cancel
                 </MenuModalItem>
               </Content>

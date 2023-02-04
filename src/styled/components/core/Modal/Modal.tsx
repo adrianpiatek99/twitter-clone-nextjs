@@ -45,7 +45,7 @@ export const Modal = ({
     <Portal rootId="modal">
       <AnimatePresence>
         {isOpen && (
-          <FocusLock>
+          <FocusLock autoFocus={false}>
             <ModalPanel
               isOpen={isOpen}
               onClose={onClose}

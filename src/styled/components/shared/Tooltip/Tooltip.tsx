@@ -14,7 +14,7 @@ interface TooltipProps {
 
 export const Tooltip = ({ children, content }: TooltipProps) => {
   return (
-    <TippyWrapper content={content} arrow={false}>
+    <TippyWrapper content={content} arrow={false} placement="bottom" delay={[200, 0]}>
       {children}
     </TippyWrapper>
   );

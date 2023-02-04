@@ -21,8 +21,4 @@ export const MenuModalItem = ({ children, onClick, ...props }: MenuModalItemProp
 const MenuButton = styled(Button)`
   height: 48px;
   border-bottom: 1px solid ${({ theme }) => theme.border};
-
-  &:last-of-type {
-    border-bottom: none;
-  }
 `;

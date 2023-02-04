@@ -25,7 +25,7 @@ export const NavDrawer = () => {
       <AnimatePresence>
         {isOpen && (
           <Portal rootId="modal">
-            <FocusLock>
+            <FocusLock autoFocus={false}>
               <ModalPanel isOpen={isOpen} onClose={onClose} duration={0.25}>
                 <DrawerWrapper
                   variants={drawerVariants}
