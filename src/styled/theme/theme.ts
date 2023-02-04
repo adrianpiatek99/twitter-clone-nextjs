@@ -11,7 +11,8 @@ const fonts = {
   },
   heading: {
     xs: "font-size: 20px; line-height: 24px;",
-    s: "font-size: 30px; line-height: 38px;"
+    s: "font-size: 25px; line-height: 30px;",
+    m: "font-size: 30px; line-height: 38px;"
   },
   fontFamily: {
     primary: "-apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif",

@@ -28,7 +28,7 @@ const ErrorContent = styled.div`
 
   @media ${({ theme }) => theme.breakpoints.sm} {
     & > span {
-      ${({ theme }) => theme.heading.s}
+      ${({ theme }) => theme.heading.m}
     }
   }
 `;

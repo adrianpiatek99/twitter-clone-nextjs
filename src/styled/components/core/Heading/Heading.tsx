@@ -2,7 +2,7 @@ import type { ComponentPropsWithoutRef } from "react";
 
 import styled, { css } from "styled-components";
 
-type HeadingSize = "xs" | "s";
+type HeadingSize = "xs" | "s" | "m";
 type HeadingTag = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 type HeadingWeight = 300 | 400 | 500 | 600 | 700;
 

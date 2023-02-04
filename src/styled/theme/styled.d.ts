@@ -35,6 +35,7 @@ declare module "styled-components" {
     heading: {
       xs: string;
       s: string;
+      m: string;
     };
     focus: {
       primary: string;
