@@ -14,6 +14,7 @@ interface ButtonLinkProps extends ComponentPropsWithRef<"a"> {
   color?: ButtonColor;
   startIcon?: ReactNode;
   fullWidth?: boolean;
+  textAlign?: "left" | "center";
 }
 
 export const ButtonLink = forwardRef(
@@ -26,6 +27,7 @@ export const ButtonLink = forwardRef(
       color = "primary",
       startIcon,
       fullWidth = false,
+      textAlign = "center",
       ...props
     }: ButtonLinkProps,
     ref: Ref<HTMLAnchorElement>
@@ -37,6 +39,7 @@ export const ButtonLink = forwardRef(
         size={size}
         $color={color}
         $fullWidth={fullWidth}
+        textAlign={textAlign}
         {...props}
         ref={ref}
       >
@@ -56,6 +59,7 @@ const StyledLink = styled(Link)<
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: ${({ textAlign }) => (textAlign === "center" ? "center" : "start")};
   justify-content: center;
   min-width: 36px;
   padding: 0 16px;

@@ -2,34 +2,34 @@ import React from "react";
 import { useState } from "react";
 
 import { Button, LinearProgress } from "components/core";
+import { useLoginStore } from "context/LoginContext";
 import GoogleIcon from "icons/GoogleIcon";
 import { Logo } from "shared/Logo";
 import { Tab, Tabs } from "shared/Tabs";
-import { useAppSelector } from "store/store";
 import styled from "styled-components";
 
-import { DefaultBackgroundGif } from "./DefaultBackgroundGif";
-import { DefaultCurrentTab } from "./DefaultCurrentTab";
-import { DefaultExternalLinks } from "./DefaultExternalLinks";
+import { LoginBackgroundImage } from "./LoginBackgroundImage";
+import { LoginCurrentTab } from "./LoginCurrentTab";
+import { LoginLinks } from "./LoginLinks";
 
-export type DefaultTabs = "sign in" | "sign up";
+export type LoginTabs = "sign in" | "sign up";
 
-const tabs: DefaultTabs[] = ["sign in", "sign up"];
+const tabs: LoginTabs[] = ["sign in", "sign up"];
 
-export const DefaultPageTemplate = () => {
-  const { formLoading } = useAppSelector(state => state.pages.defaultPage);
-  const [currentTab, setCurrentTab] = useState<DefaultTabs>(tabs[0]!);
+export const LoginPage = () => {
+  const [{ isLoading }] = useLoginStore(state => state);
+  const [currentTab, setCurrentTab] = useState<LoginTabs>(tabs[0]!);
 
-  const handleChangeTab = (tab: DefaultTabs) => {
+  const handleChangeTab = (tab: LoginTabs) => {
     setCurrentTab(tab);
   };
 
   return (
     <Wrapper>
       <LeftPanel>
-        <DefaultBackgroundGif withBlur />
+        <LoginBackgroundImage withBlur />
         <Content>
-          {formLoading && <LinearProgress />}
+          {isLoading && <LinearProgress />}
           <Header>
             <Logo size="xl" />
           </Header>
@@ -40,16 +40,16 @@ export const DefaultPageTemplate = () => {
               ))}
             </Tabs>
           </TabGroupWrapper>
-          <DefaultCurrentTab currentTab={currentTab} handleChangeTab={handleChangeTab} />
+          <LoginCurrentTab currentTab={currentTab} handleChangeTab={handleChangeTab} />
           <Button variant="outlined" color="secondary" startIcon={<GoogleIcon />} disabled>
             Sign in with Google
           </Button>
         </Content>
       </LeftPanel>
       <RightPanel>
-        <DefaultBackgroundGif />
+        <LoginBackgroundImage />
       </RightPanel>
-      <DefaultExternalLinks />
+      <LoginLinks />
     </Wrapper>
   );
 };

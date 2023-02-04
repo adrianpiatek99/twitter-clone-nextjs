@@ -16,6 +16,9 @@
       "constants/*": [
         "src/constants/*"
       ],
+      "context/*": [
+        "src/context/*"
+      ],
       "@types/*": [
         "src/@types/*"
       ],

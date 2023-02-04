@@ -46,7 +46,7 @@ export const ConfirmModal = ({
     <Portal rootId="modal">
       <AnimatePresence>
         {isOpen && (
-          <FocusLock>
+          <FocusLock autoFocus={false}>
             <ModalPanel isOpen={isOpen} onClose={onClose}>
               <Content
                 initial="inactive"

@@ -3,6 +3,7 @@ import React, { forwardRef, useMemo } from "react";
 
 import styled, { css, useTheme } from "styled-components";
 
+import { Tooltip } from "..";
 import type { IconButtonColor, IconButtonSize } from "./iconButtonVariants";
 import { getIconButtonColor, iconButtonSizeVariants } from "./iconButtonVariants";
 
@@ -48,21 +49,24 @@ export const IconButton = forwardRef(
     }, [isError, color]);
 
     return (
-      <ButtonElement
-        aria-label={title}
-        title={title}
-        type="button"
-        $color={iconButtonColors}
-        size={size}
-        $isError={isError}
-        $loading={loading}
-        isSelected={isSelected}
-        tabIndex={disableFocus ? -1 : 0}
-        {...props}
-        ref={ref}
-      >
-        {children}
-      </ButtonElement>
+      <>
+        <Tooltip content={title}>
+          <ButtonElement
+            aria-label={title}
+            type="button"
+            $color={iconButtonColors}
+            size={size}
+            $isError={isError}
+            $loading={loading}
+            isSelected={isSelected}
+            tabIndex={disableFocus ? -1 : 0}
+            {...props}
+            ref={ref}
+          >
+            {children}
+          </ButtonElement>
+        </Tooltip>
+      </>
     );
   }
 );

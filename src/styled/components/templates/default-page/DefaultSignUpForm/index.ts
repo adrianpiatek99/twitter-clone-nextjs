@@ -1,1 +1,0 @@
-export { DefaultSignUpForm } from "./DefaultSignUpForm";

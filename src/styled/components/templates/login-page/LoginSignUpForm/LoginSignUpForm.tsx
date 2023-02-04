@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import type { InputType } from "components/core";
 import { Button, Input } from "components/core";
+import { useLoginStore } from "context/LoginContext";
 import { useToasts } from "hooks/useToasts";
 import { signUp } from "network/auth/signUp";
 import {
@@ -16,14 +17,12 @@ import {
   PROFILE_SCREEN_NAME_MAX_LENGTH,
   signUpSchema
 } from "schema/authSchema";
-import { setDefaultPageFormLoading } from "store/slices/pagesSlice";
-import { useAppDispatch } from "store/store";
 import styled from "styled-components";
 
-import type { DefaultTabs } from "../DefaultPage";
+import type { LoginTabs } from "../LoginPage";
 
-interface DefaultSignUpFormProps {
-  handleChangeTab: (tab: DefaultTabs) => void;
+interface LoginSignUpFormProps {
+  handleChangeTab: (tab: LoginTabs) => void;
 }
 
 type InputData = {
@@ -46,30 +45,32 @@ const inputs: InputData[] = [
   }
 ];
 
-export const DefaultSignUpForm = ({ handleChangeTab }: DefaultSignUpFormProps) => {
+export const LoginSignUpForm = ({ handleChangeTab }: LoginSignUpFormProps) => {
+  const [{ isLoading }, setStore] = useLoginStore(store => store);
   const {
     register,
     handleSubmit,
     watch,
+    getValues,
     formState: { errors }
   } = useForm<SignUpValues>({
     resolver: yupResolver(signUpSchema)
   });
   const { handleAddToast } = useToasts();
-  const dispatch = useAppDispatch();
   const signUpMutation = useMutation({
     mutationFn: signUp,
     onMutate: () => {
-      dispatch(setDefaultPageFormLoading(true));
+      setStore({ isLoading: true });
     },
     onError: (error: any) => {
       handleAddToast("error", error?.message);
     },
     onSuccess: () => {
       handleChangeTab("sign in");
+      setStore({ email: getValues("email"), password: getValues("password") });
     },
     onSettled: () => {
-      dispatch(setDefaultPageFormLoading(false));
+      setStore({ isLoading: false });
     }
   });
 
@@ -82,14 +83,14 @@ export const DefaultSignUpForm = ({ handleChangeTab }: DefaultSignUpFormProps) =
       {inputs.map(({ name, ...props }) => (
         <Input
           key={name}
-          {...register(name)}
-          value={watch(name)}
           error={errors[name]?.message}
-          loading={signUpMutation.isLoading}
+          loading={isLoading}
+          value={watch(name)}
           {...props}
+          {...register(name)}
         />
       ))}
-      <Button type="submit" loading={signUpMutation.isLoading}>
+      <Button type="submit" loading={isLoading}>
         Sign Up
       </Button>
     </Form>

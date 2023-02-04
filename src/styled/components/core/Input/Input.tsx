@@ -63,12 +63,12 @@ export const Input = forwardRef(
 
     return (
       <Wrapper $loading={loading} ref={wrapperRef} onClick={setFocus}>
-        {isScreenName && <AtSign isFilled={!!valueLength} />}
+        {isScreenName && <AtSign $isFilled={!!valueLength} />}
         <StyledInput
           id={label}
           type={inputType}
           name={name || label}
-          value={value}
+          value={value ?? ""}
           onChange={e => onValueChange(e.target.value)}
           iconsCount={iconsCount}
           autoComplete="off"
@@ -79,7 +79,7 @@ export const Input = forwardRef(
           {...props}
           ref={ref}
         />
-        <StyledLabel isFilled={!!value} error={!!error}>
+        <StyledLabel $isFilled={!!value} error={!!error}>
           <span>
             {label}
             <InputLengthText color="secondary">{`${valueLength} / ${maxLength}`}</InputLengthText>
@@ -113,12 +113,12 @@ const Wrapper = styled.div<{ $loading: boolean }>`
     `}
 `;
 
-const AtSign = styled(AtSignIcon)<{ isFilled: boolean }>`
+const AtSign = styled(AtSignIcon)<{ $isFilled: boolean }>`
   position: absolute;
   left: 8px;
   bottom: 8px;
   color: ${({ theme }) => theme.neutral300};
-  opacity: ${({ isFilled }) => (isFilled ? 1 : 0)};
+  opacity: ${({ $isFilled }) => ($isFilled ? 1 : 0)};
   pointer-events: none;
   transition: opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1);
 
@@ -127,7 +127,7 @@ const AtSign = styled(AtSignIcon)<{ isFilled: boolean }>`
   }
 `;
 
-const StyledLabel = styled.label<{ isFilled: boolean; error: boolean }>`
+const StyledLabel = styled.label<{ $isFilled: boolean; error: boolean }>`
   position: absolute;
   inset: 0;
   color: ${({ theme }) => theme.neutral300};
@@ -142,8 +142,8 @@ const StyledLabel = styled.label<{ isFilled: boolean; error: boolean }>`
     position: absolute;
     top: 50%;
     transform-origin: left;
-    transform: ${({ isFilled }) =>
-      isFilled ? "translate(-1px, -110%) scale(0.8)" : "translateY(-50%) scale(1)"};
+    transform: ${({ $isFilled }) =>
+      $isFilled ? "translate(-1px, -110%) scale(0.8)" : "translateY(-50%) scale(1)"};
     transition: transform 0.15s;
   }
 

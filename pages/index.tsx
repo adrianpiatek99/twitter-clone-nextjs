@@ -1,11 +1,33 @@
-import { DefaultPageTemplate } from "templates/default-page";
+import LoginContextProvider from "context/LoginContext";
+import type { GetSessionParams } from "next-auth/react";
+import { getSession } from "next-auth/react";
+import { LoginPage } from "templates/login-page";
 
-const DefaultPage = () => {
+const Login = () => {
   return (
     <>
-      <DefaultPageTemplate />
+      <LoginContextProvider>
+        <LoginPage />
+      </LoginContextProvider>
     </>
   );
 };
 
-export default DefaultPage;
+export async function getServerSideProps(context: GetSessionParams) {
+  const session = await getSession(context);
+
+  if (session) {
+    return {
+      redirect: {
+        destination: "/home",
+        permanent: false
+      }
+    };
+  }
+
+  return {
+    props: {}
+  };
+}
+
+export default Login;
