@@ -3,6 +3,7 @@ import React from "react";
 
 import { useAppSession } from "hooks/useAppSession";
 import { useRouter } from "next/router";
+import { AuthenticationBar } from "shared/AuthenticationBar";
 import { Logo } from "shared/Logo";
 import { AuthenticationRequiredModal } from "shared/Modals";
 import { NavBottomBar } from "shared/NavBottomBar";
@@ -38,7 +39,7 @@ const CurrentLayoutPattern = ({ children }: LayoutProps) => {
 
 const Layout = ({ children }: LayoutProps) => {
   const { pathname } = useRouter();
-  const { isSessionLoading } = useAppSession();
+  const { isSessionLoading, isUnauthenticated } = useAppSession();
 
   if (isSessionLoading) {
     return (
@@ -58,14 +59,15 @@ const Layout = ({ children }: LayoutProps) => {
 
   return (
     <Wrapper>
-      <AuthenticationRequiredModal />
-      <NavDrawer />
       <NavSidebar />
+      <NavBottomBar />
+      <NavDrawer />
       <Feed>
         <CurrentLayoutPattern>{children}</CurrentLayoutPattern>
       </Feed>
-      <NavBottomBar />
+      <AuthenticationRequiredModal />
       <Toaster />
+      {isUnauthenticated && <AuthenticationBar />}
     </Wrapper>
   );
 };
