@@ -15,8 +15,8 @@ const fonts = {
     m: "font-size: 30px; line-height: 38px;"
   },
   fontFamily: {
-    primary: "-apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif",
-    secondary: "-apple-system, BlinkMacSystemFont, Open Sans, Helvetica, Arial, sans-serif"
+    primary: "-apple-system, BlinkMacSystemFont, Inter, Helvetica, Arial, sans-serif",
+    secondary: "-apple-system, BlinkMacSystemFont, Inter, Helvetica, Arial, sans-serif"
   }
 };
 
