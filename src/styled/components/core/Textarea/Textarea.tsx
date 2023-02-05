@@ -1,9 +1,11 @@
 import type { ComponentPropsWithRef, Ref } from "react";
+import { useEffect } from "react";
 import React, { forwardRef, useRef } from "react";
 
 import styled from "styled-components";
 
 interface TextareaProps extends ComponentPropsWithRef<"textarea"> {
+  value: string;
   onValueChange?: (value: string) => void;
   placeholder?: string;
   maxLength?: number;
@@ -11,44 +13,33 @@ interface TextareaProps extends ComponentPropsWithRef<"textarea"> {
 
 export const Textarea = forwardRef(
   (
-    { placeholder, onValueChange = () => null, maxLength = 250, ...props }: TextareaProps,
+    { value, placeholder, onValueChange = () => null, maxLength = 250, ...props }: TextareaProps,
     ref: Ref<HTMLTextAreaElement>
   ) => {
     const labelRef = useRef<HTMLLabelElement>(null);
 
-    const handleChange = event => {
-      onValueChange?.(event.target.value);
-      props.onChange?.(event);
+    useEffect(() => {
+      const { current } = labelRef;
 
-      const textareaLineHeight = 24;
-      const minRows = 2;
-      const maxRows = 12;
+      if (current) {
+        const firstChild = current.children[0] as HTMLTextAreaElement;
+        const scrollHeight = firstChild.scrollHeight;
 
-      const previousRows = event.target.rows;
+        firstChild.style.height = scrollHeight + "px";
 
-      event.target.rows = minRows; // reset number of rows in textarea
-
-      const currentRows = ~~(event.target.scrollHeight / textareaLineHeight);
-
-      if (currentRows === previousRows) {
-        event.target.rows = currentRows;
+        return () => {
+          firstChild.style.height = "inherit";
+        };
       }
-
-      if (currentRows >= maxRows) {
-        event.target.rows = maxRows;
-        event.target.scrollTop = event.target.scrollHeight;
-      }
-
-      event.target.rows = currentRows < maxRows ? currentRows : maxRows;
-    };
+    }, [value]);
 
     return (
       <Label ref={labelRef}>
         <StyledTextarea
           placeholder={placeholder}
           maxLength={maxLength}
+          onChange={e => onValueChange(e.target.value)}
           {...props}
-          onChange={e => handleChange(e)}
           ref={ref}
         />
       </Label>
@@ -71,8 +62,6 @@ const StyledTextarea = styled.textarea`
   white-space: pre-wrap;
   user-select: text;
   overflow-wrap: break-word;
-  font-size: 18px;
-  font-weight: 400;
   padding: 2px 0;
   resize: none;
   background-color: ${({ theme }) => theme.background};

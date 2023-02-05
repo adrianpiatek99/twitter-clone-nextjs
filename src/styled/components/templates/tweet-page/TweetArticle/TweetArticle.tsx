@@ -15,15 +15,16 @@ import { TweetArticleToolbar } from "./TweetArticleToolbar";
 interface TweetArticleProps {
   tweetData: TweetData;
   isOwner: boolean;
+  referer: string;
 }
 
-export const TweetArticle = memo(({ isOwner, tweetData }: TweetArticleProps) => {
+export const TweetArticle = memo(({ isOwner, tweetData, referer }: TweetArticleProps) => {
   const { text, createdAt } = tweetData;
-  const { replace } = useRouter();
+  const { push } = useRouter();
   const { handleDeleteTweet, deleteLoading } = useDeleteTweetMutation({
     tweetData,
     onSuccess: () => {
-      replace("/home");
+      push(referer);
     }
   });
   const { handleLikeTweet, likeLoading, unlikeLoading, isLiked } = useLikeTweetMutation({
