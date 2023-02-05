@@ -13,7 +13,11 @@ import { verifyMe } from "utils/session";
 
 import { TweetArticle, TweetArticleSkeleton } from "./TweetArticle";
 
-export const TweetPageTemplate = () => {
+interface TweetPageTemplateProps {
+  referer: string;
+}
+
+export const TweetPageTemplate = ({ referer }: TweetPageTemplateProps) => {
   const { query, back } = useRouter();
   const { session } = useAppSession();
   const [sectionRef] = useAutoAnimate<HTMLTableSectionElement>({ duration: 100 });
@@ -41,7 +45,9 @@ export const TweetPageTemplate = () => {
       ) : (
         <Section ref={sectionRef}>
           {isLoading && <TweetArticleSkeleton />}
-          {!isLoading && data && <TweetArticle isOwner={itsMe} tweetData={data} />}
+          {!isLoading && data && (
+            <TweetArticle isOwner={itsMe} tweetData={data} referer={referer} />
+          )}
         </Section>
       )}
     </Wrapper>
