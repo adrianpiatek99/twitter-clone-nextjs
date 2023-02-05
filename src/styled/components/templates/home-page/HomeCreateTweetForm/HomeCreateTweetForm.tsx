@@ -44,6 +44,7 @@ export const HomeCreateTweetForm = ({
       </LeftColumn>
       <RightColumn>
         <Textarea
+          value={tweetValue}
           placeholder="What's happening?"
           maxLength={TWEET_MAX_LENGTH}
           {...register("text")}
@@ -59,12 +60,16 @@ export const HomeCreateTweetForm = ({
 };
 
 const Wrapper = styled.div`
-  display: flex;
-  gap: 12px;
-  padding: 12px 16px;
-  border-top: 1px solid ${({ theme }) => theme.border};
-  border-bottom: 1px solid ${({ theme }) => theme.border};
-  margin-bottom: 4px;
+  display: none;
+
+  @media ${({ theme }) => theme.breakpoints.sm} {
+    display: flex;
+    gap: 12px;
+    padding: 12px 16px;
+    border-top: 1px solid ${({ theme }) => theme.border};
+    border-bottom: 1px solid ${({ theme }) => theme.border};
+    margin-bottom: 4px;
+  }
 `;
 
 const LeftColumn = styled.div`

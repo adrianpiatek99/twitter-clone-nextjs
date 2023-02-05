@@ -59,6 +59,7 @@ const Wrapper = styled.div`
   min-height: 53px;
   width: 100%;
   padding: 0 16px;
+  overflow: hidden;
 `;
 
 const HeaderTitle = styled.h2`

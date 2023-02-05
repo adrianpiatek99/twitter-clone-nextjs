@@ -10,6 +10,7 @@ import { useAppSession } from "./useAppSession";
 import { useToasts } from "./useToasts";
 
 interface UseCreateTweetMutationProps {
+  onSuccess?: (data: CreateTweetResponse) => void;
   onSettled?: () => void;
 }
 
@@ -18,7 +19,7 @@ export interface UseCreateTweetMutationReturn {
   createTweetLoading: boolean;
 }
 
-export const useCreateTweetMutation = ({ onSettled }: UseCreateTweetMutationProps) => {
+export const useCreateTweetMutation = ({ onSuccess, onSettled }: UseCreateTweetMutationProps) => {
   const queryClient = useQueryClient();
   const { session } = useAppSession();
   const { handleAddToast } = useToasts();
@@ -35,7 +36,9 @@ export const useCreateTweetMutation = ({ onSettled }: UseCreateTweetMutationProp
       updateCache(data, ["tweets", screenName, "infinite"]);
 
       handleAddToast("success", "Tweet was created.");
+      onSuccess?.(data);
     },
+
     onError: error => {
       handleAddToast("error", error?.message);
     },

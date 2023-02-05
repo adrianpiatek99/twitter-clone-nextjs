@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useAppSession } from "hooks/useAppSession";
+import PlusIcon from "icons/PlusIcon";
 import { useRouter } from "next/router";
+import { CreateTweetModal } from "shared/Modals";
 import styled from "styled-components";
 
 import { navBottomBarItems, navBottomBarSignInItem } from "./navBottomBarItems";
@@ -9,7 +11,8 @@ import { NavBottomBarLink } from "./NavBottomBarLink";
 
 export const NavBottomBar = () => {
   const { asPath } = useRouter();
-  const { isAuthenticated } = useAppSession();
+  const { session, isAuthenticated } = useAppSession();
+  const [isCreateTweetModalOpen, setIsCreateTweetModalOpen] = useState(false);
 
   return (
     <Wrapper>
@@ -34,6 +37,21 @@ export const NavBottomBar = () => {
           )}
         </NavList>
       </Content>
+      {session && (
+        <>
+          <CreateTweetButton
+            aria-label="Create tweet"
+            onClick={() => setIsCreateTweetModalOpen(prev => !prev)}
+          >
+            <PlusIcon />
+          </CreateTweetButton>
+          <CreateTweetModal
+            isOpen={isCreateTweetModalOpen}
+            onClose={() => setIsCreateTweetModalOpen(false)}
+            profileImageUrl={session.user.profileImageUrl}
+          />
+        </>
+      )}
     </Wrapper>
   );
 };
@@ -82,4 +100,27 @@ const NavList = styled.nav<{ isAuthenticated: boolean }>`
   justify-content: ${({ isAuthenticated }) => (isAuthenticated ? "space-between" : "space-around")};
   width: 100%;
   height: 100%;
+`;
+
+const CreateTweetButton = styled.button`
+  position: absolute;
+  top: -67px;
+  right: 15px;
+  display: grid;
+  place-items: center;
+  color: ${({ theme }) => theme.white};
+  height: 54px;
+  width: 54px;
+  border-radius: 50%;
+  background-color: ${({ theme }) => theme.primary05};
+  transition: transform 0.2s ease;
+
+  & > svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  &:active {
+    transform: scale(0.8);
+  }
 `;
