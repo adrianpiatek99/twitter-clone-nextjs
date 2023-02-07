@@ -21,7 +21,7 @@ export const Textarea = forwardRef(
     useEffect(() => {
       const { current } = labelRef;
 
-      if (current) {
+      if (current && value) {
         const firstChild = current.children[0] as HTMLTextAreaElement;
         const scrollHeight = firstChild.scrollHeight;
 
@@ -62,7 +62,6 @@ const StyledTextarea = styled.textarea`
   white-space: pre-wrap;
   user-select: text;
   overflow-wrap: break-word;
-  padding: 2px 0;
   resize: none;
   background-color: ${({ theme }) => theme.background};
   color: ${({ theme }) => theme.neutral50};

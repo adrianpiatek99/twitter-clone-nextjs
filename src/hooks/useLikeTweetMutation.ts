@@ -2,17 +2,16 @@ import { useCallback } from "react";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { LikeTweetRequest } from "api/tweet/likeTweet";
-import type { TimelineTweetsResponse, TweetData } from "api/tweet/timelineTweets";
+import type { TweetData } from "api/tweet/timelineTweets";
 import type { AxiosError } from "axios";
 import { likeTweet } from "network/tweet/likeTweet";
 import { unlikeTweet } from "network/tweet/unlikeTweet";
 import { setAuthRequiredModalOpen } from "store/slices/globalSlice";
 import { useAppDispatch } from "store/store";
+import { updateInfiniteTweetsCache, updateTweetCache } from "utils/updateCacheUtils";
 
 import { useAppSession } from "./useAppSession";
 import { useToasts } from "./useToasts";
-
-type Action = "like" | "unlike";
 
 interface UseLikeTweetMutationProps {
   tweetData: TweetData;
@@ -41,9 +40,17 @@ export const useLikeTweetMutation = ({
   >({
     mutationFn: likeTweet,
     onSuccess: () => {
-      updateTweetsCache("like", ["tweets", "infinite"]);
-      updateTweetsCache("like", ["tweets", screenName, "infinite"]);
-      updateTweetCache("like", ["tweet", screenName, tweetId]);
+      const updateTweets = data => {
+        return {
+          ...data,
+          likes: [{ userId: sessionUserId }],
+          _count: { ...data._count, likes: data._count.likes + 1 }
+        };
+      };
+
+      updateInfiniteTweetsCache(queryClient, [], tweetId, updateTweets);
+      updateInfiniteTweetsCache(queryClient, [screenName], tweetId, updateTweets);
+      updateTweetCache(queryClient, [screenName, tweetId], updateTweets);
     },
     onError: error => {
       handleAddToast("error", error.message);
@@ -56,56 +63,22 @@ export const useLikeTweetMutation = ({
   >({
     mutationFn: unlikeTweet,
     onSuccess: () => {
-      updateTweetsCache("unlike", ["tweets", "infinite"]);
-      updateTweetsCache("unlike", ["tweets", screenName, "infinite"]);
-      updateTweetCache("unlike", ["tweet", screenName, tweetId]);
+      const updateTweets = data => {
+        return {
+          ...data,
+          likes: [],
+          _count: { ...data._count, likes: data._count.likes === 0 ? 0 : data._count.likes - 1 }
+        };
+      };
+
+      updateInfiniteTweetsCache(queryClient, [], tweetId, updateTweets);
+      updateInfiniteTweetsCache(queryClient, [screenName], tweetId, updateTweets);
+      updateTweetCache(queryClient, [screenName, tweetId], updateTweets);
     },
     onError: error => {
       handleAddToast("error", error.message);
     }
   });
-
-  const updateTweetsCache = (action: Action, queryKey: string[]) => {
-    queryClient.setQueryData<{ pages: TimelineTweetsResponse[] }>(queryKey, oldData => {
-      if (oldData) {
-        const count = action === "like" ? 1 : -1;
-        const likesArray = action === "like" ? [{ userId: sessionUserId }] : [];
-
-        const newTweets = oldData.pages.map(page => {
-          const tweets = page.tweets.map(tweet => {
-            if (tweet.id === tweetId) {
-              return {
-                ...tweet,
-                likes: likesArray,
-                _count: { likes: tweet._count.likes + count }
-              };
-            }
-
-            return tweet;
-          });
-
-          return { ...page, tweets };
-        });
-
-        return { ...oldData, pages: newTweets };
-      }
-
-      return oldData;
-    });
-  };
-
-  const updateTweetCache = (action: Action, queryKey: string[]) => {
-    queryClient.setQueryData<TweetData>(queryKey, oldData => {
-      if (oldData) {
-        const count = action === "like" ? 1 : -1;
-        const likesArray = action === "like" ? [{ userId: sessionUserId }] : [];
-
-        return { ...oldData, _count: { likes: oldData._count.likes + count }, likes: likesArray };
-      }
-
-      return oldData;
-    });
-  };
 
   const handleLikeTweet = useCallback(() => {
     if (!sessionUserId) {

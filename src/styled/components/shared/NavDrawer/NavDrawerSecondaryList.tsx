@@ -4,7 +4,7 @@ import { ConfirmLogOutModal } from "shared/Modals";
 import styled from "styled-components";
 
 import { NavDrawerItem } from "./NavDrawerItem";
-import { navDrawerLogOutItem } from "./navDrawerItemsHelper";
+import { navDrawerLogOutItem } from "./navDrawerItems";
 
 interface NavDrawerSecondaryListProps {
   onClose: () => void;

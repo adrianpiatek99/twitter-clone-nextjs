@@ -1,26 +1,31 @@
 import React from "react";
 
-import type {
-  TimelineTweetsRequest,
-  TimelineTweetsResponse,
-  TweetData
-} from "api/tweet/timelineTweets";
+import type { RepliesTweetRequest, RepliesTweetResponse } from "api/tweet/repliesTweet";
+import type { ReplyData } from "api/tweet/replyTweet";
 import { Loader } from "components/core";
 import { useInfiniteScrollQuery } from "hooks/useInfiniteScrollQuery";
 import { useVirtualScroll } from "hooks/useVirtualScroll";
-import { timelineTweets } from "network/tweet/timelineTweets";
+import { repliesTweet } from "network/tweet/repliesTweet";
 import { ErrorMessage } from "shared/ErrorMessage";
-import { TweetCell, TweetCellSkeleton } from "shared/TweetCell";
 import styled from "styled-components";
 
-export const HomeTimeline = () => {
+import { TweetReplyCell, TweetReplyCellSkeleton } from "../../shared/TweetReplyCell";
+
+interface TweetRepliesProps {
+  queryTweetId: string;
+}
+
+export const TweetReplies = ({ queryTweetId }: TweetRepliesProps) => {
   const { data, isLoading, isFetching, lastItemRef, hasNextPage, isError, error } =
-    useInfiniteScrollQuery<TimelineTweetsRequest, TimelineTweetsResponse, TweetData>({
-      queryKey: ["tweets"],
-      queryFn: timelineTweets
+    useInfiniteScrollQuery<RepliesTweetRequest, RepliesTweetResponse, ReplyData>({
+      queryKey: ["replies", "tweet", queryTweetId],
+      queryFn: repliesTweet,
+      params: {
+        tweetId: queryTweetId
+      }
     });
-  const { items, measureElement, totalSize } = useVirtualScroll(data, 50);
-  const skeletons = Array(3)
+  const { items, measureElement, totalSize } = useVirtualScroll(data, 600);
+  const skeletons = Array(7)
     .fill("")
     .map((_, i) => i + 1);
 
@@ -29,9 +34,9 @@ export const HomeTimeline = () => {
   }
 
   return (
-    <TweetsSection>
+    <RepliesSection>
       {isLoading ? (
-        skeletons.map(skeleton => <TweetCellSkeleton key={skeleton} isEven={skeleton % 2 === 0} />)
+        skeletons.map(skeleton => <TweetReplyCellSkeleton key={skeleton} />)
       ) : (
         <div
           style={{
@@ -41,31 +46,32 @@ export const HomeTimeline = () => {
           }}
         >
           {items.map(({ index, start }) => {
-            const tweet = data[index] as TweetData;
+            const reply = data[index] as ReplyData;
 
             return (
-              <TweetCell
-                key={tweet.id}
-                ref={measureElement}
+              <TweetReplyCell
+                key={index}
                 data-index={index}
-                tweetData={tweet}
+                ref={measureElement}
                 start={start}
+                replyData={reply}
               />
             );
           })}
         </div>
       )}
+
       {isFetching && !isLoading && (
         <LoaderWrapper additionalPadding>
           <Loader center />
         </LoaderWrapper>
       )}
       {hasNextPage && !isLoading && <LoadMoreItems ref={lastItemRef} />}
-    </TweetsSection>
+    </RepliesSection>
   );
 };
 
-const TweetsSection = styled.section`
+const RepliesSection = styled.section`
   position: relative;
   display: flex;
   flex-direction: column;

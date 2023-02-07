@@ -12,6 +12,7 @@ import styled from "styled-components";
 import { verifyMe } from "utils/session";
 
 import { TweetArticle, TweetArticleSkeleton } from "./TweetArticle";
+import { TweetReplies } from "./TweetReplies";
 
 interface TweetPageTemplateProps {
   referer: string;
@@ -50,6 +51,7 @@ export const TweetPageTemplate = ({ referer }: TweetPageTemplateProps) => {
           )}
         </Section>
       )}
+      {!!data && <TweetReplies queryTweetId={queryTweetId} />}
     </Wrapper>
   );
 };

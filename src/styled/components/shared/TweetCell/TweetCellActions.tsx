@@ -6,22 +6,22 @@ import MoreHorizontalIcon from "icons/MoreHorizontalIcon";
 import styled from "styled-components";
 import { getRelativeTime } from "utils/timeUtils";
 
-import { TweetCardMenu } from "./TweetCardMenu";
+import { TweetCellMenuModal } from "./Modals";
 
-interface TweetCardActionsProps {
+interface TweetCellActionsProps {
   isOwner: boolean;
   author: TweetData["author"];
   createdAt: TweetData["createdAt"];
   handleDeleteTweet: () => void;
 }
 
-export const TweetCardActions = memo(
+export const TweetCellActions = memo(
   ({
     isOwner,
     author: { name, screenName },
     createdAt,
     handleDeleteTweet
-  }: TweetCardActionsProps) => {
+  }: TweetCellActionsProps) => {
     const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
 
     const handleToggleMenuModal = useCallback(() => setIsMenuModalOpen(prev => !prev), []);
@@ -44,10 +44,10 @@ export const TweetCardActions = memo(
         </LeftColumn>
         {isOwner && (
           <RightColumn>
-            <IconButton onClick={handleToggleMenuModal} color="secondary">
+            <IconButton title="More" onClick={handleToggleMenuModal} color="secondary">
               <MoreHorizontalIcon />
             </IconButton>
-            <TweetCardMenu
+            <TweetCellMenuModal
               isOwner={isOwner}
               isOpen={isMenuModalOpen}
               onClose={() => setIsMenuModalOpen(false)}

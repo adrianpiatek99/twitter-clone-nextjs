@@ -32,8 +32,8 @@ export const useCreateTweetMutation = ({ onSuccess, onSettled }: UseCreateTweetM
   >({
     mutationFn: createTweet,
     onSuccess: data => {
-      updateCache(data, ["tweets", "infinite"]);
-      updateCache(data, ["tweets", screenName, "infinite"]);
+      addTweetToCache(data, ["tweets", "infinite"]);
+      addTweetToCache(data, ["tweets", screenName, "infinite"]);
 
       handleAddToast("success", "Tweet was created.");
       onSuccess?.(data);
@@ -47,23 +47,21 @@ export const useCreateTweetMutation = ({ onSuccess, onSettled }: UseCreateTweetM
     }
   });
 
-  const updateCache = (data: TweetData, queryKey: string[]) => {
+  const addTweetToCache = (data: TweetData, queryKey: string[]) => {
     queryClient.setQueryData<{ pages: TimelineTweetsResponse[] }>(queryKey, oldData => {
-      if (oldData) {
-        const newTweets = oldData.pages.map((page, index) => {
-          if (index === 0) {
-            const tweets = [data, ...page.tweets];
+      if (!oldData) return oldData;
 
-            return { ...page, tweets };
-          }
-
-          return page;
-        });
-
-        return { ...oldData, pages: newTweets };
-      }
-
-      return oldData;
+      return {
+        ...oldData,
+        pages: oldData.pages.map((page, index) =>
+          index === 0
+            ? {
+                ...page,
+                tweets: [data, ...page.tweets]
+              }
+            : page
+        )
+      };
     });
   };
 

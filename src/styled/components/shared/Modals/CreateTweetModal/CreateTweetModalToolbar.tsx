@@ -1,6 +1,6 @@
 import React from "react";
 
-import { IconButton } from "components/core";
+import { IconButton, Text } from "components/core";
 import EmojiSmileIcon from "icons/EmojiSmileIcon";
 import MediaIcon from "icons/MediaIcon";
 import { TWEET_MAX_LENGTH } from "schema/tweetSchema";
@@ -23,9 +23,9 @@ export const CreateTweetModalToolbar = ({ tweetLength }: CreateTweetModalToolbar
       </ToolbarLeftColumn>
       <ToolbarRightColumn>
         {!!tweetLength && (
-          <TweetLength>
+          <Text size="s" color="secondary">
             {tweetLength} / {TWEET_MAX_LENGTH}
-          </TweetLength>
+          </Text>
         )}
       </ToolbarRightColumn>
     </Toolbar>
@@ -51,9 +51,4 @@ const ToolbarRightColumn = styled.div`
   display: flex;
   align-items: center;
   gap: 0 15px;
-`;
-
-const TweetLength = styled.span`
-  color: ${({ theme }) => theme.neutral300};
-  ${({ theme }) => theme.text.s}
 `;

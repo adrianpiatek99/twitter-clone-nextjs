@@ -10,18 +10,18 @@ import { Avatar } from "shared/Avatar";
 import { Skeleton } from "shared/Skeleton";
 import styled, { css } from "styled-components";
 
-import { TweetCardActions } from "./TweetCardActions";
-import { TweetCardToolbar } from "./TweetCardToolbar";
+import { TweetCellActions } from "./TweetCellActions";
+import { TweetCellToolbar } from "./TweetCellToolbar";
 
-interface TweetCardProps extends Omit<ComponentPropsWithRef<"article">, "id"> {
+interface TweetCellProps extends Omit<ComponentPropsWithRef<"article">, "id"> {
   isProfile?: boolean;
   start: number;
   tweetData: TweetData;
 }
 
-export const TweetCard = memo(
-  forwardRef(({ tweetData, start, ...props }: TweetCardProps, ref: Ref<HTMLDivElement>) => {
-    const { id, text, author, createdAt, _count, authorId } = tweetData;
+export const TweetCell = memo(
+  forwardRef(({ tweetData, start, ...props }: TweetCellProps, ref: Ref<HTMLDivElement>) => {
+    const { id, text, author, createdAt, authorId } = tweetData;
     const { session } = useAppSession();
     const { screenName, profileImageUrl } = author;
     const isOwner = session?.user.id === authorId;
@@ -52,7 +52,7 @@ export const TweetCard = memo(
         <Inner isLoading={deleteLoading}>
           <StyledAvatar src={profileImageUrl} screenName={screenName} size="large" />
           <RightColumn>
-            <TweetCardActions
+            <TweetCellActions
               isOwner={isOwner}
               author={author}
               createdAt={createdAt}
@@ -62,8 +62,8 @@ export const TweetCard = memo(
               <TweetText>
                 <Text truncate>{text}</Text>
               </TweetText>
-              <TweetCardToolbar
-                count={_count}
+              <TweetCellToolbar
+                tweetData={tweetData}
                 isLiked={isLiked}
                 isLoading={likeLoading || unlikeLoading}
                 handleLikeTweet={handleLikeTweet}

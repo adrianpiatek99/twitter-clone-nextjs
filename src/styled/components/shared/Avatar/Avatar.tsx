@@ -62,7 +62,7 @@ export const Avatar = memo(
 
     if (href) {
       return (
-        <StyledLink href={href} onClick={onClick} tabIndex={disableFocus ? -1 : 0} {...props}>
+        <StyledLink href={href} tabIndex={disableFocus || onClick ? -1 : 0} {...props}>
           <AvatarComponent />
         </StyledLink>
       );

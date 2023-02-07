@@ -16,6 +16,10 @@ import { NavSidebarProfile } from "./NavSidebarProfile";
 export const NavSidebar = () => {
   const { session, isAuthenticated } = useAppSession();
   const { pathname, asPath } = useRouter();
+  const isProfileItemActive =
+    pathname.includes(navSidebarProfileItem.href) &&
+    asPath.includes(session?.user.screenName ?? "") &&
+    !pathname.includes("tweet");
 
   return (
     <Container>
@@ -42,7 +46,7 @@ export const NavSidebar = () => {
                     <NavSidebarItem
                       {...navSidebarProfileItem}
                       href={`/${session.user.screenName}`}
-                      active={pathname.includes(navSidebarProfileItem.href)}
+                      active={isProfileItemActive}
                     />
                   )}
                 </>

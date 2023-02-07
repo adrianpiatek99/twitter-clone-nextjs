@@ -7,7 +7,7 @@ type TweetLike = { likes: Pick<Like, "userId">[] };
 
 type TweetAuthor = { author: Pick<User, "id" | "name" | "screenName" | "profileImageUrl"> };
 
-type TweetCount = { _count: { likes: number } };
+type TweetCount = { _count: { likes: number; replies: number } };
 
 export type TweetData = Tweet & TweetAuthor & TweetLike & TweetCount;
 
@@ -50,7 +50,8 @@ const handler: NextApiHandler<TimelineTweetsResponse | NextApiError> = async (re
         },
         _count: {
           select: {
-            likes: true
+            likes: true,
+            replies: true
           }
         }
       }

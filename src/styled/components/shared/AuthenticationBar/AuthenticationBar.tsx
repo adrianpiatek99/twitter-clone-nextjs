@@ -51,9 +51,9 @@ const Bar = styled.div`
     padding: 12px 32px;
     background-color: ${({ theme }) => theme.primary05};
     border-radius: 16px 16px 0px 0px;
-    box-shadow: ${({ theme }) => hexToRGBA(theme.white, 0.2)} 0px 0px 15px,
-      ${({ theme }) => hexToRGBA(theme.white, 0.15)} 0px 0px 3px 1px;
-    opacity: 0.95;
+    box-shadow: ${({ theme }) => hexToRGBA(theme.white, 0.15)} 0px 0px 15px,
+      ${({ theme }) => hexToRGBA(theme.white, 0.1)} 0px 0px 3px 1px;
+    opacity: 0.97;
   }
 `;
 

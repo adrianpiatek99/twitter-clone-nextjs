@@ -50,7 +50,8 @@ export const handler: NextApiHandler<UserTweetsResponse | NextApiError> = async 
         },
         _count: {
           select: {
-            likes: true
+            likes: true,
+            replies: true
           }
         }
       }
