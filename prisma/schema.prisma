@@ -46,39 +46,39 @@ enum Role {
 }
 
 model User {
-  id               String         @id @default(cuid())
+  id               String       @id @default(cuid())
   name             String
-  screenName       String         @unique
-  email            String         @unique
+  screenName       String       @unique
+  email            String       @unique
   password         String
-  profileImageUrl  String         @default("")
-  profileBannerUrl String         @default("")
-  description      String         @default("")
+  profileImageUrl  String       @default("")
+  profileBannerUrl String       @default("")
+  description      String       @default("")
   url              String?
   emailVerified    DateTime?
-  role             Role           @default(USER)
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
+  role             Role         @default(USER)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
   accounts         Account[]
   sessions         Session[]
   tweets           Tweet[]
-  tweetComments    TweetComment[]
+  replies          TweetReply[]
   likes            Like[]
-  followedBy       Follows[]      @relation("following")
-  following        Follows[]      @relation("follower")
+  followedBy       Follows[]    @relation("following")
+  following        Follows[]    @relation("follower")
 }
 
 model Tweet {
-  id            String         @id @default(cuid())
-  text          String
-  author        User           @relation(fields: [authorId], references: [id])
-  authorId      String
-  imageUrls     String[]
-  hashtags      String[]
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  tweetComments TweetComment[]
-  likes         Like[]
+  id        String       @id @default(cuid())
+  text      String
+  author    User         @relation(fields: [authorId], references: [id])
+  authorId  String
+  imageUrls String[]
+  hashtags  String[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  replies   TweetReply[]
+  likes     Like[]
 
   @@unique([id, authorId])
 }
@@ -94,13 +94,13 @@ model Like {
   @@unique([tweetId, userId])
 }
 
-model TweetComment {
+model TweetReply {
   id        String   @id @default(cuid())
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
   tweet     Tweet    @relation(fields: [tweetId], references: [id])
   tweetId   String
-  message   String
+  text      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
