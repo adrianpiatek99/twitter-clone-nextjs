@@ -93,10 +93,6 @@ const Content = styled.div`
 const ProfileNamesRow = styled.div`
   display: flex;
   flex-direction: column;
-
-  & * {
-    width: 100%;
-  }
 `;
 
 const FollowsRow = styled.div`
@@ -111,6 +107,16 @@ const FollowLink = styled(Link)`
 
   & > span:last-of-type {
     color: ${({ theme }) => theme.neutral300};
+  }
+
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      text-decoration: underline;
+    }
+  }
+
+  &:focus-visible {
+    text-decoration: underline;
   }
 `;
 

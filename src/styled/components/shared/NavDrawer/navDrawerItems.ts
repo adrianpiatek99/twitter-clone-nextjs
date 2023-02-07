@@ -1,6 +1,5 @@
 import type { IconType } from "react-icons";
 
-import BookmarkOutlinedIcon from "icons/BookmarkOutlinedIcon";
 import LogoutIcon from "icons/LogoutIcon";
 import PersonOutlinedIcon from "icons/PersonOutlinedIcon";
 
@@ -20,11 +19,3 @@ export const navDrawerLogOutItem: NavDrawerItemType = {
   text: "Log out",
   icon: LogoutIcon
 };
-
-export const navDrawerPrimaryItems: NavDrawerItemType[] = [
-  {
-    text: "Bookmarks",
-    href: "/bookmarks",
-    icon: BookmarkOutlinedIcon
-  }
-];

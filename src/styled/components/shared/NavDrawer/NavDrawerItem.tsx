@@ -4,7 +4,7 @@ import React from "react";
 import { Button } from "components/core";
 import styled from "styled-components";
 
-import type { NavDrawerItemType } from "./navDrawerItemsHelper";
+import type { NavDrawerItemType } from "./navDrawerItems";
 
 type NavDrawerItemProps = NavDrawerItemType & ComponentPropsWithoutRef<typeof Button>;
 
