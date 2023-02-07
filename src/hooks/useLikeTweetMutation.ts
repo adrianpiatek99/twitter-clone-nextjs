@@ -77,7 +77,7 @@ export const useLikeTweetMutation = ({
               return {
                 ...tweet,
                 likes: likesArray,
-                _count: { likes: tweet._count.likes + count }
+                _count: { ...tweet._count, likes: tweet._count.likes + count }
               };
             }
 
@@ -100,7 +100,11 @@ export const useLikeTweetMutation = ({
         const count = action === "like" ? 1 : -1;
         const likesArray = action === "like" ? [{ userId: sessionUserId }] : [];
 
-        return { ...oldData, _count: { likes: oldData._count.likes + count }, likes: likesArray };
+        return {
+          ...oldData,
+          _count: { ...oldData._count, likes: oldData._count.likes + count },
+          likes: likesArray
+        };
       }
 
       return oldData;

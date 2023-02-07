@@ -53,7 +53,8 @@ const handler: NextApiHandler<CreateTweetResponse | NextApiError> = async (req, 
         },
         _count: {
           select: {
-            likes: true
+            likes: true,
+            replies: true
           }
         }
       }
