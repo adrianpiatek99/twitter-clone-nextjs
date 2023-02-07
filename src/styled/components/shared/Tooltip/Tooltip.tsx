@@ -1,20 +1,29 @@
 import "tippy.js/dist/tippy.css";
 
-import type { ReactElement } from "react";
+import type { ComponentPropsWithoutRef, ReactElement } from "react";
 import React from "react";
 
 import Tippy from "@tippyjs/react";
 import styled from "styled-components";
 import { hexToRGBA } from "utils/colors";
 
-interface TooltipProps {
+interface TooltipProps extends Omit<ComponentPropsWithoutRef<typeof Tippy>, "theme"> {
   children: ReactElement;
   content: string;
 }
 
-export const Tooltip = ({ children, content }: TooltipProps) => {
+export const Tooltip = ({ children, content, ...props }: TooltipProps) => {
   return content ? (
-    <TippyWrapper content={content} arrow={false} placement="bottom" delay={[200, 0]}>
+    <TippyWrapper
+      hideOnClick
+      content={content}
+      arrow={false}
+      touch={["hold", 200]}
+      placement="bottom"
+      delay={[200, 0]}
+      offset={[0, 7]}
+      {...props}
+    >
       {children}
     </TippyWrapper>
   ) : (
