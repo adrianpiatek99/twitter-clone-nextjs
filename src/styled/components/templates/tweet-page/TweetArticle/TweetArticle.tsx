@@ -57,6 +57,7 @@ export const TweetArticle = memo(({ isOwner, tweetData, referer }: TweetArticleP
           </TimeRow>
           <TweetArticleStats tweetData={tweetData} />
           <TweetArticleToolbar
+            tweetData={tweetData}
             handleLikeTweet={handleLikeTweet}
             isLoading={likeLoading || unlikeLoading}
             isLiked={isLiked}

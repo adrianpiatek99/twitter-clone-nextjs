@@ -8,15 +8,25 @@ interface TweetArticleStatsProps {
   tweetData: TweetData;
 }
 
-export const TweetArticleStats = memo(({ tweetData: { _count } }: TweetArticleStatsProps) => {
-  const likeCount = _count.likes;
-  const showStats = !!likeCount;
+export const TweetArticleStats = memo(({ tweetData }: TweetArticleStatsProps) => {
+  const {
+    _count: { replies, likes }
+  } = tweetData;
+  const showStats = !!likes || !!replies;
 
   return showStats ? (
     <Wrapper>
-      {!!likeCount && (
+      {!!replies && (
         <LikeCountRow>
-          <Text weight={700}>{likeCount} </Text>
+          <Text weight={700}>{replies} </Text>
+          <Text color="secondary" weight={500}>
+            Replies
+          </Text>
+        </LikeCountRow>
+      )}
+      {!!likes && (
+        <LikeCountRow>
+          <Text weight={700}>{likes} </Text>
           <Text color="secondary" weight={500}>
             Likes
           </Text>
@@ -30,7 +40,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   flex-grow: 1;
-  gap: 16px;
+  gap: 8px 16px;
   padding: 12px 4px;
   border-top: 1px solid ${({ theme }) => theme.border};
   border-bottom: 1px solid ${({ theme }) => theme.border};
