@@ -1,7 +1,7 @@
 import React from "react";
 
 import type { UserData } from "api/user/userByScreenName";
-import { ProfileFollowersTimeline } from "templates/profile-follows-page";
+import { ProfileFollowersTimeline } from "templates/follows-page";
 
 export interface ProfileFollowersPageProps {
   userData: UserData;

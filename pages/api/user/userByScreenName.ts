@@ -47,7 +47,7 @@ const handler: NextApiHandler<UserByScreenNameResponse | NextApiError> = async (
     });
 
     if (!user) {
-      return res.status(404).send({ error: "User does not exist." });
+      return res.status(404).send({ error: "This account doesn’t exist" });
     }
 
     const userWithoutSpecificFields = exclude(user, ["password", "email"]);

@@ -6,7 +6,7 @@ import { Loader } from "components/core";
 import { useInfiniteScrollQuery } from "hooks/useInfiniteScrollQuery";
 import { useVirtualScroll } from "hooks/useVirtualScroll";
 import { repliesTweet } from "network/tweet/repliesTweet";
-import { ErrorMessage } from "shared/ErrorMessage";
+import { EmptyMessage, ErrorMessage } from "shared/Messages";
 import styled from "styled-components";
 
 import { TweetReplyCell, TweetReplyCellSkeleton } from "../../shared/TweetReplyCell";
@@ -30,7 +30,11 @@ export const TweetReplies = ({ queryTweetId }: TweetRepliesProps) => {
     .map((_, i) => i + 1);
 
   if (isError) {
-    return <ErrorMessage message={error.message} />;
+    return <ErrorMessage title={error.message} />;
+  }
+
+  if (!isLoading && data.length === 0) {
+    return <EmptyMessage text="Lack of replies" />;
   }
 
   return (

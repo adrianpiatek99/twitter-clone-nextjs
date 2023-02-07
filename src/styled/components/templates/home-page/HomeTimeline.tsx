@@ -9,7 +9,7 @@ import { Loader } from "components/core";
 import { useInfiniteScrollQuery } from "hooks/useInfiniteScrollQuery";
 import { useVirtualScroll } from "hooks/useVirtualScroll";
 import { timelineTweets } from "network/tweet/timelineTweets";
-import { ErrorMessage } from "shared/ErrorMessage";
+import { ErrorMessage } from "shared/Messages";
 import { TweetCell, TweetCellSkeleton } from "shared/TweetCell";
 import styled from "styled-components";
 
@@ -25,7 +25,7 @@ export const HomeTimeline = () => {
     .map((_, i) => i + 1);
 
   if (isError) {
-    return <ErrorMessage message={error.message} />;
+    return <ErrorMessage title={error.message} />;
   }
 
   return (

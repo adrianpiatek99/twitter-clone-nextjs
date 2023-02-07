@@ -36,7 +36,7 @@ export const TweetArticleToolbar = memo(
 
     return (
       <Wrapper>
-        <IconButton onClick={handleOpenReplyModal} color="secondary">
+        <IconButton title="Reply" onClick={handleOpenReplyModal} color="secondary">
           <MessageIcon />
         </IconButton>
         <IconButton
