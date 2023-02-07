@@ -7,7 +7,7 @@ import { useInfiniteScrollQuery } from "hooks/useInfiniteScrollQuery";
 import { useVirtualScroll } from "hooks/useVirtualScroll";
 import { userTweets } from "network/tweet/userTweets";
 import type { ProfilePageProps } from "pages/[screenName]";
-import { ErrorMessage } from "shared/ErrorMessage";
+import { EmptyMessage, ErrorMessage } from "shared/Messages";
 import { TweetCell, TweetCellSkeleton } from "shared/TweetCell";
 import styled from "styled-components";
 
@@ -26,7 +26,11 @@ export const ProfileTimeline = ({ userData: { id: userId, screenName } }: Profil
     .map((_, i) => i + 1);
 
   if (isError) {
-    return <ErrorMessage message={error.message} />;
+    return <ErrorMessage title={error.message} />;
+  }
+
+  if (!isLoading && data.length === 0) {
+    return <EmptyMessage text="Lack of tweets" />;
   }
 
   return (

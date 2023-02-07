@@ -3,7 +3,7 @@ import { Children, cloneElement, isValidElement } from "react";
 import React from "react";
 
 import { useUserByScreenNameQuery } from "hooks/useUserByScreenNameQuery";
-import { ErrorMessage } from "shared/ErrorMessage";
+import { ErrorMessage } from "shared/Messages";
 import styled from "styled-components";
 
 import { ProfileFollowsTopBar } from "./ProfileFollowsTopBar";
@@ -33,7 +33,7 @@ export const ProfileFollowsLayout = ({ children }: ProfileFollowsLayoutProps) =>
         queryScreenName={queryScreenName}
       />
       {isError ? (
-        <ErrorMessage message={error?.message} />
+        <ErrorMessage title={error?.message} text="Try searching for another." />
       ) : (
         !userLoading && <Content>{childrenWithProps}</Content>
       )}

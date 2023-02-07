@@ -47,6 +47,7 @@ export const HomeCreateTweetForm = ({
           value={tweetValue}
           placeholder="What's happening?"
           maxLength={TWEET_MAX_LENGTH}
+          disabled={createTweetLoading}
           {...register("text")}
         />
         <HomeCreateTweetToolbar

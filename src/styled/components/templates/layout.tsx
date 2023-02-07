@@ -12,7 +12,7 @@ import { NavSidebar } from "shared/NavSidebar";
 import { Toaster } from "shared/Toast";
 import styled, { keyframes } from "styled-components";
 
-import { ProfileFollowsLayout } from "./profile-follows-page";
+import { ProfileFollowsLayout } from "./follows-page";
 import { ProfileLayout } from "./profile-page";
 
 interface LayoutProps {

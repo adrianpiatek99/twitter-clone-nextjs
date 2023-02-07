@@ -6,7 +6,7 @@ import { useAutoAnimate } from "hooks/useAutoAnimate";
 import { useTweetDetailsQuery } from "hooks/useTweetDetailsQuery";
 import BackIcon from "icons/BackIcon";
 import { useRouter } from "next/router";
-import { ErrorMessage } from "shared/ErrorMessage";
+import { ErrorMessage } from "shared/Messages";
 import { TopBar, TopBarHeading } from "shared/TopBar";
 import styled from "styled-components";
 import { verifyMe } from "utils/session";
@@ -42,7 +42,7 @@ export const TweetPageTemplate = ({ referer }: TweetPageTemplateProps) => {
         <TopBarHeading title={"Tweet"} />
       </TopBar>
       {isError ? (
-        <ErrorMessage message={error.message} />
+        <ErrorMessage title={error.message} />
       ) : (
         <Section ref={sectionRef}>
           {isLoading && <TweetArticleSkeleton />}

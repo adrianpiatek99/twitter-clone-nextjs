@@ -5,7 +5,7 @@ import React, { Children, cloneElement, isValidElement } from "react";
 
 import { Text } from "components/core";
 import { useUserByScreenNameQuery } from "hooks/useUserByScreenNameQuery";
-import { ErrorMessage } from "shared/ErrorMessage";
+import { ErrorMessage } from "shared/Messages";
 import styled from "styled-components";
 import { reloadSession } from "utils/session";
 
@@ -52,7 +52,7 @@ export const ProfileLayout = memo(({ children }: ProfileLayoutProps) => {
             <Text size="xl" weight={700}>
               @{queryScreenName}
             </Text>
-            <ErrorMessage message={error?.message} />
+            <ErrorMessage title={error?.message} text="Try searching for another." />
           </>
         ) : (
           <ProfileInformation userData={userData} isLoading={userLoading} />

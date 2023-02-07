@@ -6,7 +6,7 @@ import { useInfiniteScrollQuery } from "hooks/useInfiniteScrollQuery";
 import { useVirtualScroll } from "hooks/useVirtualScroll";
 import { followers } from "network/user/followers";
 import type { ProfileFollowersPageProps } from "pages/[screenName]/followers";
-import { ErrorMessage } from "shared/ErrorMessage";
+import { ErrorMessage } from "shared/Messages";
 import styled from "styled-components";
 
 import { FollowCell, FollowCellSkeleton } from "./FollowCell";
@@ -29,7 +29,7 @@ export const ProfileFollowersTimeline = ({ userData }: ProfileFollowersTimelineP
     .map((_, i) => i + 1);
 
   if (isError) {
-    return <ErrorMessage message={error.message} />;
+    return <ErrorMessage title={error.message} />;
   }
 
   return (
