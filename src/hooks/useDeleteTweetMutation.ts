@@ -46,15 +46,15 @@ export const useDeleteTweetMutation = ({
 
   const updateCache = (queryKey: string[]) => {
     queryClient.setQueryData<{ pages: TimelineTweetsResponse[] }>(queryKey, oldData => {
-      if (oldData) {
-        const newTweets = oldData.pages.map(page => {
-          return { ...page, tweets: page.tweets.filter(tweet => tweet.id !== tweetId) };
-        });
+      if (!oldData) return oldData;
 
-        return { ...oldData, pages: newTweets };
-      }
-
-      return oldData;
+      return {
+        ...oldData,
+        pages: oldData.pages.map(page => ({
+          ...page,
+          tweets: page.tweets.filter(tweet => tweet.id !== tweetId)
+        }))
+      };
     });
   };
 
