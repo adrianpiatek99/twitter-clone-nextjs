@@ -15,6 +15,7 @@ interface TextProps extends ComponentPropsWithoutRef<"span"> {
   size?: TextSize;
   weight?: TextWeight;
   color?: Color;
+  customColor?: string;
   truncate?: boolean;
   href?: string;
   breakWord?: boolean;
@@ -26,6 +27,7 @@ export const Text = memo(
     weight = 400,
     size = "m",
     color = "primary",
+    customColor,
     href,
     truncate = false,
     breakWord = false,
@@ -35,6 +37,7 @@ export const Text = memo(
       weight,
       size,
       color,
+      customColor,
       $truncate: truncate,
       $breakWord: breakWord,
       ...props
@@ -56,12 +59,14 @@ type SharedProps = {
   size: TextSize;
   weight: TextWeight;
   color: Color;
+  customColor?: string;
   $truncate: boolean;
   $breakWord: boolean;
 };
 
 const sharedStyles = css<SharedProps>`
-  color: ${({ theme, color }) => (color === "secondary" ? theme.neutral300 : theme.neutral50)};
+  color: ${({ theme, color, customColor }) =>
+    customColor ? customColor : color === "secondary" ? theme.neutral300 : theme.neutral50};
   font-weight: ${({ weight }) => weight};
   ${({ theme, size }) => theme.text[size]};
   word-break: ${({ $breakWord }) => $breakWord && "break-word"};
