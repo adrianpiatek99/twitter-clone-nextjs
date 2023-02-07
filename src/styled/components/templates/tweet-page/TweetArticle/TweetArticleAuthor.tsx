@@ -4,7 +4,7 @@ import type { TweetData } from "api/tweet/timelineTweets";
 import { IconButton, Text } from "components/core";
 import MoreHorizontalIcon from "icons/MoreHorizontalIcon";
 import { Avatar } from "shared/Avatar";
-import { TweetCardMenu } from "shared/TweetCard/TweetCardMenu";
+import { TweetCellMenuModal } from "shared/TweetCell";
 import styled from "styled-components";
 
 interface TweetArticleAuthorProps {
@@ -41,7 +41,7 @@ export const TweetArticleAuthor = memo(
             <IconButton onClick={() => setIsMenuModalOpen(prev => !prev)} color="secondary">
               <MoreHorizontalIcon />
             </IconButton>
-            <TweetCardMenu
+            <TweetCellMenuModal
               isOwner={isOwner}
               isOpen={isMenuModalOpen}
               onClose={() => setIsMenuModalOpen(false)}

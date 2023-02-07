@@ -10,7 +10,7 @@ import { useInfiniteScrollQuery } from "hooks/useInfiniteScrollQuery";
 import { useVirtualScroll } from "hooks/useVirtualScroll";
 import { timelineTweets } from "network/tweet/timelineTweets";
 import { ErrorMessage } from "shared/ErrorMessage";
-import { TweetCard, TweetCardSkeleton } from "shared/TweetCard";
+import { TweetCell, TweetCellSkeleton } from "shared/TweetCell";
 import styled from "styled-components";
 
 export const HomeTimeline = () => {
@@ -31,7 +31,7 @@ export const HomeTimeline = () => {
   return (
     <TweetsSection>
       {isLoading ? (
-        skeletons.map(skeleton => <TweetCardSkeleton key={skeleton} isEven={skeleton % 2 === 0} />)
+        skeletons.map(skeleton => <TweetCellSkeleton key={skeleton} isEven={skeleton % 2 === 0} />)
       ) : (
         <div
           style={{
@@ -44,7 +44,7 @@ export const HomeTimeline = () => {
             const tweet = data[index] as TweetData;
 
             return (
-              <TweetCard
+              <TweetCell
                 key={tweet.id}
                 ref={measureElement}
                 data-index={index}

@@ -4,15 +4,15 @@ import { MenuModal, MenuModalItem } from "components/core";
 import TrashIcon from "icons/TrashIcon";
 import { ConfirmDeleteTweetModal } from "shared/Modals";
 
-interface TweetCardMenuProps {
+interface TweetCellMenuModalProps {
   isOpen: boolean;
   isOwner: boolean;
   onClose: () => void;
   handleDeleteTweet: () => void;
 }
 
-export const TweetCardMenu = memo(
-  ({ isOpen, isOwner, onClose, handleDeleteTweet }: TweetCardMenuProps) => {
+export const TweetCellMenuModal = memo(
+  ({ isOpen, isOwner, onClose, handleDeleteTweet }: TweetCellMenuModalProps) => {
     const [isDeleteTweetModalOpen, setIsDeleteTweetModalOpen] = useState(false);
 
     const handleClickDeleteTweet = () => {

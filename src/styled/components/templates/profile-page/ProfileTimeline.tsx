@@ -8,7 +8,7 @@ import { useVirtualScroll } from "hooks/useVirtualScroll";
 import { userTweets } from "network/tweet/userTweets";
 import type { ProfilePageProps } from "pages/[screenName]";
 import { ErrorMessage } from "shared/ErrorMessage";
-import { TweetCard, TweetCardSkeleton } from "shared/TweetCard";
+import { TweetCell, TweetCellSkeleton } from "shared/TweetCell";
 import styled from "styled-components";
 
 export const ProfileTimeline = ({ userData: { id: userId, screenName } }: ProfilePageProps) => {
@@ -26,13 +26,13 @@ export const ProfileTimeline = ({ userData: { id: userId, screenName } }: Profil
     .map((_, i) => i + 1);
 
   if (isError) {
-    return <ErrorMessage message={error?.message} />;
+    return <ErrorMessage message={error.message} />;
   }
 
   return (
     <TweetsSection>
       {isLoading ? (
-        skeletons.map(skeleton => <TweetCardSkeleton key={skeleton} isEven={skeleton % 2 === 0} />)
+        skeletons.map(skeleton => <TweetCellSkeleton key={skeleton} isEven={skeleton % 2 === 0} />)
       ) : (
         <div
           style={{
@@ -45,7 +45,7 @@ export const ProfileTimeline = ({ userData: { id: userId, screenName } }: Profil
             const tweet = data[index] as TweetData;
 
             return (
-              <TweetCard
+              <TweetCell
                 key={tweet.id}
                 data-index={index}
                 ref={measureElement}

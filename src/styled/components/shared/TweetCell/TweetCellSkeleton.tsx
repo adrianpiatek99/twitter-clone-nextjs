@@ -3,11 +3,11 @@ import React from "react";
 import { Skeleton } from "shared/Skeleton";
 import styled from "styled-components";
 
-interface TweetCardSkeletonProps {
+interface TweetCellSkeletonProps {
   isEven?: boolean;
 }
 
-export const TweetCardSkeleton = ({ isEven = false }: TweetCardSkeletonProps) => {
+export const TweetCellSkeleton = ({ isEven = false }: TweetCellSkeletonProps) => {
   return (
     <Wrapper>
       <Inner>
