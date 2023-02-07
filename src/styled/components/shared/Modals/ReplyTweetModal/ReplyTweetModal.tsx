@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import type { TweetData } from "api/tweet/timelineTweets";
 import { Modal, Text, Textarea } from "components/core";
+import { useAppSession } from "hooks/useAppSession";
 import { useReplyTweetMutation } from "hooks/useReplyTweetMutation";
 import type { TweetValues } from "schema/tweetSchema";
 import { TWEET_MAX_LENGTH } from "schema/tweetSchema";
@@ -21,10 +22,8 @@ interface ReplyTweetModalProps {
 }
 
 export const ReplyTweetModal = ({ isOpen, onClose, tweetData }: ReplyTweetModalProps) => {
-  const {
-    id: tweetId,
-    author: { profileImageUrl }
-  } = tweetData;
+  const tweetId = tweetData.id;
+  const { session } = useAppSession();
   const { register, handleSubmit, watch, reset } = useForm<TweetValues>({
     resolver: yupResolver(tweetSchema),
     defaultValues: {
@@ -45,6 +44,10 @@ export const ReplyTweetModal = ({ isOpen, onClose, tweetData }: ReplyTweetModalP
     handleReplyTweet({ tweetId, ...data });
   };
 
+  if (!session) {
+    return null;
+  }
+
   return (
     <Modal
       isOpen={isOpen}
@@ -57,7 +60,7 @@ export const ReplyTweetModal = ({ isOpen, onClose, tweetData }: ReplyTweetModalP
         <ReplyTweetModalAuthor tweetData={tweetData} />
         <Inner>
           <LeftColumn>
-            <Avatar src={profileImageUrl} size="large" />
+            <Avatar src={session.user.profileImageUrl} size="large" />
           </LeftColumn>
           <RightColumn>
             <Textarea
