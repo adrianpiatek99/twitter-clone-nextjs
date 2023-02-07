@@ -48,7 +48,7 @@ export const IconButtonWithLabel = forwardRef(
     }, [isError, color]);
 
     return (
-      <Tooltip content={title}>
+      <Tooltip content={title} offset={[-8, 7]}>
         <ButtonElement
           aria-label={title}
           $color={iconButtonColors}
@@ -57,9 +57,7 @@ export const IconButtonWithLabel = forwardRef(
           ref={ref}
         >
           <IconWrapper>{children}</IconWrapper>
-          <LabelWrapper>
-            <Text>{label}</Text>
-          </LabelWrapper>
+          <LabelWrapper>{label !== "0" && <Text customColor="inherit">{label}</Text>}</LabelWrapper>
         </ButtonElement>
       </Tooltip>
     );
@@ -132,11 +130,6 @@ const ButtonElement = styled.button<{
 `;
 
 const LabelWrapper = styled.div`
-  position: absolute;
   padding: 0 12px;
-  left: 26px;
-
-  & > span {
-    color: inherit;
-  }
+  margin-left: -8px;
 `;
