@@ -25,7 +25,7 @@ export const ProfileLayout = memo(({ children }: ProfileLayoutProps) => {
     useUserByScreenNameQuery({});
 
   const childrenWithProps = Children.map(children, child => {
-    if (userData && !isError) {
+    if (!isError) {
       if (isValidElement(child)) {
         return cloneElement(child as JSX.Element, { userData });
       }

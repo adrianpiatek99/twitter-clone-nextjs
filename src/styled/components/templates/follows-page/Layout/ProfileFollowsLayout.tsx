@@ -16,7 +16,7 @@ export const ProfileFollowsLayout = ({ children }: ProfileFollowsLayoutProps) =>
   const { userData, userLoading, queryScreenName, error, isError } = useUserByScreenNameQuery({});
 
   const childrenWithProps = Children.map(children, child => {
-    if (userData && !isError) {
+    if (!isError) {
       if (isValidElement(child)) {
         return cloneElement(child as JSX.Element, { userData });
       }
@@ -35,7 +35,7 @@ export const ProfileFollowsLayout = ({ children }: ProfileFollowsLayoutProps) =>
       {isError ? (
         <ErrorMessage title={error?.message} text="Try searching for another." />
       ) : (
-        !userLoading && <Content>{childrenWithProps}</Content>
+        <Content>{childrenWithProps}</Content>
       )}
     </Wrapper>
   );
