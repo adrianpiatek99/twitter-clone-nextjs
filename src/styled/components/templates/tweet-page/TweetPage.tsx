@@ -6,6 +6,7 @@ import { useAutoAnimate } from "hooks/useAutoAnimate";
 import { useTweetDetailsQuery } from "hooks/useTweetDetailsQuery";
 import BackIcon from "icons/BackIcon";
 import { useRouter } from "next/router";
+import { NextSeo } from "next-seo";
 import { ErrorMessage } from "shared/Messages";
 import { TopBar, TopBarHeading } from "shared/TopBar";
 import styled from "styled-components";
@@ -32,6 +33,9 @@ export const TweetPageTemplate = ({ referer }: TweetPageTemplateProps) => {
 
   return (
     <Wrapper>
+      <NextSeo
+        title={`${data ? `${data.author.name} on Twitter: "${data.text}"` : "Tweet"} / Twitter`}
+      />
       <TopBar
         startIcon={
           <IconButton onClick={back} color="white">

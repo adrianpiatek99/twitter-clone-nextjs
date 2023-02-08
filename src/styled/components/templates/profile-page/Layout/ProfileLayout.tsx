@@ -1,10 +1,11 @@
-import type { ReactNode } from "react";
+import type { ComponentProps, ReactElement } from "react";
 import { memo } from "react";
 import { useEffect } from "react";
 import React, { Children, cloneElement, isValidElement } from "react";
 
 import { Text } from "components/core";
 import { useUserByScreenNameQuery } from "hooks/useUserByScreenNameQuery";
+import type Profile from "pages/[screenName]";
 import { ErrorMessage } from "shared/Messages";
 import styled from "styled-components";
 import { reloadSession } from "utils/session";
@@ -17,7 +18,7 @@ import { ProfileInformation } from "./ProfileInformation";
 import { ProfileTabs } from "./ProfileTabs";
 
 interface ProfileLayoutProps {
-  children: ReactNode;
+  children: ReactElement<ComponentProps<typeof Profile>>;
 }
 
 export const ProfileLayout = memo(({ children }: ProfileLayoutProps) => {
@@ -25,9 +26,9 @@ export const ProfileLayout = memo(({ children }: ProfileLayoutProps) => {
     useUserByScreenNameQuery({});
 
   const childrenWithProps = Children.map(children, child => {
-    if (userData && !isError) {
+    if (!isError) {
       if (isValidElement(child)) {
-        return cloneElement(child as JSX.Element, { userData });
+        return cloneElement(child, { userData });
       }
 
       return child;

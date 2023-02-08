@@ -1,14 +1,21 @@
 import React from "react";
 
-import type { UserData } from "api/user/userByScreenName";
+import { NextSeo } from "next-seo";
 import { ProfileFollowingTimeline } from "templates/follows-page";
 
-export interface ProfileFollowingPageProps {
-  userData: UserData;
-}
+import type { ProfilePageProps } from ".";
 
-export const ProfileFollowingPage = ({ userData }: ProfileFollowingPageProps) => {
-  return <ProfileFollowingTimeline userData={userData} />;
+export const ProfileFollowingPage = ({ userData }: ProfilePageProps) => {
+  return (
+    <>
+      <NextSeo
+        title={`${
+          userData ? `People followed by ${userData.name} (@${userData.screenName})` : "Following"
+        } / Twitter`}
+      />
+      {userData && <ProfileFollowingTimeline userData={userData} />}
+    </>
+  );
 };
 
 export default ProfileFollowingPage;

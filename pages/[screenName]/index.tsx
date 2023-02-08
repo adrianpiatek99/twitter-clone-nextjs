@@ -1,18 +1,22 @@
 import React from "react";
 
 import type { UserData } from "api/user/userByScreenName";
+import { NextSeo } from "next-seo";
 import { ProfileTimeline } from "templates/profile-page";
 
 export interface ProfilePageProps {
-  userData: UserData;
+  userData?: UserData;
 }
 
 const Profile = ({ userData }: ProfilePageProps) => {
-  if (!userData) {
-    return null;
-  }
-
-  return <ProfileTimeline userData={userData} />;
+  return (
+    <>
+      <NextSeo
+        title={`${userData ? `${userData.name} (@${userData.screenName})` : "Profile"} / Twitter`}
+      />
+      {userData && <ProfileTimeline userData={userData} />}
+    </>
+  );
 };
 
 export default Profile;

@@ -1,7 +1,14 @@
 import React from "react";
 
+import { NextSeo } from "next-seo";
+
 const Notifications = () => {
-  return <div>Notifications</div>;
+  return (
+    <div>
+      <NextSeo title="Notifications / Twitter" />
+      Notifications
+    </div>
+  );
 };
 
 export default Notifications;
