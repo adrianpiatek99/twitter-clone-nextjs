@@ -5,6 +5,7 @@ import React, { forwardRef, useRef } from "react";
 import styled from "styled-components";
 
 interface TextareaProps extends ComponentPropsWithRef<"textarea"> {
+  label: string;
   value: string;
   onValueChange?: (value: string) => void;
   placeholder?: string;
@@ -13,7 +14,14 @@ interface TextareaProps extends ComponentPropsWithRef<"textarea"> {
 
 export const Textarea = forwardRef(
   (
-    { value, placeholder, onValueChange = () => null, maxLength = 250, ...props }: TextareaProps,
+    {
+      label,
+      value,
+      placeholder,
+      onValueChange = () => null,
+      maxLength = 250,
+      ...props
+    }: TextareaProps,
     ref: Ref<HTMLTextAreaElement>
   ) => {
     const labelRef = useRef<HTMLLabelElement>(null);
@@ -34,8 +42,10 @@ export const Textarea = forwardRef(
     }, [value]);
 
     return (
-      <Label ref={labelRef}>
+      <Label htmlFor={label} ref={labelRef}>
         <StyledTextarea
+          id={label}
+          aria-label={label}
           placeholder={placeholder}
           maxLength={maxLength}
           onChange={e => onValueChange(e.target.value)}

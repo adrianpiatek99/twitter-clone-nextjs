@@ -91,7 +91,7 @@ export const LoginSignUpForm = ({ handleChangeTab }: LoginSignUpFormProps) => {
         />
       ))}
       <Button type="submit" loading={isLoading}>
-        Sign Up
+        Create Account
       </Button>
     </Form>
   );
