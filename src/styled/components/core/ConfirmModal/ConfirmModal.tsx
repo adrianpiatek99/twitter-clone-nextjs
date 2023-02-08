@@ -21,6 +21,7 @@ interface ConfirmModalProps extends ComponentPropsWithoutRef<"div"> {
   onCancel?: () => void;
   acceptButtonText?: string;
   cancelButtonText?: string;
+  preventClosingOnOutside?: boolean;
 }
 
 export const ConfirmModal = ({
@@ -32,7 +33,8 @@ export const ConfirmModal = ({
   heading,
   onCancel,
   acceptButtonText = "Save",
-  cancelButtonText = "Cancel"
+  cancelButtonText = "Cancel",
+  preventClosingOnOutside
 }: ConfirmModalProps) => {
   const handleCancelClick = () => {
     if (onCancel) {
@@ -47,7 +49,12 @@ export const ConfirmModal = ({
       <AnimatePresence>
         {isOpen && (
           <FocusLock autoFocus={false}>
-            <ModalPanel isOpen={isOpen} onClose={onClose}>
+            <ModalPanel
+              isOpen={isOpen}
+              onClose={onClose}
+              preventClosingOnOutside={preventClosingOnOutside}
+              loading={loading}
+            >
               <Content
                 initial="inactive"
                 animate="active"

@@ -45,7 +45,7 @@ export const HomeTimeline = () => {
 
             return (
               <TweetCell
-                key={tweet.id}
+                key={index}
                 ref={measureElement}
                 data-index={index}
                 tweetData={tweet}

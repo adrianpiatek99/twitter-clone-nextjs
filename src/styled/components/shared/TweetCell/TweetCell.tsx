@@ -3,12 +3,10 @@ import React, { type ComponentPropsWithRef, type Ref, forwardRef, memo } from "r
 import type { TweetData } from "api/tweet/timelineTweets";
 import { Text } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
-import { useDeleteTweetMutation } from "hooks/useDeleteTweetMutation";
 import { useLikeTweetMutation } from "hooks/useLikeTweetMutation";
 import { ActionCard } from "shared/ActionCard";
 import { Avatar } from "shared/Avatar";
-import { Skeleton } from "shared/Skeleton";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 import { TweetCellActions } from "./TweetCellActions";
 import { TweetCellToolbar } from "./TweetCellToolbar";
@@ -21,22 +19,17 @@ interface TweetCellProps extends Omit<ComponentPropsWithRef<"article">, "id"> {
 
 export const TweetCell = memo(
   forwardRef(({ tweetData, start, ...props }: TweetCellProps, ref: Ref<HTMLDivElement>) => {
-    const { id, text, author, createdAt, authorId } = tweetData;
+    const { id, text, author, authorId } = tweetData;
     const { session } = useAppSession();
     const { screenName, profileImageUrl } = author;
     const isOwner = session?.user.id === authorId;
-    const { handleDeleteTweet, deleteLoading } = useDeleteTweetMutation({
-      tweetData
-    });
     const { handleLikeTweet, likeLoading, unlikeLoading, isLiked } = useLikeTweetMutation({
-      tweetData,
-      disabled: deleteLoading
+      tweetData
     });
 
     return (
       <TweetArticle
         tag="article"
-        isLoading={deleteLoading}
         href={`${screenName}/tweet/${id}`}
         {...props}
         ref={ref}
@@ -48,16 +41,10 @@ export const TweetCell = memo(
           transform: `translateY(${start}px)`
         }}
       >
-        {deleteLoading && <Skeleton absolute withoutRadius transparent />}
-        <Inner isLoading={deleteLoading}>
+        <Inner>
           <StyledAvatar src={profileImageUrl} screenName={screenName} size="large" />
           <RightColumn>
-            <TweetCellActions
-              isOwner={isOwner}
-              author={author}
-              createdAt={createdAt}
-              handleDeleteTweet={handleDeleteTweet}
-            />
+            <TweetCellActions tweetData={tweetData} isOwner={isOwner} />
             <Content>
               <TweetText>
                 <Text truncate>{text}</Text>
@@ -76,40 +63,20 @@ export const TweetCell = memo(
   })
 );
 
-const TweetArticle = styled(ActionCard)<{ isLoading: boolean }>`
+const TweetArticle = styled(ActionCard)`
   border-bottom: 1px solid ${({ theme }) => theme.border};
 
   & > a {
     z-index: 1;
   }
-
-  ${({ isLoading }) =>
-    isLoading &&
-    css`
-      pointer-events: none;
-    `}
 `;
 
-const Inner = styled.div<{ isLoading: boolean }>`
+const Inner = styled.div`
   position: relative;
   display: flex;
   gap: 12px;
   width: 100%;
   transition: opacity 0.2s, transform 0.2s;
-
-  ${({ isLoading }) =>
-    isLoading &&
-    css`
-      position: relative;
-      transform: scale(0.96);
-      opacity: 0.6;
-
-      &::after {
-        content: "";
-        position: absolute;
-        inset: 0px;
-      }
-    `}
 `;
 
 const StyledAvatar = styled(Avatar)`

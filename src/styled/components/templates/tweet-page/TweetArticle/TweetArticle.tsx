@@ -1,10 +1,8 @@
 import React, { memo } from "react";
 
 import type { TweetData } from "api/tweet/timelineTweets";
-import { Loader, Text } from "components/core";
-import { useDeleteTweetMutation } from "hooks/useDeleteTweetMutation";
+import { Text } from "components/core";
 import { useLikeTweetMutation } from "hooks/useLikeTweetMutation";
-import { useRouter } from "next/router";
 import styled from "styled-components";
 import { getFormattedDate } from "utils/timeUtils";
 
@@ -20,64 +18,34 @@ interface TweetArticleProps {
 
 export const TweetArticle = memo(({ isOwner, tweetData, referer }: TweetArticleProps) => {
   const { text, createdAt } = tweetData;
-  const { push } = useRouter();
-  const { handleDeleteTweet, deleteLoading } = useDeleteTweetMutation({
-    tweetData,
-    onSuccess: () => {
-      push(referer);
-    }
-  });
   const { handleLikeTweet, likeLoading, unlikeLoading, isLiked } = useLikeTweetMutation({
-    tweetData,
-    disabled: deleteLoading
+    tweetData
   });
 
   return (
-    <>
-      {deleteLoading && (
-        <DeleteLoader>
-          <Loader />
-        </DeleteLoader>
-      )}
-      <TweetArticleWrapper>
-        <Inner>
-          <TweetArticleAuthor
-            tweetData={tweetData}
-            isOwner={isOwner}
-            handleDeleteTweet={handleDeleteTweet}
-          />
-          <TweetText>
-            <Text size="xxl">{text}</Text>
-          </TweetText>
-          <TimeRow>
-            <Text color="secondary" weight={500}>
-              {getFormattedDate(createdAt, "HH:mm")} {" · "}
-              {getFormattedDate(createdAt, "MM/DD/YYYY")}
-            </Text>
-          </TimeRow>
-          <TweetArticleStats tweetData={tweetData} />
-          <TweetArticleToolbar
-            tweetData={tweetData}
-            handleLikeTweet={handleLikeTweet}
-            isLoading={likeLoading || unlikeLoading}
-            isLiked={isLiked}
-          />
-        </Inner>
-      </TweetArticleWrapper>
-    </>
+    <TweetArticleWrapper>
+      <Inner>
+        <TweetArticleAuthor tweetData={tweetData} isOwner={isOwner} referer={referer} />
+        <TweetText>
+          <Text size="xxl">{text}</Text>
+        </TweetText>
+        <TimeRow>
+          <Text color="secondary" weight={500}>
+            {getFormattedDate(createdAt, "HH:mm")} {" · "}
+            {getFormattedDate(createdAt, "MM/DD/YYYY")}
+          </Text>
+        </TimeRow>
+        <TweetArticleStats tweetData={tweetData} />
+        <TweetArticleToolbar
+          tweetData={tweetData}
+          handleLikeTweet={handleLikeTweet}
+          isLoading={likeLoading || unlikeLoading}
+          isLiked={isLiked}
+        />
+      </Inner>
+    </TweetArticleWrapper>
   );
 });
-
-const DeleteLoader = styled.div`
-  position: absolute;
-  inset: 0px;
-  display: flex;
-  justify-content: center;
-  padding-top: 50px;
-  backdrop-filter: blur(5px);
-  background-color: rgba(0, 0, 0, 0.3);
-  z-index: 5;
-`;
 
 const TweetArticleWrapper = styled.article`
   display: flex;
