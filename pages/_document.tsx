@@ -40,7 +40,6 @@ export default class MyDocument extends Document {
             rel="stylesheet"
           />
           <meta httpEquiv="Content-Type" content="text/html;charset=utf-8" />
-          <title>Twitter</title>
         </Head>
         <body>
           <Main />
