@@ -11,6 +11,7 @@ interface ModalPanelProps {
   onClose: () => void;
   duration?: number;
   preventClosingOnOutside?: boolean;
+  loading?: boolean;
 }
 
 export const ModalPanel = ({
@@ -19,10 +20,11 @@ export const ModalPanel = ({
   onClose,
   duration,
   preventClosingOnOutside = false,
+  loading = false,
   ...props
 }: ModalPanelProps) => {
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && !loading) {
       const handleEscape = event => {
         if (event.key === "Escape") {
           onClose();
@@ -33,7 +35,13 @@ export const ModalPanel = ({
 
       return () => window.removeEventListener("keydown", handleEscape, false);
     }
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, loading]);
+
+  const handleClose = () => {
+    if (preventClosingOnOutside || loading) return;
+
+    onClose();
+  };
 
   return (
     <Panel>
@@ -42,7 +50,7 @@ export const ModalPanel = ({
         initial="inactive"
         animate="active"
         exit="inactive"
-        onClick={() => !preventClosingOnOutside && onClose()}
+        onClick={handleClose}
         {...props}
       />
       <RemoveScrollBar />

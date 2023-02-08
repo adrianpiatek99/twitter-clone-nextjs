@@ -50,6 +50,7 @@ export const Modal = ({
               isOpen={isOpen}
               onClose={onClose}
               preventClosingOnOutside={preventClosingOnOutside}
+              loading={loading}
             >
               <Content
                 initial="inactive"

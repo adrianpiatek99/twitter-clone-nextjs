@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Text } from "components/core";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 interface EmptyMessageProps {
   text: string;
@@ -20,11 +20,21 @@ export const EmptyMessage = ({ text }: EmptyMessageProps) => {
   );
 };
 
+const enterAnimation = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
 const Wrapper = styled.div`
   display: flex;
   max-width: 400px;
   padding: 40px 20px;
   margin: 32px auto;
+  animation: ${enterAnimation} 0.3s ease-out;
 `;
 
 const Content = styled.div`

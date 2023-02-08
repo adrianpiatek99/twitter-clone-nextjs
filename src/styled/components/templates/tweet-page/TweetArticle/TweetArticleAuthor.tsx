@@ -3,6 +3,7 @@ import React, { memo, useState } from "react";
 import type { TweetData } from "api/tweet/timelineTweets";
 import { IconButton, Text } from "components/core";
 import MoreHorizontalIcon from "icons/MoreHorizontalIcon";
+import { useRouter } from "next/router";
 import { Avatar } from "shared/Avatar";
 import { TweetCellMenuModal } from "shared/TweetCell";
 import styled from "styled-components";
@@ -10,17 +11,15 @@ import styled from "styled-components";
 interface TweetArticleAuthorProps {
   tweetData: TweetData;
   isOwner: boolean;
-  handleDeleteTweet: () => void;
+  referer: string;
 }
 
 export const TweetArticleAuthor = memo(
-  ({
-    tweetData: {
+  ({ tweetData, isOwner, referer }: TweetArticleAuthorProps) => {
+    const {
       author: { name, screenName, profileImageUrl }
-    },
-    isOwner,
-    handleDeleteTweet
-  }: TweetArticleAuthorProps) => {
+    } = tweetData;
+    const { push } = useRouter();
     const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
 
     return (
@@ -42,10 +41,11 @@ export const TweetArticleAuthor = memo(
               <MoreHorizontalIcon />
             </IconButton>
             <TweetCellMenuModal
+              tweetData={tweetData}
               isOwner={isOwner}
               isOpen={isMenuModalOpen}
               onClose={() => setIsMenuModalOpen(false)}
-              handleDeleteTweet={handleDeleteTweet}
+              onDeleteSuccess={() => push(referer)}
             />
           </Actions>
         )}

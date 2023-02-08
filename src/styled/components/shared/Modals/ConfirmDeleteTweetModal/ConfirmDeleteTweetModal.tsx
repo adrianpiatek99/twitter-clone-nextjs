@@ -6,12 +6,14 @@ interface ConfirmDeleteTweetModalProps {
   isOpen: boolean;
   onAcceptSuccess: () => void;
   onClose: () => void;
+  loading: boolean;
 }
 
 export const ConfirmDeleteTweetModal = ({
   isOpen,
   onAcceptSuccess,
-  onClose
+  onClose,
+  loading
 }: ConfirmDeleteTweetModalProps) => {
   return (
     <ConfirmModal
@@ -21,6 +23,7 @@ export const ConfirmDeleteTweetModal = ({
       onAccept={onAcceptSuccess}
       onClose={onClose}
       acceptButtonText="Delete"
+      loading={loading}
     />
   );
 };

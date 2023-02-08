@@ -9,56 +9,51 @@ import { getRelativeTime } from "utils/timeUtils";
 import { TweetCellMenuModal } from "./Modals";
 
 interface TweetCellActionsProps {
+  tweetData: TweetData;
   isOwner: boolean;
-  author: TweetData["author"];
-  createdAt: TweetData["createdAt"];
-  handleDeleteTweet: () => void;
 }
 
-export const TweetCellActions = memo(
-  ({
-    isOwner,
+export const TweetCellActions = memo(({ isOwner, tweetData }: TweetCellActionsProps) => {
+  const {
     author: { name, screenName },
-    createdAt,
-    handleDeleteTweet
-  }: TweetCellActionsProps) => {
-    const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
+    createdAt
+  } = tweetData;
+  const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
 
-    const handleToggleMenuModal = useCallback(() => setIsMenuModalOpen(prev => !prev), []);
+  const handleToggleMenuModal = useCallback(() => setIsMenuModalOpen(prev => !prev), []);
 
-    return (
-      <Wrapper>
-        <LeftColumn>
-          <Text weight={700} href={`/${screenName}`} truncate>
-            {name}
-          </Text>
-          <Text color="secondary" href={`/${screenName}`} truncate>
-            @{screenName}
-          </Text>
-          <Text color="secondary" truncate>
-            ·
-          </Text>
-          <Text color="secondary" href={`/${screenName}`}>
-            {getRelativeTime(createdAt)}
-          </Text>
-        </LeftColumn>
-        {isOwner && (
-          <RightColumn>
-            <IconButton title="More" onClick={handleToggleMenuModal} color="secondary">
-              <MoreHorizontalIcon />
-            </IconButton>
-            <TweetCellMenuModal
-              isOwner={isOwner}
-              isOpen={isMenuModalOpen}
-              onClose={() => setIsMenuModalOpen(false)}
-              handleDeleteTweet={handleDeleteTweet}
-            />
-          </RightColumn>
-        )}
-      </Wrapper>
-    );
-  }
-);
+  return (
+    <Wrapper>
+      <LeftColumn>
+        <Text weight={700} href={`/${screenName}`} truncate>
+          {name}
+        </Text>
+        <Text color="secondary" href={`/${screenName}`} truncate>
+          @{screenName}
+        </Text>
+        <Text color="secondary" truncate>
+          ·
+        </Text>
+        <Text color="secondary" href={`/${screenName}`}>
+          {getRelativeTime(createdAt)}
+        </Text>
+      </LeftColumn>
+      {isOwner && (
+        <RightColumn>
+          <IconButton title="More" onClick={handleToggleMenuModal} color="secondary">
+            <MoreHorizontalIcon />
+          </IconButton>
+          <TweetCellMenuModal
+            tweetData={tweetData}
+            isOwner={isOwner}
+            isOpen={isMenuModalOpen}
+            onClose={() => setIsMenuModalOpen(false)}
+          />
+        </RightColumn>
+      )}
+    </Wrapper>
+  );
+});
 
 const Wrapper = styled.div`
   display: flex;

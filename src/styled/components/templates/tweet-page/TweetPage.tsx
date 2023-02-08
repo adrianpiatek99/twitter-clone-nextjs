@@ -22,7 +22,7 @@ interface TweetPageTemplateProps {
 export const TweetPageTemplate = ({ referer }: TweetPageTemplateProps) => {
   const { query, back } = useRouter();
   const { session } = useAppSession();
-  const [sectionRef] = useAutoAnimate<HTMLTableSectionElement>({ duration: 100 });
+  const [sectionRef] = useAutoAnimate<HTMLTableSectionElement>({ duration: 250 });
   const queryScreenName = typeof query.screenName === "string" ? query.screenName : "";
   const queryTweetId = typeof query.tweetId === "string" ? query.tweetId : "";
   const itsMe = verifyMe(session, queryScreenName);

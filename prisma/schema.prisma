@@ -98,7 +98,7 @@ model TweetReply {
   id        String   @id @default(cuid())
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
-  tweet     Tweet    @relation(fields: [tweetId], references: [id])
+  tweet     Tweet    @relation(fields: [tweetId], references: [id], onDelete: Cascade)
   tweetId   String
   text      String
   createdAt DateTime @default(now())

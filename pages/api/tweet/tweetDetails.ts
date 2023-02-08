@@ -52,7 +52,7 @@ const handler: NextApiHandler<TweetDetailsResponse | NextApiError> = async (req,
     });
 
     if (!tweet) {
-      return res.status(404).send({ error: "This account doesn’t exist" });
+      return res.status(404).send({ error: "This tweet doesn’t exist" });
     }
 
     return res.status(200).json(tweet);
