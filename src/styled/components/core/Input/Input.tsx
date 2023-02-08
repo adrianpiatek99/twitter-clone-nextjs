@@ -68,6 +68,7 @@ export const Input = forwardRef(
           id={label}
           type={inputType}
           name={name || label}
+          aria-label={label}
           value={value ?? ""}
           onChange={e => onValueChange(e.target.value)}
           iconsCount={iconsCount}
@@ -79,13 +80,15 @@ export const Input = forwardRef(
           {...props}
           ref={ref}
         />
-        <StyledLabel $isFilled={!!value} error={!!error}>
+        <StyledLabel htmlFor={label} $isFilled={!!value} error={!!error}>
           <span>
             {label}
-            <InputLengthText color="secondary">{`${valueLength} / ${maxLength}`}</InputLengthText>
+            <InputLengthText
+              aria-hidden="true"
+              color="secondary"
+            >{`${valueLength} / ${maxLength}`}</InputLengthText>
           </span>
         </StyledLabel>
-
         <InputIcons
           isPasswordIcon={isPasswordIcon}
           isPasswordVisible={isPasswordVisible}

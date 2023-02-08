@@ -50,12 +50,7 @@ export const Avatar = memo(
           $absolute={absolute}
           {...props}
         >
-          <Image
-            src={avatarSrc}
-            loader={() => avatarSrc}
-            fill
-            alt={screenName ?? "Profile image"}
-          />
+          <Image src={avatarSrc} fill alt={screenName ?? "Profile image"} />
         </AvatarWrapper>
       );
     };

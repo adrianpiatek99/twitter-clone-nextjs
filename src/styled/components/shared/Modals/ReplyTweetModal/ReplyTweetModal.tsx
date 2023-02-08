@@ -64,6 +64,7 @@ export const ReplyTweetModal = ({ isOpen, onClose, tweetData }: ReplyTweetModalP
           </LeftColumn>
           <RightColumn>
             <Textarea
+              label="Reply to a tweet"
               value={tweetValue}
               placeholder="Tweet your reply"
               maxLength={TWEET_MAX_LENGTH}

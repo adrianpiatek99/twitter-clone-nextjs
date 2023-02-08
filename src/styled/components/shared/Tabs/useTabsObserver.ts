@@ -35,8 +35,10 @@ export const useTabsObserver = (tabGroupRef: RefObject<HTMLElement>) => {
   useEffect(() => {
     const { current } = tabGroupRef;
 
+    if (!window.IntersectionObserver) return;
+
     if (current) {
-      const firstChild = current.firstChild as HTMLAnchorElement | null;
+      const firstChild = current.firstChild as HTMLAnchorElement;
 
       const observerFnc = () => {
         const firstChildObserver = new IntersectionObserver(entries => {
@@ -68,8 +70,10 @@ export const useTabsObserver = (tabGroupRef: RefObject<HTMLElement>) => {
   useEffect(() => {
     const { current } = tabGroupRef;
 
+    if (!window.IntersectionObserver) return;
+
     if (current) {
-      const lastChild = current.lastChild as HTMLAnchorElement | null;
+      const lastChild = current.lastChild as HTMLAnchorElement;
 
       const observerFnc = () => {
         const lastChildObserver = new IntersectionObserver(entries => {

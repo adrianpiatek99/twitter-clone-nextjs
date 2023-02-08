@@ -39,7 +39,7 @@ export const ButtonLink = forwardRef(
         size={size}
         $color={color}
         $fullWidth={fullWidth}
-        textAlign={textAlign}
+        $textAlign={textAlign}
         {...props}
         ref={ref}
       >
@@ -54,12 +54,13 @@ const StyledLink = styled(Link)<
   ButtonLinkProps & {
     $color: ButtonColor;
     $fullWidth: boolean;
+    $textAlign: string;
   }
 >`
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: ${({ textAlign }) => (textAlign === "center" ? "center" : "start")};
+  justify-content: ${({ $textAlign }) => ($textAlign === "center" ? "center" : "start")};
   justify-content: center;
   min-width: 36px;
   padding: 0 16px;

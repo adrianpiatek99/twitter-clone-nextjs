@@ -12,13 +12,7 @@ interface LoginBackgroundImageProps {
 export const LoginBackgroundImage = ({ withBlur = false }: LoginBackgroundImageProps) => {
   return (
     <ImageWrapper withBlur={withBlur}>
-      <Image
-        alt="Default background image"
-        loader={() => IMAGE_URL}
-        src={IMAGE_URL}
-        fill
-        draggable="false"
-      />
+      <Image alt="Default background image" src={IMAGE_URL} fill draggable="false" />
     </ImageWrapper>
   );
 };

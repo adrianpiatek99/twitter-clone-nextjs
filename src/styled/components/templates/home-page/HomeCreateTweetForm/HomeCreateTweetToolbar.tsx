@@ -35,7 +35,12 @@ export const HomeCreateTweetToolbar = ({
             {tweetLength} / {TWEET_MAX_LENGTH}
           </TweetLength>
         )}
-        <Button disabled={isDisabled} onClick={onSubmit} loading={loading}>
+        <Button
+          data-testid="tweetButton"
+          disabled={isDisabled}
+          onClick={onSubmit}
+          loading={loading}
+        >
           Tweet
         </Button>
       </ToolbarRightColumn>

@@ -55,6 +55,7 @@ export const CreateTweetModal = ({ isOpen, onClose, profileImageUrl }: CreateTwe
         </LeftColumn>
         <RightColumn>
           <Textarea
+            label="Create a tweet"
             value={tweetValue}
             placeholder="What's happening?"
             maxLength={TWEET_MAX_LENGTH}

@@ -32,6 +32,7 @@ export const Tab = ({ value, linkProps, ...props }: TabProps) => {
     return (
       <TabItemLink
         value={value}
+        aria-label={`${value} tab`}
         ref={tabLinkRef}
         selected={selected}
         draggable={false}
@@ -49,6 +50,7 @@ export const Tab = ({ value, linkProps, ...props }: TabProps) => {
   return (
     <TabItemButton
       ref={tabButtonRef}
+      aria-label={`${value} tab`}
       value={value}
       selected={selected}
       tabIndex={selected ? 0 : -1}

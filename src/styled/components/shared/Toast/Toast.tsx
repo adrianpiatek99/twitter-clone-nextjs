@@ -27,6 +27,7 @@ export const Toast = ({ id, message, duration }: ToastProps) => {
 
   return (
     <ToastWrapper
+      data-testid="toast"
       layout
       initial={{
         scale: 0.3,
