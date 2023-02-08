@@ -54,7 +54,7 @@ export const ProfileTimeline = ({ userData: { id: userId, screenName } }: Profil
 
             return (
               <TweetCell
-                key={tweet.id}
+                key={index}
                 data-index={index}
                 ref={measureElement}
                 start={start}
