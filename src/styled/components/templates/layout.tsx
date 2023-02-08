@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ReactElement } from "react";
 import React from "react";
 
 import { useAppSession } from "hooks/useAppSession";
@@ -16,7 +16,7 @@ import { ProfileFollowsLayout } from "./follows-page";
 import { ProfileLayout } from "./profile-page";
 
 interface LayoutProps {
-  children: ReactNode;
+  children: ReactElement;
 }
 
 const CurrentLayoutPattern = ({ children }: LayoutProps) => {

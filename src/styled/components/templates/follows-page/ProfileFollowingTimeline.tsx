@@ -1,17 +1,19 @@
 import React from "react";
 
 import type { FollowingData, FollowingRequest, FollowingResponse } from "api/user/following";
+import type { UserData } from "api/user/userByScreenName";
 import { Loader } from "components/core";
 import { useInfiniteScrollQuery } from "hooks/useInfiniteScrollQuery";
 import { useVirtualScroll } from "hooks/useVirtualScroll";
 import { following } from "network/user/following";
-import type { ProfileFollowingPageProps } from "pages/[screenName]/following";
 import { ErrorMessage } from "shared/Messages";
 import styled from "styled-components";
 
 import { FollowCell, FollowCellSkeleton } from "./FollowCell";
 
-type ProfileFollowingTimelineProps = ProfileFollowingPageProps;
+type ProfileFollowingTimelineProps = {
+  userData: UserData;
+};
 
 export const ProfileFollowingTimeline = ({ userData }: ProfileFollowingTimelineProps) => {
   const { screenName } = userData;

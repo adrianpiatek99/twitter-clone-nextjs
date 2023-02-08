@@ -1,14 +1,11 @@
 import React from "react";
 
-import type { UserData } from "api/user/userByScreenName";
 import { NextSeo } from "next-seo";
 import { ProfileFollowingTimeline } from "templates/follows-page";
 
-export interface ProfileFollowingPageProps {
-  userData?: UserData;
-}
+import type { ProfilePageProps } from ".";
 
-export const ProfileFollowingPage = ({ userData }: ProfileFollowingPageProps) => {
+export const ProfileFollowingPage = ({ userData }: ProfilePageProps) => {
   return (
     <>
       <NextSeo

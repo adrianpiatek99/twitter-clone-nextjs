@@ -2,16 +2,20 @@ import React from "react";
 
 import type { TweetData } from "api/tweet/timelineTweets";
 import type { UserTweetsRequest, UserTweetsResponse } from "api/tweet/userTweets";
+import type { UserData } from "api/user/userByScreenName";
 import { Loader } from "components/core";
 import { useInfiniteScrollQuery } from "hooks/useInfiniteScrollQuery";
 import { useVirtualScroll } from "hooks/useVirtualScroll";
 import { userTweets } from "network/tweet/userTweets";
-import type { ProfilePageProps } from "pages/[screenName]";
 import { EmptyMessage, ErrorMessage } from "shared/Messages";
 import { TweetCell, TweetCellSkeleton } from "shared/TweetCell";
 import styled from "styled-components";
 
-export const ProfileTimeline = ({ userData: { id: userId, screenName } }: ProfilePageProps) => {
+interface ProfileTimelineProps {
+  userData: UserData;
+}
+
+export const ProfileTimeline = ({ userData: { id: userId, screenName } }: ProfileTimelineProps) => {
   const { data, isLoading, isFetching, lastItemRef, hasNextPage, isError, error } =
     useInfiniteScrollQuery<UserTweetsRequest, UserTweetsResponse, TweetData>({
       queryKey: ["tweets", screenName],

@@ -1,15 +1,16 @@
-import type { ReactNode } from "react";
+import type { ComponentProps, ReactElement } from "react";
 import { Children, cloneElement, isValidElement } from "react";
 import React from "react";
 
 import { useUserByScreenNameQuery } from "hooks/useUserByScreenNameQuery";
+import type ProfileFollowingPage from "pages/[screenName]/following";
 import { ErrorMessage } from "shared/Messages";
 import styled from "styled-components";
 
 import { ProfileFollowsTopBar } from "./ProfileFollowsTopBar";
 
 interface ProfileFollowsLayoutProps {
-  children: ReactNode;
+  children: ReactElement<ComponentProps<typeof ProfileFollowingPage>>;
 }
 
 export const ProfileFollowsLayout = ({ children }: ProfileFollowsLayoutProps) => {
@@ -18,7 +19,7 @@ export const ProfileFollowsLayout = ({ children }: ProfileFollowsLayoutProps) =>
   const childrenWithProps = Children.map(children, child => {
     if (!isError) {
       if (isValidElement(child)) {
-        return cloneElement(child as JSX.Element, { userData });
+        return cloneElement(child, { userData });
       }
 
       return child;
