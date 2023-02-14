@@ -1,7 +1,7 @@
 {
   "name": "Twitter Clone Nextjs",
   "short_name": "Twitter Clone",
-  "theme_color": "#1d9bf0",
+  "theme_color": "#000000",
   "background_color": "#000000",
   "display": "standalone",
   "scope": "/",
