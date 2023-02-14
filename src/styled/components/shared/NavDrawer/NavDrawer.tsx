@@ -21,35 +21,33 @@ export const NavDrawer = () => {
   const onClose = () => dispatch(setNavDrawerOpen(false));
 
   return (
-    <>
-      <AnimatePresence>
-        {isOpen && (
-          <Portal rootId="modal">
-            <FocusLock autoFocus={false}>
-              <ModalPanel isOpen={isOpen} onClose={onClose} duration={0.25}>
-                <DrawerWrapper
-                  variants={drawerVariants}
-                  onClick={e => e.stopPropagation()}
-                  initial="inactive"
-                  animate="active"
-                  exit="inactive"
-                  tabIndex={-1}
-                >
-                  <NavDrawerHeader onClose={onClose} />
-                  {isAuthenticated && (
-                    <>
-                      <NavDrawerPrimaryList onClose={onClose} />
-                      <Divider />
-                      <NavDrawerSecondaryList onClose={onClose} />
-                    </>
-                  )}
-                </DrawerWrapper>
-              </ModalPanel>
-            </FocusLock>
-          </Portal>
-        )}
-      </AnimatePresence>
-    </>
+    <AnimatePresence>
+      {isOpen && (
+        <Portal rootId="modal">
+          <FocusLock autoFocus={false}>
+            <ModalPanel isOpen={isOpen} onClose={onClose} duration={0.25}>
+              <DrawerWrapper
+                variants={drawerVariants}
+                onClick={e => e.stopPropagation()}
+                initial="inactive"
+                animate="active"
+                exit="inactive"
+                tabIndex={-1}
+              >
+                <NavDrawerHeader onClose={onClose} />
+                {isAuthenticated && (
+                  <>
+                    <NavDrawerPrimaryList onClose={onClose} />
+                    <Divider />
+                    <NavDrawerSecondaryList onClose={onClose} />
+                  </>
+                )}
+              </DrawerWrapper>
+            </ModalPanel>
+          </FocusLock>
+        </Portal>
+      )}
+    </AnimatePresence>
   );
 };
 
