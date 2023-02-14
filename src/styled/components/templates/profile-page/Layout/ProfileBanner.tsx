@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { Skeleton } from "shared/Skeleton";
 import styled from "styled-components";
 
@@ -16,7 +16,7 @@ export const ProfileBanner = memo(({ src, isLoading }: ProfileBannerProps) => {
         {isLoading ? (
           <Skeleton absolute withoutRadius />
         ) : (
-          src && <Image src={src} fill alt={"Profile banner"} />
+          src && <Image priority src={src} objectFit="cover" layout="fill" alt="Profile banner" />
         )}
       </Inner>
     </Wrapper>
@@ -34,8 +34,4 @@ const Inner = styled.div`
   display: block;
   padding-bottom: 33.3333%;
   width: 100%;
-
-  & > img {
-    object-fit: cover;
-  }
 `;

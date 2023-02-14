@@ -1,15 +1,11 @@
 import React, { memo } from "react";
 
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import { Skeleton } from "shared/Skeleton";
 import styled, { css } from "styled-components";
 
-import type { AvatarSize } from "./avatarStyleVariants";
-import { avatarSizeVariants } from "./avatarStyleVariants";
-
-const DEFAULT_AVATAR_URL =
-  "https://abs.twimg.com/sticky/default_profile_images/default_profile_200x200.png";
+type AvatarSize = "small" | "medium" | "large" | "extraLarge";
 
 interface AvatarProps {
   src: string;
@@ -20,6 +16,9 @@ interface AvatarProps {
   disableFocus?: boolean;
   absolute?: boolean;
 }
+
+const DEFAULT_AVATAR_URL =
+  "https://abs.twimg.com/sticky/default_profile_images/default_profile_200x200.png";
 
 export const Avatar = memo(
   ({
@@ -45,12 +44,18 @@ export const Avatar = memo(
           as={onClick ? "button" : "div"}
           onClick={onClick}
           disabled={disableFocus}
+          size={determineSize(size)}
           tabIndex={disableFocus || !onClick ? -1 : 0}
-          size={size}
           $absolute={absolute}
           {...props}
         >
-          <Image src={avatarSrc} fill alt={screenName ?? "Profile image"} />
+          <Image
+            priority
+            src={avatarSrc}
+            layout="fill"
+            objectFit="cover"
+            alt={screenName ?? "Profile image"}
+          />
         </AvatarWrapper>
       );
     };
@@ -66,6 +71,16 @@ export const Avatar = memo(
     return <AvatarComponent />;
   }
 );
+
+const determineSize = (size: AvatarSize) => {
+  if (size === "small") return 32;
+
+  if (size === "large") return 48;
+
+  if (size === "extraLarge") return 68;
+
+  return 40;
+};
 
 const sharedStyles = css`
   &::after {
@@ -101,20 +116,16 @@ const StyledLink = styled(Link)`
   ${sharedStyles};
 `;
 
-const AvatarWrapper = styled.div<{ $absolute: boolean; size: AvatarSize }>`
+const AvatarWrapper = styled.div<{ $absolute: boolean; size: number }>`
   position: relative;
   display: flex;
   border-radius: 50%;
   transition: 0.2s;
+  width: ${({ size }) => size}px;
+  height: ${({ size }) => size}px;
   ${sharedStyles};
-  ${({ size }) => avatarSizeVariants[size]};
 
-  & > img {
-    position: absolute;
-    inset: 0px;
-    width: 100%;
-    height: 100%;
-    text-align: center;
+  & > span {
     border-radius: inherit;
     object-fit: cover;
     user-select: none;
