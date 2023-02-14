@@ -87,7 +87,7 @@ const sharedStyles = css<SharedProps>`
   padding: 0px 16px;
   white-space: nowrap;
   font-weight: 500;
-  font-family: ${({ theme }) => theme.fontFamily.primary};
+  ${({ theme }) => theme.fontFamily};
   text-transform: capitalize;
   cursor: pointer;
   transition: background-color 0.2s, color 0.2s, opacity 0.2s, box-shadow 0.2s;
