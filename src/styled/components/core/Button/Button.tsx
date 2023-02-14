@@ -4,8 +4,13 @@ import React, { forwardRef } from "react";
 import styled, { css } from "styled-components";
 
 import { Loader } from "../Loader";
-import type { ButtonColor, ButtonSize, ButtonVariant } from "./buttonStyleVariants";
-import { buttonVariantsWithColor, sizeVariants } from "./buttonStyleVariants";
+import type {
+  ButtonColor,
+  ButtonElementProps,
+  ButtonSize,
+  ButtonVariant
+} from "./buttonStyleVariants";
+import { generalButtonStyles } from "./buttonStyleVariants";
 
 interface ButtonProps extends ComponentPropsWithRef<"button"> {
   variant?: ButtonVariant;
@@ -44,7 +49,7 @@ export const Button = forwardRef(
         $fullWidth={fullWidth}
         variant={variant}
         size={size}
-        textAlign={textAlign}
+        $textAlign={textAlign}
         {...props}
         ref={ref}
       >
@@ -60,42 +65,8 @@ export const Button = forwardRef(
   }
 );
 
-const ButtonWrapper = styled.button<
-  ButtonProps & {
-    $loading: boolean;
-    $color: ButtonColor;
-    $fullWidth: boolean;
-  }
->`
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: ${({ textAlign }) => (textAlign === "center" ? "center" : "start")};
-  width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "auto")};
-  min-width: 36px;
-  padding: 0 24px;
-  border-radius: 50px;
-  overflow-wrap: break-word;
-  text-transform: none;
-  font-weight: 500;
-  -webkit-user-select: none;
-  user-select: none;
-  cursor: pointer;
-  transition: color 0.2s, background-color 0.2s, box-shadow 0.2s, opacity 0.2s;
-
-  & > span {
-    font-family: ${({ theme }) => theme.fontFamily.primary};
-  }
-
-  & > svg {
-    width: 20px;
-    height: 20px;
-    margin-right: 12px;
-  }
-
-  ${({ theme }) => theme.text.m};
-  ${({ size }) => sizeVariants[size || "normal"]};
-  ${({ $color, variant }) => buttonVariantsWithColor[variant || "contained"][$color]};
+const ButtonWrapper = styled.button<ButtonElementProps & { $loading: boolean }>`
+  ${generalButtonStyles};
 
   &:disabled {
     cursor: not-allowed;
