@@ -1,0 +1,18 @@
+{
+  "name": "Twitter Clone Nextjs",
+  "short_name": "Twitter Clone",
+  "theme_color": "#1d9bf0",
+  "background_color": "#000000",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "icons/twitter_icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "splash_pages": null
+}

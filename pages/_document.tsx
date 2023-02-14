@@ -39,6 +39,9 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap"
             rel="stylesheet"
           />
+          <link rel="manifest" href="/manifest.json" />
+          <link rel="apple-touch-icon" href="/apple-icon.png" />
+          <meta name="theme-color" content="#1d9bf0" />
           <meta httpEquiv="Content-Type" content="text/html;charset=utf-8" />
         </Head>
         <body>
