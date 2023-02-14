@@ -13,6 +13,7 @@ const ProfileWithReplies = ({ userData }: ProfilePageProps) => {
             ? `Tweets with replies by ${userData.name} (@${userData.screenName})`
             : "Tweets with replies"
         } / Twitter`}
+        description="Profile tweets with replies"
       />
       with_replies
     </div>

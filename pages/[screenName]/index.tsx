@@ -13,6 +13,7 @@ const Profile = ({ userData }: ProfilePageProps) => {
     <>
       <NextSeo
         title={`${userData ? `${userData.name} (@${userData.screenName})` : "Profile"} / Twitter`}
+        description="Profile"
       />
       {userData && <ProfileTimeline userData={userData} />}
     </>

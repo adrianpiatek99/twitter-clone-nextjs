@@ -11,6 +11,7 @@ const ProfileMedia = ({ userData }: ProfilePageProps) => {
         title={`${
           userData ? `Media Tweets by ${userData.name} (@${userData.screenName})` : "Media"
         } / Twitter`}
+        description="Profile media"
       />
       media
     </div>

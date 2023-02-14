@@ -5,7 +5,7 @@ import { NextSeo } from "next-seo";
 const Messages = () => {
   return (
     <div>
-      <NextSeo title="Messages / Twitter" />
+      <NextSeo title="Messages / Twitter" description="Messages" />
       Messages
     </div>
   );

@@ -6,7 +6,7 @@ import { HomePageTemplate } from "templates/home-page";
 const Home = () => {
   return (
     <>
-      <NextSeo title="Home / Twitter" />
+      <NextSeo title="Home / Twitter" description="Home" />
       <HomePageTemplate />
     </>
   );
