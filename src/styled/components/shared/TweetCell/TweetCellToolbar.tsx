@@ -7,10 +7,17 @@ import HeartIcon from "icons/HeartIcon";
 import HeartOutlinedIcon from "icons/HeartOutlinedIcon";
 import MessageIcon from "icons/MessageIcon";
 import RetweetIcon from "icons/RetweetIcon";
-import { ReplyTweetModal } from "shared/Modals";
+import dynamic from "next/dynamic";
 import { setAuthRequiredModalOpen } from "store/slices/globalSlice";
 import { useAppDispatch } from "store/store";
 import styled, { useTheme } from "styled-components";
+
+const LazyReplyTweetModal = dynamic(
+  () => import("../Modals/ReplyTweetModal").then(mod => mod.ReplyTweetModal),
+  {
+    ssr: false
+  }
+);
 
 interface TweetCellToolbarProps {
   tweetData: TweetData;
@@ -61,7 +68,7 @@ export const TweetCellToolbar = memo(
         <IconButtonWithLabel title="Retweet" label={"0"} color={emerald400} disabled>
           <RetweetIcon />
         </IconButtonWithLabel>
-        <ReplyTweetModal
+        <LazyReplyTweetModal
           isOpen={isReplyModalOpen}
           onClose={() => setIsReplyModalOpen(false)}
           tweetData={tweetData}

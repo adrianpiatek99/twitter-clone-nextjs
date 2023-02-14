@@ -3,9 +3,15 @@ import React, { memo, useState } from "react";
 import type { UserData } from "api/user/userByScreenName";
 import { Button } from "components/core";
 import { useFollowUserMutation } from "hooks/useFollowUserMutation";
+import dynamic from "next/dynamic";
 import styled from "styled-components";
 
-import { EditProfileModal } from "../Modals/EditProfileModal";
+const LazyEditProfileModal = dynamic(
+  () => import("../Modals/EditProfileModal").then(mod => mod.EditProfileModal),
+  {
+    ssr: false
+  }
+);
 
 interface ProfileActionsProps {
   itsMe: boolean;
@@ -49,7 +55,7 @@ export const ProfileActions = memo(({ itsMe, userData }: ProfileActionsProps) =>
         </Button>
       )}
       {itsMe && (
-        <EditProfileModal
+        <LazyEditProfileModal
           isOpen={isEditProfileModalOpen}
           onClose={() => setIsEditProfileModalOpen(false)}
           userData={userData}
