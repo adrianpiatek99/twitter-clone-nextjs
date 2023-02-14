@@ -5,6 +5,28 @@ import { hexToRGBA } from "utils/colors";
 export type IconButtonColor = "primary" | "secondary" | "error" | "white" | string;
 export type IconButtonSize = "small" | "medium" | "large";
 
+export type IconButtonElementProps = {
+  size: IconButtonSize;
+  $color: [string, string];
+};
+
+export const generalIconButtonStyles = css<IconButtonElementProps>`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 34px;
+  min-height: 34px;
+  width: max-content;
+  padding: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: color 0.2s, background-color 0.2s, box-shadow 0.2s, opacity 0.2s;
+
+  ${({ $color }) => getIconButtonColor($color)};
+  ${({ size }) => iconButtonSizeVariants[size || "medium"]};
+`;
+
 const small = css`
   & > svg {
     width: 16px;

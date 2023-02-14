@@ -6,10 +6,17 @@ import { useAppSession } from "hooks/useAppSession";
 import HeartIcon from "icons/HeartIcon";
 import HeartOutlinedIcon from "icons/HeartOutlinedIcon";
 import MessageIcon from "icons/MessageIcon";
-import { ReplyTweetModal } from "shared/Modals";
+import dynamic from "next/dynamic";
 import { setAuthRequiredModalOpen } from "store/slices/globalSlice";
 import { useAppDispatch } from "store/store";
 import styled, { useTheme } from "styled-components";
+
+const LazyReplyTweetModal = dynamic(
+  () => import("../../../shared/Modals/ReplyTweetModal").then(mod => mod.ReplyTweetModal),
+  {
+    ssr: false
+  }
+);
 
 interface TweetArticleToolbarProps {
   handleLikeTweet: () => void;
@@ -48,7 +55,7 @@ export const TweetArticleToolbar = memo(
         >
           {isLiked ? <HeartIcon /> : <HeartOutlinedIcon />}
         </IconButton>
-        <ReplyTweetModal
+        <LazyReplyTweetModal
           isOpen={isReplyModalOpen}
           onClose={() => setIsReplyModalOpen(false)}
           tweetData={tweetData}

@@ -11,6 +11,7 @@ const ProfileLikes = ({ userData }: ProfilePageProps) => {
         title={`${
           userData ? `Tweets liked by ${userData.name} (@${userData.screenName})` : "Likes"
         } / Twitter`}
+        description="Profile likes"
       />
       likes
     </div>

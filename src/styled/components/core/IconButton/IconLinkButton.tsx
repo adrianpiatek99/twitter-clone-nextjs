@@ -5,8 +5,8 @@ import Link from "next/link";
 import styled, { useTheme } from "styled-components";
 
 import { Tooltip } from "..";
-import type { IconButtonColor, IconButtonSize } from "./iconButtonVariants";
-import { getIconButtonColor, iconButtonSizeVariants } from "./iconButtonVariants";
+import type { IconButtonColor, IconButtonElementProps, IconButtonSize } from "./iconButtonVariants";
+import { generalIconButtonStyles } from "./iconButtonVariants";
 
 interface IconLinkButtonProps extends ComponentPropsWithoutRef<"a"> {
   children: ReactNode;
@@ -55,19 +55,6 @@ export const IconLinkButton = ({
   );
 };
 
-const LinkElement = styled(Link)<IconLinkButtonProps & { $color: [string, string] }>`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 34px;
-  min-height: 34px;
-  width: max-content;
-  padding: 0;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: color 0.2s, background-color 0.2s, box-shadow 0.2s, opacity 0.2s, transform 0.2s;
-
-  ${({ $color }) => getIconButtonColor($color)};
-  ${({ size }) => iconButtonSizeVariants[size || "medium"]};
+const LinkElement = styled(Link)<IconButtonElementProps>`
+  ${generalIconButtonStyles};
 `;

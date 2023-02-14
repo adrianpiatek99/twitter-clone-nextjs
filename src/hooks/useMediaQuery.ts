@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { debounce } from "lodash";
+import { debounce } from "utils/debounceUtil";
 
 export const useMediaQuery = (query: string) => {
   const [matches, setMatches] = useState(false);
@@ -14,7 +14,7 @@ export const useMediaQuery = (query: string) => {
 
     const listener = () => setMatches(media.matches);
 
-    window.addEventListener("resize", debounce(listener, 100));
+    window.addEventListener("resize", debounce(listener, 150));
 
     return () => window.removeEventListener("resize", listener);
   }, [matches, query]);

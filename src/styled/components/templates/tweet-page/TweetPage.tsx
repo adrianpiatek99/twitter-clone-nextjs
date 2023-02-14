@@ -35,6 +35,7 @@ export const TweetPageTemplate = ({ referer }: TweetPageTemplateProps) => {
     <Wrapper>
       <NextSeo
         title={`${data ? `${data.author.name} on Twitter: "${data.text}"` : "Tweet"} / Twitter`}
+        description="Tweet details"
       />
       <TopBar
         startIcon={

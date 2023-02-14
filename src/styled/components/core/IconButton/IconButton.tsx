@@ -4,8 +4,8 @@ import React, { forwardRef, useMemo } from "react";
 import styled, { css, useTheme } from "styled-components";
 
 import { Tooltip } from "..";
-import type { IconButtonColor, IconButtonSize } from "./iconButtonVariants";
-import { getIconButtonColor, iconButtonSizeVariants } from "./iconButtonVariants";
+import type { IconButtonColor, IconButtonElementProps, IconButtonSize } from "./iconButtonVariants";
+import { generalIconButtonStyles } from "./iconButtonVariants";
 
 interface IconButtonProps extends Omit<ComponentPropsWithRef<"button">, "color"> {
   children: ReactNode;
@@ -49,54 +49,34 @@ export const IconButton = forwardRef(
     }, [isError, color]);
 
     return (
-      <>
-        <Tooltip content={title}>
-          <ButtonElement
-            aria-label={title}
-            type="button"
-            $color={iconButtonColors}
-            size={size}
-            $isError={isError}
-            $loading={loading}
-            isSelected={isSelected}
-            tabIndex={disableFocus ? -1 : 0}
-            {...props}
-            ref={ref}
-          >
-            {children}
-          </ButtonElement>
-        </Tooltip>
-      </>
+      <Tooltip content={title}>
+        <ButtonElement
+          aria-label={title}
+          type="button"
+          $color={iconButtonColors}
+          size={size}
+          $isError={isError}
+          $loading={loading}
+          isSelected={isSelected}
+          tabIndex={disableFocus ? -1 : 0}
+          {...props}
+          ref={ref}
+        >
+          {children}
+        </ButtonElement>
+      </Tooltip>
     );
   }
 );
 
-type StyledButtonProps = IconButtonProps & {
-  $color: [string, string];
-  $isError: boolean;
-  $loading: boolean;
-  isSelected: boolean;
-};
-
-const ButtonElement = styled.button<StyledButtonProps>`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 34px;
-  min-height: 34px;
-  width: max-content;
-  padding: 0;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: color 0.2s, background-color 0.2s, box-shadow 0.2s, opacity 0.2s;
+const ButtonElement = styled.button<
+  IconButtonElementProps & { isSelected: boolean; $isError: boolean; $loading: boolean }
+>`
+  ${generalIconButtonStyles};
 
   &:disabled {
     opacity: 0.5;
   }
-
-  ${({ $color }) => getIconButtonColor($color)};
-  ${({ size }) => iconButtonSizeVariants[size || "medium"]};
 
   ${({ $isError }) =>
     $isError &&

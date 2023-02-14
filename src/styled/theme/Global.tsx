@@ -12,14 +12,14 @@ export const GlobalStyle = createGlobalStyle`
   body {
     background-color: ${({ theme }) => theme.background};
     color: ${({ theme }) => theme.neutral50};
-    font-family: ${({ theme }) => theme.fontFamily.primary};
+    ${({ theme }) => theme.fontFamily};
     ${({ theme }) => theme.text.m};
     overflow-y: scroll;
     word-wrap: break-word;
   }
 
   span {
-    font-family: ${({ theme }) => theme.fontFamily.primary};
+    ${({ theme }) => theme.fontFamily};
   }
 
   h1,
@@ -30,7 +30,7 @@ export const GlobalStyle = createGlobalStyle`
   h5,
   h6 {
     margin: 0;
-    font-family: ${({ theme }) => theme.fontFamily.secondary};
+    ${({ theme }) => theme.fontFamily};
     ${({ theme }) => theme.heading.xs};
   }
 
@@ -39,6 +39,7 @@ export const GlobalStyle = createGlobalStyle`
     border: none;
     outline: none;
     background-color: transparent;
+    ${({ theme }) => theme.fontFamily};
     ${({ theme }) => theme.text.m};
   }
 
@@ -47,7 +48,7 @@ export const GlobalStyle = createGlobalStyle`
     outline: none;
     border: none;
     margin: 0;
-    font-family: ${({ theme }) => theme.fontFamily.primary};
+    ${({ theme }) => theme.fontFamily};
     ${({ theme }) => theme.text.m};
   }
 

@@ -5,6 +5,7 @@ import { useScrollRestoration } from "hooks/useScrollRestoration";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { SessionProvider } from "next-auth/react";
+import { Toaster } from "shared/Toast";
 import ReduxStoreProvider from "store/ReduxStoreProvider";
 import { GlobalStyle, ThemeProvider } from "styled/theme";
 import Layout from "templates/layout";
@@ -27,6 +28,7 @@ const App = ({ Component, pageProps: { session, ...pageProps }, router }: AppPro
               <Layout>
                 <Component {...pageProps} />
               </Layout>
+              <Toaster />
             </ThemeProvider>
           </ReduxStoreProvider>
         </SessionProvider>

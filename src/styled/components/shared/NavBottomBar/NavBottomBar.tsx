@@ -2,12 +2,19 @@ import React, { useState } from "react";
 
 import { useAppSession } from "hooks/useAppSession";
 import PlusIcon from "icons/PlusIcon";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { CreateTweetModal } from "shared/Modals";
 import styled from "styled-components";
 
 import { navBottomBarItems, navBottomBarSignInItem } from "./navBottomBarItems";
 import { NavBottomBarLink } from "./NavBottomBarLink";
+
+const LazyCreateTweetModal = dynamic(
+  () => import("../Modals/CreateTweetModal").then(mod => mod.CreateTweetModal),
+  {
+    ssr: false
+  }
+);
 
 export const NavBottomBar = () => {
   const { asPath } = useRouter();
@@ -45,7 +52,7 @@ export const NavBottomBar = () => {
           >
             <PlusIcon />
           </CreateTweetButton>
-          <CreateTweetModal
+          <LazyCreateTweetModal
             isOpen={isCreateTweetModalOpen}
             onClose={() => setIsCreateTweetModalOpen(false)}
             profileImageUrl={session.user.profileImageUrl}

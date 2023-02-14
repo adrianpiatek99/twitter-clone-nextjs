@@ -29,7 +29,7 @@ export const HomeTimeline = () => {
   }
 
   return (
-    <TweetsSection>
+    <TweetsSection aria-label="Timeline: Your Home Timeline">
       {isLoading ? (
         skeletons.map(skeleton => <TweetCellSkeleton key={skeleton} isEven={skeleton % 2 === 0} />)
       ) : (

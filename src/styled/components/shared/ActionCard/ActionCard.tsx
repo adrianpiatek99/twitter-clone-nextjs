@@ -13,11 +13,12 @@ interface ActionCardProps extends ComponentPropsWithRef<"div"> {
   tag?: ActionCardTag;
   onClick?: (e: MouseEvent<HTMLDivElement>) => void;
   href?: string;
+  label?: string;
 }
 
 export const ActionCard = forwardRef(
   (
-    { children, tag = "div", href, onClick, ...props }: ActionCardProps,
+    { children, tag = "div", href, onClick, label, ...props }: ActionCardProps,
     ref: Ref<HTMLDivElement>
   ) => {
     const linkRef = useRef<HTMLAnchorElement>(null);
@@ -48,7 +49,15 @@ export const ActionCard = forwardRef(
         {...props}
         ref={ref}
       >
-        {href && <StyledLink ref={linkRef} href={href} tabIndex={-1} draggable={false} />}
+        {href && (
+          <StyledLink
+            ref={linkRef}
+            href={href}
+            tabIndex={-1}
+            draggable={false}
+            aria-label={label}
+          />
+        )}
         {children}
       </Card>
     );
