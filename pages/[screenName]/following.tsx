@@ -12,6 +12,7 @@ export const ProfileFollowingPage = ({ userData }: ProfilePageProps) => {
         title={`${
           userData ? `People followed by ${userData.name} (@${userData.screenName})` : "Following"
         } / Twitter`}
+        description="Following"
       />
       {userData && <ProfileFollowingTimeline userData={userData} />}
     </>

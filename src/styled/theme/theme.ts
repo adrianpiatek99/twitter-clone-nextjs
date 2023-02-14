@@ -14,10 +14,7 @@ const fonts = {
     s: "font-size: 25px; line-height: 30px;",
     m: "font-size: 30px; line-height: 38px;"
   },
-  fontFamily: {
-    primary: "-apple-system, BlinkMacSystemFont, Inter, Helvetica, Arial, sans-serif",
-    secondary: "-apple-system, BlinkMacSystemFont, Inter, Helvetica, Arial, sans-serif"
-  }
+  fontFamily: "font-family: -apple-system, BlinkMacSystemFont, Inter, Helvetica, Arial, sans-serif;"
 };
 
 const breakpointSizes = {

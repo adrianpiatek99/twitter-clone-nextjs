@@ -20,10 +20,7 @@ declare module "styled-components" {
     emerald400: string;
     error20: string;
     error40: string;
-    fontFamily: {
-      primary: string;
-      secondary: string;
-    };
+    fontFamily: string;
     text: {
       xs: string;
       s: string;

@@ -2,18 +2,34 @@ import type { ReactElement } from "react";
 import React from "react";
 
 import { useAppSession } from "hooks/useAppSession";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { AuthenticationBar } from "shared/AuthenticationBar";
 import { Logo } from "shared/Logo";
-import { AuthenticationRequiredModal } from "shared/Modals";
 import { NavBottomBar } from "shared/NavBottomBar";
-import { NavDrawer } from "shared/NavDrawer";
 import { NavSidebar } from "shared/NavSidebar";
-import { Toaster } from "shared/Toast";
 import styled, { keyframes } from "styled-components";
 
 import { ProfileFollowsLayout } from "./follows-page";
 import { ProfileLayout } from "./profile-page";
+
+const LazyNavDrawer = dynamic(() => import("../shared/NavDrawer").then(mod => mod.NavDrawer), {
+  ssr: false
+});
+const LazyAuthenticationBar = dynamic(
+  () => import("../shared/AuthenticationBar").then(mod => mod.AuthenticationBar),
+  {
+    ssr: false
+  }
+);
+const LazyAuthenticationRequiredModal = dynamic(
+  () =>
+    import("../shared/Modals/AuthenticationRequiredModal").then(
+      mod => mod.AuthenticationRequiredModal
+    ),
+  {
+    ssr: false
+  }
+);
 
 interface LayoutProps {
   children: ReactElement;
@@ -34,7 +50,7 @@ const CurrentLayoutPattern = ({ children }: LayoutProps) => {
     return <ProfileFollowsLayout>{children}</ProfileFollowsLayout>;
   }
 
-  return <>{children}</>;
+  return children;
 };
 
 const Layout = ({ children }: LayoutProps) => {
@@ -49,25 +65,18 @@ const Layout = ({ children }: LayoutProps) => {
     );
   }
 
-  if (pathname === "/")
-    return (
-      <>
-        {children}
-        <Toaster />
-      </>
-    );
+  if (pathname === "/") return children;
 
   return (
     <Wrapper>
       <NavSidebar />
       <NavBottomBar />
-      <NavDrawer />
+      <LazyNavDrawer />
       <Feed>
         <CurrentLayoutPattern>{children}</CurrentLayoutPattern>
       </Feed>
-      <AuthenticationRequiredModal />
-      <Toaster />
-      {isUnauthenticated && <AuthenticationBar />}
+      <LazyAuthenticationRequiredModal />
+      {isUnauthenticated && <LazyAuthenticationBar />}
     </Wrapper>
   );
 };

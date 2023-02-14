@@ -7,7 +7,7 @@ import { hexToRGBA } from "utils/colors";
 
 export const NavSidebarLogo = () => {
   return (
-    <LogoLink href="/home">
+    <LogoLink href="/home" aria-label="Twitter">
       <TwitterIcon />
     </LogoLink>
   );

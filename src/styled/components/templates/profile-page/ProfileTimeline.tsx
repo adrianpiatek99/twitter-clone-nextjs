@@ -38,7 +38,7 @@ export const ProfileTimeline = ({ userData: { id: userId, screenName } }: Profil
   }
 
   return (
-    <TweetsSection>
+    <TweetsSection aria-label={`Timeline: ${screenName}’s Tweets`}>
       {isLoading ? (
         skeletons.map(skeleton => <TweetCellSkeleton key={skeleton} isEven={skeleton % 2 === 0} />)
       ) : (

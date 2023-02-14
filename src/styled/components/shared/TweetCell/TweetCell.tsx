@@ -30,6 +30,8 @@ export const TweetCell = memo(
     return (
       <TweetArticle
         tag="article"
+        role="article"
+        label="Tweet"
         href={`${screenName}/tweet/${id}`}
         {...props}
         ref={ref}

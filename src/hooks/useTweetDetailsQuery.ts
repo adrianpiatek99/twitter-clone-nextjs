@@ -3,8 +3,8 @@ import { useState } from "react";
 import { type QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { TimelineTweetsResponse, TweetData } from "api/tweet/timelineTweets";
 import type { AxiosError } from "axios";
-import { uniqBy } from "lodash";
 import { tweetDetails } from "network/tweet/tweetDetails";
+import { uniqBy } from "utils/uniqByUtil";
 
 const handleGetQueryTweetsByKey = (queryClient: QueryClient, queryKey: string[]) =>
   queryClient

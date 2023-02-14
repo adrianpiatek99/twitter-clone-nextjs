@@ -8,6 +8,42 @@ export type ButtonColor = "primary" | "secondary" | "danger";
 
 type ButtonColorCss = Record<ButtonColor, StyledCssReturn>;
 
+export type ButtonElementProps = {
+  variant: ButtonVariant;
+  size: ButtonSize;
+  $color: ButtonColor;
+  $fullWidth: boolean;
+  $textAlign: string;
+};
+
+export const generalButtonStyles = css<ButtonElementProps>`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: ${({ $textAlign }) => ($textAlign === "center" ? "center" : "start")};
+  min-width: 36px;
+  padding: 0 16px;
+  width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "auto")};
+  border-radius: 50px;
+  overflow-wrap: break-word;
+  text-transform: none;
+  font-weight: 500;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  transition: color 0.2s, background-color 0.2s, box-shadow 0.2s, opacity 0.2s;
+
+  & > svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+  }
+
+  ${({ theme }) => theme.text.m};
+  ${({ size }) => sizeVariants[size || "normal"]};
+  ${({ $color, variant }) => buttonVariantsWithColor[variant || "contained"][$color]};
+`;
+
 const contained: ButtonColorCss = {
   primary: css`
     background-color: ${({ theme }) => theme.primary05};
