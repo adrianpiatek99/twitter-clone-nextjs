@@ -1,0 +1,1 @@
+export { TweetPageTemplate } from "./TweetPage";

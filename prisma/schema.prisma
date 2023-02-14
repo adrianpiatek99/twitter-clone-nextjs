@@ -1,0 +1,117 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refreshToken      String?
+  accessToken       String?
+  expiresAt         Int?
+  tokenType         String?
+  scope             String?
+  idToken           String?
+  sessionState      String?
+  oauthTokenSecret  String?
+  oauthToken        String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id            String   @id @default(cuid())
+  session_token String   @unique
+  userId        String
+  expires       DateTime
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum Role {
+  ADMIN
+  MODERATOR
+  USER
+}
+
+model User {
+  id               String       @id @default(cuid())
+  name             String
+  screenName       String       @unique
+  email            String       @unique
+  password         String
+  profileImageUrl  String       @default("")
+  profileBannerUrl String       @default("")
+  description      String       @default("")
+  url              String?
+  emailVerified    DateTime?
+  role             Role         @default(USER)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  accounts         Account[]
+  sessions         Session[]
+  tweets           Tweet[]
+  replies          TweetReply[]
+  likes            Like[]
+  followedBy       Follows[]    @relation("following")
+  following        Follows[]    @relation("follower")
+}
+
+model Tweet {
+  id        String       @id @default(cuid())
+  text      String
+  author    User         @relation(fields: [authorId], references: [id])
+  authorId  String
+  imageUrls String[]
+  hashtags  String[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  replies   TweetReply[]
+  likes     Like[]
+
+  @@unique([id, authorId])
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  tweet     Tweet    @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+  tweetId   String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+
+  @@unique([tweetId, userId])
+}
+
+model TweetReply {
+  id        String   @id @default(cuid())
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  tweet     Tweet    @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+  tweetId   String
+  text      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Follows {
+  id          String   @id @default(cuid())
+  follower    User     @relation(name: "follower", fields: [followerId], references: [id], onDelete: Cascade)
+  followerId  String
+  following   User     @relation(name: "following", fields: [followingId], references: [id], onDelete: Cascade)
+  followingId String
+  createdAt   DateTime @default(now())
+
+  @@unique([followerId, followingId])
+}
