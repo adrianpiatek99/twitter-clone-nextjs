@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { LikedTweetsResponse } from "api/tweet/likedTweets";
 import type { LikeTweetRequest } from "api/tweet/likeTweet";
 import type { TweetData } from "api/tweet/timelineTweets";
 import type { AxiosError } from "axios";
@@ -50,6 +51,7 @@ export const useLikeTweetMutation = ({
 
       updateInfiniteTweetsCache(queryClient, [], tweetId, updateTweets);
       updateInfiniteTweetsCache(queryClient, [screenName], tweetId, updateTweets);
+      updateInfiniteLikedTweetsCache(updateTweets);
       updateTweetCache(queryClient, [screenName, tweetId], updateTweets);
     },
     onError: error => {
@@ -73,12 +75,40 @@ export const useLikeTweetMutation = ({
 
       updateInfiniteTweetsCache(queryClient, [], tweetId, updateTweets);
       updateInfiniteTweetsCache(queryClient, [screenName], tweetId, updateTweets);
+      updateInfiniteLikedTweetsCache(updateTweets);
       updateTweetCache(queryClient, [screenName, tweetId], updateTweets);
     },
     onError: error => {
       handleAddToast("error", error.message);
     }
   });
+
+  const updateInfiniteLikedTweetsCache = (updateData: (data: TweetData) => TweetData) => {
+    queryClient.setQueryData<{ pages: LikedTweetsResponse[] }>(
+      ["likedTweets", screenName, "infinite"],
+      oldData => {
+        if (!oldData) return oldData;
+
+        return {
+          ...oldData,
+          pages: oldData.pages.map(page => {
+            return {
+              ...page,
+              likedTweets: page.likedTweets.map(like => {
+                const { tweet } = like;
+
+                if (tweet.id === tweetId) {
+                  return { ...like, tweet: updateData(tweet) };
+                }
+
+                return like;
+              })
+            };
+          })
+        };
+      }
+    );
+  };
 
   const handleLikeTweet = useCallback(() => {
     if (!sessionUserId) {
