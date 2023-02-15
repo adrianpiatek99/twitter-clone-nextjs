@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import type { UserData } from "api/user/userByScreenName";
 import { IconButton } from "components/core";
@@ -12,8 +12,19 @@ interface ProfileTopBarProps {
 }
 
 export const ProfileTopBar = ({ userData, isLoading }: ProfileTopBarProps) => {
-  const { back } = useRouter();
+  const { pathname, back } = useRouter();
   const tweetCount = userData?._count.tweets ?? 0;
+  const likesCount = userData?._count.likes ?? 0;
+
+  const getHeadingSubTitle = useMemo(() => {
+    if (pathname === "/[screenName]/with_replies") return `0 Tweets`;
+
+    if (pathname === "/[screenName]/media") return `0 Photos & videos`;
+
+    if (pathname === "/[screenName]/likes") return `${likesCount} Likes`;
+
+    return `${tweetCount} Tweets`;
+  }, [pathname, likesCount, tweetCount]);
 
   return (
     <TopBar
@@ -26,7 +37,7 @@ export const ProfileTopBar = ({ userData, isLoading }: ProfileTopBarProps) => {
     >
       <TopBarHeading
         title={userData ? userData.name : "Profile"}
-        subtitle={userData ? `${String(tweetCount)} Tweets` : ""}
+        subtitle={userData ? getHeadingSubTitle : ""}
       />
     </TopBar>
   );
