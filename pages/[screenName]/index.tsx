@@ -8,7 +8,7 @@ export interface ProfilePageProps {
   userData?: UserData;
 }
 
-const Profile = ({ userData }: ProfilePageProps) => {
+const ProfilePage = ({ userData }: ProfilePageProps) => {
   return (
     <>
       <NextSeo
@@ -20,4 +20,4 @@ const Profile = ({ userData }: ProfilePageProps) => {
   );
 };
 
-export default Profile;
+export default ProfilePage;
