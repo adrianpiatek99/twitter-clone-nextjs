@@ -14,9 +14,12 @@ Database is hosted on [Railway](https://railway.app)
 | [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) | [Jest](https://jestjs.io) | [msw](https://github.com/mswjs/msw) |
 | [yarn](https://yarnpkg.com) |
 
-## Performance
-
 ## Environment Variables
   - DATABASE_URL="postgresql database url"
   - AUTH_SECRET="auth secret"
   - APP_ENV="testing"
+  
+## Performance
+![alt text](https://i.imgur.com/1xQaD06.png)
+
+![alt text](https://i.imgur.com/FYPMvkT.png)
