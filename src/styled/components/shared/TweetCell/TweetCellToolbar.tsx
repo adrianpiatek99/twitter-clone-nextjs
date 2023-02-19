@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { useState } from "react";
 
 import type { TweetData } from "api/tweet/timelineTweets";
 import { IconButtonWithLabel } from "components/core";
@@ -26,57 +26,60 @@ interface TweetCellToolbarProps {
   handleLikeTweet: () => void;
 }
 
-export const TweetCellToolbar = memo(
-  ({ handleLikeTweet, isLoading, isLiked, tweetData }: TweetCellToolbarProps) => {
-    const {
-      _count: { replies, likes }
-    } = tweetData;
-    const { isUnauthenticated } = useAppSession();
-    const dispatch = useAppDispatch();
-    const { pink400, emerald400 } = useTheme();
-    const [isReplyModalOpen, setIsReplyModalOpen] = useState(false);
-    const likeTitle = isLiked ? "Unlike" : "Like";
+export const TweetCellToolbar = ({
+  handleLikeTweet,
+  isLoading,
+  isLiked,
+  tweetData
+}: TweetCellToolbarProps) => {
+  const {
+    _count: { replies, likes }
+  } = tweetData;
+  const { isUnauthenticated } = useAppSession();
+  const dispatch = useAppDispatch();
+  const { pink400, emerald400 } = useTheme();
+  const [isReplyModalOpen, setIsReplyModalOpen] = useState(false);
+  const likeTitle = isLiked ? "Unlike" : "Like";
 
-    const handleOpenReplyModal = () => {
-      if (isUnauthenticated) {
-        return dispatch(setAuthRequiredModalOpen(true));
-      }
+  const handleOpenReplyModal = () => {
+    if (isUnauthenticated) {
+      return dispatch(setAuthRequiredModalOpen(true));
+    }
 
-      setIsReplyModalOpen(prev => !prev);
-    };
+    setIsReplyModalOpen(prev => !prev);
+  };
 
-    return (
-      <Wrapper>
-        <IconButtonWithLabel
-          onClick={handleOpenReplyModal}
-          title="Reply"
-          label={String(replies)}
-          color="secondary"
-        >
-          <MessageIcon />
-        </IconButtonWithLabel>
-        <IconButtonWithLabel
-          onClick={handleLikeTweet}
-          title={likeTitle}
-          label={String(likes)}
-          color={pink400}
-          isSelected={isLiked}
-          disabled={isLoading}
-        >
-          {isLiked ? <HeartIcon /> : <HeartOutlinedIcon />}
-        </IconButtonWithLabel>
-        <IconButtonWithLabel title="Retweet" label={"0"} color={emerald400} disabled>
-          <RetweetIcon />
-        </IconButtonWithLabel>
-        <LazyReplyTweetModal
-          isOpen={isReplyModalOpen}
-          onClose={() => setIsReplyModalOpen(false)}
-          tweetData={tweetData}
-        />
-      </Wrapper>
-    );
-  }
-);
+  return (
+    <Wrapper>
+      <IconButtonWithLabel
+        onClick={handleOpenReplyModal}
+        title="Reply"
+        label={String(replies)}
+        color="secondary"
+      >
+        <MessageIcon />
+      </IconButtonWithLabel>
+      <IconButtonWithLabel
+        onClick={handleLikeTweet}
+        title={likeTitle}
+        label={String(likes)}
+        color={pink400}
+        isSelected={isLiked}
+        disabled={isLoading}
+      >
+        {isLiked ? <HeartIcon /> : <HeartOutlinedIcon />}
+      </IconButtonWithLabel>
+      <IconButtonWithLabel title="Retweet" label={"0"} color={emerald400} disabled>
+        <RetweetIcon />
+      </IconButtonWithLabel>
+      <LazyReplyTweetModal
+        isOpen={isReplyModalOpen}
+        onClose={() => setIsReplyModalOpen(false)}
+        tweetData={tweetData}
+      />
+    </Wrapper>
+  );
+};
 
 const Wrapper = styled.div`
   display: flex;

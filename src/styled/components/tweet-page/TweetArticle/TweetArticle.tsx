@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 
 import type { TweetData } from "api/tweet/timelineTweets";
 import { Text } from "components/core";
@@ -16,7 +16,7 @@ interface TweetArticleProps {
   referer: string;
 }
 
-export const TweetArticle = memo(({ isOwner, tweetData, referer }: TweetArticleProps) => {
+export const TweetArticle = ({ isOwner, tweetData, referer }: TweetArticleProps) => {
   const { text, createdAt } = tweetData;
   const { handleLikeTweet, likeLoading, unlikeLoading, isLiked } = useLikeTweetMutation({
     tweetData
@@ -45,7 +45,7 @@ export const TweetArticle = memo(({ isOwner, tweetData, referer }: TweetArticleP
       </Inner>
     </TweetArticleWrapper>
   );
-});
+};
 
 const TweetArticleWrapper = styled.article`
   display: flex;

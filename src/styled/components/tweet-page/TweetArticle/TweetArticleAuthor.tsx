@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { useState } from "react";
 
 import type { TweetData } from "api/tweet/timelineTweets";
 import { IconButton, Text } from "components/core";
@@ -14,45 +14,43 @@ interface TweetArticleAuthorProps {
   referer: string;
 }
 
-export const TweetArticleAuthor = memo(
-  ({ tweetData, isOwner, referer }: TweetArticleAuthorProps) => {
-    const {
-      author: { name, screenName, profileImageUrl }
-    } = tweetData;
-    const { push } = useRouter();
-    const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
+export const TweetArticleAuthor = ({ tweetData, isOwner, referer }: TweetArticleAuthorProps) => {
+  const {
+    author: { name, screenName, profileImageUrl }
+  } = tweetData;
+  const { push } = useRouter();
+  const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
 
-    return (
-      <Wrapper>
-        <Content>
-          <Avatar src={profileImageUrl} screenName={screenName} size="large" />
-          <NamesWrapper>
-            <Text weight={700} href={`/${screenName}`} truncate>
-              {name}
-            </Text>
-            <Text color="secondary" href={`/${screenName}`} truncate>
-              @{screenName}
-            </Text>
-          </NamesWrapper>
-        </Content>
-        {isOwner && (
-          <Actions>
-            <IconButton onClick={() => setIsMenuModalOpen(prev => !prev)} color="secondary">
-              <MoreHorizontalIcon />
-            </IconButton>
-            <TweetCellMenuModal
-              tweetData={tweetData}
-              isOwner={isOwner}
-              isOpen={isMenuModalOpen}
-              onClose={() => setIsMenuModalOpen(false)}
-              onDeleteSuccess={() => push(referer)}
-            />
-          </Actions>
-        )}
-      </Wrapper>
-    );
-  }
-);
+  return (
+    <Wrapper>
+      <Content>
+        <Avatar src={profileImageUrl} screenName={screenName} size="large" />
+        <NamesWrapper>
+          <Text weight={700} href={`/${screenName}`} truncate>
+            {name}
+          </Text>
+          <Text color="secondary" href={`/${screenName}`} truncate>
+            @{screenName}
+          </Text>
+        </NamesWrapper>
+      </Content>
+      {isOwner && (
+        <Actions>
+          <IconButton onClick={() => setIsMenuModalOpen(prev => !prev)} color="secondary">
+            <MoreHorizontalIcon />
+          </IconButton>
+          <TweetCellMenuModal
+            tweetData={tweetData}
+            isOwner={isOwner}
+            isOpen={isMenuModalOpen}
+            onClose={() => setIsMenuModalOpen(false)}
+            onDeleteSuccess={() => push(referer)}
+          />
+        </Actions>
+      )}
+    </Wrapper>
+  );
+};
 
 const Wrapper = styled.div`
   display: flex;
