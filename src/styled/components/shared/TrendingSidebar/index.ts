@@ -1,0 +1,1 @@
+export { TrendingSidebar } from "./TrendingSidebar";
