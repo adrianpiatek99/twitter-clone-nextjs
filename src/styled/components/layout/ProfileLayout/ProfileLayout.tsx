@@ -10,12 +10,12 @@ import { ErrorMessage } from "shared/Messages";
 import styled from "styled-components";
 import { reloadSession } from "utils/session";
 
-import { ProfileTopBar } from "../ProfileTopBar";
 import { ProfileActions } from "./ProfileActions";
 import { ProfileAvatar } from "./ProfileAvatar";
 import { ProfileBanner } from "./ProfileBanner";
 import { ProfileInformation } from "./ProfileInformation";
 import { ProfileTabs } from "./ProfileTabs";
+import { ProfileTopBar } from "./ProfileTopBar";
 
 interface ProfileLayoutProps {
   children: ReactElement<ComponentProps<typeof Profile>>;

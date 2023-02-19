@@ -9,24 +9,21 @@ import { NavBottomBar } from "shared/NavBottomBar";
 import { NavSidebar } from "shared/NavSidebar";
 import styled, { keyframes } from "styled-components";
 
-import { ProfileFollowsLayout } from "./follows-page";
-import { ProfileLayout } from "./profile-page";
+import { ProfileFollowsLayout } from "./ProfileFollowsLayout";
+import { ProfileLayout } from "./ProfileLayout";
 
-const LazyNavDrawer = dynamic(
-  () => import("../components/shared/NavDrawer").then(mod => mod.NavDrawer),
-  {
-    ssr: false
-  }
-);
+const LazyNavDrawer = dynamic(() => import("../shared/NavDrawer").then(mod => mod.NavDrawer), {
+  ssr: false
+});
 const LazyAuthenticationBar = dynamic(
-  () => import("../components/shared/AuthenticationBar").then(mod => mod.AuthenticationBar),
+  () => import("../shared/AuthenticationBar").then(mod => mod.AuthenticationBar),
   {
     ssr: false
   }
 );
 const LazyAuthenticationRequiredModal = dynamic(
   () =>
-    import("../components/shared/Modals/AuthenticationRequiredModal").then(
+    import("../shared/Modals/AuthenticationRequiredModal").then(
       mod => mod.AuthenticationRequiredModal
     ),
   {
@@ -56,7 +53,7 @@ const CurrentLayoutPattern = ({ children }: LayoutProps) => {
   return children;
 };
 
-const Layout = ({ children }: LayoutProps) => {
+export const Layout = ({ children }: LayoutProps) => {
   const { pathname } = useRouter();
   const { isSessionLoading, isUnauthenticated } = useAppSession();
 
@@ -83,8 +80,6 @@ const Layout = ({ children }: LayoutProps) => {
     </Wrapper>
   );
 };
-
-export default Layout;
 
 const LogoEnterAnimation = keyframes`
     0% {

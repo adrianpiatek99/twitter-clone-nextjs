@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Layout from "components/layout";
+import { Layout } from "components/layout";
 import { useScrollRestoration } from "hooks/useScrollRestoration";
 import type { AppProps } from "next/app";
 import Head from "next/head";
