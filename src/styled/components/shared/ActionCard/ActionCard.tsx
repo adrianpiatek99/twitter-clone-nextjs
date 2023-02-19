@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { forwardRef } from "react";
 import React from "react";
 
+import type { LinkProps } from "next/link";
 import Link from "next/link";
 import styled, { keyframes } from "styled-components";
 import { hexToRGBA } from "utils/colors";
@@ -12,7 +13,7 @@ type ActionCardTag = "div" | "article";
 interface ActionCardProps extends ComponentPropsWithRef<"div"> {
   tag?: ActionCardTag;
   onClick?: (e: MouseEvent<HTMLDivElement>) => void;
-  href?: string;
+  href?: LinkProps["href"];
   label?: string;
 }
 
@@ -52,10 +53,10 @@ export const ActionCard = forwardRef(
         {href && (
           <StyledLink
             ref={linkRef}
-            href={href}
             tabIndex={-1}
             draggable={false}
             aria-label={label}
+            href={href}
           />
         )}
         {children}
