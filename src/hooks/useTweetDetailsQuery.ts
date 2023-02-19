@@ -4,7 +4,7 @@ import { type QueryClient, useQuery, useQueryClient } from "@tanstack/react-quer
 import type { TimelineTweetsResponse, TweetData } from "api/tweet/timelineTweets";
 import type { AxiosError } from "axios";
 import { tweetDetails } from "network/tweet/tweetDetails";
-import { uniqBy } from "utils/uniqByUtil";
+import { uniqBy } from "utils/uniqBy";
 
 const handleGetQueryTweetsByKey = (queryClient: QueryClient, queryKey: string[]) =>
   queryClient

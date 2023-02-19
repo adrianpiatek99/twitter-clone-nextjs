@@ -4,7 +4,7 @@ import type { TweetData } from "api/tweet/timelineTweets";
 import { Text } from "components/core";
 import { Avatar } from "shared/Avatar";
 import styled, { useTheme } from "styled-components";
-import { getRelativeTime } from "utils/timeUtils";
+import { getRelativeTime } from "utils/time";
 
 interface ReplyTweetModalAuthorProps {
   tweetData: TweetData;

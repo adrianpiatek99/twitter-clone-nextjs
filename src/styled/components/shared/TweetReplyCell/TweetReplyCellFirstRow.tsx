@@ -3,7 +3,7 @@ import React from "react";
 import type { ReplyData } from "api/tweet/replyTweet";
 import { Text } from "components/core";
 import styled from "styled-components";
-import { getRelativeTime } from "utils/timeUtils";
+import { getRelativeTime } from "utils/time";
 
 interface TweetReplyCellFirstRowProps {
   replyData: ReplyData;

@@ -8,8 +8,8 @@ import LinkIcon from "icons/LinkIcon";
 import Link from "next/link";
 import { Skeleton } from "shared/Skeleton";
 import styled from "styled-components";
-import { getFormattedDate } from "utils/timeUtils";
-import { removeHttp } from "utils/urlUtils";
+import { getFormattedDate } from "utils/time";
+import { removeHttp } from "utils/url";
 
 interface ProfileInformationProps {
   userData: UserData | undefined;
