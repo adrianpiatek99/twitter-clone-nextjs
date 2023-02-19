@@ -1,11 +1,10 @@
-import type { User } from "@prisma/client";
 import type { TweetData } from "api/tweet/timelineTweets";
 import type { NextApiHandler } from "next";
 import { getSession } from "next-auth/react";
 import { prisma } from "prisma/prisma";
 
 export type UserTweetsRequest = {
-  userId: User["id"];
+  userId: string;
   cursor?: string | null | undefined;
   limit?: string;
 };

@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { LikedTweetsResponse } from "api/tweet/likedTweets";
 import type { LikeTweetRequest } from "api/tweet/likeTweet";
 import type { TweetData } from "api/tweet/timelineTweets";
 import type { AxiosError } from "axios";
@@ -19,18 +20,15 @@ interface UseLikeTweetMutationProps {
 }
 
 export const useLikeTweetMutation = ({
-  tweetData: {
-    id: tweetId,
-    likes,
-    author: { screenName }
-  },
+  tweetData: { id: tweetId, likes },
   disabled = false
 }: UseLikeTweetMutationProps) => {
   const queryClient = useQueryClient();
   const { session } = useAppSession();
   const dispatch = useAppDispatch();
   const { handleAddToast } = useToasts();
-  const sessionUserId = session?.user.id ?? "";
+  const sessionUserId = session?.user.id;
+  const sessionUserScreenName = session?.user.screenName;
   const isLiked = likes.some(({ userId }) => userId === sessionUserId);
 
   const { mutate: likeMutate, isLoading: likeLoading } = useMutation<
@@ -49,8 +47,12 @@ export const useLikeTweetMutation = ({
       };
 
       updateInfiniteTweetsCache(queryClient, [], tweetId, updateTweets);
-      updateInfiniteTweetsCache(queryClient, [screenName], tweetId, updateTweets);
-      updateTweetCache(queryClient, [screenName, tweetId], updateTweets);
+      updateInfiniteLikedTweetsCache(updateTweets);
+
+      if (sessionUserScreenName) {
+        updateInfiniteTweetsCache(queryClient, [sessionUserScreenName], tweetId, updateTweets);
+        updateTweetCache(queryClient, [sessionUserScreenName, tweetId], updateTweets);
+      }
     },
     onError: error => {
       handleAddToast("error", error.message);
@@ -72,13 +74,44 @@ export const useLikeTweetMutation = ({
       };
 
       updateInfiniteTweetsCache(queryClient, [], tweetId, updateTweets);
-      updateInfiniteTweetsCache(queryClient, [screenName], tweetId, updateTweets);
-      updateTweetCache(queryClient, [screenName, tweetId], updateTweets);
+      updateInfiniteLikedTweetsCache(updateTweets);
+
+      if (sessionUserScreenName) {
+        updateInfiniteTweetsCache(queryClient, [sessionUserScreenName], tweetId, updateTweets);
+        updateTweetCache(queryClient, [sessionUserScreenName, tweetId], updateTweets);
+      }
     },
     onError: error => {
       handleAddToast("error", error.message);
     }
   });
+
+  const updateInfiniteLikedTweetsCache = (updateData: (data: TweetData) => TweetData) => {
+    queryClient.setQueryData<{ pages: LikedTweetsResponse[] }>(
+      ["likedTweets", sessionUserScreenName, "infinite"],
+      oldData => {
+        if (!oldData) return oldData;
+
+        return {
+          ...oldData,
+          pages: oldData.pages.map(page => {
+            return {
+              ...page,
+              likedTweets: page.likedTweets.map(like => {
+                const { tweet } = like;
+
+                if (tweet.id === tweetId) {
+                  return { ...like, tweet: updateData(tweet) };
+                }
+
+                return like;
+              })
+            };
+          })
+        };
+      }
+    );
+  };
 
   const handleLikeTweet = useCallback(() => {
     if (!sessionUserId) {
