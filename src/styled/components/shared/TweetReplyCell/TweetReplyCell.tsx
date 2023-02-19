@@ -1,4 +1,5 @@
 import type { ComponentPropsWithRef, Ref } from "react";
+import { memo } from "react";
 import { forwardRef } from "react";
 import React from "react";
 
@@ -15,8 +16,8 @@ interface TweetReplyCellProps extends ComponentPropsWithRef<"div"> {
   start: number;
 }
 
-export const TweetReplyCell = forwardRef(
-  ({ replyData, start, ...props }: TweetReplyCellProps, ref: Ref<HTMLDivElement>) => {
+export const TweetReplyCell = memo(
+  forwardRef(({ replyData, start, ...props }: TweetReplyCellProps, ref: Ref<HTMLDivElement>) => {
     const {
       text,
       author: { profileImageUrl, screenName },
@@ -55,7 +56,7 @@ export const TweetReplyCell = forwardRef(
         </Inner>
       </ReplyActionCard>
     );
-  }
+  })
 );
 
 const ReplyActionCard = styled(ActionCard)`

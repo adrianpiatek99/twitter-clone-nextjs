@@ -1,5 +1,4 @@
 import type { ComponentProps, ReactElement } from "react";
-import { memo } from "react";
 import { useEffect } from "react";
 import React, { Children, cloneElement, isValidElement } from "react";
 
@@ -21,7 +20,7 @@ interface ProfileLayoutProps {
   children: ReactElement<ComponentProps<typeof Profile>>;
 }
 
-export const ProfileLayout = memo(({ children }: ProfileLayoutProps) => {
+export const ProfileLayout = ({ children }: ProfileLayoutProps) => {
   const { userData, userLoading, itsMe, queryScreenName, isError, error } =
     useUserByScreenNameQuery({});
 
@@ -63,7 +62,7 @@ export const ProfileLayout = memo(({ children }: ProfileLayoutProps) => {
       {childrenWithProps}
     </Wrapper>
   );
-});
+};
 
 const Wrapper = styled.div`
   display: flex;

@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 
 import type { TweetData } from "api/tweet/timelineTweets";
 import { Text } from "components/core";
@@ -8,7 +8,7 @@ interface TweetArticleStatsProps {
   tweetData: TweetData;
 }
 
-export const TweetArticleStats = memo(({ tweetData }: TweetArticleStatsProps) => {
+export const TweetArticleStats = ({ tweetData }: TweetArticleStatsProps) => {
   const {
     _count: { replies, likes }
   } = tweetData;
@@ -34,7 +34,7 @@ export const TweetArticleStats = memo(({ tweetData }: TweetArticleStatsProps) =>
       )}
     </Wrapper>
   ) : null;
-});
+};
 
 const Wrapper = styled.div`
   display: flex;

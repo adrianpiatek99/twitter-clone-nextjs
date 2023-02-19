@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 
 import { Avatar } from "shared/Avatar";
 import styled from "styled-components";
@@ -8,7 +8,7 @@ interface ProfileAvatarProps {
   isLoading: boolean;
 }
 
-export const ProfileAvatar = memo(({ src, isLoading }: ProfileAvatarProps) => {
+export const ProfileAvatar = ({ src, isLoading }: ProfileAvatarProps) => {
   return (
     <Wrapper>
       <Inner>
@@ -16,7 +16,7 @@ export const ProfileAvatar = memo(({ src, isLoading }: ProfileAvatarProps) => {
       </Inner>
     </Wrapper>
   );
-});
+};
 
 const Wrapper = styled.div`
   position: relative;
