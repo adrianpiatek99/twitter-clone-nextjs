@@ -1,4 +1,4 @@
-import type { ComponentProps, ComponentPropsWithoutRef, ReactElement} from "react";
+import type { ComponentProps, ComponentPropsWithoutRef, ReactElement } from "react";
 import React, { useRef } from "react";
 import { HiChevronLeft } from "react-icons/hi";
 

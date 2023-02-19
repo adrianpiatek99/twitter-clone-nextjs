@@ -7,9 +7,8 @@ import { useInfiniteScrollQuery } from "hooks/useInfiniteScrollQuery";
 import { useVirtualScroll } from "hooks/useVirtualScroll";
 import { repliesTweet } from "network/tweet/repliesTweet";
 import { EmptyMessage, ErrorMessage } from "shared/Messages";
+import { TweetReplyCell, TweetReplyCellSkeleton } from "shared/TweetReplyCell";
 import styled from "styled-components";
-
-import { TweetReplyCell, TweetReplyCellSkeleton } from "../../shared/TweetReplyCell";
 
 interface TweetRepliesProps {
   queryTweetId: string;

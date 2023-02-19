@@ -12,18 +12,21 @@ import styled, { keyframes } from "styled-components";
 import { ProfileFollowsLayout } from "./follows-page";
 import { ProfileLayout } from "./profile-page";
 
-const LazyNavDrawer = dynamic(() => import("../shared/NavDrawer").then(mod => mod.NavDrawer), {
-  ssr: false
-});
+const LazyNavDrawer = dynamic(
+  () => import("../components/shared/NavDrawer").then(mod => mod.NavDrawer),
+  {
+    ssr: false
+  }
+);
 const LazyAuthenticationBar = dynamic(
-  () => import("../shared/AuthenticationBar").then(mod => mod.AuthenticationBar),
+  () => import("../components/shared/AuthenticationBar").then(mod => mod.AuthenticationBar),
   {
     ssr: false
   }
 );
 const LazyAuthenticationRequiredModal = dynamic(
   () =>
-    import("../shared/Modals/AuthenticationRequiredModal").then(
+    import("../components/shared/Modals/AuthenticationRequiredModal").then(
       mod => mod.AuthenticationRequiredModal
     ),
   {

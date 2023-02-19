@@ -1,7 +1,7 @@
 import React from "react";
 
+import { TweetPageTemplate } from "components/tweet-page";
 import type { GetServerSideProps } from "next";
-import { TweetPageTemplate } from "templates/tweet-page";
 
 interface TweetPageProps {
   referer: string;

@@ -12,7 +12,7 @@ import { useAppDispatch } from "store/store";
 import styled, { useTheme } from "styled-components";
 
 const LazyReplyTweetModal = dynamic(
-  () => import("../../../shared/Modals/ReplyTweetModal").then(mod => mod.ReplyTweetModal),
+  () => import("../../shared/Modals/ReplyTweetModal").then(mod => mod.ReplyTweetModal),
   {
     ssr: false
   }

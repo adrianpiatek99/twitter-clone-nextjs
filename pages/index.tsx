@@ -1,8 +1,8 @@
+import { LoginPage } from "components/login-page";
 import LoginContextProvider from "context/LoginContext";
 import type { GetSessionParams } from "next-auth/react";
 import { getSession } from "next-auth/react";
 import { NextSeo } from "next-seo";
-import { LoginPage } from "templates/login-page";
 
 const Login = () => {
   return (
