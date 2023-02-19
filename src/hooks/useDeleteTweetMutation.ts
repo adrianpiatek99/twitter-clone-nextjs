@@ -16,25 +16,25 @@ interface UseDeleteTweetMutationProps {
 }
 
 export const useDeleteTweetMutation = ({
-  tweetData: {
-    id: tweetId,
-    authorId,
-    author: { screenName }
-  },
+  tweetData: { id: tweetId, authorId },
   onSuccess
 }: UseDeleteTweetMutationProps) => {
   const queryClient = useQueryClient();
   const { session } = useAppSession();
   const { handleAddToast } = useToasts();
-  const currentUserId = session?.user.id;
+  const sessionUserId = session?.user.id;
+  const sessionScreenName = session?.user.screenName;
 
   const { mutate, isLoading: deleteLoading } = useMutation<unknown, AxiosError, DeleteTweetRequest>(
     {
       mutationFn: deleteTweet,
       onSuccess: () => {
         updateCache(["tweets", "infinite"]);
-        updateCache(["tweets", screenName, "infinite"]);
-        queryClient.removeQueries(["tweet", screenName, tweetId]);
+        queryClient.removeQueries(["tweet", sessionScreenName, tweetId]);
+
+        if (sessionScreenName) {
+          updateCache(["tweets", sessionScreenName, "infinite"]);
+        }
 
         onSuccess?.();
       },
@@ -59,10 +59,10 @@ export const useDeleteTweetMutation = ({
   };
 
   const handleDeleteTweet = useCallback(() => {
-    if (deleteLoading || currentUserId !== authorId) return;
+    if (deleteLoading || sessionUserId !== authorId) return;
 
     mutate({ tweetId });
-  }, [mutate, currentUserId, authorId, tweetId, deleteLoading]);
+  }, [mutate, sessionUserId, authorId, tweetId, deleteLoading]);
 
   return {
     handleDeleteTweet,

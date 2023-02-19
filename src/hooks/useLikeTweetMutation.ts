@@ -20,18 +20,15 @@ interface UseLikeTweetMutationProps {
 }
 
 export const useLikeTweetMutation = ({
-  tweetData: {
-    id: tweetId,
-    likes,
-    author: { screenName }
-  },
+  tweetData: { id: tweetId, likes },
   disabled = false
 }: UseLikeTweetMutationProps) => {
   const queryClient = useQueryClient();
   const { session } = useAppSession();
   const dispatch = useAppDispatch();
   const { handleAddToast } = useToasts();
-  const sessionUserId = session?.user.id ?? "";
+  const sessionUserId = session?.user.id;
+  const sessionUserScreenName = session?.user.screenName;
   const isLiked = likes.some(({ userId }) => userId === sessionUserId);
 
   const { mutate: likeMutate, isLoading: likeLoading } = useMutation<
@@ -50,9 +47,12 @@ export const useLikeTweetMutation = ({
       };
 
       updateInfiniteTweetsCache(queryClient, [], tweetId, updateTweets);
-      updateInfiniteTweetsCache(queryClient, [screenName], tweetId, updateTweets);
       updateInfiniteLikedTweetsCache(updateTweets);
-      updateTweetCache(queryClient, [screenName, tweetId], updateTweets);
+
+      if (sessionUserScreenName) {
+        updateInfiniteTweetsCache(queryClient, [sessionUserScreenName], tweetId, updateTweets);
+        updateTweetCache(queryClient, [sessionUserScreenName, tweetId], updateTweets);
+      }
     },
     onError: error => {
       handleAddToast("error", error.message);
@@ -74,9 +74,12 @@ export const useLikeTweetMutation = ({
       };
 
       updateInfiniteTweetsCache(queryClient, [], tweetId, updateTweets);
-      updateInfiniteTweetsCache(queryClient, [screenName], tweetId, updateTweets);
       updateInfiniteLikedTweetsCache(updateTweets);
-      updateTweetCache(queryClient, [screenName, tweetId], updateTweets);
+
+      if (sessionUserScreenName) {
+        updateInfiniteTweetsCache(queryClient, [sessionUserScreenName], tweetId, updateTweets);
+        updateTweetCache(queryClient, [sessionUserScreenName, tweetId], updateTweets);
+      }
     },
     onError: error => {
       handleAddToast("error", error.message);
@@ -85,7 +88,7 @@ export const useLikeTweetMutation = ({
 
   const updateInfiniteLikedTweetsCache = (updateData: (data: TweetData) => TweetData) => {
     queryClient.setQueryData<{ pages: LikedTweetsResponse[] }>(
-      ["likedTweets", screenName, "infinite"],
+      ["likedTweets", sessionUserScreenName, "infinite"],
       oldData => {
         if (!oldData) return oldData;
 
