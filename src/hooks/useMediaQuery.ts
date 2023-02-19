@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { debounce } from "utils/debounceUtil";
+import { debounce } from "utils/debounce";
 
 export const useMediaQuery = (query: string) => {
   const [matches, setMatches] = useState(false);

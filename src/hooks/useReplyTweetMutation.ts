@@ -8,7 +8,7 @@ import type { AxiosError } from "axios";
 import { replyTweet } from "network/tweet/replyTweet";
 import { setAuthRequiredModalOpen } from "store/slices/globalSlice";
 import { useAppDispatch } from "store/store";
-import { updateInfiniteTweetsCache, updateTweetCache } from "utils/updateCacheUtils";
+import { updateInfiniteTweetsCache, updateTweetCache } from "utils/updateQueryCache";
 
 import { useAppSession } from "./useAppSession";
 import { useToasts } from "./useToasts";

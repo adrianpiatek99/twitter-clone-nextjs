@@ -1,7 +1,7 @@
 import React from "react";
 
+import { ProfileLikes } from "components/profile-page/ProfileLikes";
 import { NextSeo } from "next-seo";
-import { ProfileLikes } from "templates/profile-page/ProfileLikes";
 
 import type { ProfilePageProps } from ".";
 

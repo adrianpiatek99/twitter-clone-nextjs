@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 import styled from "styled-components";
 
 const LazyEditProfileModal = dynamic(
-  () => import("../Modals/EditProfileModal").then(mod => mod.EditProfileModal),
+  () => import("./Modals/EditProfileModal").then(mod => mod.EditProfileModal),
   {
     ssr: false
   }

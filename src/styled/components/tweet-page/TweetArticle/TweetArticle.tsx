@@ -4,7 +4,7 @@ import type { TweetData } from "api/tweet/timelineTweets";
 import { Text } from "components/core";
 import { useLikeTweetMutation } from "hooks/useLikeTweetMutation";
 import styled from "styled-components";
-import { getFormattedDate } from "utils/timeUtils";
+import { getFormattedDate } from "utils/time";
 
 import { TweetArticleAuthor } from "./TweetArticleAuthor";
 import { TweetArticleStats } from "./TweetArticleStats";

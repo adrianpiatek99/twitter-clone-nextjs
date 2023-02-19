@@ -3,7 +3,8 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "editor.defaultFormatter": "dbaeumer.vscode-eslint", "[typescriptreact]": {
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescript]": {
@@ -12,11 +13,5 @@
   "[prisma]": {
     "editor.defaultFormatter": "Prisma.prisma"
   },
-  "cSpell.words": [
-    "reduxjs",
-    "roboto",
-    "webm",
-    "tanstack",
-    "unfollow"
-  ]
+  "cSpell.words": ["reduxjs", "roboto", "webm", "tanstack", "unfollow"]
 }

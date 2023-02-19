@@ -5,8 +5,8 @@ import ReduxStoreProvider from "store/ReduxStoreProvider";
 import { GlobalStyle, ThemeProvider } from "styled/theme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
-import Layout from "templates/layout";
 import { mockedSession } from "__mocks__/user.mock";
+import { Layout } from "components/layout";
 
 const queryClient = new QueryClient();
 

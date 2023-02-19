@@ -9,8 +9,8 @@ import { NavBottomBar } from "shared/NavBottomBar";
 import { NavSidebar } from "shared/NavSidebar";
 import styled, { keyframes } from "styled-components";
 
-import { ProfileFollowsLayout } from "./follows-page";
-import { ProfileLayout } from "./profile-page";
+import { ProfileFollowsLayout } from "./ProfileFollowsLayout";
+import { ProfileLayout } from "./ProfileLayout";
 
 const LazyNavDrawer = dynamic(() => import("../shared/NavDrawer").then(mod => mod.NavDrawer), {
   ssr: false
@@ -53,7 +53,7 @@ const CurrentLayoutPattern = ({ children }: LayoutProps) => {
   return children;
 };
 
-const Layout = ({ children }: LayoutProps) => {
+export const Layout = ({ children }: LayoutProps) => {
   const { pathname } = useRouter();
   const { isSessionLoading, isUnauthenticated } = useAppSession();
 
@@ -80,8 +80,6 @@ const Layout = ({ children }: LayoutProps) => {
     </Wrapper>
   );
 };
-
-export default Layout;
 
 const LogoEnterAnimation = keyframes`
     0% {

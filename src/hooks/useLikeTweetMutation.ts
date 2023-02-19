@@ -9,7 +9,7 @@ import { likeTweet } from "network/tweet/likeTweet";
 import { unlikeTweet } from "network/tweet/unlikeTweet";
 import { setAuthRequiredModalOpen } from "store/slices/globalSlice";
 import { useAppDispatch } from "store/store";
-import { updateInfiniteTweetsCache, updateTweetCache } from "utils/updateCacheUtils";
+import { updateInfiniteTweetsCache, updateTweetCache } from "utils/updateQueryCache";
 
 import { useAppSession } from "./useAppSession";
 import { useToasts } from "./useToasts";

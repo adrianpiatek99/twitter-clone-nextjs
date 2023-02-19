@@ -4,7 +4,7 @@ import type { TweetData } from "api/tweet/timelineTweets";
 import { IconButton, Text } from "components/core";
 import MoreHorizontalIcon from "icons/MoreHorizontalIcon";
 import styled from "styled-components";
-import { getRelativeTime } from "utils/timeUtils";
+import { getRelativeTime } from "utils/time";
 
 import { TweetCellMenuModal } from "./Modals";
 

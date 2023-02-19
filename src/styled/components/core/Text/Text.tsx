@@ -3,10 +3,11 @@ import { memo } from "react";
 import React from "react";
 
 import Link from "next/link";
+import type { DefaultTheme } from "styled-components";
 import styled, { css } from "styled-components";
 
 type TextTag = "span" | "p" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "div" | "a";
-type TextSize = "xs" | "s" | "m" | "l" | "xl" | "xxl";
+type TextSize = keyof DefaultTheme["text"];
 type TextWeight = 300 | 400 | 500 | 600 | 700;
 type Color = "primary" | "secondary";
 
