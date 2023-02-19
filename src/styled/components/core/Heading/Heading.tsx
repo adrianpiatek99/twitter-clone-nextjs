@@ -1,8 +1,9 @@
 import type { ComponentPropsWithoutRef } from "react";
 
+import type { DefaultTheme } from "styled-components";
 import styled, { css } from "styled-components";
 
-type HeadingSize = "xs" | "s" | "m";
+type HeadingSize = keyof DefaultTheme["heading"];
 type HeadingTag = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 type HeadingWeight = 300 | 400 | 500 | 600 | 700;
 

@@ -1,43 +1,39 @@
 import React, { useState } from "react";
 
 import type { TweetData } from "api/tweet/timelineTweets";
-import { IconButtonWithLabel } from "components/core";
+import { IconButton } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
 import HeartIcon from "icons/HeartIcon";
 import HeartOutlinedIcon from "icons/HeartOutlinedIcon";
 import MessageIcon from "icons/MessageIcon";
-import RetweetIcon from "icons/RetweetIcon";
 import dynamic from "next/dynamic";
 import { setAuthRequiredModalOpen } from "store/slices/globalSlice";
 import { useAppDispatch } from "store/store";
 import styled, { useTheme } from "styled-components";
 
 const LazyReplyTweetModal = dynamic(
-  () => import("../Modals/ReplyTweetModal").then(mod => mod.ReplyTweetModal),
+  () => import("../../shared/Modals/ReplyTweetModal").then(mod => mod.ReplyTweetModal),
   {
     ssr: false
   }
 );
 
-interface TweetCellToolbarProps {
+interface TweetArticleToolbarProps {
+  handleLikeTweet: () => void;
   tweetData: TweetData;
   isLoading: boolean;
   isLiked: boolean;
-  handleLikeTweet: () => void;
 }
 
-export const TweetCellToolbar = ({
+export const TweetArticleToolbar = ({
   handleLikeTweet,
+  tweetData,
   isLoading,
-  isLiked,
-  tweetData
-}: TweetCellToolbarProps) => {
-  const {
-    _count: { replies, likes }
-  } = tweetData;
+  isLiked
+}: TweetArticleToolbarProps) => {
   const { isUnauthenticated } = useAppSession();
   const dispatch = useAppDispatch();
-  const { pink400, emerald400 } = useTheme();
+  const { pink400 } = useTheme();
   const [isReplyModalOpen, setIsReplyModalOpen] = useState(false);
   const likeTitle = isLiked ? "Unlike" : "Like";
 
@@ -51,27 +47,18 @@ export const TweetCellToolbar = ({
 
   return (
     <Wrapper>
-      <IconButtonWithLabel
-        onClick={handleOpenReplyModal}
-        title="Reply"
-        label={String(replies)}
-        color="secondary"
-      >
+      <IconButton title="Reply" onClick={handleOpenReplyModal} color="secondary">
         <MessageIcon />
-      </IconButtonWithLabel>
-      <IconButtonWithLabel
-        onClick={handleLikeTweet}
+      </IconButton>
+      <IconButton
         title={likeTitle}
-        label={String(likes)}
+        onClick={handleLikeTweet}
         color={pink400}
         isSelected={isLiked}
         disabled={isLoading}
       >
         {isLiked ? <HeartIcon /> : <HeartOutlinedIcon />}
-      </IconButtonWithLabel>
-      <IconButtonWithLabel title="Retweet" label={"0"} color={emerald400} disabled>
-        <RetweetIcon />
-      </IconButtonWithLabel>
+      </IconButton>
       <LazyReplyTweetModal
         isOpen={isReplyModalOpen}
         onClose={() => setIsReplyModalOpen(false)}
@@ -84,10 +71,10 @@ export const TweetCellToolbar = ({
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: max-content;
-  gap: 8px 12px;
-  min-width: 200px;
+  justify-content: space-around;
   max-width: 425px;
+  width: 100%;
+  margin: 0 auto;
+  gap: 12px;
   z-index: 1;
 `;

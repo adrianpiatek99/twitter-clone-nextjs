@@ -1,14 +1,14 @@
 import React from "react";
 
 import type { UserData } from "api/user/userByScreenName";
+import { ProfileTimeline } from "components/profile-page";
 import { NextSeo } from "next-seo";
-import { ProfileTimeline } from "templates/profile-page";
 
 export interface ProfilePageProps {
   userData?: UserData;
 }
 
-const Profile = ({ userData }: ProfilePageProps) => {
+const ProfilePage = ({ userData }: ProfilePageProps) => {
   return (
     <>
       <NextSeo
@@ -20,4 +20,4 @@ const Profile = ({ userData }: ProfilePageProps) => {
   );
 };
 
-export default Profile;
+export default ProfilePage;

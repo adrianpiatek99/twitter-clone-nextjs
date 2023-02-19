@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 
 import Image from "next/legacy/image";
 import { Skeleton } from "shared/Skeleton";
@@ -9,7 +9,7 @@ interface ProfileBannerProps {
   isLoading: boolean;
 }
 
-export const ProfileBanner = memo(({ src, isLoading }: ProfileBannerProps) => {
+export const ProfileBanner = ({ src, isLoading }: ProfileBannerProps) => {
   return (
     <Wrapper isLoading={isLoading}>
       <Inner>
@@ -21,7 +21,7 @@ export const ProfileBanner = memo(({ src, isLoading }: ProfileBannerProps) => {
       </Inner>
     </Wrapper>
   );
-});
+};
 
 const Wrapper = styled.div<{ isLoading: boolean }>`
   display: block;

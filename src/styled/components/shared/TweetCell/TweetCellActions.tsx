@@ -1,10 +1,10 @@
-import React, { memo, useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 
 import type { TweetData } from "api/tweet/timelineTweets";
 import { IconButton, Text } from "components/core";
 import MoreHorizontalIcon from "icons/MoreHorizontalIcon";
 import styled from "styled-components";
-import { getRelativeTime } from "utils/timeUtils";
+import { getRelativeTime } from "utils/time";
 
 import { TweetCellMenuModal } from "./Modals";
 
@@ -13,7 +13,7 @@ interface TweetCellActionsProps {
   isOwner: boolean;
 }
 
-export const TweetCellActions = memo(({ isOwner, tweetData }: TweetCellActionsProps) => {
+export const TweetCellActions = ({ isOwner, tweetData }: TweetCellActionsProps) => {
   const {
     author: { name, screenName },
     createdAt
@@ -53,7 +53,7 @@ export const TweetCellActions = memo(({ isOwner, tweetData }: TweetCellActionsPr
       )}
     </Wrapper>
   );
-});
+};
 
 const Wrapper = styled.div`
   display: flex;

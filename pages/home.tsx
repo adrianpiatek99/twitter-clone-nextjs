@@ -1,7 +1,7 @@
 import React from "react";
 
+import { HomePageTemplate } from "components/home-page";
 import { NextSeo } from "next-seo";
-import { HomePageTemplate } from "templates/home-page";
 
 const Home = () => {
   return (

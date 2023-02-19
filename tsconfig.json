@@ -1,76 +1,43 @@
 {
-	"compilerOptions": {
-		"jsx": "preserve",
+  "compilerOptions": {
+    "jsx": "preserve",
     "target": "es2017",
-		"baseUrl": ".",
-		"paths": {
-      "assets/*": [
-        "assets/*"
-      ],
-      "tests/*": [
-        "tests/*"
-      ],
-      "hooks/*": [
-        "src/hooks/*"
-      ],
-      "constants/*": [
-        "src/constants/*"
-      ],
-      "context/*": [
-        "src/context/*"
-      ],
-      "@types/*": [
-        "src/@types/*"
-      ],
-      "shared/*": [
-        "src/styled/components/shared/*"
-      ],
-      "templates/*": [
-        "src/styled/components/templates/*"
-      ],
-      "components/*": [
-        "src/styled/components/*"
-      ],
-      "styled/*": [
-        "src/styled/*"
-      ],
-      "network/*": [
-        "src/network/*"
-      ],
-      "icons/*": [
-        "src/icons/*"
-      ],
-      "schema/*": [
-        "src/schema/*"
-      ],
-      "store/*": [
-        "src/store/*"
-      ],
-      "utils/*": [
-        "src/utils/*"
-      ],
-      "api/*": [
-        "pages/api/*"
-      ],
+    "baseUrl": ".",
+    "paths": {
+      "assets/*": ["assets/*"],
+      "tests/*": ["tests/*"],
+      "hooks/*": ["src/hooks/*"],
+      "constants/*": ["src/constants/*"],
+      "context/*": ["src/context/*"],
+      "@types/*": ["src/@types/*"],
+      "shared/*": ["src/styled/components/shared/*"],
+      "components/*": ["src/styled/components/*"],
+      "styled/*": ["src/styled/*"],
+      "network/*": ["src/network/*"],
+      "icons/*": ["src/icons/*"],
+      "schema/*": ["src/schema/*"],
+      "store/*": ["src/store/*"],
+      "utils/*": ["src/utils/*"],
+      "api/*": ["pages/api/*"]
     },
-		"module": "esnext",
-		"moduleResolution": "node",
-		"lib": ["dom", "dom.iterable", "esnext"],
-		"noEmit": true,
-		"strict": true,
-		"allowJs": false,
-		"skipLibCheck": true,
-		"noImplicitAny": false,
-		"esModuleInterop": true,
-		"resolveJsonModule": true,
-		"isolatedModules": true,
-		"forceConsistentCasingInFileNames": true,
-		"emitDecoratorMetadata": true,
-		"experimentalDecorators": true,
-		"downlevelIteration": true,
-		"incremental": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "noEmit": true,
+    "strict": true,
+    "allowJs": false,
+    "skipLibCheck": true,
+    "noImplicitAny": false,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "downlevelIteration": true,
+    "incremental": true,
     "noUncheckedIndexedAccess": true
-	},
-	"exclude": ["node_modules", ".next", "out"],
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js"]
+  },
+  "exclude": ["node_modules", ".next", "out"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js"]
 }

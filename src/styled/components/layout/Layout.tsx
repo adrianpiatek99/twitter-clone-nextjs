@@ -7,10 +7,11 @@ import { useRouter } from "next/router";
 import { Logo } from "shared/Logo";
 import { NavBottomBar } from "shared/NavBottomBar";
 import { NavSidebar } from "shared/NavSidebar";
+import { TrendingSidebar } from "shared/TrendingSidebar";
 import styled, { keyframes } from "styled-components";
 
-import { ProfileFollowsLayout } from "./follows-page";
-import { ProfileLayout } from "./profile-page";
+import { ProfileFollowsLayout } from "./ProfileFollowsLayout";
+import { ProfileLayout } from "./ProfileLayout";
 
 const LazyNavDrawer = dynamic(() => import("../shared/NavDrawer").then(mod => mod.NavDrawer), {
   ssr: false
@@ -53,7 +54,7 @@ const CurrentLayoutPattern = ({ children }: LayoutProps) => {
   return children;
 };
 
-const Layout = ({ children }: LayoutProps) => {
+export const Layout = ({ children }: LayoutProps) => {
   const { pathname } = useRouter();
   const { isSessionLoading, isUnauthenticated } = useAppSession();
 
@@ -68,20 +69,21 @@ const Layout = ({ children }: LayoutProps) => {
   if (pathname === "/") return children;
 
   return (
-    <Wrapper>
+    <Container>
       <NavSidebar />
+      <Main>
+        <Feed>
+          <CurrentLayoutPattern>{children}</CurrentLayoutPattern>
+        </Feed>
+        <TrendingSidebar />
+      </Main>
       <NavBottomBar />
       <LazyNavDrawer />
-      <Feed>
-        <CurrentLayoutPattern>{children}</CurrentLayoutPattern>
-      </Feed>
       <LazyAuthenticationRequiredModal />
       {isUnauthenticated && <LazyAuthenticationBar />}
-    </Wrapper>
+    </Container>
   );
 };
-
-export default Layout;
 
 const LogoEnterAnimation = keyframes`
     0% {
@@ -106,7 +108,7 @@ const SessionLoadingWrapper = styled.div`
   animation: ${LogoEnterAnimation} 0.3s;
 `;
 
-const Wrapper = styled.main`
+const Container = styled.div`
   position: relative;
   display: flex;
   width: 100%;
@@ -124,6 +126,14 @@ const Wrapper = styled.main`
   @media ${({ theme }) => theme.breakpoints.xl} {
     max-width: 1265px;
   }
+`;
+
+const Main = styled.main`
+  position: relative;
+  display: flex;
+  flex-grow: 1;
+  width: 100%;
+  gap: 30px;
 `;
 
 const Feed = styled.div`

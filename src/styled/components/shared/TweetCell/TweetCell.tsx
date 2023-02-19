@@ -32,7 +32,7 @@ export const TweetCell = memo(
         tag="article"
         role="article"
         label="Tweet"
-        href={`${screenName}/tweet/${id}`}
+        href={{ pathname: "/[screenName]/tweet/[tweetId]", query: { tweetId: id, screenName } }}
         {...props}
         ref={ref}
         style={{

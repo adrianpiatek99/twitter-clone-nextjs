@@ -1,31 +1,35 @@
 import React from "react";
 
-import type { RepliesTweetRequest, RepliesTweetResponse } from "api/tweet/repliesTweet";
-import type { ReplyData } from "api/tweet/replyTweet";
+import type {
+  LikedTweetData,
+  LikedTweetsRequest,
+  LikedTweetsResponse
+} from "api/tweet/likedTweets";
+import type { UserData } from "api/user/userByScreenName";
 import { Loader } from "components/core";
 import { useInfiniteScrollQuery } from "hooks/useInfiniteScrollQuery";
 import { useVirtualScroll } from "hooks/useVirtualScroll";
-import { repliesTweet } from "network/tweet/repliesTweet";
+import { likedTweets } from "network/tweet/likedTweets";
 import { EmptyMessage, ErrorMessage } from "shared/Messages";
+import { TweetCell, TweetCellSkeleton } from "shared/TweetCell";
 import styled from "styled-components";
 
-import { TweetReplyCell, TweetReplyCellSkeleton } from "../../shared/TweetReplyCell";
-
-interface TweetRepliesProps {
-  queryTweetId: string;
+interface ProfileLikesProps {
+  userData: UserData;
 }
 
-export const TweetReplies = ({ queryTweetId }: TweetRepliesProps) => {
+export const ProfileLikes = ({ userData: { id: userId, screenName } }: ProfileLikesProps) => {
   const { data, isLoading, isFetching, lastItemRef, hasNextPage, isError, error } =
-    useInfiniteScrollQuery<RepliesTweetRequest, RepliesTweetResponse, ReplyData>({
-      queryKey: ["replies", "tweet", queryTweetId],
-      queryFn: repliesTweet,
+    useInfiniteScrollQuery<LikedTweetsRequest, LikedTweetsResponse, LikedTweetData>({
+      queryKey: ["likedTweets", screenName],
+      queryFn: likedTweets,
       params: {
-        tweetId: queryTweetId
-      }
+        userId
+      },
+      refetchOnWindowFocus: false
     });
   const { items, measureElement, totalSize } = useVirtualScroll(data, 600);
-  const skeletons = Array(7)
+  const skeletons = Array(3)
     .fill("")
     .map((_, i) => i + 1);
 
@@ -34,13 +38,13 @@ export const TweetReplies = ({ queryTweetId }: TweetRepliesProps) => {
   }
 
   if (!isLoading && data.length === 0) {
-    return <EmptyMessage text="Lack of replies" />;
+    return <EmptyMessage text="Lack of likes" />;
   }
 
   return (
-    <RepliesSection>
+    <LikedTweetsSection aria-label={`Timeline: ${screenName}’s Likes`}>
       {isLoading ? (
-        skeletons.map(skeleton => <TweetReplyCellSkeleton key={skeleton} />)
+        skeletons.map(skeleton => <TweetCellSkeleton key={skeleton} isEven={skeleton % 2 === 0} />)
       ) : (
         <div
           style={{
@@ -50,32 +54,31 @@ export const TweetReplies = ({ queryTweetId }: TweetRepliesProps) => {
           }}
         >
           {items.map(({ index, start }) => {
-            const reply = data[index] as ReplyData;
+            const like = data[index] as LikedTweetData;
 
             return (
-              <TweetReplyCell
+              <TweetCell
                 key={index}
                 data-index={index}
                 ref={measureElement}
                 start={start}
-                replyData={reply}
+                tweetData={like.tweet}
               />
             );
           })}
         </div>
       )}
-
       {isFetching && !isLoading && (
         <LoaderWrapper additionalPadding>
           <Loader center />
         </LoaderWrapper>
       )}
       {hasNextPage && !isLoading && <LoadMoreItems ref={lastItemRef} />}
-    </RepliesSection>
+    </LikedTweetsSection>
   );
 };
 
-const RepliesSection = styled.section`
+const LikedTweetsSection = styled.section`
   position: relative;
   display: flex;
   flex-direction: column;

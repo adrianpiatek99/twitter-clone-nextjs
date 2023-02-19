@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { useState } from "react";
 
 import type { UserData } from "api/user/userByScreenName";
 import { Button } from "components/core";
@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 import styled from "styled-components";
 
 const LazyEditProfileModal = dynamic(
-  () => import("../Modals/EditProfileModal").then(mod => mod.EditProfileModal),
+  () => import("./Modals/EditProfileModal").then(mod => mod.EditProfileModal),
   {
     ssr: false
   }
@@ -18,7 +18,7 @@ interface ProfileActionsProps {
   userData: UserData;
 }
 
-export const ProfileActions = memo(({ itsMe, userData }: ProfileActionsProps) => {
+export const ProfileActions = ({ itsMe, userData }: ProfileActionsProps) => {
   const { handleFollowUser, followUserLoading, unfollowUserLoading, isFollowed } =
     useFollowUserMutation({
       followUser: userData
@@ -63,7 +63,7 @@ export const ProfileActions = memo(({ itsMe, userData }: ProfileActionsProps) =>
       )}
     </Wrapper>
   );
-});
+};
 
 const Wrapper = styled.div`
   display: flex;

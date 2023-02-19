@@ -1,6 +1,5 @@
 import type { ComponentPropsWithRef, Ref } from "react";
-import { memo } from "react";
-import React, { forwardRef } from "react";
+import React, { forwardRef, memo } from "react";
 
 import type { FollowersData } from "api/user/followers";
 import { Text } from "components/core";

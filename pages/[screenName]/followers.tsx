@@ -1,7 +1,7 @@
 import React from "react";
 
+import { ProfileFollowersTimeline } from "components/follows-page";
 import { NextSeo } from "next-seo";
-import { ProfileFollowersTimeline } from "templates/follows-page";
 
 import type { ProfilePageProps } from ".";
 

@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 
 import type { FollowersData } from "api/user/followers";
 import { Button, Text } from "components/core";
@@ -10,7 +10,7 @@ interface FollowCellActionsProps {
   itsMe: boolean;
 }
 
-export const FollowCellActions = memo(({ followUser, itsMe }: FollowCellActionsProps) => {
+export const FollowCellActions = ({ followUser, itsMe }: FollowCellActionsProps) => {
   const { screenName, name } = followUser;
   const { handleFollowUser, followUserLoading, unfollowUserLoading, isFollowed } =
     useFollowUserMutation({
@@ -51,7 +51,7 @@ export const FollowCellActions = memo(({ followUser, itsMe }: FollowCellActionsP
         ))}
     </Wrapper>
   );
-});
+};
 
 const Wrapper = styled.div`
   display: flex;
