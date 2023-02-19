@@ -9,6 +9,7 @@ interface UseInfiniteScrollQueryProps<TRequest, TResponse> {
   queryKey: string[];
   queryFn: (props: TRequest) => Promise<TResponse>;
   params?: Params<TRequest>;
+  refetchOnWindowFocus?: boolean;
 }
 
 export const useInfiniteScrollQuery = <
@@ -18,7 +19,8 @@ export const useInfiniteScrollQuery = <
 >({
   queryKey,
   queryFn,
-  params
+  params,
+  refetchOnWindowFocus = true
 }: UseInfiniteScrollQueryProps<TRequest, TResponse>) => {
   const [isQueryError, setIsQueryError] = useState(false);
   const { data: queryData, ...restData } = useInfiniteQuery<TResponse, AxiosError, TRequest>({
@@ -30,7 +32,7 @@ export const useInfiniteScrollQuery = <
       setIsQueryError(true);
     },
     retry: false,
-    refetchOnWindowFocus: !isQueryError
+    refetchOnWindowFocus: refetchOnWindowFocus && !isQueryError
   });
   const data: TData[] = queryData?.pages.flatMap(page => page[queryKey[0]!]) ?? [];
   const observer = useRef<IntersectionObserver>(null!);

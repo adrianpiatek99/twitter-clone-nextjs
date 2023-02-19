@@ -25,7 +25,8 @@ export const ProfileLikes = ({ userData: { id: userId, screenName } }: ProfileLi
       queryFn: likedTweets,
       params: {
         userId
-      }
+      },
+      refetchOnWindowFocus: false
     });
   const { items, measureElement, totalSize } = useVirtualScroll(data, 600);
   const skeletons = Array(3)
