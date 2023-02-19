@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { Logo } from "shared/Logo";
 import { NavBottomBar } from "shared/NavBottomBar";
 import { NavSidebar } from "shared/NavSidebar";
+import { TrendingSidebar } from "shared/TrendingSidebar";
 import styled, { keyframes } from "styled-components";
 
 import { ProfileFollowsLayout } from "./ProfileFollowsLayout";
@@ -68,16 +69,19 @@ export const Layout = ({ children }: LayoutProps) => {
   if (pathname === "/") return children;
 
   return (
-    <Wrapper>
+    <Container>
       <NavSidebar />
+      <Main>
+        <Feed>
+          <CurrentLayoutPattern>{children}</CurrentLayoutPattern>
+        </Feed>
+        <TrendingSidebar />
+      </Main>
       <NavBottomBar />
       <LazyNavDrawer />
-      <Feed>
-        <CurrentLayoutPattern>{children}</CurrentLayoutPattern>
-      </Feed>
       <LazyAuthenticationRequiredModal />
       {isUnauthenticated && <LazyAuthenticationBar />}
-    </Wrapper>
+    </Container>
   );
 };
 
@@ -104,7 +108,7 @@ const SessionLoadingWrapper = styled.div`
   animation: ${LogoEnterAnimation} 0.3s;
 `;
 
-const Wrapper = styled.main`
+const Container = styled.div`
   position: relative;
   display: flex;
   width: 100%;
@@ -122,6 +126,14 @@ const Wrapper = styled.main`
   @media ${({ theme }) => theme.breakpoints.xl} {
     max-width: 1265px;
   }
+`;
+
+const Main = styled.main`
+  position: relative;
+  display: flex;
+  flex-grow: 1;
+  width: 100%;
+  gap: 30px;
 `;
 
 const Feed = styled.div`

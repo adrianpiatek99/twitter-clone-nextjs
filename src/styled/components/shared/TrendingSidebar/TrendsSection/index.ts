@@ -1,0 +1,1 @@
+export { TrendsSection } from "./TrendsSection";
