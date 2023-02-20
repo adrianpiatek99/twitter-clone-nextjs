@@ -45,7 +45,8 @@
     "styled-components": "^5.3.6",
     "typescript": "4.9.4",
     "uuid": "^9.0.0",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "zustand": "^4.3.3"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^4.24.0",
