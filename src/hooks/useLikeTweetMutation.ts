@@ -7,8 +7,7 @@ import type { TweetData } from "api/tweet/timelineTweets";
 import type { AxiosError } from "axios";
 import { likeTweet } from "network/tweet/likeTweet";
 import { unlikeTweet } from "network/tweet/unlikeTweet";
-import { setAuthRequiredModalOpen } from "store/slices/globalSlice";
-import { useAppDispatch } from "store/store";
+import useGlobalStore from "store/globalStore";
 import { updateInfiniteTweetsCache, updateTweetCache } from "utils/updateQueryCache";
 
 import { useAppSession } from "./useAppSession";
@@ -25,7 +24,7 @@ export const useLikeTweetMutation = ({
 }: UseLikeTweetMutationProps) => {
   const queryClient = useQueryClient();
   const { session } = useAppSession();
-  const dispatch = useAppDispatch();
+  const openAuthRequiredModal = useGlobalStore(store => store.openAuthRequiredModal);
   const { handleAddToast } = useToasts();
   const sessionUserId = session?.user.id;
   const sessionUserScreenName = session?.user.screenName;
@@ -115,7 +114,7 @@ export const useLikeTweetMutation = ({
 
   const handleLikeTweet = useCallback(() => {
     if (!sessionUserId) {
-      dispatch(setAuthRequiredModalOpen(true));
+      openAuthRequiredModal(true);
 
       return;
     }
@@ -130,7 +129,7 @@ export const useLikeTweetMutation = ({
 
     likeMutate({ tweetId });
   }, [
-    dispatch,
+    openAuthRequiredModal,
     unlikeMutate,
     likeMutate,
     likeLoading,

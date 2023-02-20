@@ -6,7 +6,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import type { InputType } from "components/core";
 import { Button, Input } from "components/core";
-import { useLoginStore } from "context/LoginContext";
 import { useToasts } from "hooks/useToasts";
 import { signUp } from "network/auth/signUp";
 import {
@@ -17,6 +16,7 @@ import {
   PROFILE_SCREEN_NAME_MAX_LENGTH,
   signUpSchema
 } from "schema/authSchema";
+import useLoginStore from "store/loginStore";
 import styled from "styled-components";
 
 import type { LoginTabs } from "../LoginPage";
@@ -46,7 +46,7 @@ const inputs: InputData[] = [
 ];
 
 export const LoginSignUpForm = ({ handleChangeTab }: LoginSignUpFormProps) => {
-  const [{ isLoading }, setStore] = useLoginStore(store => store);
+  const { isLoading, setIsLoading, setEmail, setPassword } = useLoginStore(store => store);
   const {
     register,
     handleSubmit,
@@ -60,17 +60,18 @@ export const LoginSignUpForm = ({ handleChangeTab }: LoginSignUpFormProps) => {
   const signUpMutation = useMutation({
     mutationFn: signUp,
     onMutate: () => {
-      setStore({ isLoading: true });
+      setIsLoading(true);
     },
     onError: (error: any) => {
       handleAddToast("error", error?.message);
     },
     onSuccess: () => {
       handleChangeTab("sign in");
-      setStore({ email: getValues("email"), password: getValues("password") });
+      setEmail(getValues("email"));
+      setPassword(getValues("password"));
     },
     onSettled: () => {
-      setStore({ isLoading: false });
+      setIsLoading(false);
     }
   });
 

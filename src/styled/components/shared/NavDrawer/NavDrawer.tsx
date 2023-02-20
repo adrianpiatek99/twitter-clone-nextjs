@@ -5,8 +5,7 @@ import { ModalPanel } from "components/core/Modal";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAppSession } from "hooks/useAppSession";
 import { Portal } from "shared/Portal";
-import { setNavDrawerOpen } from "store/slices/globalSlice";
-import { useAppDispatch, useAppSelector } from "store/store";
+import useGlobalStore from "store/globalStore";
 import styled from "styled-components";
 
 import { NavDrawerHeader } from "./NavDrawerHeader";
@@ -15,17 +14,16 @@ import { NavDrawerSecondaryList } from "./NavDrawerSecondaryList";
 
 export const NavDrawer = () => {
   const { isAuthenticated } = useAppSession();
-  const isOpen = useAppSelector(state => state.global.isNavDrawerOpen);
-  const dispatch = useAppDispatch();
+  const { isNavDrawerOpen, openNavDrawer } = useGlobalStore(store => store);
 
-  const onClose = () => dispatch(setNavDrawerOpen(false));
+  const onClose = () => openNavDrawer(false);
 
   return (
     <AnimatePresence>
-      {isOpen && (
+      {isNavDrawerOpen && (
         <Portal rootId="modal">
           <FocusLock autoFocus={false}>
-            <ModalPanel isOpen={isOpen} onClose={onClose} duration={0.25}>
+            <ModalPanel isOpen={isNavDrawerOpen} onClose={onClose} duration={0.25}>
               <DrawerWrapper
                 variants={drawerVariants}
                 onClick={e => e.stopPropagation()}

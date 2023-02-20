@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import type { InputType } from "components/core";
 import { Button, Input } from "components/core";
-import { useLoginStore } from "context/LoginContext";
 import { useToasts } from "hooks/useToasts";
 import { signIn } from "network/auth/signIn";
 import { useRouter } from "next/router";
@@ -16,6 +15,7 @@ import {
   PROFILE_PASSWORD_MAX_LENGTH
 } from "schema/authSchema";
 import { signInSchema } from "schema/authSchema";
+import useLoginStore from "store/loginStore";
 import styled from "styled-components";
 
 type InputData = {
@@ -32,7 +32,7 @@ const inputs: InputData[] = [
 
 export const LoginSignInForm = () => {
   const { replace, query } = useRouter();
-  const [{ isLoading, email, password }, setStore] = useLoginStore(state => state);
+  const { email, password, isLoading, setIsLoading, resetStore } = useLoginStore(store => store);
   const {
     register,
     handleSubmit,
@@ -49,7 +49,7 @@ export const LoginSignInForm = () => {
 
   const onSubmit: SubmitHandler<SignInValues> = async data => {
     try {
-      setStore({ isLoading: true });
+      setIsLoading(true);
 
       const response = await signIn({ ...data });
 
@@ -67,7 +67,7 @@ export const LoginSignInForm = () => {
     } catch (error: any) {
       handleAddToast("error", error?.message);
     } finally {
-      setStore({ isLoading: false, email: "", password: "" });
+      resetStore();
     }
   };
 

@@ -8,8 +8,7 @@ import HeartOutlinedIcon from "icons/HeartOutlinedIcon";
 import MessageIcon from "icons/MessageIcon";
 import RetweetIcon from "icons/RetweetIcon";
 import dynamic from "next/dynamic";
-import { setAuthRequiredModalOpen } from "store/slices/globalSlice";
-import { useAppDispatch } from "store/store";
+import useGlobalStore from "store/globalStore";
 import styled, { useTheme } from "styled-components";
 
 const LazyReplyTweetModal = dynamic(
@@ -36,14 +35,14 @@ export const TweetCellToolbar = ({
     _count: { replies, likes }
   } = tweetData;
   const { isUnauthenticated } = useAppSession();
-  const dispatch = useAppDispatch();
+  const openAuthRequiredModal = useGlobalStore(store => store.openAuthRequiredModal);
   const { pink400, emerald400 } = useTheme();
   const [isReplyModalOpen, setIsReplyModalOpen] = useState(false);
   const likeTitle = isLiked ? "Unlike" : "Like";
 
   const handleOpenReplyModal = () => {
     if (isUnauthenticated) {
-      return dispatch(setAuthRequiredModalOpen(true));
+      return openAuthRequiredModal(true);
     }
 
     setIsReplyModalOpen(prev => !prev);

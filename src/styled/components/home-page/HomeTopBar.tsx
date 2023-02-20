@@ -6,13 +6,12 @@ import SparklesIcon from "icons/SparklesIcon";
 import { Avatar } from "shared/Avatar";
 import { Logo } from "shared/Logo";
 import { TopBar, TopBarHeading } from "shared/TopBar";
-import { setNavDrawerOpen } from "store/slices/globalSlice";
-import { useAppDispatch } from "store/store";
+import useGlobalStore from "store/globalStore";
 import styled from "styled-components";
 
 export const HomeTopBar = () => {
   const { session, isSessionLoading, isUnauthenticated } = useAppSession();
-  const dispatch = useAppDispatch();
+  const openNavDrawer = useGlobalStore(store => store.openNavDrawer);
 
   return (
     <TopBar
@@ -28,7 +27,7 @@ export const HomeTopBar = () => {
           src={session?.user.profileImageUrl ?? ""}
           loading={isSessionLoading}
           size="small"
-          onClick={() => dispatch(setNavDrawerOpen(true))}
+          onClick={() => openNavDrawer(true)}
         />
       )}
       <TopBarLogo color="secondary" />

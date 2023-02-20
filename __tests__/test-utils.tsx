@@ -1,7 +1,6 @@
 import type { RenderOptions } from "@testing-library/react";
 import { render } from "@testing-library/react";
 import type { FC, ReactElement } from "react";
-import ReduxStoreProvider from "store/ReduxStoreProvider";
 import { GlobalStyle, ThemeProvider } from "styled/theme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
@@ -14,12 +13,10 @@ const AllProviders: FC<{ children: ReactElement }> = ({ children }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <SessionProvider session={mockedSession}>
-        <ReduxStoreProvider>
-          <ThemeProvider>
-            <GlobalStyle />
-            <Layout>{children}</Layout>
-          </ThemeProvider>
-        </ReduxStoreProvider>
+        <ThemeProvider>
+          <GlobalStyle />
+          <Layout>{children}</Layout>
+        </ThemeProvider>
       </SessionProvider>
     </QueryClientProvider>
   );
