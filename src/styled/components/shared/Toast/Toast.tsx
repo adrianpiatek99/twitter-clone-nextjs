@@ -4,7 +4,7 @@ import { IconButton } from "components/core";
 import { motion } from "framer-motion";
 import { useToasts } from "hooks/useToasts";
 import CloseIcon from "icons/CloseIcon";
-import type { ToastProps } from "store/slices/toastsSlice";
+import type { ToastProps } from "store/toastsStore";
 import styled from "styled-components";
 
 export const Toast = ({ id, message, duration }: ToastProps) => {

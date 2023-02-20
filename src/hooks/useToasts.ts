@@ -1,18 +1,18 @@
-import type { ToastType } from "store/slices/toastsSlice";
-import { addToast, removeToast } from "store/slices/toastsSlice";
-import { useAppDispatch } from "store/store";
+import type { ToastType } from "store/toastsStore";
+import useToastsStore from "store/toastsStore";
 
 const DEFAULT_TOAST_DURATION = 4000;
 
 export const useToasts = () => {
-  const dispatch = useAppDispatch();
+  const addToast = useToastsStore(state => state.addToast);
+  const removeToast = useToastsStore(state => state.removeToast);
 
   const handleAddToast = (type: ToastType, message: string, duration = DEFAULT_TOAST_DURATION) => {
-    dispatch(addToast({ type, message, duration }));
+    addToast({ type, message, duration });
   };
 
   const handleRemoveToast = (toastId: string) => {
-    dispatch(removeToast(toastId));
+    removeToast(toastId);
   };
 
   return { handleAddToast, handleRemoveToast };

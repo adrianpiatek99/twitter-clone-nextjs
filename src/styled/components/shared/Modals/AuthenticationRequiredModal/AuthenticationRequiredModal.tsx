@@ -3,20 +3,18 @@ import React from "react";
 import { ButtonLink, Heading, Modal, Text } from "components/core";
 import PeopleIcon from "icons/PeopleIcon";
 import { useRouter } from "next/router";
-import { setAuthRequiredModalOpen } from "store/slices/globalSlice";
-import { useAppDispatch, useAppSelector } from "store/store";
+import useGlobalStore from "store/globalStore";
 import styled from "styled-components";
 
 export const AuthenticationRequiredModal = () => {
   const { asPath } = useRouter();
-  const dispatch = useAppDispatch();
-  const isOpen = useAppSelector(state => state.global.isAuthRequiredModalOpen);
+  const { isAuthRequiredModalOpen, openAuthRequiredModal } = useGlobalStore(store => store);
   const redirect = `redirect=${asPath}`;
 
-  const handleCloseModal = () => dispatch(setAuthRequiredModalOpen(false));
+  const handleCloseModal = () => openAuthRequiredModal(false);
 
   return (
-    <Modal isOpen={isOpen} onClose={handleCloseModal}>
+    <Modal isOpen={isAuthRequiredModalOpen} onClose={handleCloseModal}>
       <Wrapper>
         <PeopleIcon />
         <Content>
