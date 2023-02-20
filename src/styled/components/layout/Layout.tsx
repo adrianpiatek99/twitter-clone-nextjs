@@ -58,6 +58,8 @@ export const Layout = ({ children }: LayoutProps) => {
   const { pathname } = useRouter();
   const { isSessionLoading, isUnauthenticated } = useAppSession();
 
+  if (pathname === "/") return children;
+
   if (isSessionLoading) {
     return (
       <SessionLoadingWrapper>
@@ -65,8 +67,6 @@ export const Layout = ({ children }: LayoutProps) => {
       </SessionLoadingWrapper>
     );
   }
-
-  if (pathname === "/") return children;
 
   return (
     <Container>
