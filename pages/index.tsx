@@ -1,5 +1,4 @@
 import { Loader } from "components/core";
-import LoginContextProvider from "context/LoginContext";
 import dynamic from "next/dynamic";
 import type { GetSessionParams } from "next-auth/react";
 import { getSession } from "next-auth/react";
@@ -24,9 +23,7 @@ const Login = () => {
         title="Log in to Twitter / Twitter"
         description="Log in to Twitter to see the latest. Join the conversation, follow accounts, see your Home Timeline, and catch up on Tweets from the people you know."
       />
-      <LoginContextProvider>
-        <LazyLoginPage />
-      </LoginContextProvider>
+      <LazyLoginPage />
     </>
   );
 };
