@@ -1,43 +1,46 @@
 import { useCallback } from "react";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { LikedTweetsResponse } from "api/tweet/likedTweets";
-import type { LikeTweetRequest } from "api/tweet/likeTweet";
-import type { TweetData } from "api/tweet/timelineTweets";
-import type { AxiosError } from "axios";
-import { likeTweet } from "network/tweet/likeTweet";
-import { unlikeTweet } from "network/tweet/unlikeTweet";
+import { useQueryClient } from "@tanstack/react-query";
 import useGlobalStore from "store/globalStore";
-import { updateInfiniteTweetsCache, updateTweetCache } from "utils/updateQueryCache";
+import type { TweetData } from "types/tweet";
+import { api } from "utils/api";
+import { queryKeys } from "utils/queryKeys";
+import {
+  updateLikesTweetInfiniteCache,
+  updateProfileTweetInfiniteCache,
+  updateTweetDetailsCache,
+  updateTweetInfiniteCache
+} from "utils/updateQueryCache";
 
 import { useAppSession } from "./useAppSession";
 import { useToasts } from "./useToasts";
 
 interface UseLikeTweetMutationProps {
   tweetData: TweetData;
+  profileId?: string;
   disabled?: boolean;
 }
 
 export const useLikeTweetMutation = ({
-  tweetData: { id: tweetId, likes },
+  tweetData: {
+    id: tweetId,
+    likes,
+    author: { screenName }
+  },
+  profileId = "",
   disabled = false
 }: UseLikeTweetMutationProps) => {
   const queryClient = useQueryClient();
   const { session } = useAppSession();
   const openAuthRequiredModal = useGlobalStore(store => store.openAuthRequiredModal);
   const { handleAddToast } = useToasts();
-  const sessionUserId = session?.user.id;
+  const sessionUserId = session?.user.id ?? "";
   const sessionUserScreenName = session?.user.screenName;
   const isLiked = likes.some(({ userId }) => userId === sessionUserId);
 
-  const { mutate: likeMutate, isLoading: likeLoading } = useMutation<
-    unknown,
-    AxiosError,
-    LikeTweetRequest
-  >({
-    mutationFn: likeTweet,
+  const { mutate: likeMutate, isLoading: likeLoading } = api.tweet.like.useMutation({
     onSuccess: () => {
-      const updateTweets = data => {
+      const updateTweet = (data: TweetData) => {
         return {
           ...data,
           likes: [{ userId: sessionUserId }],
@@ -45,26 +48,16 @@ export const useLikeTweetMutation = ({
         };
       };
 
-      updateInfiniteTweetsCache(queryClient, [], tweetId, updateTweets);
-      updateInfiniteLikedTweetsCache(updateTweets);
-
-      if (sessionUserScreenName) {
-        updateInfiniteTweetsCache(queryClient, [sessionUserScreenName], tweetId, updateTweets);
-        updateTweetCache(queryClient, [sessionUserScreenName, tweetId], updateTweets);
-      }
+      updateCache(updateTweet);
     },
     onError: error => {
       handleAddToast("error", error.message);
     }
   });
-  const { mutate: unlikeMutate, isLoading: unlikeLoading } = useMutation<
-    unknown,
-    AxiosError,
-    LikeTweetRequest
-  >({
-    mutationFn: unlikeTweet,
+
+  const { mutate: unlikeMutate, isLoading: unlikeLoading } = api.tweet.unlike.useMutation({
     onSuccess: () => {
-      const updateTweets = data => {
+      const updateTweet = (data: TweetData) => {
         return {
           ...data,
           likes: [],
@@ -72,44 +65,30 @@ export const useLikeTweetMutation = ({
         };
       };
 
-      updateInfiniteTweetsCache(queryClient, [], tweetId, updateTweets);
-      updateInfiniteLikedTweetsCache(updateTweets);
-
-      if (sessionUserScreenName) {
-        updateInfiniteTweetsCache(queryClient, [sessionUserScreenName], tweetId, updateTweets);
-        updateTweetCache(queryClient, [sessionUserScreenName, tweetId], updateTweets);
-      }
+      updateCache(updateTweet);
     },
     onError: error => {
       handleAddToast("error", error.message);
     }
   });
 
-  const updateInfiniteLikedTweetsCache = (updateData: (data: TweetData) => TweetData) => {
-    queryClient.setQueryData<{ pages: LikedTweetsResponse[] }>(
-      ["likedTweets", sessionUserScreenName, "infinite"],
-      oldData => {
-        if (!oldData) return oldData;
+  const updateCache = (updateTweet: (data: TweetData) => TweetData) => {
+    updateTweetInfiniteCache(queryClient, tweetId, updateTweet);
+    updateLikesTweetInfiniteCache(queryClient, tweetId, { profileId }, updateTweet);
 
-        return {
-          ...oldData,
-          pages: oldData.pages.map(page => {
-            return {
-              ...page,
-              likedTweets: page.likedTweets.map(like => {
-                const { tweet } = like;
-
-                if (tweet.id === tweetId) {
-                  return { ...like, tweet: updateData(tweet) };
-                }
-
-                return like;
-              })
-            };
-          })
-        };
-      }
-    );
+    if (sessionUserScreenName) {
+      updateProfileTweetInfiniteCache(
+        queryClient,
+        tweetId,
+        { profileScreenName: screenName },
+        updateTweet
+      );
+      updateTweetDetailsCache(
+        queryClient,
+        queryKeys.tweetDetailsQueryKey({ screenName: sessionUserScreenName, tweetId }),
+        updateTweet
+      );
+    }
   };
 
   const handleLikeTweet = useCallback(() => {

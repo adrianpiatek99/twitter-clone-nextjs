@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import type { TweetData } from "api/tweet/timelineTweets";
 import { IconButtonWithLabel } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
 import HeartIcon from "icons/HeartIcon";
@@ -10,6 +9,7 @@ import RetweetIcon from "icons/RetweetIcon";
 import dynamic from "next/dynamic";
 import useGlobalStore from "store/globalStore";
 import styled, { useTheme } from "styled-components";
+import type { TweetData } from "types/tweet";
 
 const LazyReplyTweetModal = dynamic(
   () => import("../Modals/ReplyTweetModal").then(mod => mod.ReplyTweetModal),

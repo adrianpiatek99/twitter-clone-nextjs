@@ -1,13 +1,12 @@
 import React from "react";
 
-import type { FollowersData, FollowersRequest, FollowersResponse } from "api/user/followers";
-import type { UserData } from "api/user/userByScreenName";
 import { Loader } from "components/core";
-import { useInfiniteScrollQuery } from "hooks/useInfiniteScrollQuery";
+import { useInfiniteScrollHelpers } from "hooks/useInfiniteScrollHelpers";
 import { useVirtualScroll } from "hooks/useVirtualScroll";
-import { followers } from "network/user/followers";
 import { ErrorMessage } from "shared/Messages";
 import styled from "styled-components";
+import type { FollowUserData, UserData } from "types/user";
+import { api } from "utils/api";
 
 import { FollowCell, FollowCellSkeleton } from "./FollowCell";
 
@@ -15,17 +14,20 @@ type ProfileFollowersTimelineProps = {
   userData: UserData;
 };
 
-export const ProfileFollowersTimeline = ({ userData }: ProfileFollowersTimelineProps) => {
-  const { screenName } = userData;
-  const { data, isLoading, isFetching, lastItemRef, hasNextPage, isError, error } =
-    useInfiniteScrollQuery<FollowersRequest, FollowersResponse, FollowersData>({
-      queryKey: ["followers", screenName],
-      queryFn: followers,
-      params: {
-        screenName
+export const ProfileFollowersTimeline = ({
+  userData: { screenName }
+}: ProfileFollowersTimelineProps) => {
+  const { data, isLoading, isFetching, fetchNextPage, hasNextPage, isError, error } =
+    api.user.followers.useInfiniteQuery(
+      { screenName },
+      {
+        getNextPageParam: lastPage => lastPage.nextCursor,
+        retry: false
       }
-    });
-  const { items, measureElement, totalSize } = useVirtualScroll(data, 100);
+    );
+  const { lastItemRef } = useInfiniteScrollHelpers({ isFetching, hasNextPage, fetchNextPage });
+  const flatData = data?.pages.flatMap(page => page["followers"]) ?? [];
+  const { items, measureElement, totalSize } = useVirtualScroll(flatData, 100);
   const skeletons = Array(7)
     .fill("")
     .map((_, i) => i + 1);
@@ -47,7 +49,7 @@ export const ProfileFollowersTimeline = ({ userData }: ProfileFollowersTimelineP
           }}
         >
           {items.map(({ index, start }) => {
-            const follow = data[index] as FollowersData;
+            const follow = flatData[index]?.follower as FollowUserData;
 
             return (
               <FollowCell
@@ -55,7 +57,7 @@ export const ProfileFollowersTimeline = ({ userData }: ProfileFollowersTimelineP
                 data-index={index}
                 ref={measureElement}
                 start={start}
-                followUser={follow.follower}
+                followUser={follow}
               />
             );
           })}

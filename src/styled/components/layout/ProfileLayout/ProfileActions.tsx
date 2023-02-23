@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
-import type { UserData } from "api/user/userByScreenName";
 import { Button } from "components/core";
 import { useFollowUserMutation } from "hooks/useFollowUserMutation";
 import dynamic from "next/dynamic";
 import styled from "styled-components";
+import type { UserData } from "types/user";
 
 const LazyEditProfileModal = dynamic(
   () => import("./Modals/EditProfileModal").then(mod => mod.EditProfileModal),

@@ -1,10 +1,10 @@
 import React, { useMemo } from "react";
 
-import type { UserData } from "api/user/userByScreenName";
 import { IconButton } from "components/core";
 import BackIcon from "icons/BackIcon";
 import { useRouter } from "next/router";
 import { TopBar, TopBarHeading } from "shared/TopBar";
+import type { UserData } from "types/user";
 
 interface ProfileTopBarProps {
   userData?: UserData;

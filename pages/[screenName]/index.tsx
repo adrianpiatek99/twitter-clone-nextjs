@@ -1,8 +1,8 @@
 import React from "react";
 
-import type { UserData } from "api/user/userByScreenName";
 import { ProfileTimeline } from "components/profile-page";
 import { NextSeo } from "next-seo";
+import type { UserData } from "types/user";
 
 export interface ProfilePageProps {
   userData?: UserData;

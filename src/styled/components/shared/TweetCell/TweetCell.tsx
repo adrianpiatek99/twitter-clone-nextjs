@@ -1,68 +1,71 @@
 import React, { type ComponentPropsWithRef, type Ref, forwardRef, memo } from "react";
 
-import type { TweetData } from "api/tweet/timelineTweets";
 import { Text } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
 import { useLikeTweetMutation } from "hooks/useLikeTweetMutation";
 import { ActionCard } from "shared/ActionCard";
 import { Avatar } from "shared/Avatar";
 import styled from "styled-components";
+import type { TweetData } from "types/tweet";
 
 import { TweetCellActions } from "./TweetCellActions";
 import { TweetCellToolbar } from "./TweetCellToolbar";
 
 interface TweetCellProps extends Omit<ComponentPropsWithRef<"article">, "id"> {
-  isProfile?: boolean;
+  profileId?: string;
   start: number;
   tweetData: TweetData;
 }
 
 export const TweetCell = memo(
-  forwardRef(({ tweetData, start, ...props }: TweetCellProps, ref: Ref<HTMLDivElement>) => {
-    const { id, text, author, authorId } = tweetData;
-    const { session } = useAppSession();
-    const { screenName, profileImageUrl } = author;
-    const isOwner = session?.user.id === authorId;
-    const { handleLikeTweet, likeLoading, unlikeLoading, isLiked } = useLikeTweetMutation({
-      tweetData
-    });
+  forwardRef(
+    ({ profileId, tweetData, start, ...props }: TweetCellProps, ref: Ref<HTMLDivElement>) => {
+      const { id, text, author, authorId } = tweetData;
+      const { session } = useAppSession();
+      const { screenName, profileImageUrl } = author;
+      const isOwner = session?.user.id === authorId;
+      const { handleLikeTweet, likeLoading, unlikeLoading, isLiked } = useLikeTweetMutation({
+        tweetData,
+        profileId: profileId ?? ""
+      });
 
-    return (
-      <TweetArticle
-        tag="article"
-        role="article"
-        label="Tweet"
-        href={{ pathname: "/[screenName]/tweet/[tweetId]", query: { tweetId: id, screenName } }}
-        {...props}
-        ref={ref}
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          transform: `translateY(${start}px)`
-        }}
-      >
-        <Inner>
-          <StyledAvatar src={profileImageUrl} screenName={screenName} size="large" />
-          <RightColumn>
-            <TweetCellActions tweetData={tweetData} isOwner={isOwner} />
-            <Content>
-              <TweetText>
-                <Text truncate>{text}</Text>
-              </TweetText>
-              <TweetCellToolbar
-                tweetData={tweetData}
-                isLiked={isLiked}
-                isLoading={likeLoading || unlikeLoading}
-                handleLikeTweet={handleLikeTweet}
-              />
-            </Content>
-          </RightColumn>
-        </Inner>
-      </TweetArticle>
-    );
-  })
+      return (
+        <TweetArticle
+          tag="article"
+          role="article"
+          label="Tweet"
+          href={{ pathname: "/[screenName]/tweet/[tweetId]", query: { tweetId: id, screenName } }}
+          {...props}
+          ref={ref}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            transform: `translateY(${start}px)`
+          }}
+        >
+          <Inner>
+            <StyledAvatar src={profileImageUrl} screenName={screenName} size="large" />
+            <RightColumn>
+              <TweetCellActions tweetData={tweetData} isOwner={isOwner} />
+              <Content>
+                <TweetText>
+                  <Text truncate>{text}</Text>
+                </TweetText>
+                <TweetCellToolbar
+                  tweetData={tweetData}
+                  isLiked={isLiked}
+                  isLoading={likeLoading || unlikeLoading}
+                  handleLikeTweet={handleLikeTweet}
+                />
+              </Content>
+            </RightColumn>
+          </Inner>
+        </TweetArticle>
+      );
+    }
+  )
 );
 
 const TweetArticle = styled(ActionCard)`

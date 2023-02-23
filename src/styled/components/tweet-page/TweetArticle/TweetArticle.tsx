@@ -1,9 +1,9 @@
 import React from "react";
 
-import type { TweetData } from "api/tweet/timelineTweets";
 import { Text } from "components/core";
 import { useLikeTweetMutation } from "hooks/useLikeTweetMutation";
 import styled from "styled-components";
+import type { TweetData } from "types/tweet";
 import { getFormattedDate } from "utils/time";
 
 import { TweetArticleAuthor } from "./TweetArticleAuthor";

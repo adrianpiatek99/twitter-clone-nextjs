@@ -1,29 +1,31 @@
 import React from "react";
 
-import type { RepliesTweetRequest, RepliesTweetResponse } from "api/tweet/repliesTweet";
-import type { ReplyData } from "api/tweet/replyTweet";
 import { Loader } from "components/core";
-import { useInfiniteScrollQuery } from "hooks/useInfiniteScrollQuery";
+import { useInfiniteScrollHelpers } from "hooks/useInfiniteScrollHelpers";
 import { useVirtualScroll } from "hooks/useVirtualScroll";
-import { repliesTweet } from "network/tweet/repliesTweet";
 import { EmptyMessage, ErrorMessage } from "shared/Messages";
 import { TweetReplyCell, TweetReplyCellSkeleton } from "shared/TweetReplyCell";
 import styled from "styled-components";
+import type { ReplyData } from "types/tweetReply";
+import { api } from "utils/api";
 
 interface TweetRepliesProps {
   queryTweetId: string;
 }
 
 export const TweetReplies = ({ queryTweetId }: TweetRepliesProps) => {
-  const { data, isLoading, isFetching, lastItemRef, hasNextPage, isError, error } =
-    useInfiniteScrollQuery<RepliesTweetRequest, RepliesTweetResponse, ReplyData>({
-      queryKey: ["replies", "tweet", queryTweetId],
-      queryFn: repliesTweet,
-      params: {
-        tweetId: queryTweetId
+  const { data, isLoading, isFetching, fetchNextPage, hasNextPage, isError, error } =
+    api.tweetReply.replies.useInfiniteQuery(
+      { tweetId: queryTweetId },
+      {
+        getNextPageParam: lastPage => lastPage.nextCursor,
+        retry: false,
+        refetchOnWindowFocus: false
       }
-    });
-  const { items, measureElement, totalSize } = useVirtualScroll(data, 600);
+    );
+  const { lastItemRef } = useInfiniteScrollHelpers({ isFetching, hasNextPage, fetchNextPage });
+  const flatData = data?.pages.flatMap(page => page["replies"]) ?? [];
+  const { items, measureElement, totalSize } = useVirtualScroll(flatData, 600);
   const skeletons = Array(7)
     .fill("")
     .map((_, i) => i + 1);
@@ -32,7 +34,7 @@ export const TweetReplies = ({ queryTweetId }: TweetRepliesProps) => {
     return <ErrorMessage title={error.message} />;
   }
 
-  if (!isLoading && data.length === 0) {
+  if (!isLoading && flatData.length === 0) {
     return <EmptyMessage text="Lack of replies" />;
   }
 
@@ -49,7 +51,7 @@ export const TweetReplies = ({ queryTweetId }: TweetRepliesProps) => {
           }}
         >
           {items.map(({ index, start }) => {
-            const reply = data[index] as ReplyData;
+            const reply = flatData[index] as ReplyData;
 
             return (
               <TweetReplyCell

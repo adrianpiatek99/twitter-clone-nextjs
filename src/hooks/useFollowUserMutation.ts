@@ -1,15 +1,18 @@
 import { useCallback } from "react";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { FollowersResponse } from "api/user/followers";
-import type { FollowingData, FollowingResponse } from "api/user/following";
-import type { FollowUserRequest } from "api/user/followUser";
-import type { UserData } from "api/user/userByScreenName";
-import type { AxiosError } from "axios";
-import { followUser } from "network/user/followUser";
-import { unfollowUser } from "network/user/unfollowUser";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import useGlobalStore from "store/globalStore";
+import type { QueryKey } from "types/react-query";
+import type {
+  FollowUserData,
+  UserByScreenNameInputs,
+  UserData,
+  UserFollowersOutputs,
+  UserFollowingOutputs
+} from "types/user";
+import { api } from "utils/api";
+import { queryKeys } from "utils/queryKeys";
 
 import { useAppSession } from "./useAppSession";
 import { useToasts } from "./useToasts";
@@ -17,7 +20,7 @@ import { useToasts } from "./useToasts";
 type Action = "follow" | "unfollow";
 
 interface UseFollowUserMutationProps {
-  followUser: FollowingData["following"];
+  followUser: FollowUserData;
 }
 
 export const useFollowUserMutation = ({
@@ -32,40 +35,48 @@ export const useFollowUserMutation = ({
   const queryScreenName = typeof query.screenName === "string" ? query.screenName : "";
   const isFollowed = followedBy?.some(({ followerId }) => followerId === sessionUserId);
 
-  const { mutate: followMutate, isLoading: followUserLoading } = useMutation<
-    unknown,
-    AxiosError,
-    FollowUserRequest
-  >({
-    mutationFn: followUser,
+  const { mutate: followMutate, isLoading: followUserLoading } = api.user.follow.useMutation({
     onSuccess: () => {
-      updateFollowingCache("follow", ["following", queryScreenName, "infinite"]);
-      updateFollowersCache("follow", ["followers", queryScreenName, "infinite"]);
-      updateFollowCache("follow", ["user", queryScreenName]);
+      updateFollowingInfiniteCache(
+        "follow",
+        queryKeys.userFollowingQueryKey({ screenName: queryScreenName })
+      );
+      updateFollowersInfiniteCache(
+        "follow",
+        queryKeys.userFollowersQueryKey({ screenName: queryScreenName })
+      );
+      updateFollowCache(
+        "follow",
+        queryKeys.userByScreenNameQueryKey({ screenName: queryScreenName })
+      );
     },
     onError: error => {
       handleAddToast("error", error.message);
     }
   });
 
-  const { mutate: unfollowMutate, isLoading: unfollowUserLoading } = useMutation<
-    unknown,
-    AxiosError,
-    FollowUserRequest
-  >({
-    mutationFn: unfollowUser,
+  const { mutate: unfollowMutate, isLoading: unfollowUserLoading } = api.user.unfollow.useMutation({
     onSuccess: () => {
-      updateFollowingCache("unfollow", ["following", queryScreenName, "infinite"]);
-      updateFollowersCache("unfollow", ["followers", queryScreenName, "infinite"]);
-      updateFollowCache("unfollow", ["user", queryScreenName]);
+      updateFollowingInfiniteCache(
+        "unfollow",
+        queryKeys.userFollowingQueryKey({ screenName: queryScreenName })
+      );
+      updateFollowersInfiniteCache(
+        "unfollow",
+        queryKeys.userFollowersQueryKey({ screenName: queryScreenName })
+      );
+      updateFollowCache(
+        "unfollow",
+        queryKeys.userByScreenNameQueryKey({ screenName: queryScreenName })
+      );
     },
     onError: error => {
       handleAddToast("error", error.message);
     }
   });
 
-  const updateFollowersCache = (action: Action, queryKey: string[]) => {
-    queryClient.setQueryData<{ pages: FollowersResponse[] }>(queryKey, oldData => {
+  const updateFollowersInfiniteCache = (action: Action, queryKey: QueryKey<unknown>) => {
+    queryClient.setQueryData<{ pages: UserFollowersOutputs[] }>(queryKey, oldData => {
       if (oldData) {
         const followedByArray = action === "follow" ? [{ followerId: sessionUserId }] : [];
 
@@ -92,8 +103,8 @@ export const useFollowUserMutation = ({
     });
   };
 
-  const updateFollowingCache = (action: Action, queryKey: string[]) => {
-    queryClient.setQueryData<{ pages: FollowingResponse[] }>(queryKey, oldData => {
+  const updateFollowingInfiniteCache = (action: Action, queryKey: QueryKey<unknown>) => {
+    queryClient.setQueryData<{ pages: UserFollowingOutputs[] }>(queryKey, oldData => {
       if (oldData) {
         const followedByArray = action === "follow" ? [{ followerId: sessionUserId }] : [];
 
@@ -120,7 +131,7 @@ export const useFollowUserMutation = ({
     });
   };
 
-  const updateFollowCache = (action: Action, queryKey: string[]) => {
+  const updateFollowCache = (action: Action, queryKey: QueryKey<UserByScreenNameInputs>) => {
     queryClient.setQueryData<UserData>(queryKey, oldData => {
       if (oldData) {
         const count = action === "follow" ? 1 : -1;

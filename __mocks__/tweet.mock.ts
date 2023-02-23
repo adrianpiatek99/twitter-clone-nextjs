@@ -1,4 +1,4 @@
-import type { TweetData } from "api/tweet/timelineTweets";
+import type { TweetData } from "types/tweet";
 
 export const mockedTweet: TweetData = {
   id: "45435fghfghfgh",

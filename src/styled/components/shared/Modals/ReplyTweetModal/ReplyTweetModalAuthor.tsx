@@ -1,9 +1,9 @@
 import React from "react";
 
-import type { TweetData } from "api/tweet/timelineTweets";
 import { Text } from "components/core";
 import { Avatar } from "shared/Avatar";
 import styled, { useTheme } from "styled-components";
+import type { TweetData } from "types/tweet";
 import { getRelativeTime } from "utils/time";
 
 interface ReplyTweetModalAuthorProps {

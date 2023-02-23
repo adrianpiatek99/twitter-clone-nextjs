@@ -1,25 +1,26 @@
 import React from "react";
 
-import type {
-  TimelineTweetsRequest,
-  TimelineTweetsResponse,
-  TweetData
-} from "api/tweet/timelineTweets";
 import { Loader } from "components/core";
-import { useInfiniteScrollQuery } from "hooks/useInfiniteScrollQuery";
+import { useInfiniteScrollHelpers } from "hooks/useInfiniteScrollHelpers";
 import { useVirtualScroll } from "hooks/useVirtualScroll";
-import { timelineTweets } from "network/tweet/timelineTweets";
 import { ErrorMessage } from "shared/Messages";
 import { TweetCell, TweetCellSkeleton } from "shared/TweetCell";
 import styled from "styled-components";
+import type { TweetData } from "types/tweet";
+import { api } from "utils/api";
 
 export const HomeTimeline = () => {
-  const { data, isLoading, isFetching, lastItemRef, hasNextPage, isError, error } =
-    useInfiniteScrollQuery<TimelineTweetsRequest, TimelineTweetsResponse, TweetData>({
-      queryKey: ["tweets"],
-      queryFn: timelineTweets
-    });
-  const { items, measureElement, totalSize } = useVirtualScroll(data, 50);
+  const { data, isLoading, isFetching, fetchNextPage, hasNextPage, isError, error } =
+    api.tweet.timeline.useInfiniteQuery(
+      {},
+      {
+        getNextPageParam: lastPage => lastPage.nextCursor,
+        retry: false
+      }
+    );
+  const { lastItemRef } = useInfiniteScrollHelpers({ isFetching, hasNextPage, fetchNextPage });
+  const flatData = data?.pages.flatMap(page => page["tweets"]) ?? [];
+  const { items, measureElement, totalSize } = useVirtualScroll(flatData, 50);
   const skeletons = Array(3)
     .fill("")
     .map((_, i) => i + 1);
@@ -41,7 +42,7 @@ export const HomeTimeline = () => {
           }}
         >
           {items.map(({ index, start }) => {
-            const tweet = data[index] as TweetData;
+            const tweet = flatData[index] as TweetData;
 
             return (
               <TweetCell
