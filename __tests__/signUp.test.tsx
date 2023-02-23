@@ -10,7 +10,7 @@ describe("Create new account 👤", () => {
       hideConsoleError();
       renderWithProviders(<Login />);
 
-      const signUpTab = screen.getByRole("button", { name: /sign up tab/i });
+      const signUpTab = await screen.findByRole("button", { name: /sign up tab/i });
 
       await userEvent.click(signUpTab);
 
@@ -32,7 +32,7 @@ describe("Create new account 👤", () => {
 
       await userEvent.click(createAccountButton);
 
-      const signInTab = screen.getByRole("button", { name: /sign in tab/i });
+      const signInTab = await screen.findByRole("button", { name: /sign in tab/i });
 
       const signInEmailInput = await screen.findByRole("textbox", { name: /email address/i });
 

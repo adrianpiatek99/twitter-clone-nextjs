@@ -7,7 +7,6 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "shared/Toast";
-import ReduxStoreProvider from "store/ReduxStoreProvider";
 import { GlobalStyle, ThemeProvider } from "styled/theme";
 
 const App = ({ Component, pageProps: { session, ...pageProps }, router }: AppProps) => {
@@ -22,15 +21,13 @@ const App = ({ Component, pageProps: { session, ...pageProps }, router }: AppPro
       </Head>
       <QueryClientProvider client={queryClient}>
         <SessionProvider session={session}>
-          <ReduxStoreProvider>
-            <ThemeProvider>
-              <GlobalStyle />
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-              <Toaster />
-            </ThemeProvider>
-          </ReduxStoreProvider>
+          <ThemeProvider>
+            <GlobalStyle />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+            <Toaster />
+          </ThemeProvider>
         </SessionProvider>
       </QueryClientProvider>
     </>

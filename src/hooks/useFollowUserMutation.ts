@@ -9,8 +9,7 @@ import type { AxiosError } from "axios";
 import { followUser } from "network/user/followUser";
 import { unfollowUser } from "network/user/unfollowUser";
 import { useRouter } from "next/router";
-import { setAuthRequiredModalOpen } from "store/slices/globalSlice";
-import { useAppDispatch } from "store/store";
+import useGlobalStore from "store/globalStore";
 
 import { useAppSession } from "./useAppSession";
 import { useToasts } from "./useToasts";
@@ -27,7 +26,7 @@ export const useFollowUserMutation = ({
   const queryClient = useQueryClient();
   const { query } = useRouter();
   const { session } = useAppSession();
-  const dispatch = useAppDispatch();
+  const openAuthRequiredModal = useGlobalStore(store => store.openAuthRequiredModal);
   const { handleAddToast } = useToasts();
   const sessionUserId = session?.user.id ?? "";
   const queryScreenName = typeof query.screenName === "string" ? query.screenName : "";
@@ -139,7 +138,7 @@ export const useFollowUserMutation = ({
 
   const handleFollowUser = useCallback(() => {
     if (!sessionUserId) {
-      dispatch(setAuthRequiredModalOpen(true));
+      openAuthRequiredModal(true);
 
       return;
     }
@@ -154,7 +153,7 @@ export const useFollowUserMutation = ({
 
     followMutate({ followUserId: id });
   }, [
-    dispatch,
+    openAuthRequiredModal,
     followMutate,
     unfollowMutate,
     id,

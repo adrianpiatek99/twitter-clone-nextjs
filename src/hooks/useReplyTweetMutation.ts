@@ -6,8 +6,7 @@ import type { ReplyData, ReplyTweetRequest, ReplyTweetResponse } from "api/tweet
 import type { TweetData } from "api/tweet/timelineTweets";
 import type { AxiosError } from "axios";
 import { replyTweet } from "network/tweet/replyTweet";
-import { setAuthRequiredModalOpen } from "store/slices/globalSlice";
-import { useAppDispatch } from "store/store";
+import useGlobalStore from "store/globalStore";
 import { updateInfiniteTweetsCache, updateTweetCache } from "utils/updateQueryCache";
 
 import { useAppSession } from "./useAppSession";
@@ -22,7 +21,7 @@ export const useReplyTweetMutation = ({ tweetId, onSuccess }: UseReplyTweetMutat
   const queryClient = useQueryClient();
   const { session } = useAppSession();
   const sessionUserId = session?.user.id ?? "";
-  const dispatch = useAppDispatch();
+  const openAuthRequiredModal = useGlobalStore(store => store.openAuthRequiredModal);
   const { handleAddToast } = useToasts();
 
   const { mutate, isLoading: replyTweetLoading } = useMutation<
@@ -79,7 +78,7 @@ export const useReplyTweetMutation = ({ tweetId, onSuccess }: UseReplyTweetMutat
   const handleReplyTweet = useCallback(
     (data: ReplyTweetRequest) => {
       if (!sessionUserId) {
-        dispatch(setAuthRequiredModalOpen(true));
+        openAuthRequiredModal(true);
 
         return;
       }
@@ -88,7 +87,7 @@ export const useReplyTweetMutation = ({ tweetId, onSuccess }: UseReplyTweetMutat
 
       mutate(data);
     },
-    [mutate, replyTweetLoading, sessionUserId, dispatch]
+    [mutate, replyTweetLoading, sessionUserId, openAuthRequiredModal]
   );
 
   return { handleReplyTweet, replyTweetLoading };

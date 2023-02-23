@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { useToasts } from "hooks/useToasts";
 import { Portal } from "shared/Portal";
-import { useAppSelector } from "store/store";
+import useToastsStore from "store/toastsStore";
 import styled from "styled-components";
 
 import { Toast } from "./Toast";
@@ -11,7 +11,7 @@ import { Toast } from "./Toast";
 const MAX_TOASTS_COUNT = 4;
 
 export const Toaster = () => {
-  const { toasts } = useAppSelector(state => state.toasts);
+  const toasts = useToastsStore(state => state.toasts);
   const { handleRemoveToast } = useToasts();
 
   useEffect(() => {
