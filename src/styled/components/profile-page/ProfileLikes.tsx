@@ -1,34 +1,32 @@
 import React from "react";
 
-import type {
-  LikedTweetData,
-  LikedTweetsRequest,
-  LikedTweetsResponse
-} from "api/tweet/likedTweets";
-import type { UserData } from "api/user/userByScreenName";
 import { Loader } from "components/core";
-import { useInfiniteScrollQuery } from "hooks/useInfiniteScrollQuery";
+import { useInfiniteScrollHelpers } from "hooks/useInfiniteScrollHelpers";
 import { useVirtualScroll } from "hooks/useVirtualScroll";
-import { likedTweets } from "network/tweet/likedTweets";
 import { EmptyMessage, ErrorMessage } from "shared/Messages";
 import { TweetCell, TweetCellSkeleton } from "shared/TweetCell";
 import styled from "styled-components";
+import type { LikedTweetData } from "types/tweet";
+import type { UserData } from "types/user";
+import { api } from "utils/api";
 
 interface ProfileLikesProps {
   userData: UserData;
 }
 
-export const ProfileLikes = ({ userData: { id: userId, screenName } }: ProfileLikesProps) => {
-  const { data, isLoading, isFetching, lastItemRef, hasNextPage, isError, error } =
-    useInfiniteScrollQuery<LikedTweetsRequest, LikedTweetsResponse, LikedTweetData>({
-      queryKey: ["likedTweets", screenName],
-      queryFn: likedTweets,
-      params: {
-        userId
-      },
-      refetchOnWindowFocus: false
-    });
-  const { items, measureElement, totalSize } = useVirtualScroll(data, 600);
+export const ProfileLikes = ({ userData: { id: profileId, screenName } }: ProfileLikesProps) => {
+  const { data, isLoading, isFetching, fetchNextPage, hasNextPage, isError, error } =
+    api.tweet.likesTimeline.useInfiniteQuery(
+      { profileId },
+      {
+        getNextPageParam: lastPage => lastPage.nextCursor,
+        retry: false,
+        refetchOnWindowFocus: false
+      }
+    );
+  const { lastItemRef } = useInfiniteScrollHelpers({ isFetching, hasNextPage, fetchNextPage });
+  const flatData = data?.pages.flatMap(page => page["likedTweets"]) ?? [];
+  const { items, measureElement, totalSize } = useVirtualScroll(flatData, 600);
   const skeletons = Array(3)
     .fill("")
     .map((_, i) => i + 1);
@@ -37,7 +35,7 @@ export const ProfileLikes = ({ userData: { id: userId, screenName } }: ProfileLi
     return <ErrorMessage title={error.message} />;
   }
 
-  if (!isLoading && data.length === 0) {
+  if (!isLoading && flatData.length === 0) {
     return <EmptyMessage text="Lack of likes" />;
   }
 
@@ -54,7 +52,7 @@ export const ProfileLikes = ({ userData: { id: userId, screenName } }: ProfileLi
           }}
         >
           {items.map(({ index, start }) => {
-            const like = data[index] as LikedTweetData;
+            const like = flatData[index] as LikedTweetData;
 
             return (
               <TweetCell
@@ -63,6 +61,7 @@ export const ProfileLikes = ({ userData: { id: userId, screenName } }: ProfileLi
                 ref={measureElement}
                 start={start}
                 tweetData={like.tweet}
+                profileId={profileId}
               />
             );
           })}

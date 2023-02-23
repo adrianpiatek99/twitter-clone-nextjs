@@ -2,12 +2,10 @@ import React from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useMutation } from "@tanstack/react-query";
+import { zodResolver } from "@hookform/resolvers/zod";
 import type { InputType } from "components/core";
 import { Button, Input } from "components/core";
 import { useToasts } from "hooks/useToasts";
-import { signUp } from "network/auth/signUp";
 import {
   type SignUpValues,
   PROFILE_EMAIL_MAX_LENGTH,
@@ -18,6 +16,7 @@ import {
 } from "schema/authSchema";
 import useLoginStore from "store/loginStore";
 import styled from "styled-components";
+import { api } from "utils/api";
 
 import type { LoginTabs } from "../LoginPage";
 
@@ -54,11 +53,10 @@ export const LoginSignUpForm = ({ handleChangeTab }: LoginSignUpFormProps) => {
     getValues,
     formState: { errors }
   } = useForm<SignUpValues>({
-    resolver: yupResolver(signUpSchema)
+    resolver: zodResolver(signUpSchema)
   });
   const { handleAddToast } = useToasts();
-  const signUpMutation = useMutation({
-    mutationFn: signUp,
+  const signUpMutation = api.auth.signUp.useMutation({
     onMutate: () => {
       setIsLoading(true);
     },

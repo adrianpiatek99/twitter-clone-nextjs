@@ -1,14 +1,15 @@
 import { useState } from "react";
 
-import { type QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { TimelineTweetsResponse, TweetData } from "api/tweet/timelineTweets";
-import type { AxiosError } from "axios";
-import { tweetDetails } from "network/tweet/tweetDetails";
+import { type QueryClient, useQueryClient } from "@tanstack/react-query";
+import type { QueryKey } from "types/react-query";
+import type { TweetTimelineOutputs } from "types/tweet";
+import { api } from "utils/api";
+import { queryKeys } from "utils/queryKeys";
 import { uniqBy } from "utils/uniqBy";
 
-const handleGetQueryTweetsByKey = (queryClient: QueryClient, queryKey: string[]) =>
+const handleGetQueryTweetsByKey = (queryClient: QueryClient, queryKey: QueryKey<unknown>) =>
   queryClient
-    .getQueryData<{ pages: TimelineTweetsResponse[] }>(queryKey)
+    .getQueryData<{ pages: TweetTimelineOutputs[] }>(queryKey)
     ?.pages.flatMap(page => page.tweets) ?? [];
 
 const handleGetTweetDetailsFromCache = (
@@ -16,12 +17,14 @@ const handleGetTweetDetailsFromCache = (
   tweetId: string,
   screenName: string
 ) => {
-  const homeTimelineTweets = handleGetQueryTweetsByKey(queryClient, ["tweets", "infinite"]);
-  const userTimelineTweets = handleGetQueryTweetsByKey(queryClient, [
-    "tweets",
-    screenName,
-    "infinite"
-  ]);
+  const homeTimelineTweets = handleGetQueryTweetsByKey(
+    queryClient,
+    queryKeys.tweetTimelineQueryKey()
+  );
+  const userTimelineTweets = handleGetQueryTweetsByKey(
+    queryClient,
+    queryKeys.tweetProfileTimelineQueryKey({ profileScreenName: screenName })
+  );
 
   const tweets = uniqBy([...homeTimelineTweets, ...userTimelineTweets], "id");
 
@@ -37,16 +40,17 @@ export const useTweetDetailsQuery = ({ tweetId, screenName }: UseTweetDetailsQue
   const queryClient = useQueryClient();
   const cachedTweet = handleGetTweetDetailsFromCache(queryClient, tweetId, screenName);
   const [isQueryError, setIsQueryError] = useState(false);
-  const tweetDetailsQuery = useQuery<TweetData, AxiosError>({
-    queryKey: ["tweet", screenName, tweetId],
-    queryFn: () => tweetDetails({ screenName, tweetId }),
-    onError: () => {
-      setIsQueryError(true);
-    },
-    retry: false,
-    refetchOnWindowFocus: !isQueryError,
-    initialData: cachedTweet
-  });
+  const tweetDetailsQuery = api.tweet.details.useQuery(
+    { tweetId, screenName },
+    {
+      onError: () => {
+        setIsQueryError(true);
+      },
+      retry: false,
+      refetchOnWindowFocus: !isQueryError,
+      initialData: cachedTweet
+    }
+  );
 
   return {
     ...tweetDetailsQuery,

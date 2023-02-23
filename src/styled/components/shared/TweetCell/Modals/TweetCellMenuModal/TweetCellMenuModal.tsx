@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
-import type { TweetData } from "api/tweet/timelineTweets";
 import { MenuModal, MenuModalItem } from "components/core";
 import { useDeleteTweetMutation } from "hooks/useDeleteTweetMutation";
 import TrashIcon from "icons/TrashIcon";
 import { ConfirmDeleteTweetModal } from "shared/Modals";
+import type { TweetData } from "types/tweet";
 
 interface TweetCellMenuModalProps {
   tweetData: TweetData;

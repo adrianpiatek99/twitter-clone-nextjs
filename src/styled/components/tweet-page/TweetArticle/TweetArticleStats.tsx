@@ -1,8 +1,8 @@
 import React from "react";
 
-import type { TweetData } from "api/tweet/timelineTweets";
 import { Text } from "components/core";
 import styled from "styled-components";
+import type { TweetData } from "types/tweet";
 
 interface TweetArticleStatsProps {
   tweetData: TweetData;

@@ -1,14 +1,11 @@
-import * as yup from "yup";
+import { z } from "zod";
 
 export const TWEET_MAX_LENGTH = 280;
 
-export type TweetValues = {
-  text: string;
-};
+export type TweetValues = z.infer<typeof tweetSchema>;
 
-export const tweetSchema: yup.SchemaOf<TweetValues> = yup.object().shape({
-  text: yup
+export const tweetSchema = z.object({
+  text: z
     .string()
     .max(TWEET_MAX_LENGTH, `Tweet text can't have more than ${TWEET_MAX_LENGTH} characters.`)
-    .required("Tweet text is required")
 });

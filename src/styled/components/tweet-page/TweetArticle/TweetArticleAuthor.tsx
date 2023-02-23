@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
-import type { TweetData } from "api/tweet/timelineTweets";
 import { IconButton, Text } from "components/core";
 import MoreHorizontalIcon from "icons/MoreHorizontalIcon";
 import { useRouter } from "next/router";
 import { Avatar } from "shared/Avatar";
 import { TweetCellMenuModal } from "shared/TweetCell";
 import styled from "styled-components";
+import type { TweetData } from "types/tweet";
 
 interface TweetArticleAuthorProps {
   tweetData: TweetData;

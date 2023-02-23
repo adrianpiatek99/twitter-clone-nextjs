@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Layout } from "components/layout";
 import { useScrollRestoration } from "hooks/useScrollRestoration";
 import type { AppProps } from "next/app";
@@ -8,10 +8,9 @@ import Head from "next/head";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "shared/Toast";
 import { GlobalStyle, ThemeProvider } from "styled/theme";
+import { api } from "utils/api";
 
 const App = ({ Component, pageProps: { session, ...pageProps }, router }: AppProps) => {
-  const [queryClient] = useState(() => new QueryClient());
-
   useScrollRestoration(router);
 
   return (
@@ -19,19 +18,18 @@ const App = ({ Component, pageProps: { session, ...pageProps }, router }: AppPro
       <Head>
         <title>Twitter</title>
       </Head>
-      <QueryClientProvider client={queryClient}>
-        <SessionProvider session={session}>
-          <ThemeProvider>
-            <GlobalStyle />
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-            <Toaster />
-          </ThemeProvider>
-        </SessionProvider>
-      </QueryClientProvider>
+      <SessionProvider session={session}>
+        <ThemeProvider>
+          <GlobalStyle />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+          <Toaster />
+        </ThemeProvider>
+      </SessionProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
     </>
   );
 };
 
-export default App;
+export default api.withTRPC(App);

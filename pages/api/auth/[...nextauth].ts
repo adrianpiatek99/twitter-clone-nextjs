@@ -4,12 +4,13 @@ import { compare } from "bcryptjs";
 import type { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { signOut } from "next-auth/react";
 import { exclude, prisma } from "prisma/prisma";
 import { PROFILE_EMAIL_MAX_LENGTH, PROFILE_PASSWORD_MAX_LENGTH } from "schema/authSchema";
 
 export type SignInCredentials = Pick<User, "email" | "password">;
 
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   secret: process.env.AUTH_SECRET,
   session: {
     strategy: "jwt"
@@ -70,6 +71,12 @@ const authOptions: NextAuthOptions = {
               }
             }
           });
+
+          if (!dbUser) {
+            signOut({
+              callbackUrl: "/"
+            });
+          }
 
           if (dbUser) {
             const userWithoutSpecificFields = exclude(dbUser, ["password", "email"]);

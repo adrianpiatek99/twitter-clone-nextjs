@@ -1,12 +1,12 @@
 import React from "react";
 
-import type { FollowersData } from "api/user/followers";
 import { Button, Text } from "components/core";
 import { useFollowUserMutation } from "hooks/useFollowUserMutation";
 import styled from "styled-components";
+import type { FollowUserData } from "types/user";
 
 interface FollowCellActionsProps {
-  followUser: FollowersData["follower"];
+  followUser: FollowUserData;
   itsMe: boolean;
 }
 

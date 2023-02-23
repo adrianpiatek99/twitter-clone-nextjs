@@ -2,7 +2,7 @@ import React from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 
-import { yupResolver } from "@hookform/resolvers/yup";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Modal, Textarea } from "components/core";
 import { useCreateTweetMutation } from "hooks/useCreateTweetMutation";
 import { useRouter } from "next/router";
@@ -23,7 +23,7 @@ interface CreateTweetModalProps {
 export const CreateTweetModal = ({ isOpen, onClose, profileImageUrl }: CreateTweetModalProps) => {
   const { push } = useRouter();
   const { register, handleSubmit, watch, reset } = useForm<TweetValues>({
-    resolver: yupResolver(tweetSchema),
+    resolver: zodResolver(tweetSchema),
     defaultValues: {
       text: ""
     }
@@ -38,7 +38,7 @@ export const CreateTweetModal = ({ isOpen, onClose, profileImageUrl }: CreateTwe
   });
 
   const onSubmit: SubmitHandler<TweetValues> = data => {
-    handleCreateTweet({ ...data, imageUrls: [] });
+    handleCreateTweet({ ...data });
   };
 
   return (

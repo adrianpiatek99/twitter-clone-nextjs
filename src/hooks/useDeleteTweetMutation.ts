@@ -1,11 +1,10 @@
 import { useCallback } from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { useMutation } from "@tanstack/react-query";
-import type { DeleteTweetRequest } from "api/tweet/deleteTweet";
-import type { TimelineTweetsResponse, TweetData } from "api/tweet/timelineTweets";
-import type { AxiosError } from "axios";
-import { deleteTweet } from "network/tweet/deleteTweet";
+import type { QueryKey } from "types/react-query";
+import type { TweetData, TweetTimelineOutputs } from "types/tweet";
+import { api } from "utils/api";
+import { queryKeys } from "utils/queryKeys";
 
 import { useAppSession } from "./useAppSession";
 import { useToasts } from "./useToasts";
@@ -23,29 +22,30 @@ export const useDeleteTweetMutation = ({
   const { session } = useAppSession();
   const { handleAddToast } = useToasts();
   const sessionUserId = session?.user.id;
-  const sessionScreenName = session?.user.screenName;
+  const sessionUserScreenName = session?.user.screenName;
 
-  const { mutate, isLoading: deleteLoading } = useMutation<unknown, AxiosError, DeleteTweetRequest>(
-    {
-      mutationFn: deleteTweet,
-      onSuccess: () => {
-        updateCache(["tweets", "infinite"]);
-        queryClient.removeQueries(["tweet", sessionScreenName, tweetId]);
+  const { mutate, isLoading: deleteLoading } = api.tweet.delete.useMutation({
+    onSuccess: () => {
+      removeTweetFromTimelineCache(queryKeys.tweetTimelineQueryKey());
 
-        if (sessionScreenName) {
-          updateCache(["tweets", sessionScreenName, "infinite"]);
-        }
-
-        onSuccess?.();
-      },
-      onError: (error: any) => {
-        handleAddToast("error", error?.message);
+      if (sessionUserScreenName) {
+        removeTweetFromTimelineCache(
+          queryKeys.tweetProfileTimelineQueryKey({ profileScreenName: sessionUserScreenName })
+        );
+        queryClient.removeQueries(
+          queryKeys.tweetDetailsQueryKey({ screenName: sessionUserScreenName, tweetId })
+        );
       }
-    }
-  );
 
-  const updateCache = (queryKey: string[]) => {
-    queryClient.setQueryData<{ pages: TimelineTweetsResponse[] }>(queryKey, oldData => {
+      onSuccess?.();
+    },
+    onError: (error: any) => {
+      handleAddToast("error", error?.message);
+    }
+  });
+
+  const removeTweetFromTimelineCache = (queryKey: QueryKey<unknown>) => {
+    queryClient.setQueryData<{ pages: TweetTimelineOutputs[] }>(queryKey, oldData => {
       if (!oldData) return oldData;
 
       return {

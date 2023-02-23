@@ -1,8 +1,8 @@
 import React from "react";
 
-import type { ReplyData } from "api/tweet/replyTweet";
 import { Text } from "components/core";
 import styled from "styled-components";
+import type { ReplyData } from "types/tweetReply";
 import { getRelativeTime } from "utils/time";
 
 interface TweetReplyCellFirstRowProps {
