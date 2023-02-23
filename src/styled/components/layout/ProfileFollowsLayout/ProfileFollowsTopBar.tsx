@@ -1,12 +1,12 @@
 import React, { useMemo } from "react";
 
-import type { UserData } from "api/user/userByScreenName";
 import { IconButton } from "components/core";
 import BackIcon from "icons/BackIcon";
 import { useRouter } from "next/router";
 import { Tab, Tabs } from "shared/Tabs";
 import { TopBar, TopBarHeading } from "shared/TopBar";
 import styled from "styled-components";
+import type { UserData } from "types/user";
 import { hexToRGBA } from "utils/colors";
 
 interface ProfileFollowsTopBarProps {

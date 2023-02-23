@@ -1,39 +1,35 @@
 import { useCallback } from "react";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { CreateTweetRequest, CreateTweetResponse } from "api/tweet/createTweet";
-import type { TimelineTweetsResponse, TweetData } from "api/tweet/timelineTweets";
-import type { AxiosError } from "axios";
-import { createTweet } from "network/tweet/createTweet";
+import { useQueryClient } from "@tanstack/react-query";
+import type { TweetCreateInputs, TweetCreateOutputs } from "types/tweet";
+import { api } from "utils/api";
+import { queryKeys } from "utils/queryKeys";
+import { addTweetInfiniteCache } from "utils/updateQueryCache";
 
 import { useAppSession } from "./useAppSession";
 import { useToasts } from "./useToasts";
 
 interface UseCreateTweetMutationProps {
-  onSuccess?: (data: CreateTweetResponse) => void;
+  onSuccess?: (data: TweetCreateOutputs) => void;
   onSettled?: () => void;
-}
-
-export interface UseCreateTweetMutationReturn {
-  handleCreateTweet: (data: CreateTweetRequest) => void;
-  createTweetLoading: boolean;
 }
 
 export const useCreateTweetMutation = ({ onSuccess, onSettled }: UseCreateTweetMutationProps) => {
   const queryClient = useQueryClient();
   const { session } = useAppSession();
   const { handleAddToast } = useToasts();
-  const screenName = session?.user.screenName ?? "";
-
-  const { mutate, isLoading: createTweetLoading } = useMutation<
-    CreateTweetResponse,
-    AxiosError,
-    CreateTweetRequest
-  >({
-    mutationFn: createTweet,
+  const sessionUserScreenName = session?.user.screenName;
+  const { mutate, isLoading: createTweetLoading } = api.tweet.create.useMutation({
     onSuccess: data => {
-      addTweetToCache(data, ["tweets", "infinite"]);
-      addTweetToCache(data, ["tweets", screenName, "infinite"]);
+      addTweetInfiniteCache(queryClient, data, queryKeys.tweetTimelineQueryKey());
+
+      if (sessionUserScreenName) {
+        addTweetInfiniteCache(
+          queryClient,
+          data,
+          queryKeys.tweetProfileTimelineQueryKey({ profileScreenName: sessionUserScreenName })
+        );
+      }
 
       handleAddToast("success", "Tweet was created.");
       onSuccess?.(data);
@@ -47,26 +43,8 @@ export const useCreateTweetMutation = ({ onSuccess, onSettled }: UseCreateTweetM
     }
   });
 
-  const addTweetToCache = (data: TweetData, queryKey: string[]) => {
-    queryClient.setQueryData<{ pages: TimelineTweetsResponse[] }>(queryKey, oldData => {
-      if (!oldData) return oldData;
-
-      return {
-        ...oldData,
-        pages: oldData.pages.map((page, index) =>
-          index === 0
-            ? {
-                ...page,
-                tweets: [data, ...page.tweets]
-              }
-            : page
-        )
-      };
-    });
-  };
-
   const handleCreateTweet = useCallback(
-    (data: CreateTweetRequest) => {
+    (data: TweetCreateInputs) => {
       if (createTweetLoading) return;
 
       mutate(data);

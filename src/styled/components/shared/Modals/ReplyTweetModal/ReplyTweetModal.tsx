@@ -2,8 +2,7 @@ import React from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 
-import { yupResolver } from "@hookform/resolvers/yup";
-import type { TweetData } from "api/tweet/timelineTweets";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Modal, Text, Textarea } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
 import { useReplyTweetMutation } from "hooks/useReplyTweetMutation";
@@ -12,6 +11,7 @@ import { TWEET_MAX_LENGTH } from "schema/tweetSchema";
 import { tweetSchema } from "schema/tweetSchema";
 import { Avatar } from "shared/Avatar";
 import styled, { css } from "styled-components";
+import type { TweetData } from "types/tweet";
 
 import { ReplyTweetModalAuthor } from "./ReplyTweetModalAuthor";
 
@@ -25,7 +25,7 @@ export const ReplyTweetModal = ({ isOpen, onClose, tweetData }: ReplyTweetModalP
   const tweetId = tweetData.id;
   const { session } = useAppSession();
   const { register, handleSubmit, watch, reset } = useForm<TweetValues>({
-    resolver: yupResolver(tweetSchema),
+    resolver: zodResolver(tweetSchema),
     defaultValues: {
       text: ""
     }

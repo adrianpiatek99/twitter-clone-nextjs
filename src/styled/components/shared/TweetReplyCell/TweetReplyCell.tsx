@@ -3,11 +3,11 @@ import { memo } from "react";
 import { forwardRef } from "react";
 import React from "react";
 
-import type { ReplyData } from "api/tweet/replyTweet";
 import { Text } from "components/core";
 import { ActionCard } from "shared/ActionCard";
 import { Avatar } from "shared/Avatar";
 import styled, { useTheme } from "styled-components";
+import type { ReplyData } from "types/tweetReply";
 
 import { TweetReplyCellFirstRow } from "./TweetReplyCellFirstRow";
 

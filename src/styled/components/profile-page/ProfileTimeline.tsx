@@ -1,30 +1,31 @@
 import React from "react";
 
-import type { TweetData } from "api/tweet/timelineTweets";
-import type { UserTweetsRequest, UserTweetsResponse } from "api/tweet/userTweets";
-import type { UserData } from "api/user/userByScreenName";
 import { Loader } from "components/core";
-import { useInfiniteScrollQuery } from "hooks/useInfiniteScrollQuery";
+import { useInfiniteScrollHelpers } from "hooks/useInfiniteScrollHelpers";
 import { useVirtualScroll } from "hooks/useVirtualScroll";
-import { userTweets } from "network/tweet/userTweets";
 import { EmptyMessage, ErrorMessage } from "shared/Messages";
 import { TweetCell, TweetCellSkeleton } from "shared/TweetCell";
 import styled from "styled-components";
+import type { TweetData } from "types/tweet";
+import type { UserData } from "types/user";
+import { api } from "utils/api";
 
 interface ProfileTimelineProps {
   userData: UserData;
 }
 
-export const ProfileTimeline = ({ userData: { id: userId, screenName } }: ProfileTimelineProps) => {
-  const { data, isLoading, isFetching, lastItemRef, hasNextPage, isError, error } =
-    useInfiniteScrollQuery<UserTweetsRequest, UserTweetsResponse, TweetData>({
-      queryKey: ["tweets", screenName],
-      queryFn: userTweets,
-      params: {
-        userId
+export const ProfileTimeline = ({ userData: { screenName } }: ProfileTimelineProps) => {
+  const { data, isLoading, isFetching, fetchNextPage, hasNextPage, isError, error } =
+    api.tweet.profileTimeline.useInfiniteQuery(
+      { profileScreenName: screenName },
+      {
+        getNextPageParam: lastPage => lastPage.nextCursor,
+        retry: false
       }
-    });
-  const { items, measureElement, totalSize } = useVirtualScroll(data, 600);
+    );
+  const { lastItemRef } = useInfiniteScrollHelpers({ isFetching, hasNextPage, fetchNextPage });
+  const flatData = data?.pages.flatMap(page => page["tweets"]) ?? [];
+  const { items, measureElement, totalSize } = useVirtualScroll(flatData, 600);
   const skeletons = Array(3)
     .fill("")
     .map((_, i) => i + 1);
@@ -33,7 +34,7 @@ export const ProfileTimeline = ({ userData: { id: userId, screenName } }: Profil
     return <ErrorMessage title={error.message} />;
   }
 
-  if (!isLoading && data.length === 0) {
+  if (!isLoading && flatData.length === 0) {
     return <EmptyMessage text="Lack of tweets" />;
   }
 
@@ -50,7 +51,7 @@ export const ProfileTimeline = ({ userData: { id: userId, screenName } }: Profil
           }}
         >
           {items.map(({ index, start }) => {
-            const tweet = data[index] as TweetData;
+            const tweet = flatData[index] as TweetData;
 
             return (
               <TweetCell

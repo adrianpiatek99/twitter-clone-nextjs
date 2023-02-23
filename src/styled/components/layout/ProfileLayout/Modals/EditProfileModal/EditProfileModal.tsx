@@ -1,13 +1,9 @@
 import React, { useMemo } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useMutation } from "@tanstack/react-query";
-import type { UserData } from "api/user/userByScreenName";
-import type { AxiosError } from "axios";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Input, Modal } from "components/core";
 import { useToasts } from "hooks/useToasts";
-import { editProfile } from "network/user/editProfile";
 import { PROFILE_NAME_MAX_LENGTH } from "schema/authSchema";
 import {
   type ProfileValues,
@@ -16,6 +12,8 @@ import {
   profileSchema
 } from "schema/profileSchema";
 import styled, { css } from "styled-components";
+import type { UserData } from "types/user";
+import { api } from "utils/api";
 import { reloadSession } from "utils/session";
 
 import { EditProfileModalAvatar } from "./EditProfileModalAvatar";
@@ -40,22 +38,21 @@ export const EditProfileModal = ({ isOpen, onClose, userData }: EditProfileModal
     watch,
     formState: { errors }
   } = useForm<ProfileValues>({
-    resolver: yupResolver(profileSchema),
+    resolver: zodResolver(profileSchema),
     defaultValues: {
       name,
       description,
       url
     }
   });
-  const editProfileMutation = useMutation({
-    mutationFn: editProfile,
+  const editProfileMutation = api.user.editProfile.useMutation({
     onSuccess: () => {
       onClose();
       reloadSession();
       resetAvatarFileStates();
       resetBannerFileStates();
     },
-    onError: (error: AxiosError) => {
+    onError: error => {
       handleAddToast("error", error.message);
     }
   });
@@ -93,7 +90,7 @@ export const EditProfileModal = ({ isOpen, onClose, userData }: EditProfileModal
 
       return;
     } catch (error) {
-      const err = error as AxiosError;
+      const err = error as any;
 
       handleAddToast("error", err?.message);
 

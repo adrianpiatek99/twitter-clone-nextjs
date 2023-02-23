@@ -2,14 +2,14 @@ import React from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 
-import { yupResolver } from "@hookform/resolvers/yup";
-import type { UserData } from "api/user/userByScreenName";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "components/core";
 import { useCreateTweetMutation } from "hooks/useCreateTweetMutation";
 import type { TweetValues } from "schema/tweetSchema";
 import { TWEET_MAX_LENGTH, tweetSchema } from "schema/tweetSchema";
 import { Avatar } from "shared/Avatar";
 import styled from "styled-components";
+import type { UserData } from "types/user";
 
 import { HomeCreateTweetToolbar } from "./HomeCreateTweetToolbar";
 
@@ -21,12 +21,13 @@ export const HomeCreateTweetForm = ({
   userData: { screenName, profileImageUrl }
 }: HomeCreateTweetFormProps) => {
   const { register, handleSubmit, watch, reset } = useForm<TweetValues>({
-    resolver: yupResolver(tweetSchema),
+    resolver: zodResolver(tweetSchema),
     defaultValues: {
       text: ""
     }
   });
   const tweetValue = watch("text");
+  /* istanbul ignore next */
   const { handleCreateTweet, createTweetLoading } = useCreateTweetMutation({
     onSettled: () => {
       reset();
@@ -34,7 +35,7 @@ export const HomeCreateTweetForm = ({
   });
 
   const onSubmit: SubmitHandler<TweetValues> = data => {
-    handleCreateTweet({ ...data, imageUrls: [] });
+    handleCreateTweet({ ...data });
   };
 
   return (

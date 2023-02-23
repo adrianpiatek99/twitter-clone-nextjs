@@ -7,5 +7,5 @@ export const reloadSession = () => {
 };
 
 export const verifyMe = (session: Session | null, screenName: string) => {
-  return session ? screenName.toLowerCase() === session.user.screenName.toLowerCase() : false;
+  return session ? screenName.toLowerCase() === session.user.screenName?.toLowerCase() : false;
 };

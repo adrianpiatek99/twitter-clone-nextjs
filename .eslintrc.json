@@ -11,6 +11,7 @@
     "@tanstack/query"
   ],
   "extends": [
+    "next/core-web-vitals",
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
@@ -64,7 +65,7 @@
         "@typescript-eslint/typedef": [
           "error",
           {
-            "parameter": true
+            "allowExpressions": true
           }
         ],
         "no-console": ["error", { "allow": ["warn", "error"] }],

@@ -3,12 +3,13 @@ import { useEffect } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 
-import { yupResolver } from "@hookform/resolvers/yup";
+import { zodResolver } from "@hookform/resolvers/zod";
 import type { InputType } from "components/core";
 import { Button, Input } from "components/core";
 import { useToasts } from "hooks/useToasts";
-import { signIn } from "network/auth/signIn";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import { signIn } from "next-auth/react";
 import {
   type SignInValues,
   PROFILE_EMAIL_MAX_LENGTH,
@@ -39,7 +40,7 @@ export const LoginSignInForm = () => {
     watch,
     formState: { errors }
   } = useForm<SignInValues>({
-    resolver: yupResolver(signInSchema),
+    resolver: zodResolver(signInSchema),
     defaultValues: {
       email,
       password
@@ -51,7 +52,10 @@ export const LoginSignInForm = () => {
     try {
       setIsLoading(true);
 
-      const response = await signIn({ ...data });
+      const response = await signIn("credentials", {
+        ...data,
+        redirect: false
+      });
 
       const ok = response?.ok;
 
@@ -94,7 +98,7 @@ export const LoginSignInForm = () => {
         Sign In
       </Button>
       <LinkWrapper>
-        <a href="/">Forgot Your Password?</a>
+        <Link href="/">Forgot Your Password?</Link>
       </LinkWrapper>
     </Form>
   );

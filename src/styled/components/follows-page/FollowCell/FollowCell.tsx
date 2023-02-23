@@ -1,19 +1,19 @@
 import type { ComponentPropsWithRef, Ref } from "react";
 import React, { forwardRef, memo } from "react";
 
-import type { FollowersData } from "api/user/followers";
 import { Text } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
 import { ActionCard } from "shared/ActionCard";
 import { Avatar } from "shared/Avatar";
 import styled from "styled-components";
+import type { FollowUserData } from "types/user";
 import { verifyMe } from "utils/session";
 
 import { FollowCellActions } from "./FollowCellActions";
 
 interface FollowCellProps extends ComponentPropsWithRef<"div"> {
   start: number;
-  followUser: FollowersData["follower"];
+  followUser: FollowUserData;
 }
 
 export const FollowCell = memo(
