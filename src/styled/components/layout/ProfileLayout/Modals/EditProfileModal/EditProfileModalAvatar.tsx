@@ -2,7 +2,7 @@ import type { ChangeEvent } from "react";
 import React, { useRef } from "react";
 
 import { imageFileTypes } from "constants/fileTypes";
-import CameraPlusIcon from "icons/CameraPlusIcon";
+import { CameraPlusIcon } from "icons/index";
 import { Avatar } from "shared/Avatar";
 import styled from "styled-components";
 

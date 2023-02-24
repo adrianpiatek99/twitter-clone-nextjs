@@ -1,12 +1,9 @@
-import type { IconType } from "react-icons";
-
-import LogoutIcon from "icons/LogoutIcon";
-import PersonOutlinedIcon from "icons/PersonOutlinedIcon";
+import { LogoutIcon, PersonOutlinedIcon } from "icons/index";
 
 export type NavDrawerItemType = {
   text: string;
   href?: string;
-  icon: IconType;
+  icon: SvgrElement;
 };
 
 export const navDrawerProfileItem: NavDrawerItemType = {

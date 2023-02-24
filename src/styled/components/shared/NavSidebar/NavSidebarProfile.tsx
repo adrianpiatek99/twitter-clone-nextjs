@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Text } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
-import MoreHorizontalIcon from "icons/MoreHorizontalIcon";
+import { MoreHorizontalIcon } from "icons/index";
 import { Avatar } from "shared/Avatar";
 import { Skeleton } from "shared/Skeleton";
 import styled from "styled-components";

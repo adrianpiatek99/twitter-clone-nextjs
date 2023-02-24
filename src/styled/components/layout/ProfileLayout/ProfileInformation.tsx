@@ -2,8 +2,7 @@ import React, { memo } from "react";
 
 import { Text } from "components/core";
 import { useAutoAnimate } from "hooks/useAutoAnimate";
-import CalendarIcon from "icons/CalendarIcon";
-import LinkIcon from "icons/LinkIcon";
+import { CalendarIcon, LinkIcon } from "icons/index";
 import Link from "next/link";
 import { Skeleton } from "shared/Skeleton";
 import styled from "styled-components";

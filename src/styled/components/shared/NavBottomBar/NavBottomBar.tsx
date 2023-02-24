@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { useAppSession } from "hooks/useAppSession";
-import PlusIcon from "icons/PlusIcon";
+import { PlusIcon } from "icons/index";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import styled from "styled-components";

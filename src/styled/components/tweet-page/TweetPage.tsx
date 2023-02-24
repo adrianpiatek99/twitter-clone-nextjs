@@ -4,7 +4,7 @@ import { IconButton } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
 import { useAutoAnimate } from "hooks/useAutoAnimate";
 import { useTweetDetailsQuery } from "hooks/useTweetDetailsQuery";
-import BackIcon from "icons/BackIcon";
+import { BackIcon } from "icons/index";
 import { useRouter } from "next/router";
 import { NextSeo } from "next-seo";
 import { ErrorMessage } from "shared/Messages";

@@ -1,9 +1,7 @@
 import type { Dispatch, SetStateAction } from "react";
 import React from "react";
 
-import EyeClosedIcon from "icons/EyeClosedIcon";
-import EyeOpenIcon from "icons/EyeOpenIcon";
-import WarningIcon from "icons/WarningIcon";
+import { EyeClosedIcon, EyeOpenIcon, WarningIcon } from "icons/index";
 import styled from "styled-components";
 
 import { IconButton } from "../IconButton";

@@ -1,8 +1,7 @@
 import React from "react";
 
 import { IconButton, Text } from "components/core";
-import EmojiSmileIcon from "icons/EmojiSmileIcon";
-import MediaIcon from "icons/MediaIcon";
+import { EmojiSmileIcon, MediaIcon } from "icons/index";
 import { TWEET_MAX_LENGTH } from "schema/tweetSchema";
 import styled from "styled-components";
 

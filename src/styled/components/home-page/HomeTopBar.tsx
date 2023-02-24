@@ -2,7 +2,7 @@ import React from "react";
 
 import { IconButton } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
-import SparklesIcon from "icons/SparklesIcon";
+import { SparklesIcon } from "icons/index";
 import { Avatar } from "shared/Avatar";
 import { Logo } from "shared/Logo";
 import { TopBar, TopBarHeading } from "shared/TopBar";

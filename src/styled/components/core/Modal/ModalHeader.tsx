@@ -1,6 +1,6 @@
 import React from "react";
 
-import CloseIcon from "icons/CloseIcon";
+import { CloseIcon } from "icons/index";
 import styled from "styled-components";
 
 import { Button } from "../Button";

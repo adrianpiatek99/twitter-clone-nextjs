@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 
 import { IconButton } from "components/core";
-import BackIcon from "icons/BackIcon";
+import { BackIcon } from "icons/index";
 import { useRouter } from "next/router";
 import { TopBar, TopBarHeading } from "shared/TopBar";
 import type { UserData } from "types/user";

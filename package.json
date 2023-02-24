@@ -8,7 +8,10 @@
     "start": "next start",
     "type-check": "tsc --pretty --noEmit",
     "format": "prettier --write .",
-    "lint": "eslint . --ext ts --ext tsx --ext js --fix",
+    "lint:ts": "eslint *.ts **/*.ts **/*.tsx",
+    "lint": "yarn run lint:ts",
+    "lint-fix": "eslint --fix *.ts **/*.ts **/*.tsx",
+    "generate-icons": "rimraf \"./icons\" && svgr --config-file svgr-icons.config.js -d src/icons assets/icons",
     "test": "jest --testTimeout=10000",
     "test-watch": "jest --watch"
   },
@@ -36,7 +39,6 @@
     "react-dom": "18.2.0",
     "react-focus-lock": "^2.9.2",
     "react-hook-form": "^7.41.5",
-    "react-icons": "^4.7.1",
     "react-remove-scroll-bar": "^2.3.4",
     "styled-components": "^5.3.6",
     "superjson": "^1.12.2",
@@ -45,6 +47,7 @@
     "zustand": "^4.3.3"
   },
   "devDependencies": {
+    "@svgr/cli": "^6.5.1",
     "@tanstack/eslint-plugin-query": "^4.24.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -68,6 +71,7 @@
     "next-router-mock": "^0.9.1",
     "prettier": "^2.8.1",
     "prisma": "^4.8.0",
+    "rimraf": "^4.1.2",
     "typescript": "^4.9.5"
   }
 }

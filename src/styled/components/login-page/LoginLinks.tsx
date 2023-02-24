@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 
 import { Button, ButtonLink, MenuModal, MenuModalItem } from "components/core";
-import GithubIcon from "icons/GithubIcon";
-import WebsiteIcon from "icons/WebsiteIcon";
+import { GithubIcon, WebsiteIcon } from "icons/index";
 import Link from "next/link";
 import styled from "styled-components";
 

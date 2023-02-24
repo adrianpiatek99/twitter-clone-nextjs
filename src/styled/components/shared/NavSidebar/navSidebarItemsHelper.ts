@@ -1,23 +1,23 @@
-import type { IconType } from "react-icons";
-
-import BookmarkIcon from "icons/BookmarkIcon";
-import BookmarkOutlinedIcon from "icons/BookmarkOutlinedIcon";
-import HashtagIcon from "icons/HashtagIcon";
-import HashtagOutlinedIcon from "icons/HashtagOutlinedIcon";
-import HomeIcon from "icons/HomeIcon";
-import HomeOutlinedIcon from "icons/HomeOutlinedIcon";
-import MailIcon from "icons/MailIcon";
-import MailOutlinedIcon from "icons/MailOutlinedIcon";
-import NotificationIcon from "icons/NotificationIcon";
-import NotificationOutlinedIcon from "icons/NotificationOutlinedIcon";
-import PersonIcon from "icons/PersonIcon";
-import PersonOutlinedIcon from "icons/PersonOutlinedIcon";
+import {
+  BookmarkIcon,
+  BookmarkOutlinedIcon,
+  HashtagIcon,
+  HashtagOutlinedIcon,
+  HomeIcon,
+  HomeOutlinedIcon,
+  MailIcon,
+  MailOutlinedIcon,
+  NotificationIcon,
+  NotificationOutlinedIcon,
+  PersonIcon,
+  PersonOutlinedIcon
+} from "icons/index";
 
 export type NavSidebarItemType = {
   text: string;
   href: string;
-  icon: IconType;
-  activeIcon: IconType;
+  icon: SvgrElement;
+  activeIcon: SvgrElement;
 };
 
 export const authenticatedNavSidebarItems: NavSidebarItemType[] = [

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { IconButton, Text } from "components/core";
-import MoreHorizontalIcon from "icons/MoreHorizontalIcon";
+import { MoreHorizontalIcon } from "icons/index";
 import { useRouter } from "next/router";
 import { Avatar } from "shared/Avatar";
 import { TweetCellMenuModal } from "shared/TweetCell";

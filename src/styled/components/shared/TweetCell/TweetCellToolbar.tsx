@@ -2,10 +2,7 @@ import React, { useState } from "react";
 
 import { IconButtonWithLabel } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
-import HeartIcon from "icons/HeartIcon";
-import HeartOutlinedIcon from "icons/HeartOutlinedIcon";
-import MessageIcon from "icons/MessageIcon";
-import RetweetIcon from "icons/RetweetIcon";
+import { HeartIcon, HeartOutlinedIcon, MessageIcon, RetweetIcon } from "icons/index";
 import dynamic from "next/dynamic";
 import useGlobalStore from "store/globalStore";
 import styled, { useTheme } from "styled-components";

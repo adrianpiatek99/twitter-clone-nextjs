@@ -1,20 +1,20 @@
-import type { IconType } from "react-icons/lib";
-
-import HomeIcon from "icons/HomeIcon";
-import HomeOutlinedIcon from "icons/HomeOutlinedIcon";
-import LoginIcon from "icons/LoginIcon";
-import MailIcon from "icons/MailIcon";
-import MailOutlinedIcon from "icons/MailOutlinedIcon";
-import NotificationIcon from "icons/NotificationIcon";
-import NotificationOutlinedIcon from "icons/NotificationOutlinedIcon";
-import SearchIcon from "icons/SearchIcon";
-import SearchOutlinedIcon from "icons/SearchOutlinedIcon";
+import {
+  HomeIcon,
+  HomeOutlinedIcon,
+  LoginIcon,
+  MailIcon,
+  MailOutlinedIcon,
+  NotificationIcon,
+  NotificationOutlinedIcon,
+  SearchIcon,
+  SearchOutlinedIcon
+} from "icons/index";
 
 export type NavBottomBarItem = {
   text: string;
   href: string;
-  icon: IconType;
-  activeIcon: IconType;
+  icon: SvgrElement;
+  activeIcon: SvgrElement;
 };
 
 export const navBottomBarItems: NavBottomBarItem[] = [
