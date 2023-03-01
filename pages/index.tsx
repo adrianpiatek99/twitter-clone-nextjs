@@ -6,7 +6,7 @@ import { NextSeo } from "next-seo";
 import styled from "styled-components";
 
 const LazyLoginPage = dynamic(
-  () => import("../src/styled/components/login-page/LoginPage").then(mod => mod.LoginPage),
+  () => import("../src/components/login-page/LoginPage").then(mod => mod.LoginPage),
   {
     loading: () => (
       <LazyLoaderContainer>

@@ -1,7 +1,12 @@
-import type { SVGProps } from "react";
-import React from "react";
-import { MdVisibility } from "react-icons/md";
+import type { Ref, SVGProps } from "react";
+import * as React from "react";
+import { forwardRef } from "react";
 
-const EyeOpenIcon = (props: SVGProps<SVGSVGElement>) => <MdVisibility {...props} />;
-
-export default EyeOpenIcon;
+const SvgEyeOpenIcon = (props: SVGProps<SVGSVGElement>, ref: Ref<SVGSVGElement>) => (
+  <svg viewBox="0 0 512 512" fill="currentColor" height="1em" width="1em" ref={ref} {...props}>
+    <path d="M320 256a64 64 0 0 1-64 64 64 64 0 0 1-64-64 64 64 0 0 1 128 0z" />
+    <path d="M490.84 238.6c-26.46-40.92-60.79-75.68-99.27-100.53C349 110.55 302 96 255.66 96c-42.52 0-84.33 12.15-124.27 36.11-40.73 24.43-77.63 60.12-109.68 106.07a31.92 31.92 0 0 0-.64 35.54c26.41 41.33 60.4 76.14 98.28 100.65C162 402 207.9 416 255.66 416c46.71 0 93.81-14.43 136.2-41.72 38.46-24.77 72.72-59.66 99.08-100.92a32.2 32.2 0 0 0-.1-34.76zM256 352a96 96 0 1 1 96-96 96.11 96.11 0 0 1-96 96z" />
+  </svg>
+);
+const ForwardRef = forwardRef(SvgEyeOpenIcon);
+export default ForwardRef;

@@ -2,6 +2,7 @@ import { useCallback } from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
 import useGlobalStore from "store/globalStore";
+import useProfileStore from "store/profileStore";
 import type { TweetData } from "types/tweet";
 import { api } from "utils/api";
 import { queryKeys } from "utils/queryKeys";
@@ -17,7 +18,6 @@ import { useToasts } from "./useToasts";
 
 interface UseLikeTweetMutationProps {
   tweetData: TweetData;
-  profileId?: string;
   disabled?: boolean;
 }
 
@@ -27,12 +27,12 @@ export const useLikeTweetMutation = ({
     likes,
     author: { screenName }
   },
-  profileId = "",
   disabled = false
 }: UseLikeTweetMutationProps) => {
   const queryClient = useQueryClient();
   const { session } = useAppSession();
   const openAuthRequiredModal = useGlobalStore(store => store.openAuthRequiredModal);
+  const { viewedProfile } = useProfileStore(state => state);
   const { handleAddToast } = useToasts();
   const sessionUserId = session?.user.id ?? "";
   const sessionUserScreenName = session?.user.screenName;
@@ -74,7 +74,15 @@ export const useLikeTweetMutation = ({
 
   const updateCache = (updateTweet: (data: TweetData) => TweetData) => {
     updateTweetInfiniteCache(queryClient, tweetId, updateTweet);
-    updateLikesTweetInfiniteCache(queryClient, tweetId, { profileId }, updateTweet);
+
+    if (viewedProfile) {
+      updateLikesTweetInfiniteCache(
+        queryClient,
+        tweetId,
+        { profileId: viewedProfile.id },
+        updateTweet
+      );
+    }
 
     if (sessionUserScreenName) {
       updateProfileTweetInfiniteCache(
