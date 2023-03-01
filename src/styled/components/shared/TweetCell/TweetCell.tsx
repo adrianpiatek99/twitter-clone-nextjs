@@ -12,60 +12,56 @@ import { TweetCellActions } from "./TweetCellActions";
 import { TweetCellToolbar } from "./TweetCellToolbar";
 
 interface TweetCellProps extends Omit<ComponentPropsWithRef<"article">, "id"> {
-  profileId?: string;
   start: number;
   tweetData: TweetData;
 }
 
 export const TweetCell = memo(
-  forwardRef(
-    ({ profileId, tweetData, start, ...props }: TweetCellProps, ref: Ref<HTMLDivElement>) => {
-      const { id, text, author, authorId } = tweetData;
-      const { session } = useAppSession();
-      const { screenName, profileImageUrl } = author;
-      const isOwner = session?.user.id === authorId;
-      const { handleLikeTweet, likeLoading, unlikeLoading, isLiked } = useLikeTweetMutation({
-        tweetData,
-        profileId: profileId ?? ""
-      });
+  forwardRef(({ tweetData, start, ...props }: TweetCellProps, ref: Ref<HTMLDivElement>) => {
+    const { id, text, author, authorId } = tweetData;
+    const { session } = useAppSession();
+    const { screenName, profileImageUrl } = author;
+    const isOwner = session?.user.id === authorId;
+    const { handleLikeTweet, likeLoading, unlikeLoading, isLiked } = useLikeTweetMutation({
+      tweetData
+    });
 
-      return (
-        <TweetArticle
-          tag="article"
-          role="article"
-          label="Tweet"
-          href={{ pathname: "/[screenName]/tweet/[tweetId]", query: { tweetId: id, screenName } }}
-          {...props}
-          ref={ref}
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            transform: `translateY(${start}px)`
-          }}
-        >
-          <Inner>
-            <StyledAvatar src={profileImageUrl} screenName={screenName} size="large" />
-            <RightColumn>
-              <TweetCellActions tweetData={tweetData} isOwner={isOwner} />
-              <Content>
-                <TweetText>
-                  <Text truncate>{text}</Text>
-                </TweetText>
-                <TweetCellToolbar
-                  tweetData={tweetData}
-                  isLiked={isLiked}
-                  isLoading={likeLoading || unlikeLoading}
-                  handleLikeTweet={handleLikeTweet}
-                />
-              </Content>
-            </RightColumn>
-          </Inner>
-        </TweetArticle>
-      );
-    }
-  )
+    return (
+      <TweetArticle
+        tag="article"
+        role="article"
+        label="Tweet"
+        href={{ pathname: "/[screenName]/tweet/[tweetId]", query: { tweetId: id, screenName } }}
+        {...props}
+        ref={ref}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          transform: `translateY(${start}px)`
+        }}
+      >
+        <Inner>
+          <StyledAvatar src={profileImageUrl} screenName={screenName} size="large" />
+          <RightColumn>
+            <TweetCellActions tweetData={tweetData} isOwner={isOwner} />
+            <Content>
+              <TweetText>
+                <Text truncate>{text}</Text>
+              </TweetText>
+              <TweetCellToolbar
+                tweetData={tweetData}
+                isLiked={isLiked}
+                isLoading={likeLoading || unlikeLoading}
+                handleLikeTweet={handleLikeTweet}
+              />
+            </Content>
+          </RightColumn>
+        </Inner>
+      </TweetArticle>
+    );
+  })
 );
 
 const TweetArticle = styled(ActionCard)`

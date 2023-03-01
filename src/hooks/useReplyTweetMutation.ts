@@ -2,12 +2,14 @@ import { useCallback } from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
 import useGlobalStore from "store/globalStore";
+import useProfileStore from "store/profileStore";
 import type { TweetData } from "types/tweet";
 import type { TweetReplyCreateInputs, TweetReplyCreateOutputs } from "types/tweetReply";
 import { api } from "utils/api";
 import { queryKeys } from "utils/queryKeys";
 import {
   addReplyInfiniteCache,
+  updateLikesTweetInfiniteCache,
   updateProfileTweetInfiniteCache,
   updateTweetDetailsCache,
   updateTweetInfiniteCache
@@ -26,6 +28,7 @@ export const useReplyTweetMutation = ({ tweetId, onSuccess }: UseReplyTweetMutat
   const { session } = useAppSession();
   const sessionUserId = session?.user.id ?? "";
   const openAuthRequiredModal = useGlobalStore(store => store.openAuthRequiredModal);
+  const { viewedProfile } = useProfileStore(state => state);
   const { handleAddToast } = useToasts();
 
   const { mutate, isLoading: replyTweetLoading } = api.tweetReply.create.useMutation({
@@ -46,6 +49,16 @@ export const useReplyTweetMutation = ({ tweetId, onSuccess }: UseReplyTweetMutat
         { profileScreenName: tweetAuthorScreenName },
         updateTweets
       );
+
+      if (viewedProfile) {
+        updateLikesTweetInfiniteCache(
+          queryClient,
+          tweetId,
+          { profileId: viewedProfile.id },
+          updateTweets
+        );
+      }
+
       updateTweetDetailsCache(
         queryClient,
         queryKeys.tweetDetailsQueryKey({ screenName: tweetAuthorScreenName, tweetId }),
