@@ -1,12 +1,10 @@
 import React from "react";
 
-import { Loader } from "components/core";
-import { useInfiniteScrollHelpers } from "hooks/useInfiniteScrollHelpers";
 import { useVirtualScroll } from "hooks/useVirtualScroll";
-import { ErrorMessage } from "shared/Messages";
-import styled from "styled-components";
+import { InfiniteScrollingSection } from "shared/InfiniteScrollingSection";
 import type { FollowUserData, UserData } from "types/user";
 import { api } from "utils/api";
+import { createArray } from "utils/array";
 
 import { FollowCell, FollowCellSkeleton } from "./FollowCell";
 
@@ -17,29 +15,26 @@ type ProfileFollowersTimelineProps = {
 export const ProfileFollowersTimeline = ({
   userData: { screenName }
 }: ProfileFollowersTimelineProps) => {
-  const { data, isLoading, isFetching, fetchNextPage, hasNextPage, isError, error } =
-    api.user.followers.useInfiniteQuery(
-      { screenName },
-      {
-        getNextPageParam: lastPage => lastPage.nextCursor,
-        retry: false
-      }
-    );
-  const { lastItemRef } = useInfiniteScrollHelpers({ isFetching, hasNextPage, fetchNextPage });
+  const profileFollowersTimelineInfiniteQuery = api.user.followers.useInfiniteQuery(
+    { screenName },
+    {
+      getNextPageParam: lastPage => lastPage.nextCursor,
+      retry: false
+    }
+  );
+  const { data, isLoading, error } = profileFollowersTimelineInfiniteQuery;
   const flatData = data?.pages.flatMap(page => page["followers"]) ?? [];
   const { items, measureElement, totalSize } = useVirtualScroll(flatData, 100);
-  const skeletons = Array(7)
-    .fill("")
-    .map((_, i) => i + 1);
-
-  if (isError) {
-    return <ErrorMessage title={error.message} />;
-  }
 
   return (
-    <FollowersSection>
+    <InfiniteScrollingSection
+      {...profileFollowersTimelineInfiniteQuery}
+      flatDataCount={flatData.length}
+      errorMessage={error?.message ?? ""}
+      emptyMessage="Lack of followers"
+    >
       {isLoading ? (
-        skeletons.map(skeleton => <FollowCellSkeleton key={skeleton} />)
+        createArray(7).map(skeleton => <FollowCellSkeleton key={skeleton} />)
       ) : (
         <div
           style={{
@@ -63,33 +58,6 @@ export const ProfileFollowersTimeline = ({
           })}
         </div>
       )}
-      {isFetching && !isLoading && (
-        <LoaderWrapper additionalPadding>
-          <Loader center />
-        </LoaderWrapper>
-      )}
-      {hasNextPage && !isLoading && <LoadMoreItems ref={lastItemRef} />}
-    </FollowersSection>
+    </InfiniteScrollingSection>
   );
 };
-
-const FollowersSection = styled.section`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding-bottom: 100px;
-`;
-
-const LoaderWrapper = styled.div<{ additionalPadding?: boolean }>`
-  margin: 30px 0;
-  padding-bottom: ${({ additionalPadding }) => additionalPadding && "40px"};
-`;
-
-const LoadMoreItems = styled.div`
-  position: absolute;
-  bottom: 0px;
-  height: 95vh;
-  left: 0px;
-  pointer-events: none;
-`;
