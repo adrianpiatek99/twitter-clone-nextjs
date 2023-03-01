@@ -1,6 +1,6 @@
 import React from "react";
 
-import TwitterIcon from "icons/TwitterIcon";
+import { TwitterIcon } from "icons/index";
 import Link from "next/link";
 import styled from "styled-components";
 import { hexToRGBA } from "utils/colors";

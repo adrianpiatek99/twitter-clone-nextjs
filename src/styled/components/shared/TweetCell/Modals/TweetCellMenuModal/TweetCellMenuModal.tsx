@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { MenuModal, MenuModalItem } from "components/core";
 import { useDeleteTweetMutation } from "hooks/useDeleteTweetMutation";
-import TrashIcon from "icons/TrashIcon";
+import { TrashIcon } from "icons/index";
 import { ConfirmDeleteTweetModal } from "shared/Modals";
 import type { TweetData } from "types/tweet";
 

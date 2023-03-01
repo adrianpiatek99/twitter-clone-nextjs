@@ -2,7 +2,7 @@ import React, { useLayoutEffect } from "react";
 import { useState } from "react";
 
 import { Button, LinearProgress } from "components/core";
-import GoogleIcon from "icons/GoogleIcon";
+import { GoogleIcon } from "icons/index";
 import { useRouter } from "next/router";
 import { Logo } from "shared/Logo";
 import { Tab, Tabs } from "shared/Tabs";

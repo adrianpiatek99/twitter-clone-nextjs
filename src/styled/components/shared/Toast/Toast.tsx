@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from "react";
 import { IconButton } from "components/core";
 import { motion } from "framer-motion";
 import { useToasts } from "hooks/useToasts";
-import CloseIcon from "icons/CloseIcon";
+import { CloseIcon } from "icons/index";
 import type { ToastProps } from "store/toastsStore";
 import styled from "styled-components";
 

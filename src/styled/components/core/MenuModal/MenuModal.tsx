@@ -4,7 +4,7 @@ import FocusLock from "react-focus-lock";
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useMediaQuery } from "hooks/useMediaQuery";
-import CloseIcon from "icons/CloseIcon";
+import { CloseIcon } from "icons/index";
 import { Portal } from "shared/Portal";
 import styled, { useTheme } from "styled-components";
 

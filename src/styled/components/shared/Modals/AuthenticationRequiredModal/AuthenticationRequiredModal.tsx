@@ -1,7 +1,7 @@
 import React from "react";
 
 import { ButtonLink, Heading, Modal, Text } from "components/core";
-import PeopleIcon from "icons/PeopleIcon";
+import { PeopleIcon } from "icons/index";
 import { useRouter } from "next/router";
 import useGlobalStore from "store/globalStore";
 import styled from "styled-components";

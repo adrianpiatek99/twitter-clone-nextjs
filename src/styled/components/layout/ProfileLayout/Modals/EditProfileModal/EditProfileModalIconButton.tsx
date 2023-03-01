@@ -19,13 +19,13 @@ export const EditProfileModalIconButton = ({
 };
 
 const StyledIconButton = styled(IconButton)`
-  opacity: 0.75;
+  opacity: 0.85;
   background-color: ${({ theme }) => theme.dark150};
   backdrop-filter: blur(4px);
 
   @media (hover: hover) {
     &:hover:not(:disabled) {
-      background-color: ${({ theme }) => hexToRGBA(theme.dark150, 0.6)};
+      background-color: ${({ theme }) => hexToRGBA(theme.dark150, 0.7)};
     }
   }
 
@@ -34,6 +34,6 @@ const StyledIconButton = styled(IconButton)`
   }
 
   &:focus-visible {
-    background-color: ${({ theme }) => hexToRGBA(theme.dark150, 0.6)};
+    background-color: ${({ theme }) => hexToRGBA(theme.dark150, 0.7)};
   }
 `;

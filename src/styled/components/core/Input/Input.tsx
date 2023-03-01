@@ -1,7 +1,7 @@
 import type { ComponentPropsWithRef, Ref } from "react";
 import React, { forwardRef, useMemo, useRef, useState } from "react";
 
-import AtSignIcon from "icons/AtSignIcon";
+import { AtSignIcon } from "icons/index";
 import styled, { css } from "styled-components";
 
 import { Text } from "../Text";
@@ -122,6 +122,7 @@ const AtSign = styled(AtSignIcon)<{ $isFilled: boolean }>`
   bottom: 8px;
   color: ${({ theme }) => theme.neutral300};
   opacity: ${({ $isFilled }) => ($isFilled ? 1 : 0)};
+  filter: brightness(1.5);
   pointer-events: none;
   transition: opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1);
 

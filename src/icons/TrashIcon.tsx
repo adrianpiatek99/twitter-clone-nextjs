@@ -1,7 +1,11 @@
-import type { SVGProps } from "react";
-import React from "react";
-import { BsFillTrashFill } from "react-icons/bs";
+import type { Ref, SVGProps } from "react";
+import * as React from "react";
+import { forwardRef } from "react";
 
-const TrashIcon = (props: SVGProps<SVGSVGElement>) => <BsFillTrashFill {...props} />;
-
-export default TrashIcon;
+const SvgTrashIcon = (props: SVGProps<SVGSVGElement>, ref: Ref<SVGSVGElement>) => (
+  <svg fill="currentColor" viewBox="0 0 16 16" height="1em" width="1em" ref={ref} {...props}>
+    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+  </svg>
+);
+const ForwardRef = forwardRef(SvgTrashIcon);
+export default ForwardRef;

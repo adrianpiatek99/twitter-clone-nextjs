@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 
 import { MenuModal, MenuModalItem } from "components/core";
-import LogoutIcon from "icons/LogoutIcon";
+import { LogoutIcon } from "icons/index";
 import { ConfirmLogOutModal } from "shared/Modals";
 
 interface NavSidebarProfileMenuModalProps {

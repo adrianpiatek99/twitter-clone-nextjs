@@ -3,8 +3,7 @@ import { useRef } from "react";
 import React from "react";
 
 import { imageFileTypes } from "constants/fileTypes";
-import CameraPlusIcon from "icons/CameraPlusIcon";
-import CloseIcon from "icons/CloseIcon";
+import { CameraPlusIcon, CloseIcon } from "icons/index";
 import Image from "next/legacy/image";
 import styled from "styled-components";
 

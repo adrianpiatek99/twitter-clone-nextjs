@@ -1,8 +1,8 @@
 import type { ComponentProps, ComponentPropsWithoutRef, ReactElement } from "react";
 import React, { useRef } from "react";
-import { HiChevronLeft } from "react-icons/hi";
 
 import { IconButton } from "components/core";
+import { ChevronIcon } from "icons/index";
 import styled, { css } from "styled-components";
 
 import type { Tab, TabRestProps } from "./Tab";
@@ -42,13 +42,13 @@ export const Tabs = <T,>({ children, value, onChange, ...props }: TabsProps<T>) 
     <TabsWrapper {...props}>
       <BackwardArrow isActive={backwardArrow}>
         <ScrollToButton title="Go backward" onClick={handleBackward} color="white" disableFocus>
-          <HiChevronLeft />
+          <ChevronIcon />
         </ScrollToButton>
       </BackwardArrow>
       <TabGroupInner ref={tabGroupRef}>{childrenWithProps}</TabGroupInner>
       <ForwardArrow isActive={forwardArrow}>
         <ScrollToButton title="Go forward" onClick={handleForward} color="white" disableFocus>
-          <HiChevronLeft />
+          <ChevronIcon />
         </ScrollToButton>
       </ForwardArrow>
     </TabsWrapper>

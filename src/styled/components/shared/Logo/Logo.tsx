@@ -1,6 +1,6 @@
 import React from "react";
 
-import TwitterIcon from "icons/TwitterIcon";
+import { TwitterIcon } from "icons/index";
 import styled from "styled-components";
 
 import type { LogoColor, LogoSize } from "./logoStyleVariants";

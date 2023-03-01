@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 
 import { IconButton, Text } from "components/core";
-import MoreHorizontalIcon from "icons/MoreHorizontalIcon";
+import { MoreHorizontalIcon } from "icons/index";
 import styled from "styled-components";
 import type { TweetData } from "types/tweet";
 import { getRelativeTime } from "utils/time";
