@@ -1,4 +1,4 @@
-import type { StyledCssReturn } from "styled/theme";
+import type { StyledCssReturn } from "src/theme";
 import { css } from "styled-components";
 import { hexToRGBA } from "utils/colors";
 

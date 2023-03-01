@@ -1,11 +1,11 @@
 import type { RenderOptions } from "@testing-library/react";
 import { render } from "@testing-library/react";
 import type { FC, ReactElement } from "react";
-import { GlobalStyle, ThemeProvider } from "styled/theme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import { mockedSession } from "__mocks__/user.mock";
 import { Layout } from "components/layout";
+import { GlobalStyle, ThemeProvider } from "src/theme";
 
 const queryClient = new QueryClient();
 
