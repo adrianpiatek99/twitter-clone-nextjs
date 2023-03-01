@@ -61,7 +61,6 @@ export const ProfileLikes = ({ userData: { id: profileId, screenName } }: Profil
                 ref={measureElement}
                 start={start}
                 tweetData={like.tweet}
-                profileId={profileId}
               />
             );
           })}
