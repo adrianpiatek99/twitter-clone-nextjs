@@ -7,7 +7,7 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "shared/Toast";
-import { GlobalStyle, ThemeProvider } from "styled/theme";
+import { GlobalStyle, ThemeProvider } from "src/theme";
 import { api } from "utils/api";
 
 const App = ({ Component, pageProps: { session, ...pageProps }, router }: AppProps) => {
