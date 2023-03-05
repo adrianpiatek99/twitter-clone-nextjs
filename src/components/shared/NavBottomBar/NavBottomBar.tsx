@@ -55,7 +55,6 @@ export const NavBottomBar = () => {
           <LazyCreateTweetModal
             isOpen={isCreateTweetModalOpen}
             onClose={() => setIsCreateTweetModalOpen(false)}
-            profileImageUrl={session.user.profileImageUrl}
           />
         </>
       )}

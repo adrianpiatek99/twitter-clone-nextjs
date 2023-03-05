@@ -1,88 +1,108 @@
-import React from "react";
-import type { SubmitHandler } from "react-hook-form";
-import { useForm } from "react-hook-form";
+import React, { useEffect, useState } from "react";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Modal, Textarea } from "components/core";
+import { useAppSession } from "hooks/useAppSession";
 import { useCreateTweetMutation } from "hooks/useCreateTweetMutation";
-import { useRouter } from "next/router";
-import type { TweetValues } from "schema/tweetSchema";
+import { useUploadImageFile } from "hooks/useUploadImageFile";
 import { TWEET_MAX_LENGTH } from "schema/tweetSchema";
-import { tweetSchema } from "schema/tweetSchema";
 import { Avatar } from "shared/Avatar";
-import styled, { css } from "styled-components";
-
-import { CreateTweetModalToolbar } from "./CreateTweetModalToolbar";
+import { CreateTweetMedia, CreateTweetToolbar } from "shared/Forms/CreateTweetForm";
+import createTweetStore, { CREATE_TWEET_PHOTOS_LIMIT } from "store/createTweetStore";
+import styled from "styled-components";
 
 interface CreateTweetModalProps {
   isOpen: boolean;
   onClose: () => void;
-  profileImageUrl: string;
 }
 
-export const CreateTweetModal = ({ isOpen, onClose, profileImageUrl }: CreateTweetModalProps) => {
-  const { push } = useRouter();
-  const { register, handleSubmit, watch, reset } = useForm<TweetValues>({
-    resolver: zodResolver(tweetSchema),
-    defaultValues: {
-      text: ""
-    }
+export const CreateTweetModal = ({ isOpen, onClose }: CreateTweetModalProps) => {
+  const { session } = useAppSession();
+  const { tweetFiles, tweetText, setTweetText, addTweetFiles, resetStore } = createTweetStore(
+    state => state
+  );
+  const { files, onFileChange, uploadImageFile, resetFileStates } = useUploadImageFile({
+    limit: CREATE_TWEET_PHOTOS_LIMIT
   });
-  const tweetValue = watch("text");
   const { handleCreateTweet, createTweetLoading } = useCreateTweetMutation({
-    onSuccess: ({ id, author: { screenName } }) => {
-      push({ pathname: "/[screenName]/tweet/[tweetId]", query: { tweetId: id, screenName } });
-      reset();
+    onSuccess: () => {
       onClose();
+      resetFileStates();
+      resetStore();
     }
   });
+  const [uploadingImages, setUploadingImages] = useState(false);
+  const isLoading = uploadingImages || createTweetLoading;
 
-  const onSubmit: SubmitHandler<TweetValues> = data => {
-    handleCreateTweet({ ...data });
+  const onSubmit = async () => {
+    try {
+      setUploadingImages(true);
+
+      const images = await Promise.all(tweetFiles.map(({ file }) => uploadImageFile(file)));
+
+      handleCreateTweet({ text: tweetText, media: images });
+    } finally {
+      setUploadingImages(false);
+    }
   };
+
+  useEffect(() => {
+    if (files.length) {
+      resetFileStates();
+      addTweetFiles(files);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [files, addTweetFiles]);
+
+  if (!session) return null;
 
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      onAccept={handleSubmit(onSubmit)}
+      onAccept={onSubmit}
       acceptButtonText="Create"
-      loading={createTweetLoading}
+      acceptButtonDisabled={!tweetText.length}
+      loading={isLoading}
     >
-      <Inner isLoading={createTweetLoading}>
+      <Wrapper>
         <LeftColumn>
-          <Avatar src={profileImageUrl} size="large" />
+          <Avatar
+            src={session.user.profileImageUrl}
+            screenName={session.user.screenName}
+            size="large"
+          />
         </LeftColumn>
         <RightColumn>
           <Textarea
             label="Create a tweet"
-            value={tweetValue}
+            value={tweetText}
+            onChange={e => setTweetText(e.target.value)}
             placeholder="What's happening?"
             maxLength={TWEET_MAX_LENGTH}
-            disabled={createTweetLoading}
-            {...register("text")}
+            disabled={isLoading}
           />
-          <CreateTweetModalToolbar tweetLength={tweetValue?.length ?? 0} />
+          <BottomRow>
+            {!!tweetFiles.length && <CreateTweetMedia files={tweetFiles} isLoading={isLoading} />}
+            <CreateTweetToolbar
+              isMobileModal
+              tweetLength={tweetText.length ?? 0}
+              onSubmit={onSubmit}
+              loading={isLoading}
+              onFileChange={onFileChange}
+            />
+          </BottomRow>
         </RightColumn>
-      </Inner>
+      </Wrapper>
     </Modal>
   );
 };
 
-const Inner = styled.div<{ isLoading: boolean }>`
+const Wrapper = styled.div`
   display: flex;
-  width: 100%;
-  padding: 12px 16px;
   gap: 12px;
+  padding: 12px 16px;
   min-height: 275px;
-  transition: opacity 0.2s;
-
-  ${({ isLoading }) =>
-    isLoading &&
-    css`
-      opacity: 0.5;
-      pointer-events: none;
-    `}
+  margin-bottom: 4px;
 `;
 
 const LeftColumn = styled.div`
@@ -93,6 +113,14 @@ const LeftColumn = styled.div`
 const RightColumn = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100%;
   flex-grow: 1;
+  gap: 12px;
+  padding-bottom: 50px;
+`;
+
+const BottomRow = styled.div`
+  display: flex;
+  flex-direction: column;
   gap: 12px;
 `;
