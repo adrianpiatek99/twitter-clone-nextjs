@@ -68,12 +68,21 @@ model User {
   following        Follows[]    @relation("follower")
 }
 
+model Media {
+  id      String @id @default(cuid())
+  height  Int
+  width   Int
+  url     String
+  tweet   Tweet  @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+  tweetId String
+}
+
 model Tweet {
   id        String       @id @default(cuid())
   text      String
   author    User         @relation(fields: [authorId], references: [id])
   authorId  String
-  imageUrls String[]
+  media     Media[]
   hashtags  String[]
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
