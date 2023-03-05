@@ -2,20 +2,17 @@ import { useUploadImageFile } from "hooks/useUploadImageFile";
 
 export const useUploadAvatar = (profileImageUrl: string) => {
   const {
-    file: avatarFile,
-    fileBase64: avatarFileBase64,
-    isLoading: isAvatarLoading,
+    files,
     onFileChange: onAvatarFileChange,
     uploadImageFile: uploadAvatarImageFile,
     resetFileStates: resetAvatarFileStates
-  } = useUploadImageFile(0.5);
-  const avatarUrl = avatarFileBase64 || profileImageUrl;
+  } = useUploadImageFile({ sizeLimit: 0.5 });
+  const avatarFile = files[0];
+  const avatarUrl = avatarFile ? URL.createObjectURL(avatarFile) : profileImageUrl;
 
   return {
     avatarUrl,
     avatarFile,
-    avatarFileBase64,
-    isAvatarLoading,
     onAvatarFileChange,
     uploadAvatarImageFile,
     resetAvatarFileStates
