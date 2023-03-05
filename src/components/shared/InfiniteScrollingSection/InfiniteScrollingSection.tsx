@@ -1,4 +1,5 @@
-import type { ReactNode } from "react";
+import type { ReactNode, Ref } from "react";
+import { forwardRef } from "react";
 import { useRef } from "react";
 import React from "react";
 
@@ -19,61 +20,66 @@ interface InfiniteScrollingSectionProps {
   ariaLabel?: string;
 }
 
-export const InfiniteScrollingSection = ({
-  children,
-  flatDataCount,
-  isFetching,
-  isLoading,
-  fetchNextPage,
-  isError,
-  emptyMessage,
-  errorMessage,
-  hasNextPage,
-  ariaLabel
-}: InfiniteScrollingSectionProps) => {
-  const observer = useRef<IntersectionObserver>(null!);
-  const observerOptions = {
-    threshold: 0
-  };
+export const InfiniteScrollingSection = forwardRef(
+  (
+    {
+      children,
+      flatDataCount,
+      isFetching,
+      isLoading,
+      fetchNextPage,
+      isError,
+      emptyMessage,
+      errorMessage,
+      hasNextPage,
+      ariaLabel
+    }: InfiniteScrollingSectionProps,
+    ref: Ref<HTMLDivElement>
+  ) => {
+    const observer = useRef<IntersectionObserver>(null!);
+    const observerOptions = {
+      threshold: 0
+    };
 
-  const lastItemRef = (node: HTMLDivElement) => {
-    if (isFetching || !hasNextPage || !window.IntersectionObserver) return;
+    const lastItemRef = (node: HTMLDivElement) => {
+      if (isFetching || !hasNextPage || !window.IntersectionObserver) return;
 
-    if (observer.current) {
-      observer.current.disconnect();
-    }
-
-    observer.current = new IntersectionObserver(entries => {
-      if (entries?.[0]?.isIntersecting && hasNextPage) {
-        fetchNextPage();
+      if (observer.current) {
+        observer.current.disconnect();
       }
-    }, observerOptions);
 
-    if (node) {
-      observer.current.observe(node);
+      observer.current = new IntersectionObserver(entries => {
+        if (entries?.[0]?.isIntersecting && hasNextPage) {
+          fetchNextPage();
+        }
+      }, observerOptions);
+
+      if (node) {
+        observer.current.observe(node);
+      }
+    };
+
+    if (isError) {
+      return <ErrorMessage title={errorMessage} />;
     }
-  };
 
-  if (isError) {
-    return <ErrorMessage title={errorMessage} />;
+    if (!isLoading && flatDataCount === 0) {
+      return <EmptyMessage text={emptyMessage} />;
+    }
+
+    return (
+      <Section aria-label={ariaLabel ?? ""} ref={ref}>
+        {children}
+        {isFetching && !isLoading && (
+          <LoaderWrapper>
+            <Loader center />
+          </LoaderWrapper>
+        )}
+        {hasNextPage && !isLoading && <LoadMoreItems ref={lastItemRef} />}
+      </Section>
+    );
   }
-
-  if (!isLoading && flatDataCount === 0) {
-    return <EmptyMessage text={emptyMessage} />;
-  }
-
-  return (
-    <Section aria-label={ariaLabel ?? ""}>
-      {children}
-      {isFetching && !isLoading && (
-        <LoaderWrapper>
-          <Loader center />
-        </LoaderWrapper>
-      )}
-      {hasNextPage && !isLoading && <LoadMoreItems ref={lastItemRef} />}
-    </Section>
-  );
-};
+);
 
 const Section = styled.section`
   position: relative;
