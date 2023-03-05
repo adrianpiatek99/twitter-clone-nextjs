@@ -2,6 +2,7 @@ import React from "react";
 
 import { Text } from "components/core";
 import { useLikeTweetMutation } from "hooks/useLikeTweetMutation";
+import { TweetCellMedia } from "shared/TweetCell";
 import styled from "styled-components";
 import type { TweetData } from "types/tweet";
 import { getFormattedDate } from "utils/time";
@@ -17,7 +18,7 @@ interface TweetArticleProps {
 }
 
 export const TweetArticle = ({ isOwner, tweetData, referer }: TweetArticleProps) => {
-  const { text, createdAt } = tweetData;
+  const { text, createdAt, media } = tweetData;
   const { handleLikeTweet, likeLoading, unlikeLoading, isLiked } = useLikeTweetMutation({
     tweetData
   });
@@ -29,6 +30,7 @@ export const TweetArticle = ({ isOwner, tweetData, referer }: TweetArticleProps)
         <TweetText>
           <Text size="xxl">{text}</Text>
         </TweetText>
+        <TweetCellMedia media={media} />
         <TimeRow>
           <Text color="secondary" weight={500}>
             {getFormattedDate(createdAt, "HH:mm")} {" · "}
