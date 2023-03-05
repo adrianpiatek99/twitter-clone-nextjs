@@ -59,13 +59,13 @@ export const TweetCellToolbar = ({
         onClick={handleLikeTweet}
         title={likeTitle}
         label={String(likes)}
-        color={pink400}
+        customColor={pink400}
         isSelected={isLiked}
         disabled={isLoading}
       >
         {isLiked ? <HeartIcon /> : <HeartOutlinedIcon />}
       </IconButtonWithLabel>
-      <IconButtonWithLabel title="Retweet" label={"0"} color={emerald400} disabled>
+      <IconButtonWithLabel title="Retweet" label={"0"} customColor={emerald400} disabled>
         <RetweetIcon />
       </IconButtonWithLabel>
       <LazyReplyTweetModal

@@ -9,6 +9,7 @@ import styled from "styled-components";
 import type { TweetData } from "types/tweet";
 
 import { TweetCellActions } from "./TweetCellActions";
+import { TweetCellMedia } from "./TweetCellMedia";
 import { TweetCellToolbar } from "./TweetCellToolbar";
 
 interface TweetCellProps extends Omit<ComponentPropsWithRef<"article">, "id"> {
@@ -18,7 +19,7 @@ interface TweetCellProps extends Omit<ComponentPropsWithRef<"article">, "id"> {
 
 export const TweetCell = memo(
   forwardRef(({ tweetData, start, ...props }: TweetCellProps, ref: Ref<HTMLDivElement>) => {
-    const { id, text, author, authorId } = tweetData;
+    const { id, text, author, authorId, media } = tweetData;
     const { session } = useAppSession();
     const { screenName, profileImageUrl } = author;
     const isOwner = session?.user.id === authorId;
@@ -50,6 +51,7 @@ export const TweetCell = memo(
               <TweetText>
                 <Text truncate>{text}</Text>
               </TweetText>
+              {!!media.length && <TweetCellMedia media={media} />}
               <TweetCellToolbar
                 tweetData={tweetData}
                 isLiked={isLiked}

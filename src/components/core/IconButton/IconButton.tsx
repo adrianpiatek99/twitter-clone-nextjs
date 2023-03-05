@@ -1,7 +1,7 @@
 import type { ComponentPropsWithRef, ReactNode, Ref } from "react";
-import React, { forwardRef, useMemo } from "react";
+import React, { forwardRef } from "react";
 
-import styled, { css, useTheme } from "styled-components";
+import styled, { css } from "styled-components";
 
 import { Tooltip } from "..";
 import type { IconButtonColor, IconButtonElementProps, IconButtonSize } from "./iconButtonVariants";
@@ -12,6 +12,7 @@ interface IconButtonProps extends Omit<ComponentPropsWithRef<"button">, "color">
   title?: string;
   size?: IconButtonSize;
   color?: IconButtonColor;
+  customColor?: string;
   loading?: boolean;
   isError?: boolean;
   isSelected?: boolean;
@@ -25,6 +26,7 @@ export const IconButton = forwardRef(
       title = "",
       size = "medium",
       color = "primary",
+      customColor,
       isError = false,
       loading = false,
       isSelected = false,
@@ -33,27 +35,13 @@ export const IconButton = forwardRef(
     }: IconButtonProps,
     ref: Ref<HTMLButtonElement>
   ) => {
-    const { primary05, white, neutral300, error40 } = useTheme();
-
-    const iconButtonColors = useMemo((): [string, string] => {
-      if (isError) return [error40, error40];
-
-      if (color === "primary") return [primary05, primary05];
-
-      if (color === "secondary") return [neutral300, primary05];
-
-      if (color === "white") return [white, white];
-
-      return [neutral300, color];
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isError, color]);
-
     return (
       <Tooltip content={title}>
         <ButtonElement
           aria-label={title}
           type="button"
-          $color={iconButtonColors}
+          color={color}
+          customColor={customColor}
           size={size}
           $isError={isError}
           $loading={loading}
@@ -74,10 +62,6 @@ const ButtonElement = styled.button<
 >`
   ${generalIconButtonStyles};
 
-  &:disabled {
-    opacity: 0.5;
-  }
-
   ${({ $isError }) =>
     $isError &&
     css`
@@ -94,11 +78,5 @@ const ButtonElement = styled.button<
       pointer-events: none;
       opacity: 0.65;
       cursor: default;
-    `};
-
-  ${({ isSelected, $color }) =>
-    isSelected &&
-    css`
-      color: ${$color[1]};
     `};
 `;

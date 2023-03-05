@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import { useVirtualScroll } from "hooks/useVirtualScroll";
 import { InfiniteScrollingSection } from "shared/InfiniteScrollingSection";
@@ -22,11 +22,13 @@ export const TweetReplies = ({ queryTweetId }: TweetRepliesProps) => {
   );
   const { data, isLoading, error } = tweetRepliesInfiniteQuery;
   const flatData = data?.pages.flatMap(page => page["replies"]) ?? [];
-  const { items, measureElement, totalSize } = useVirtualScroll(flatData, 600);
+  const parentRef = useRef<HTMLDivElement>(null);
+  const { items, measureElement, totalSize } = useVirtualScroll(flatData, parentRef);
 
   return (
     <InfiniteScrollingSection
       {...tweetRepliesInfiniteQuery}
+      ref={parentRef}
       flatDataCount={flatData.length}
       errorMessage={error?.message ?? ""}
       emptyMessage="Lack of replies"

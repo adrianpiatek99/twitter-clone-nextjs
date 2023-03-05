@@ -1,21 +1,19 @@
 import type { ComponentPropsWithoutRef, ReactNode, Ref } from "react";
-import React, { forwardRef, useMemo } from "react";
+import React, { forwardRef } from "react";
 
-import styled, { css, useTheme } from "styled-components";
-import { hexToRGBA } from "utils/colors";
+import styled, { css } from "styled-components";
 
 import { Tooltip } from "..";
-import { Text } from "../Text";
-import type { IconButtonColor } from "./iconButtonVariants";
-import { iconButtonSizeVariants } from "./iconButtonVariants";
+import type { IconButtonColor, IconButtonElementProps } from "./iconButtonVariants";
+import { generalIconButtonStyles, iconButtonSizeVariants } from "./iconButtonVariants";
 
 interface IconLinkButtonProps extends ComponentPropsWithoutRef<"button"> {
   children: ReactNode;
   label: string;
   title?: string;
   color?: IconButtonColor;
+  customColor?: string;
   isSelected?: boolean;
-  isError?: boolean;
   disableFocus?: boolean;
 }
 
@@ -26,38 +24,25 @@ export const IconButtonWithLabel = forwardRef(
       label,
       title = "",
       color = "primary",
-      isError = false,
+      customColor,
       isSelected = false,
       ...props
     }: IconLinkButtonProps,
     ref: Ref<HTMLButtonElement>
   ) => {
-    const { primary05, white, neutral300, error40 } = useTheme();
-
-    const iconButtonColors = useMemo((): [string, string] => {
-      if (isError) return [error40, error40];
-
-      if (color === "primary") return [primary05, primary05];
-
-      if (color === "secondary") return [neutral300, primary05];
-
-      if (color === "white") return [white, white];
-
-      return [neutral300, color];
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isError, color]);
-
     return (
-      <Tooltip content={title} offset={[-8, 7]}>
+      <Tooltip content={title}>
         <ButtonElement
           aria-label={title}
-          $color={iconButtonColors}
+          color={color}
+          customColor={customColor}
           isSelected={isSelected}
+          size="medium"
           {...props}
           ref={ref}
+          after={Number(label) ? label : ""}
         >
           <IconWrapper>{children}</IconWrapper>
-          <LabelWrapper>{label !== "0" && <Text customColor="inherit">{label}</Text>}</LabelWrapper>
         </ButtonElement>
       </Tooltip>
     );
@@ -78,58 +63,24 @@ const IconWrapper = styled.div`
   ${iconButtonSizeVariants["medium"]};
 `;
 
-const ButtonElement = styled.button<{
-  $color: [string, string];
-  isSelected: boolean;
-}>`
-  position: relative;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  transition: color 0.2s, background-color 0.2s, box-shadow 0.2s, opacity 0.2s;
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: default;
+const ButtonElement = styled.button<
+  IconButtonElementProps & {
+    color: IconButtonColor;
+    isSelected: boolean;
+    after: string;
+    customColor?: string;
   }
+>`
+  ${generalIconButtonStyles};
+  border-radius: 25px;
 
-  ${({ $color }) => css`
-    color: ${$color[0]};
-
-    @media (hover: hover) {
-      &:hover:not(:disabled) {
-        color: ${$color[1]};
-
-        ${IconWrapper} {
-          background-color: ${hexToRGBA($color[1], 0.1)};
-        }
-      }
-    }
-
-    &:active:not(:disabled) {
-      ${IconWrapper} {
-        background-color: ${hexToRGBA($color[1], 0.2)};
-      }
-    }
-
-    &:focus-visible {
-      color: ${$color[1]};
-
-      ${IconWrapper} {
-        background-color: ${hexToRGBA($color[1], 0.1)};
-        box-shadow: ${hexToRGBA($color[1], 0.85)} 0px 0px 0px 2px;
-      }
-    }
-  `};
-
-  ${({ isSelected, $color }) =>
-    isSelected &&
+  ${({ after }) =>
+    after &&
     css`
-      color: ${$color[1]};
-    `};
-`;
-
-const LabelWrapper = styled.div`
-  padding: 0 12px;
-  margin-left: -8px;
+      &::after {
+        content: ${`"${after}"`};
+        padding: 0 12px;
+        margin-left: -8px;
+      }
+    `}
 `;

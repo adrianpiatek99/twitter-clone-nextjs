@@ -4,17 +4,18 @@ import { useUploadImageFile } from "hooks/useUploadImageFile";
 
 export const useUploadBanner = (profileBannerUrl: string) => {
   const {
-    file: bannerFile,
-    fileBase64: bannerFileBase64,
-    isLoading: isBannerLoading,
+    files,
     onFileChange: onBannerFileChange,
     uploadImageFile: uploadBannerImageFile,
     resetFileStates
-  } = useUploadImageFile(1.5);
-  const [bannerUrl, setBannerUrl] = useState(profileBannerUrl);
+  } = useUploadImageFile({ sizeLimit: 1.5 });
+  const bannerFile = files[0];
+  const [bannerUrl, setBannerUrl] = useState(
+    bannerFile ? URL.createObjectURL(bannerFile) : profileBannerUrl
+  );
 
   const handleRemoveBanner = () => {
-    if (bannerFileBase64) {
+    if (bannerFile) {
       resetBannerFileStates();
       setBannerUrl(profileBannerUrl);
 
@@ -30,20 +31,18 @@ export const useUploadBanner = (profileBannerUrl: string) => {
   };
 
   useEffect(() => {
-    if (bannerFileBase64) {
-      setBannerUrl(bannerFileBase64);
+    if (bannerFile) {
+      setBannerUrl(URL.createObjectURL(bannerFile));
 
       return;
     }
 
     setBannerUrl(profileBannerUrl);
-  }, [bannerFileBase64, profileBannerUrl]);
+  }, [bannerFile, profileBannerUrl]);
 
   return {
     bannerUrl,
     bannerFile,
-    bannerFileBase64,
-    isBannerLoading,
     onBannerFileChange,
     uploadBannerImageFile,
     resetBannerFileStates,

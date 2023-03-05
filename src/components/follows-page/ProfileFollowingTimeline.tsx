@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import { useVirtualScroll } from "hooks/useVirtualScroll";
 import { InfiniteScrollingSection } from "shared/InfiniteScrollingSection";
@@ -24,11 +24,13 @@ export const ProfileFollowingTimeline = ({
   );
   const { data, isLoading, error } = profileFollowingTimelineInfiniteQuery;
   const flatData = data?.pages.flatMap(page => page["following"]) ?? [];
-  const { items, measureElement, totalSize } = useVirtualScroll(flatData, 100);
+  const parentRef = useRef<HTMLDivElement>(null);
+  const { items, measureElement, totalSize } = useVirtualScroll(flatData, parentRef);
 
   return (
     <InfiniteScrollingSection
       {...profileFollowingTimelineInfiniteQuery}
+      ref={parentRef}
       flatDataCount={flatData.length}
       errorMessage={error?.message ?? ""}
       emptyMessage="Lack of followed people"

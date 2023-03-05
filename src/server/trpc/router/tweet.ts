@@ -5,7 +5,7 @@ import { z } from "zod";
 
 import { protectedProcedure, publicProcedure, router } from "../trpc";
 
-const sharedAuthor = {
+const include = {
   author: {
     select: {
       id: true,
@@ -13,53 +13,73 @@ const sharedAuthor = {
       screenName: true,
       profileImageUrl: true
     }
-  }
-};
-
-const sharedCount = {
-  _count: {
-    select: {
-      likes: true,
-      replies: true
-    }
-  }
+  },
+  media: true,
+  _count: true
 };
 
 export const tweetRouter = router({
-  create: protectedProcedure.input(tweetSchema).mutation(async ({ ctx, input }) => {
-    const { prisma, session } = ctx;
-    const { text } = input;
-    const userId = session.user.id;
+  create: protectedProcedure
+    .input(
+      z
+        .object({
+          media: z
+            .object({ width: z.number(), height: z.number(), url: z.string() })
+            .array()
+            .optional()
+        })
+        .merge(tweetSchema)
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { prisma, session } = ctx;
+      const { text, media } = input;
+      const userId = session.user.id;
 
-    const textTrim = text.trim();
+      const textTrim = text.trim();
 
-    if (!textTrim || textTrim.length === 0) {
-      throw new TRPCError({ code: "PARSE_ERROR", message: "Tweet text is required." });
-    }
+      if (!textTrim || textTrim.length === 0) {
+        throw new TRPCError({ code: "PARSE_ERROR", message: "Tweet text is required." });
+      }
 
-    const createdTweet = await prisma.tweet.create({
-      data: {
-        text: textTrim,
-        author: {
-          connect: {
-            id: userId
-          }
-        }
-      },
-      include: {
-        likes: {
-          where: { userId },
-          select: {
-            userId: true
+      const createdTweet = await prisma.tweet.create({
+        data: {
+          text: textTrim,
+          author: {
+            connect: {
+              id: userId
+            }
           }
         },
-        ...sharedAuthor,
-        ...sharedCount
-      }
-    });
+        include: {
+          likes: {
+            where: { userId },
+            select: {
+              userId: true
+            }
+          },
+          ...include
+        }
+      });
 
-    return createdTweet;
-  }),
+      const createdMedia = media
+        ? await prisma.$transaction(
+            media.map(image =>
+              prisma.media.create({
+                data: {
+                  ...image,
+                  tweet: {
+                    connect: {
+                      id: createdTweet.id
+                    }
+                  }
+                }
+              })
+            )
+          )
+        : [];
+
+      return { ...createdTweet, media: createdMedia };
+    }),
 
   delete: protectedProcedure
     .input(z.object({ tweetId: z.string() }))
@@ -106,8 +126,7 @@ export const tweetRouter = router({
               userId: true
             }
           },
-          ...sharedAuthor,
-          ...sharedCount
+          ...include
         }
       });
 
@@ -188,8 +207,7 @@ export const tweetRouter = router({
             userId: true
           }
         },
-        ...sharedAuthor,
-        ...sharedCount
+        ...include
       }
     });
 
@@ -236,8 +254,7 @@ export const tweetRouter = router({
               userId: true
             }
           },
-          ...sharedAuthor,
-          ...sharedCount
+          ...include
         }
       });
 
@@ -288,8 +305,7 @@ export const tweetRouter = router({
                   userId: true
                 }
               },
-              ...sharedAuthor,
-              ...sharedCount
+              ...include
             }
           }
         }

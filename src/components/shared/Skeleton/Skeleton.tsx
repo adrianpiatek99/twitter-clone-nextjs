@@ -54,7 +54,7 @@ const Container = styled.div<SkeletonProps>`
   max-width: ${({ width }) => (width ? `${width}px` : "100%")};
   width: 100%;
   background-color: ${({ transparent }) =>
-    transparent ? "transparent" : "rgba(255, 255, 255, 0.1)"};
+    transparent ? "transparent" : "rgba(255, 255, 255, 0.13)"};
   border-radius: ${({ variant }) => (variant === "circular" ? "50%" : "16px")};
   overflow: hidden;
 
