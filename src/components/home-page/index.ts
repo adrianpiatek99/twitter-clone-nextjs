@@ -1,1 +1,2 @@
-export { HomePageTemplate } from "./HomePage";
+export { HomeTimeline } from "./HomeTimeline";
+export { HomeTopBar } from "./HomeTopBar";
