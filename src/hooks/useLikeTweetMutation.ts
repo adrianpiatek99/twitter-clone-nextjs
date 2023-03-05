@@ -35,7 +35,6 @@ export const useLikeTweetMutation = ({
   const { viewedProfile } = useProfileStore(state => state);
   const { handleAddToast } = useToasts();
   const sessionUserId = session?.user.id ?? "";
-  const sessionUserScreenName = session?.user.screenName;
   const isLiked = likes.some(({ userId }) => userId === sessionUserId);
 
   const { mutate: likeMutate, isLoading: likeLoading } = api.tweet.like.useMutation({
@@ -75,25 +74,24 @@ export const useLikeTweetMutation = ({
   const updateCache = (updateTweet: (data: TweetData) => TweetData) => {
     updateTweetInfiniteCache(queryClient, tweetId, updateTweet);
 
+    updateProfileTweetInfiniteCache(
+      queryClient,
+      tweetId,
+      { profileScreenName: screenName },
+      updateTweet
+    );
+
+    updateTweetDetailsCache(
+      queryClient,
+      queryKeys.tweetDetailsQueryKey({ screenName, tweetId }),
+      updateTweet
+    );
+
     if (viewedProfile) {
       updateLikesTweetInfiniteCache(
         queryClient,
         tweetId,
         { profileId: viewedProfile.id },
-        updateTweet
-      );
-    }
-
-    if (sessionUserScreenName) {
-      updateProfileTweetInfiniteCache(
-        queryClient,
-        tweetId,
-        { profileScreenName: screenName },
-        updateTweet
-      );
-      updateTweetDetailsCache(
-        queryClient,
-        queryKeys.tweetDetailsQueryKey({ screenName: sessionUserScreenName, tweetId }),
         updateTweet
       );
     }
