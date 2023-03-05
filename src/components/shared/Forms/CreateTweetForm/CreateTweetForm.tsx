@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from "react";
 
-import { Modal, Textarea } from "components/core";
+import { Textarea } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
+import { useAutoAnimate } from "hooks/useAutoAnimate";
 import { useCreateTweetMutation } from "hooks/useCreateTweetMutation";
 import { useUploadImageFile } from "hooks/useUploadImageFile";
 import { TWEET_MAX_LENGTH } from "schema/tweetSchema";
 import { Avatar } from "shared/Avatar";
-import { CreateTweetMedia, CreateTweetToolbar } from "shared/Forms/CreateTweetForm";
 import createTweetStore, { CREATE_TWEET_PHOTOS_LIMIT } from "store/createTweetStore";
 import styled from "styled-components";
 
-interface CreateTweetModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+import { CreateTweetMedia } from "./CreateTweetMedia";
+import { CreateTweetToolbar } from "./CreateTweetToolbar";
 
-export const CreateTweetModal = ({ isOpen, onClose }: CreateTweetModalProps) => {
+export const CreateTweetForm = () => {
   const { session } = useAppSession();
   const { tweetFiles, tweetText, setTweetText, addTweetFiles, resetStore } = createTweetStore(
     state => state
@@ -25,12 +23,12 @@ export const CreateTweetModal = ({ isOpen, onClose }: CreateTweetModalProps) => 
   });
   const { handleCreateTweet, createTweetLoading } = useCreateTweetMutation({
     onSuccess: () => {
-      onClose();
       resetFileStates();
       resetStore();
     }
   });
   const [uploadingImages, setUploadingImages] = useState(false);
+  const [wrapperRef] = useAutoAnimate<HTMLDivElement>();
   const isLoading = uploadingImages || createTweetLoading;
 
   const onSubmit = async () => {
@@ -56,53 +54,48 @@ export const CreateTweetModal = ({ isOpen, onClose }: CreateTweetModalProps) => 
   if (!session) return null;
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      onAccept={onSubmit}
-      acceptButtonText="Create"
-      acceptButtonDisabled={!tweetText.length}
-      loading={isLoading}
-    >
-      <Wrapper>
-        <LeftColumn>
-          <Avatar
-            src={session.user.profileImageUrl}
-            screenName={session.user.screenName}
-            size="large"
+    <Wrapper>
+      <LeftColumn>
+        <Avatar
+          src={session.user.profileImageUrl}
+          screenName={session.user.screenName}
+          size="large"
+        />
+      </LeftColumn>
+      <RightColumn>
+        <Textarea
+          label="Create a tweet"
+          value={tweetText}
+          onChange={e => setTweetText(e.target.value)}
+          placeholder="What's happening?"
+          maxLength={TWEET_MAX_LENGTH}
+          disabled={isLoading}
+        />
+        <BottomRow ref={wrapperRef}>
+          {!!tweetFiles.length && <CreateTweetMedia files={tweetFiles} isLoading={isLoading} />}
+          <CreateTweetToolbar
+            tweetLength={tweetText.length ?? 0}
+            onSubmit={onSubmit}
+            loading={isLoading}
+            onFileChange={onFileChange}
           />
-        </LeftColumn>
-        <RightColumn>
-          <Textarea
-            label="Create a tweet"
-            value={tweetText}
-            onChange={e => setTweetText(e.target.value)}
-            placeholder="What's happening?"
-            maxLength={TWEET_MAX_LENGTH}
-            disabled={isLoading}
-          />
-          <BottomRow>
-            {!!tweetFiles.length && <CreateTweetMedia files={tweetFiles} isLoading={isLoading} />}
-            <CreateTweetToolbar
-              isMobileModal
-              tweetLength={tweetText.length ?? 0}
-              onSubmit={onSubmit}
-              loading={isLoading}
-              onFileChange={onFileChange}
-            />
-          </BottomRow>
-        </RightColumn>
-      </Wrapper>
-    </Modal>
+        </BottomRow>
+      </RightColumn>
+    </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  display: flex;
-  gap: 12px;
-  padding: 12px 16px;
-  min-height: 275px;
-  margin-bottom: 4px;
+  display: none;
+
+  @media ${({ theme }) => theme.breakpoints.sm} {
+    display: flex;
+    gap: 12px;
+    padding: 12px 16px;
+    border-top: 1px solid ${({ theme }) => theme.border};
+    border-bottom: 1px solid ${({ theme }) => theme.border};
+    margin-bottom: 4px;
+  }
 `;
 
 const LeftColumn = styled.div`
@@ -113,10 +106,8 @@ const LeftColumn = styled.div`
 const RightColumn = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
   flex-grow: 1;
   gap: 12px;
-  padding-bottom: 50px;
 `;
 
 const BottomRow = styled.div`

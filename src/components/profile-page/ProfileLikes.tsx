@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import { useVirtualScroll } from "hooks/useVirtualScroll";
 import { InfiniteScrollingSection } from "shared/InfiniteScrollingSection";
@@ -23,11 +23,13 @@ export const ProfileLikes = ({ userData: { id: profileId, screenName } }: Profil
   );
   const { data, isLoading, error } = profileLikesInfiniteQuery;
   const flatData = data?.pages.flatMap(page => page["likedTweets"]) ?? [];
-  const { items, measureElement, totalSize } = useVirtualScroll(flatData, 600);
+  const parentRef = useRef<HTMLDivElement>(null);
+  const { items, measureElement, totalSize } = useVirtualScroll(flatData, parentRef);
 
   return (
     <InfiniteScrollingSection
       {...profileLikesInfiniteQuery}
+      ref={parentRef}
       flatDataCount={flatData.length}
       errorMessage={error?.message ?? ""}
       emptyMessage="Lack of likes"

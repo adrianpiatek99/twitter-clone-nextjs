@@ -50,7 +50,7 @@ export const TweetArticleToolbar = ({
       <IconButton
         title={likeTitle}
         onClick={handleLikeTweet}
-        color={pink400}
+        customColor={pink400}
         isSelected={isLiked}
         disabled={isLoading}
       >

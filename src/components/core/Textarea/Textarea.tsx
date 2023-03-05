@@ -45,6 +45,7 @@ export const Textarea = forwardRef(
       <Label htmlFor={label} ref={labelRef}>
         <StyledTextarea
           id={label}
+          value={value}
           aria-label={label}
           placeholder={placeholder}
           maxLength={maxLength}

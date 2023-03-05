@@ -2,7 +2,6 @@ import React from "react";
 
 import { IconButton } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
-import { useAutoAnimate } from "hooks/useAutoAnimate";
 import { useTweetDetailsQuery } from "hooks/useTweetDetailsQuery";
 import { BackIcon } from "icons/index";
 import { useRouter } from "next/router";
@@ -22,7 +21,6 @@ interface TweetPageTemplateProps {
 export const TweetPageTemplate = ({ referer }: TweetPageTemplateProps) => {
   const { query, back } = useRouter();
   const { session } = useAppSession();
-  const [sectionRef] = useAutoAnimate<HTMLTableSectionElement>({ duration: 250 });
   const queryScreenName = typeof query.screenName === "string" ? query.screenName : "";
   const queryTweetId = typeof query.tweetId === "string" ? query.tweetId : "";
   const itsMe = verifyMe(session, queryScreenName);
@@ -49,7 +47,7 @@ export const TweetPageTemplate = ({ referer }: TweetPageTemplateProps) => {
       {isError ? (
         <ErrorMessage title={error.message} />
       ) : (
-        <Section ref={sectionRef}>
+        <Section>
           {isLoading && <TweetArticleSkeleton />}
           {!isLoading && data && (
             <TweetArticle isOwner={itsMe} tweetData={data} referer={referer} />

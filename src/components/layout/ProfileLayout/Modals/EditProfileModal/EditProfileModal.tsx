@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -59,7 +59,6 @@ export const EditProfileModal = ({ isOpen, onClose, userData }: EditProfileModal
   const {
     avatarUrl,
     avatarFile,
-    isAvatarLoading,
     uploadAvatarImageFile,
     onAvatarFileChange,
     resetAvatarFileStates
@@ -68,19 +67,22 @@ export const EditProfileModal = ({ isOpen, onClose, userData }: EditProfileModal
     bannerUrl,
     bannerFile,
     onBannerFileChange,
-    isBannerLoading,
     handleRemoveBanner,
     uploadBannerImageFile,
     resetBannerFileStates
   } = useUploadBanner(profileBannerUrl);
-  const isLoading = editProfileMutation.isLoading || isAvatarLoading || isBannerLoading;
+  const [uploadingImages, setUploadingImages] = useState(false);
+  const isLoading = editProfileMutation.isLoading || uploadingImages;
 
   const onSubmit: SubmitHandler<ProfileValues> = async data => {
     if (isLoading || !isDataChanged) return;
 
     try {
-      const avatar = (avatarFile && (await uploadAvatarImageFile(avatarFile))) ?? profileImageUrl;
-      const banner = (bannerFile && (await uploadBannerImageFile(bannerFile))) ?? bannerUrl;
+      setUploadingImages(true);
+
+      const avatar =
+        (avatarFile && (await uploadAvatarImageFile(avatarFile)).url) ?? profileImageUrl;
+      const banner = (bannerFile && (await uploadBannerImageFile(bannerFile)).url) ?? bannerUrl;
 
       editProfileMutation.mutate({
         ...data,
@@ -95,6 +97,8 @@ export const EditProfileModal = ({ isOpen, onClose, userData }: EditProfileModal
       handleAddToast("error", err?.message);
 
       return;
+    } finally {
+      setUploadingImages(false);
     }
   };
 
