@@ -9,6 +9,7 @@ import { Avatar } from "shared/Avatar";
 import { CreateTweetMedia, CreateTweetToolbar } from "shared/Forms/CreateTweetForm";
 import createTweetStore, { CREATE_TWEET_PHOTOS_LIMIT } from "store/createTweetStore";
 import styled from "styled-components";
+import { shallow } from "zustand/shallow";
 
 interface CreateTweetModalProps {
   isOpen: boolean;
@@ -17,8 +18,15 @@ interface CreateTweetModalProps {
 
 export const CreateTweetModal = ({ isOpen, onClose }: CreateTweetModalProps) => {
   const { session } = useAppSession();
-  const { tweetFiles, tweetText, setTweetText, addTweetFiles, resetStore } = createTweetStore(
-    state => state
+  const { tweetText, setTweetText, tweetFiles, addTweetFiles, resetStore } = createTweetStore(
+    state => ({
+      tweetText: state.tweetText,
+      setTweetText: state.setTweetText,
+      tweetFiles: state.tweetFiles,
+      addTweetFiles: state.addTweetFiles,
+      resetStore: state.resetStore
+    }),
+    shallow
   );
   const { files, onFileChange, uploadImageFile, resetFileStates } = useUploadImageFile({
     limit: CREATE_TWEET_PHOTOS_LIMIT
@@ -82,7 +90,7 @@ export const CreateTweetModal = ({ isOpen, onClose }: CreateTweetModalProps) => 
             disabled={isLoading}
           />
           <BottomRow>
-            {!!tweetFiles.length && <CreateTweetMedia files={tweetFiles} isLoading={isLoading} />}
+            {!!tweetFiles.length && <CreateTweetMedia isLoading={isLoading} />}
             <CreateTweetToolbar
               isMobileModal
               tweetLength={tweetText.length ?? 0}

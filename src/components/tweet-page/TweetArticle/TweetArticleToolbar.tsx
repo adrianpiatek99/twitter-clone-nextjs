@@ -29,7 +29,7 @@ export const TweetArticleToolbar = ({
   isLiked
 }: TweetArticleToolbarProps) => {
   const { isUnauthenticated } = useAppSession();
-  const openAuthRequiredModal = useGlobalStore(store => store.openAuthRequiredModal);
+  const openAuthRequiredModal = useGlobalStore(state => state.openAuthRequiredModal);
   const { pink400 } = useTheme();
   const [isReplyModalOpen, setIsReplyModalOpen] = useState(false);
   const likeTitle = isLiked ? "Unlike" : "Like";

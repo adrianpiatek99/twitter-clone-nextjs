@@ -29,10 +29,10 @@ export const useLikeTweetMutation = ({
   },
   disabled = false
 }: UseLikeTweetMutationProps) => {
-  const queryClient = useQueryClient();
   const { session } = useAppSession();
-  const openAuthRequiredModal = useGlobalStore(store => store.openAuthRequiredModal);
-  const { viewedProfile } = useProfileStore(state => state);
+  const openAuthRequiredModal = useGlobalStore(state => state.openAuthRequiredModal);
+  const viewedProfile = useProfileStore(state => state.viewedProfile);
+  const queryClient = useQueryClient();
   const { handleAddToast } = useToasts();
   const sessionUserId = session?.user.id ?? "";
   const isLiked = likes.some(({ userId }) => userId === sessionUserId);

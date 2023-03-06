@@ -9,14 +9,22 @@ import { TWEET_MAX_LENGTH } from "schema/tweetSchema";
 import { Avatar } from "shared/Avatar";
 import createTweetStore, { CREATE_TWEET_PHOTOS_LIMIT } from "store/createTweetStore";
 import styled from "styled-components";
+import { shallow } from "zustand/shallow";
 
 import { CreateTweetMedia } from "./CreateTweetMedia";
 import { CreateTweetToolbar } from "./CreateTweetToolbar";
 
 export const CreateTweetForm = () => {
   const { session } = useAppSession();
-  const { tweetFiles, tweetText, setTweetText, addTweetFiles, resetStore } = createTweetStore(
-    state => state
+  const { tweetText, setTweetText, tweetFiles, addTweetFiles, resetStore } = createTweetStore(
+    state => ({
+      tweetText: state.tweetText,
+      setTweetText: state.setTweetText,
+      tweetFiles: state.tweetFiles,
+      addTweetFiles: state.addTweetFiles,
+      resetStore: state.resetStore
+    }),
+    shallow
   );
   const { files, onFileChange, uploadImageFile, resetFileStates } = useUploadImageFile({
     limit: CREATE_TWEET_PHOTOS_LIMIT
@@ -72,7 +80,7 @@ export const CreateTweetForm = () => {
           disabled={isLoading}
         />
         <BottomRow ref={wrapperRef}>
-          {!!tweetFiles.length && <CreateTweetMedia files={tweetFiles} isLoading={isLoading} />}
+          {!!tweetFiles.length && <CreateTweetMedia isLoading={isLoading} />}
           <CreateTweetToolbar
             tweetLength={tweetText.length ?? 0}
             onSubmit={onSubmit}

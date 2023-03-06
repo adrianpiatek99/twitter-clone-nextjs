@@ -1,4 +1,5 @@
 import type { ChangeEvent } from "react";
+import { memo } from "react";
 import React, { useRef } from "react";
 
 import { Button, IconButton } from "components/core";
@@ -16,63 +17,65 @@ interface CreateTweetToolbarProps {
   isMobileModal?: boolean;
 }
 
-export const CreateTweetToolbar = ({
-  tweetLength,
-  onSubmit,
-  loading,
-  onFileChange,
-  isMobileModal = false
-}: CreateTweetToolbarProps) => {
-  const isDisabled = !tweetLength;
-  const filePickerRef = useRef<HTMLInputElement>(null);
-  const tweetFiles = createTweetStore(state => state.tweetFiles);
+export const CreateTweetToolbar = memo(
+  ({
+    tweetLength,
+    onSubmit,
+    loading,
+    onFileChange,
+    isMobileModal = false
+  }: CreateTweetToolbarProps) => {
+    const isDisabled = !tweetLength;
+    const filePickerRef = useRef<HTMLInputElement>(null);
+    const tweetFiles = createTweetStore(state => state.tweetFiles);
 
-  const handleFilePicker = () => filePickerRef.current?.click();
+    const handleFilePicker = () => filePickerRef.current?.click();
 
-  return (
-    <Toolbar>
-      <ToolbarLeftColumn>
-        <IconButton
-          title="Media"
-          size="small"
-          onClick={handleFilePicker}
-          disabled={tweetFiles.length >= CREATE_TWEET_PHOTOS_LIMIT || loading}
-        >
-          <MediaIcon />
-        </IconButton>
-        <IconButton title="Emoji" size="small" disabled={loading}>
-          <EmojiSmileIcon />
-        </IconButton>
-      </ToolbarLeftColumn>
-      <ToolbarRightColumn>
-        {!isDisabled && (
-          <TweetLength>
-            {tweetLength} / {TWEET_MAX_LENGTH}
-          </TweetLength>
-        )}
-        {!isMobileModal && (
-          <Button
-            data-testid="tweetButton"
-            disabled={isDisabled}
-            onClick={onSubmit}
-            loading={loading}
+    return (
+      <Toolbar>
+        <ToolbarLeftColumn>
+          <IconButton
+            title="Media"
+            size="small"
+            onClick={handleFilePicker}
+            disabled={tweetFiles.length >= CREATE_TWEET_PHOTOS_LIMIT || loading}
           >
-            Tweet
-          </Button>
-        )}
-      </ToolbarRightColumn>
-      <input
-        multiple
-        aria-label="Media"
-        ref={filePickerRef}
-        type="file"
-        onChange={onFileChange}
-        hidden
-        accept={imageFileTypes.toString()}
-      />
-    </Toolbar>
-  );
-};
+            <MediaIcon />
+          </IconButton>
+          <IconButton title="Emoji" size="small" disabled={loading}>
+            <EmojiSmileIcon />
+          </IconButton>
+        </ToolbarLeftColumn>
+        <ToolbarRightColumn>
+          {!isDisabled && (
+            <TweetLength>
+              {tweetLength} / {TWEET_MAX_LENGTH}
+            </TweetLength>
+          )}
+          {!isMobileModal && (
+            <Button
+              data-testid="tweetButton"
+              disabled={isDisabled}
+              onClick={onSubmit}
+              loading={loading}
+            >
+              Tweet
+            </Button>
+          )}
+        </ToolbarRightColumn>
+        <input
+          multiple
+          aria-label="Media"
+          ref={filePickerRef}
+          type="file"
+          onChange={onFileChange}
+          hidden
+          accept={imageFileTypes.toString()}
+        />
+      </Toolbar>
+    );
+  }
+);
 
 const Toolbar = styled.div`
   display: flex;

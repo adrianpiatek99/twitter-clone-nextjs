@@ -4,22 +4,29 @@ import { IconButton } from "components/core";
 import { useCheckImageDimensions } from "hooks/useCheckImageDimensions";
 import { CloseIcon } from "icons/index";
 import Image from "next/image";
-import type { CreateTweetFile } from "store/createTweetStore";
 import createTweetStore from "store/createTweetStore";
 import styled, { css } from "styled-components";
 import { calcPaddingAspectRatio } from "utils/aspectRatio";
+import { shallow } from "zustand/shallow";
 
 interface CreateTweetMediaProps {
-  files: CreateTweetFile[];
   isLoading: boolean;
 }
 
-export const CreateTweetMedia = memo(({ files, isLoading }: CreateTweetMediaProps) => {
-  const { removeTweetFile, aspectRatio, setAspectRatio } = createTweetStore(state => state);
-  const firstFile = files[0]?.file;
+export const CreateTweetMedia = memo(({ isLoading }: CreateTweetMediaProps) => {
+  const { tweetFiles, removeTweetFile, aspectRatio, setAspectRatio } = createTweetStore(
+    state => ({
+      tweetFiles: state.tweetFiles,
+      removeTweetFile: state.removeTweetFile,
+      aspectRatio: state.aspectRatio,
+      setAspectRatio: state.setAspectRatio
+    }),
+    shallow
+  );
+  const firstFile = tweetFiles[0]?.file;
   const { width, height } = useCheckImageDimensions(firstFile);
   const firstFileAspectRatio = calcPaddingAspectRatio(width, height);
-  const isTwoOrMoreImages = files.length >= 2;
+  const isTwoOrMoreImages = tweetFiles.length >= 2;
 
   useEffect(() => {
     if (firstFileAspectRatio) {
@@ -35,8 +42,8 @@ export const CreateTweetMedia = memo(({ files, isLoading }: CreateTweetMediaProp
       style={{ paddingBottom: isTwoOrMoreImages ? "56.25%" : `${aspectRatio}%` }}
     >
       <Absolute>
-        <Images fileCount={files.length}>
-          {files.map(({ file, preview }) => (
+        <Images fileCount={tweetFiles.length}>
+          {tweetFiles.map(({ file, preview }) => (
             <ImageWrapper key={preview} aria-label="Media">
               <Image fill src={URL.createObjectURL(file)} alt={file.name} />
               {!isLoading && (

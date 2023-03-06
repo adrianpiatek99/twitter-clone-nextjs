@@ -17,6 +17,7 @@ import {
 import useLoginStore from "store/loginStore";
 import styled from "styled-components";
 import { api } from "utils/api";
+import { shallow } from "zustand/shallow";
 
 import type { LoginTabs } from "../LoginPage";
 
@@ -45,7 +46,15 @@ const inputs: InputData[] = [
 ];
 
 export const LoginSignUpForm = ({ handleChangeTab }: LoginSignUpFormProps) => {
-  const { isLoading, setIsLoading, setEmail, setPassword } = useLoginStore(store => store);
+  const { isLoading, setIsLoading, setEmail, setPassword } = useLoginStore(
+    state => ({
+      setEmail: state.setEmail,
+      setPassword: state.setPassword,
+      isLoading: state.isLoading,
+      setIsLoading: state.setIsLoading
+    }),
+    shallow
+  );
   const {
     register,
     handleSubmit,

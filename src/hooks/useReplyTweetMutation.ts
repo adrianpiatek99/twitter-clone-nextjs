@@ -27,8 +27,8 @@ export const useReplyTweetMutation = ({ tweetId, onSuccess }: UseReplyTweetMutat
   const queryClient = useQueryClient();
   const { session } = useAppSession();
   const sessionUserId = session?.user.id ?? "";
-  const openAuthRequiredModal = useGlobalStore(store => store.openAuthRequiredModal);
-  const { viewedProfile } = useProfileStore(state => state);
+  const openAuthRequiredModal = useGlobalStore(state => state.openAuthRequiredModal);
+  const viewedProfile = useProfileStore(state => state.viewedProfile);
   const { handleAddToast } = useToasts();
 
   const { mutate, isLoading: replyTweetLoading } = api.tweetReply.create.useMutation({
