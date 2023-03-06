@@ -9,4 +9,4 @@ export { MenuModal, MenuModalItem } from "./MenuModal";
 export { Textarea } from "./Textarea";
 export { Text } from "./Text";
 export { Heading } from "./Heading";
-export { Tooltip } from "../shared/Tooltip";
+export { ShimmerImage } from "./ShimmerImage";

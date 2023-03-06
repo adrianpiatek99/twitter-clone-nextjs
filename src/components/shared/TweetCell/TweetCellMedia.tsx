@@ -1,6 +1,6 @@
 import React from "react";
 
-import Image from "next/image";
+import { ShimmerImage } from "components/core/ShimmerImage";
 import styled, { css } from "styled-components";
 import type { TweetData } from "types/tweet";
 import { calcPaddingAspectRatio } from "utils/aspectRatio";
@@ -20,7 +20,7 @@ export const TweetCellMedia = ({ media }: TweetCellMediaProps) => {
         <Images mediaCount={media.length}>
           {media.map(({ url }) => (
             <ImageWrapper key={url}>
-              <Image fill src={url} alt={url} />
+              <ShimmerImage src={url} alt="Tweet media" />
             </ImageWrapper>
           ))}
         </Images>
