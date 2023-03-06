@@ -5,10 +5,17 @@ import { PeopleIcon } from "icons/index";
 import { useRouter } from "next/router";
 import useGlobalStore from "store/globalStore";
 import styled from "styled-components";
+import { shallow } from "zustand/shallow";
 
 export const AuthenticationRequiredModal = () => {
   const { asPath } = useRouter();
-  const { isAuthRequiredModalOpen, openAuthRequiredModal } = useGlobalStore(store => store);
+  const { isAuthRequiredModalOpen, openAuthRequiredModal } = useGlobalStore(
+    state => ({
+      isAuthRequiredModalOpen: state.isAuthRequiredModalOpen,
+      openAuthRequiredModal: state.openAuthRequiredModal
+    }),
+    shallow
+  );
   const redirect = `redirect=${asPath}`;
 
   const handleCloseModal = () => openAuthRequiredModal(false);

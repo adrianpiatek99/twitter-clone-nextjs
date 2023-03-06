@@ -29,7 +29,7 @@ export const useFollowUserMutation = ({
   const queryClient = useQueryClient();
   const { query } = useRouter();
   const { session } = useAppSession();
-  const openAuthRequiredModal = useGlobalStore(store => store.openAuthRequiredModal);
+  const openAuthRequiredModal = useGlobalStore(state => state.openAuthRequiredModal);
   const { handleAddToast } = useToasts();
   const sessionUserId = session?.user.id ?? "";
   const queryScreenName = typeof query.screenName === "string" ? query.screenName : "";

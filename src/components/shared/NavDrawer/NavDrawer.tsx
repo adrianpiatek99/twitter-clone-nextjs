@@ -7,6 +7,7 @@ import { useAppSession } from "hooks/useAppSession";
 import { Portal } from "shared/Portal";
 import useGlobalStore from "store/globalStore";
 import styled from "styled-components";
+import { shallow } from "zustand/shallow";
 
 import { NavDrawerHeader } from "./NavDrawerHeader";
 import { NavDrawerPrimaryList } from "./NavDrawerPrimaryList";
@@ -14,7 +15,13 @@ import { NavDrawerSecondaryList } from "./NavDrawerSecondaryList";
 
 export const NavDrawer = () => {
   const { isAuthenticated } = useAppSession();
-  const { isNavDrawerOpen, openNavDrawer } = useGlobalStore(store => store);
+  const { isNavDrawerOpen, openNavDrawer } = useGlobalStore(
+    state => ({
+      isNavDrawerOpen: state.isNavDrawerOpen,
+      openNavDrawer: state.openNavDrawer
+    }),
+    shallow
+  );
 
   const onClose = () => openNavDrawer(false);
 
