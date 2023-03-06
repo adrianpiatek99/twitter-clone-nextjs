@@ -22,9 +22,9 @@ interface ProfileLayoutProps {
 }
 
 export const ProfileLayout = ({ children }: ProfileLayoutProps) => {
+  const setViewedProfile = useProfileStore(state => state.setViewedProfile);
   const { userData, userLoading, itsMe, queryScreenName, isError, error } =
     useUserByScreenNameQuery({});
-  const { setViewedProfile } = useProfileStore(state => state);
 
   const childrenWithProps = Children.map(children, child => {
     if (!isError) {

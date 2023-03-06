@@ -18,6 +18,7 @@ import {
 import { signInSchema } from "schema/authSchema";
 import useLoginStore from "store/loginStore";
 import styled from "styled-components";
+import { shallow } from "zustand/shallow";
 
 type InputData = {
   name: keyof SignInValues;
@@ -32,8 +33,17 @@ const inputs: InputData[] = [
 ];
 
 export const LoginSignInForm = () => {
+  const { email, password, isLoading, setIsLoading, resetStore } = useLoginStore(
+    state => ({
+      email: state.email,
+      password: state.password,
+      isLoading: state.isLoading,
+      setIsLoading: state.setIsLoading,
+      resetStore: state.resetStore
+    }),
+    shallow
+  );
   const { replace, query } = useRouter();
-  const { email, password, isLoading, setIsLoading, resetStore } = useLoginStore(store => store);
   const {
     register,
     handleSubmit,

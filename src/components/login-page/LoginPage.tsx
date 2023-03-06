@@ -18,8 +18,8 @@ export type LoginTabs = "sign in" | "sign up";
 const tabs: LoginTabs[] = ["sign in", "sign up"];
 
 export const LoginPage = () => {
-  const { pathname, query, push } = useRouter();
   const isLoading = useLoginStore(state => state.isLoading);
+  const { pathname, query, push } = useRouter();
   const [currentTab, setCurrentTab] = useState<LoginTabs>(tabs[0]!);
 
   const handleChangeTab = (tab: LoginTabs) => {
