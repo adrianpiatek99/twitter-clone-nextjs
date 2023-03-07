@@ -6,9 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Modal, Text, Textarea } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
 import { useReplyTweetMutation } from "hooks/useReplyTweetMutation";
-import type { TweetValues } from "schema/tweetSchema";
-import { TWEET_MAX_LENGTH } from "schema/tweetSchema";
-import { tweetSchema } from "schema/tweetSchema";
+import type { ReplyValues } from "schema/replySchema";
+import { REPLY_MAX_LENGTH, replySchema } from "schema/replySchema";
 import { Avatar } from "shared/Avatar";
 import styled, { css } from "styled-components";
 import type { TweetData } from "types/tweet";
@@ -24,8 +23,8 @@ interface ReplyTweetModalProps {
 export const ReplyTweetModal = ({ isOpen, onClose, tweetData }: ReplyTweetModalProps) => {
   const tweetId = tweetData.id;
   const { session } = useAppSession();
-  const { register, handleSubmit, watch, reset } = useForm<TweetValues>({
-    resolver: zodResolver(tweetSchema),
+  const { register, handleSubmit, watch, reset } = useForm<ReplyValues>({
+    resolver: zodResolver(replySchema),
     defaultValues: {
       text: ""
     }
@@ -40,7 +39,7 @@ export const ReplyTweetModal = ({ isOpen, onClose, tweetData }: ReplyTweetModalP
   const tweetValue = watch("text");
   const tweetLength = tweetValue?.length ?? 0;
 
-  const onSubmit: SubmitHandler<TweetValues> = data => {
+  const onSubmit: SubmitHandler<ReplyValues> = data => {
     handleReplyTweet({ tweetId, ...data });
   };
 
@@ -54,6 +53,7 @@ export const ReplyTweetModal = ({ isOpen, onClose, tweetData }: ReplyTweetModalP
       onClose={onClose}
       onAccept={handleSubmit(onSubmit)}
       acceptButtonText="Reply"
+      acceptButtonDisabled={!tweetValue}
       loading={replyTweetLoading}
     >
       <Content isLoading={replyTweetLoading}>
@@ -67,14 +67,14 @@ export const ReplyTweetModal = ({ isOpen, onClose, tweetData }: ReplyTweetModalP
               label="Reply to a tweet"
               value={tweetValue}
               placeholder="Tweet your reply"
-              maxLength={TWEET_MAX_LENGTH}
+              maxLength={REPLY_MAX_LENGTH}
               disabled={replyTweetLoading}
               {...register("text")}
             />
             <Toolbar>
               {!!tweetLength && (
                 <Text size="s" color="secondary">
-                  {tweetLength} / {TWEET_MAX_LENGTH}
+                  {tweetLength} / {REPLY_MAX_LENGTH}
                 </Text>
               )}
             </Toolbar>

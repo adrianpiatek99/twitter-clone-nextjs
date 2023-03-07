@@ -34,7 +34,6 @@ export const tweetRouter = router({
       const { prisma, session } = ctx;
       const { text, media } = input;
       const userId = session.user.id;
-
       const textTrim = text.trim();
 
       if (!textTrim || textTrim.length === 0) {
