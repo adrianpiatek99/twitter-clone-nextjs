@@ -1,14 +1,14 @@
 import { containsEmojis } from "utils/strings";
 import { z } from "zod";
 
+export type SignInValues = z.infer<typeof signInSchema>;
+
+export type SignUpValues = z.infer<typeof signUpSchema>;
+
 export const PROFILE_EMAIL_MAX_LENGTH = 50;
 export const PROFILE_SCREEN_NAME_MAX_LENGTH = 15;
 export const PROFILE_NAME_MAX_LENGTH = 50;
 export const PROFILE_PASSWORD_MAX_LENGTH = 16;
-
-export type SignInValues = z.infer<typeof signInSchema>;
-
-export type SignUpValues = z.infer<typeof signUpSchema>;
 
 export const signInSchema = z.object({
   email: z

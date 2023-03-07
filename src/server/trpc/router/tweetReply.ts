@@ -1,16 +1,22 @@
 import { TRPCError } from "@trpc/server";
 import { apiInfiniteScrollSchema } from "schema/apiSchema";
+import { replySchema } from "schema/replySchema";
 import { z } from "zod";
 
 import { protectedProcedure, publicProcedure, router } from "../trpc";
 
 export const tweetReplyRouter = router({
   create: protectedProcedure
-    .input(z.object({ tweetId: z.string(), text: z.string().trim() }))
+    .input(z.object({ tweetId: z.string() }).merge(replySchema))
     .mutation(async ({ ctx, input }) => {
       const { prisma, session } = ctx;
       const { tweetId, text } = input;
       const userId = session.user.id;
+      const textTrim = text.trim();
+
+      if (!textTrim || textTrim.length === 0) {
+        throw new TRPCError({ code: "PARSE_ERROR", message: "Tweet text is required." });
+      }
 
       const reply = await prisma.tweetReply.create({
         data: {
