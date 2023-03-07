@@ -2,10 +2,10 @@ import { z } from "zod";
 
 import { PROFILE_NAME_MAX_LENGTH } from "./authSchema";
 
+export type ProfileValues = z.infer<typeof profileSchema>;
+
 export const PROFILE_DESCRIPTION_MAX_LENGTH = 160;
 export const PROFILE_URL_MAX_LENGTH = 100;
-
-export type ProfileValues = z.infer<typeof profileSchema>;
 
 export const profileSchema = z.object({
   name: z
