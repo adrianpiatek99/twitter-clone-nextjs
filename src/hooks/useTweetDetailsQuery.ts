@@ -41,7 +41,7 @@ export const useTweetDetailsQuery = ({ tweetId, screenName }: UseTweetDetailsQue
   const cachedTweet = handleGetTweetDetailsFromCache(queryClient, tweetId, screenName);
   const [isQueryError, setIsQueryError] = useState(false);
   const tweetDetailsQuery = api.tweet.details.useQuery(
-    { tweetId, screenName },
+    { tweetId },
     {
       onError: () => {
         setIsQueryError(true);

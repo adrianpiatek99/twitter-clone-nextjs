@@ -21,18 +21,15 @@ const tweetProfileTimelineQueryKey = ({
 ];
 
 const tweetLikesTimelineQueryKey = ({
-  profileId
+  profileScreenName
 }: TweetLikesTimelineInputs): QueryKey<TweetLikesTimelineInputs> => [
   ["tweet", "likesTimeline"],
-  { input: { profileId }, type: "infinite" }
+  { input: { profileScreenName }, type: "infinite" }
 ];
 
-const tweetDetailsQueryKey = ({
-  screenName,
-  tweetId
-}: TweetDetailsInputs): QueryKey<TweetDetailsInputs> => [
+const tweetDetailsQueryKey = ({ tweetId }: TweetDetailsInputs): QueryKey<TweetDetailsInputs> => [
   ["tweet", "details"],
-  { input: { screenName, tweetId }, type: "query" }
+  { input: { tweetId }, type: "query" }
 ];
 
 const tweetRepliesQueryKey = ({ tweetId }: TweetRepliesInputs): QueryKey<TweetRepliesInputs> => [

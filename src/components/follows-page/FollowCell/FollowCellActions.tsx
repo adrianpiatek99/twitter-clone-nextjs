@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Button, Text } from "components/core";
-import { useFollowUserMutation } from "hooks/useFollowUserMutation";
+import { useToggleFollowUserMutation } from "hooks/useToggleFollowUserMutation";
 import styled from "styled-components";
 import type { FollowUserData } from "types/user";
 
@@ -13,7 +13,7 @@ interface FollowCellActionsProps {
 export const FollowCellActions = ({ followUser, itsMe }: FollowCellActionsProps) => {
   const { screenName, name } = followUser;
   const { handleFollowUser, followUserLoading, unfollowUserLoading, isFollowed } =
-    useFollowUserMutation({
+    useToggleFollowUserMutation({
       followUser
     });
 

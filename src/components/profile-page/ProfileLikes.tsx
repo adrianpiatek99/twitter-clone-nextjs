@@ -12,9 +12,9 @@ interface ProfileLikesProps {
   userData: UserData;
 }
 
-export const ProfileLikes = ({ userData: { id: profileId, screenName } }: ProfileLikesProps) => {
+export const ProfileLikes = ({ userData: { screenName } }: ProfileLikesProps) => {
   const profileLikesInfiniteQuery = api.tweet.likesTimeline.useInfiniteQuery(
-    { profileId },
+    { profileScreenName: screenName },
     {
       getNextPageParam: lastPage => lastPage.nextCursor,
       retry: false,

@@ -45,7 +45,7 @@ export const TweetReplyCell = memo(
             <TweetReplyCellFirstRow replyData={replyData} />
             <Text color="secondary">
               Replying to{" "}
-              <Text href={`/${screenName}`} customColor={primary05}>
+              <Text href={`/${tweet.author.screenName}`} customColor={primary05}>
                 @{tweet.author.screenName}
               </Text>
             </Text>

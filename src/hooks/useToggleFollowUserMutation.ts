@@ -19,13 +19,13 @@ import { useToasts } from "./useToasts";
 
 type Action = "follow" | "unfollow";
 
-interface UseFollowUserMutationProps {
+interface UseToggleFollowUserMutationProps {
   followUser: FollowUserData;
 }
 
-export const useFollowUserMutation = ({
+export const useToggleFollowUserMutation = ({
   followUser: { id, followedBy }
-}: UseFollowUserMutationProps) => {
+}: UseToggleFollowUserMutationProps) => {
   const queryClient = useQueryClient();
   const { query } = useRouter();
   const { session } = useAppSession();
@@ -34,7 +34,6 @@ export const useFollowUserMutation = ({
   const sessionUserId = session?.user.id ?? "";
   const queryScreenName = typeof query.screenName === "string" ? query.screenName : "";
   const isFollowed = followedBy?.some(({ followerId }) => followerId === sessionUserId);
-
   const { mutate: followMutate, isLoading: followUserLoading } = api.user.follow.useMutation({
     onSuccess: () => {
       updateFollowingInfiniteCache(
@@ -54,7 +53,6 @@ export const useFollowUserMutation = ({
       handleAddToast("error", error.message);
     }
   });
-
   const { mutate: unfollowMutate, isLoading: unfollowUserLoading } = api.user.unfollow.useMutation({
     onSuccess: () => {
       updateFollowingInfiniteCache(

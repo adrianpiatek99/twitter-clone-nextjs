@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Button } from "components/core";
-import { useFollowUserMutation } from "hooks/useFollowUserMutation";
+import { useToggleFollowUserMutation } from "hooks/useToggleFollowUserMutation";
 import dynamic from "next/dynamic";
 import styled from "styled-components";
 import type { UserData } from "types/user";
@@ -20,7 +20,7 @@ interface ProfileActionsProps {
 
 export const ProfileActions = ({ itsMe, userData }: ProfileActionsProps) => {
   const { handleFollowUser, followUserLoading, unfollowUserLoading, isFollowed } =
-    useFollowUserMutation({
+    useToggleFollowUserMutation({
       followUser: userData
     });
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);

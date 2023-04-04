@@ -2,7 +2,7 @@ import React, { type ComponentPropsWithRef, type Ref, forwardRef, memo } from "r
 
 import { Text } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
-import { useLikeTweetMutation } from "hooks/useLikeTweetMutation";
+import { useToggleLikeTweetMutation } from "hooks/useToggleLikeTweetMutation";
 import { ActionCard } from "shared/ActionCard";
 import { Avatar } from "shared/Avatar";
 import styled from "styled-components";
@@ -23,7 +23,7 @@ export const TweetCell = memo(
     const { session } = useAppSession();
     const { screenName, profileImageUrl } = author;
     const isOwner = session?.user.id === authorId;
-    const { handleLikeTweet, likeLoading, unlikeLoading, isLiked } = useLikeTweetMutation({
+    const { handleLikeTweet, likeLoading, unlikeLoading, isLiked } = useToggleLikeTweetMutation({
       tweetData
     });
 
