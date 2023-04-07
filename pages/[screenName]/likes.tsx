@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-import { ProfileLikes } from "components/profile-page/ProfileLikes";
+import { ProfileLikesTimeline } from "components/profile-page";
 import { NextSeo } from "next-seo";
+import useProfilePageStore from "store/profilePageStore";
 
 import type { ProfilePageProps } from ".";
 
-const ProfileLikesPage = ({ userData }: ProfilePageProps) => {
+const ProfileLikes = ({ userData }: ProfilePageProps) => {
+  const changeTopBarSubheading = useProfilePageStore(state => state.changeTopBarSubheading);
+
+  useEffect(() => {
+    if (userData) {
+      const likesCount = userData._count.likes;
+
+      changeTopBarSubheading(`${likesCount} Likes`);
+    }
+  }, [userData, changeTopBarSubheading]);
+
   return (
     <>
       <NextSeo
@@ -14,9 +25,9 @@ const ProfileLikesPage = ({ userData }: ProfilePageProps) => {
         } / Twitter`}
         description="Profile likes"
       />
-      {userData && <ProfileLikes userData={userData} />}
+      {userData && <ProfileLikesTimeline userData={userData} />}
     </>
   );
 };
 
-export default ProfileLikesPage;
+export default ProfileLikes;

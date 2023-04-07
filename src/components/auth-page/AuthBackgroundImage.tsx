@@ -5,11 +5,11 @@ import styled, { css } from "styled-components";
 
 const IMAGE_URL = "https://pbs.twimg.com/media/D_DYpkKUIAEZ-EJ?format=jpg&name=large";
 
-interface LoginBackgroundImageProps {
+interface AuthBackgroundImageProps {
   withBlur?: boolean;
 }
 
-export const LoginBackgroundImage = ({ withBlur = false }: LoginBackgroundImageProps) => {
+export const AuthBackgroundImage = ({ withBlur = false }: AuthBackgroundImageProps) => {
   return (
     <ImageWrapper withBlur={withBlur}>
       <Image alt="Default background image" src={IMAGE_URL} fill draggable="false" />

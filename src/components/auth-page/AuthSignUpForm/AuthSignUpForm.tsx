@@ -14,16 +14,10 @@ import {
   PROFILE_SCREEN_NAME_MAX_LENGTH,
   signUpSchema
 } from "schema/authSchema";
-import useLoginStore from "store/loginStore";
+import useAuthPageStore from "store/authPageStore";
 import styled from "styled-components";
 import { api } from "utils/api";
 import { shallow } from "zustand/shallow";
-
-import type { LoginTabs } from "../LoginPage";
-
-interface LoginSignUpFormProps {
-  handleChangeTab: (tab: LoginTabs) => void;
-}
 
 type InputData = {
   name: keyof SignUpValues;
@@ -45,10 +39,11 @@ const inputs: InputData[] = [
   }
 ];
 
-export const LoginSignUpForm = ({ handleChangeTab }: LoginSignUpFormProps) => {
-  const { isLoading, setIsLoading, setEmail, setPassword } = useLoginStore(
+export const AuthSignUpForm = () => {
+  const { isLoading, setCurrentTab, setIsLoading, setEmail, setPassword } = useAuthPageStore(
     state => ({
       setEmail: state.setEmail,
+      setCurrentTab: state.setCurrentTab,
       setPassword: state.setPassword,
       isLoading: state.isLoading,
       setIsLoading: state.setIsLoading
@@ -73,7 +68,7 @@ export const LoginSignUpForm = ({ handleChangeTab }: LoginSignUpFormProps) => {
       handleAddToast("error", error?.message);
     },
     onSuccess: () => {
-      handleChangeTab("sign in");
+      setCurrentTab("sign in");
       setEmail(getValues("email"));
       setPassword(getValues("password"));
     },

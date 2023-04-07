@@ -16,7 +16,7 @@ import {
   PROFILE_PASSWORD_MAX_LENGTH
 } from "schema/authSchema";
 import { signInSchema } from "schema/authSchema";
-import useLoginStore from "store/loginStore";
+import useAuthPageStore from "store/authPageStore";
 import styled from "styled-components";
 import { shallow } from "zustand/shallow";
 
@@ -32,8 +32,8 @@ const inputs: InputData[] = [
   { name: "password", type: "password", label: "Password", maxLength: PROFILE_PASSWORD_MAX_LENGTH }
 ];
 
-export const LoginSignInForm = () => {
-  const { email, password, isLoading, setIsLoading, resetStore } = useLoginStore(
+export const AuthSignInForm = () => {
+  const { email, password, isLoading, setIsLoading, resetStore } = useAuthPageStore(
     state => ({
       email: state.email,
       password: state.password,

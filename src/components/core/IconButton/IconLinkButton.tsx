@@ -1,8 +1,8 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import React from "react";
 
+import { Tooltip } from "components/core";
 import Link from "next/link";
-import { Tooltip } from "shared/Tooltip";
 import styled from "styled-components";
 
 import type { IconButtonColor, IconButtonElementProps, IconButtonSize } from "./iconButtonVariants";

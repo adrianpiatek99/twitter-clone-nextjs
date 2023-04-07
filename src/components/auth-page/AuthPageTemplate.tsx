@@ -1,46 +1,53 @@
-import React, { useLayoutEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 
 import { Button, LinearProgress } from "components/core";
 import { GoogleIcon } from "icons/index";
 import { useRouter } from "next/router";
 import { Logo } from "shared/Logo";
 import { Tab, Tabs } from "shared/Tabs";
-import useLoginStore from "store/loginStore";
+import type { AuthPageTabs } from "store/authPageStore";
+import useAuthPageStore, { authPageTabs } from "store/authPageStore";
 import styled from "styled-components";
+import { replaceDashesWithSpaces, replaceSpacesWithDashes } from "utils/strings";
+import { shallow } from "zustand/shallow";
 
-import { LoginBackgroundImage } from "./LoginBackgroundImage";
-import { LoginCurrentTab } from "./LoginCurrentTab";
-import { LoginLinks } from "./LoginLinks";
+import { AuthBackgroundImage } from "./AuthBackgroundImage";
+import { AuthCurrentTab } from "./AuthCurrentTab";
+import { AuthLinks } from "./AuthLinks";
 
-export type LoginTabs = "sign in" | "sign up";
-
-const tabs: LoginTabs[] = ["sign in", "sign up"];
-
-export const LoginPage = () => {
-  const isLoading = useLoginStore(state => state.isLoading);
+export const AuthPageTemplate = () => {
   const { pathname, query, push } = useRouter();
-  const [currentTab, setCurrentTab] = useState<LoginTabs>(tabs[0]!);
+  const { currentTab, isLoading, setCurrentTab } = useAuthPageStore(
+    state => ({
+      currentTab: state.currentTab,
+      isLoading: state.isLoading,
+      setCurrentTab: state.setCurrentTab
+    }),
+    shallow
+  );
 
-  const handleChangeTab = (tab: LoginTabs) => {
-    setCurrentTab(tab);
-    push(
-      {
-        pathname,
-        query: { ...query, tab: tab.replace(" ", "-") }
-      },
-      undefined,
-      { shallow: true }
-    );
-  };
+  useEffect(() => {
+    if (currentTab) {
+      push(
+        {
+          pathname,
+          query: { ...query, tab: replaceSpacesWithDashes(currentTab) }
+        },
+        undefined,
+        { shallow: true }
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTab]);
 
   useLayoutEffect(() => {
     const queryTab = query.tab;
 
     if (queryTab) {
-      const tab = typeof queryTab === "string" ? (queryTab.replace("-", " ") as LoginTabs) : "";
+      const tab =
+        typeof queryTab === "string" ? replaceDashesWithSpaces<AuthPageTabs>(queryTab) : "";
 
-      const tabExists = tabs.find(currentTab => currentTab === tab);
+      const tabExists = authPageTabs.find(currentTab => currentTab === tab);
 
       if (tabExists) {
         setCurrentTab(tabExists);
@@ -52,29 +59,29 @@ export const LoginPage = () => {
   return (
     <Wrapper>
       <LeftPanel>
-        <LoginBackgroundImage withBlur />
+        <AuthBackgroundImage withBlur />
         <Content>
           {isLoading && <LinearProgress />}
           <Header>
             <Logo size="xl" />
           </Header>
           <TabGroupWrapper>
-            <Tabs value={currentTab} onChange={handleChangeTab}>
-              {tabs.map(tab => (
+            <Tabs value={currentTab} onChange={tab => setCurrentTab(tab)}>
+              {authPageTabs.map(tab => (
                 <Tab key={tab} value={tab} />
               ))}
             </Tabs>
           </TabGroupWrapper>
-          <LoginCurrentTab currentTab={currentTab} handleChangeTab={handleChangeTab} />
+          <AuthCurrentTab />
           <Button variant="outlined" color="secondary" startIcon={<GoogleIcon />} disabled>
             Sign in with Google
           </Button>
         </Content>
       </LeftPanel>
       <RightPanel>
-        <LoginBackgroundImage />
+        <AuthBackgroundImage />
       </RightPanel>
-      <LoginLinks />
+      <AuthLinks />
     </Wrapper>
   );
 };

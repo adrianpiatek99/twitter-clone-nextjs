@@ -1,8 +1,8 @@
 import React, { memo } from "react";
 
+import { Skeleton } from "components/core";
 import Image from "next/legacy/image";
 import Link from "next/link";
-import { Skeleton } from "shared/Skeleton";
 import styled, { css } from "styled-components";
 
 type AvatarSize = "small" | "medium" | "large" | "extraLarge";
@@ -123,6 +123,8 @@ const AvatarWrapper = styled.div<{ $absolute: boolean; size: number }>`
   transition: 0.2s;
   width: ${({ size }) => size}px;
   height: ${({ size }) => size}px;
+  cursor: pointer;
+  z-index: 1;
   ${sharedStyles};
 
   & > span {

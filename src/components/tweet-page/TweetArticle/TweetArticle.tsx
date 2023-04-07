@@ -14,10 +14,9 @@ import { TweetArticleToolbar } from "./TweetArticleToolbar";
 interface TweetArticleProps {
   tweetData: TweetData;
   isOwner: boolean;
-  referer: string;
 }
 
-export const TweetArticle = ({ isOwner, tweetData, referer }: TweetArticleProps) => {
+export const TweetArticle = ({ isOwner, tweetData }: TweetArticleProps) => {
   const { text, createdAt, media } = tweetData;
   const { handleLikeTweet, likeLoading, unlikeLoading, isLiked } = useToggleLikeTweetMutation({
     tweetData
@@ -26,7 +25,7 @@ export const TweetArticle = ({ isOwner, tweetData, referer }: TweetArticleProps)
   return (
     <TweetArticleWrapper>
       <Inner>
-        <TweetArticleAuthor tweetData={tweetData} isOwner={isOwner} referer={referer} />
+        <TweetArticleAuthor tweetData={tweetData} isOwner={isOwner} />
         <TweetText>
           <Text size="xxl">{text}</Text>
         </TweetText>

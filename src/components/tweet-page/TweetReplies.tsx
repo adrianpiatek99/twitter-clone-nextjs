@@ -8,12 +8,12 @@ import { api } from "utils/api";
 import { createArray } from "utils/array";
 
 interface TweetRepliesProps {
-  queryTweetId: string;
+  tweetId: string;
 }
 
-export const TweetReplies = ({ queryTweetId }: TweetRepliesProps) => {
+export const TweetReplies = ({ tweetId }: TweetRepliesProps) => {
   const tweetRepliesInfiniteQuery = api.tweetReply.replies.useInfiniteQuery(
-    { tweetId: queryTweetId },
+    { tweetId },
     {
       getNextPageParam: lastPage => lastPage.nextCursor,
       retry: false,

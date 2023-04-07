@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Skeleton } from "shared/Skeleton";
+import { Skeleton } from "components/core";
 import styled from "styled-components";
 
 export const TweetReplyCellSkeleton = () => {

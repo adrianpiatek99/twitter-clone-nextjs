@@ -1,7 +1,7 @@
 import React from "react";
 
+import { Skeleton } from "components/core";
 import Image from "next/legacy/image";
-import { Skeleton } from "shared/Skeleton";
 import styled from "styled-components";
 
 interface ProfileBannerProps {

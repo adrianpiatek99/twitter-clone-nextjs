@@ -1,10 +1,9 @@
 import React from "react";
 
-import { Text } from "components/core";
+import { Skeleton, Text } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
 import Link from "next/link";
 import { Avatar } from "shared/Avatar";
-import { Skeleton } from "shared/Skeleton";
 import styled from "styled-components";
 
 interface NavDrawerHeaderProps {

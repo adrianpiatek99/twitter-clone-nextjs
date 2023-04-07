@@ -4,11 +4,11 @@ import { useRouter } from "next/router";
 import { Tab, Tabs } from "shared/Tabs";
 import styled from "styled-components";
 
-type ProfileTabs = "tweets" | "tweets & replies" | "media" | "likes";
+type ProfileTabs = "tweets" | "replies" | "media" | "likes";
 
 const tabs: { value: ProfileTabs; linkTo: string }[] = [
   { value: "tweets", linkTo: "" },
-  { value: "tweets & replies", linkTo: "with_replies" },
+  { value: "replies", linkTo: "with_replies" },
   { value: "media", linkTo: "media" },
   { value: "likes", linkTo: "likes" }
 ];

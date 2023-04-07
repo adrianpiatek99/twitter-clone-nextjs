@@ -3,31 +3,37 @@ import React, { useRef } from "react";
 import { useVirtualScroll } from "hooks/useVirtualScroll";
 import { InfiniteScrollingSection } from "shared/InfiniteScrollingSection";
 import { TweetCell, TweetCellSkeleton } from "shared/TweetCell";
-import type { TweetData } from "types/tweet";
+import type { LikedTweetData } from "types/tweet";
+import type { UserData } from "types/user";
 import { api } from "utils/api";
 import { createArray } from "utils/array";
 
-export const HomeTimeline = () => {
-  const homeTimelineInfiniteQuery = api.tweet.timeline.useInfiniteQuery(
-    {},
+interface ProfileLikesTimelineProps {
+  userData: UserData;
+}
+
+export const ProfileLikesTimeline = ({ userData: { screenName } }: ProfileLikesTimelineProps) => {
+  const likesInfiniteQuery = api.tweet.likesTimeline.useInfiniteQuery(
+    { profileScreenName: screenName },
     {
       getNextPageParam: lastPage => lastPage.nextCursor,
-      retry: false
+      retry: false,
+      refetchOnWindowFocus: false
     }
   );
-  const { data, isLoading, error } = homeTimelineInfiniteQuery;
-  const flatData = data?.pages.flatMap(page => page["tweets"]) ?? [];
+  const { data, isLoading, error } = likesInfiniteQuery;
+  const flatData = data?.pages.flatMap(page => page["likedTweets"]) ?? [];
   const parentRef = useRef<HTMLDivElement>(null);
   const { items, measureElement, totalSize } = useVirtualScroll(flatData, parentRef);
 
   return (
     <InfiniteScrollingSection
-      {...homeTimelineInfiniteQuery}
+      {...likesInfiniteQuery}
       ref={parentRef}
       flatDataCount={flatData.length}
       errorMessage={error?.message ?? ""}
-      emptyMessage="Lack of tweets"
-      ariaLabel="Timeline: Your Home Timeline"
+      emptyMessage="Lack of likes"
+      ariaLabel={`Timeline: ${screenName}’s Likes`}
     >
       {isLoading ? (
         createArray(3).map(skeleton => (
@@ -42,15 +48,15 @@ export const HomeTimeline = () => {
           }}
         >
           {items.map(({ index, start }) => {
-            const tweet = flatData[index] as TweetData;
+            const like = flatData[index] as LikedTweetData;
 
             return (
               <TweetCell
                 key={index}
-                ref={measureElement}
                 data-index={index}
-                tweetData={tweet}
+                ref={measureElement}
                 start={start}
+                tweetData={like.tweet}
               />
             );
           })}

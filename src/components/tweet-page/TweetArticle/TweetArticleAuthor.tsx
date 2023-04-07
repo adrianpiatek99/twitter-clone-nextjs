@@ -5,20 +5,21 @@ import { MoreHorizontalIcon } from "icons/index";
 import { useRouter } from "next/router";
 import { Avatar } from "shared/Avatar";
 import { TweetCellMenuModal } from "shared/TweetCell";
+import useTweetPageStore from "store/tweetPageStore";
 import styled from "styled-components";
 import type { TweetData } from "types/tweet";
 
 interface TweetArticleAuthorProps {
   tweetData: TweetData;
   isOwner: boolean;
-  referer: string;
 }
 
-export const TweetArticleAuthor = ({ tweetData, isOwner, referer }: TweetArticleAuthorProps) => {
+export const TweetArticleAuthor = ({ tweetData, isOwner }: TweetArticleAuthorProps) => {
   const {
     author: { name, screenName, profileImageUrl }
   } = tweetData;
   const { push } = useRouter();
+  const referer = useTweetPageStore(state => state.referer);
   const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
 
   return (

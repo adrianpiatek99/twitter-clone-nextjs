@@ -1,10 +1,9 @@
 import React, { memo } from "react";
 
-import { Text } from "components/core";
+import { Skeleton, Text } from "components/core";
 import { useAutoAnimate } from "hooks/useAutoAnimate";
 import { CalendarIcon, LinkIcon } from "icons/index";
 import Link from "next/link";
-import { Skeleton } from "shared/Skeleton";
 import styled from "styled-components";
 import type { UserData } from "types/user";
 import { getFormattedDate } from "utils/time";

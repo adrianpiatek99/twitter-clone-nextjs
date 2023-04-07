@@ -7,13 +7,13 @@ import type ProfileFollowingPage from "pages/[screenName]/following";
 import { ErrorMessage } from "shared/Messages";
 import styled from "styled-components";
 
-import { ProfileFollowsTopBar } from "./ProfileFollowsTopBar";
+import { FollowsTopBar } from "./FollowsTopBar";
 
-interface ProfileFollowsLayoutProps {
+interface FollowsLayoutProps {
   children: ReactElement<ComponentProps<typeof ProfileFollowingPage>>;
 }
 
-export const ProfileFollowsLayout = ({ children }: ProfileFollowsLayoutProps) => {
+export const FollowsLayout = ({ children }: FollowsLayoutProps) => {
   const { userData, userLoading, queryScreenName, error, isError } = useUserByScreenNameQuery({});
 
   const childrenWithProps = Children.map(children, child => {
@@ -28,7 +28,7 @@ export const ProfileFollowsLayout = ({ children }: ProfileFollowsLayoutProps) =>
 
   return (
     <Wrapper>
-      <ProfileFollowsTopBar
+      <FollowsTopBar
         userData={userData}
         userLoading={userLoading}
         queryScreenName={queryScreenName}

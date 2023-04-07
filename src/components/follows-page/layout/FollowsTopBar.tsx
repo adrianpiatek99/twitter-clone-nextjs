@@ -9,17 +9,13 @@ import styled from "styled-components";
 import type { UserData } from "types/user";
 import { hexToRGBA } from "utils/colors";
 
-interface ProfileFollowsTopBarProps {
+interface FollowsTopBarProps {
   userData: UserData | undefined;
   userLoading: boolean;
   queryScreenName: string;
 }
 
-export const ProfileFollowsTopBar = ({
-  userData,
-  userLoading,
-  queryScreenName
-}: ProfileFollowsTopBarProps) => {
+export const FollowsTopBar = ({ userData, userLoading, queryScreenName }: FollowsTopBarProps) => {
   const { pathname, back } = useRouter();
 
   const tabValue = useMemo(() => {
@@ -41,8 +37,8 @@ export const ProfileFollowsTopBar = ({
         }
       >
         <TopBarHeading
-          title={userData ? userData.name : "Profile"}
-          subtitle={`@${queryScreenName}`}
+          heading={userData ? userData.name : "Profile"}
+          subheading={`@${queryScreenName}`}
         />
       </TopBar>
       <ProfileFollowsTabs value={tabValue}>

@@ -4,7 +4,7 @@ import React, { Children, cloneElement, isValidElement } from "react";
 
 import { Text } from "components/core";
 import { useUserByScreenNameQuery } from "hooks/useUserByScreenNameQuery";
-import type Profile from "pages/[screenName]";
+import type ProfilePage from "pages/[screenName]";
 import { ErrorMessage } from "shared/Messages";
 import useProfileStore from "store/profileStore";
 import styled from "styled-components";
@@ -18,7 +18,7 @@ import { ProfileTabs } from "./ProfileTabs";
 import { ProfileTopBar } from "./ProfileTopBar";
 
 interface ProfileLayoutProps {
-  children: ReactElement<ComponentProps<typeof Profile>>;
+  children: ReactElement<ComponentProps<typeof ProfilePage>>;
 }
 
 export const ProfileLayout = ({ children }: ProfileLayoutProps) => {

@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { ProfileTimeline } from "components/profile-page";
 import { NextSeo } from "next-seo";
+import useProfilePageStore from "store/profilePageStore";
 import type { UserData } from "types/user";
 
 export interface ProfilePageProps {
-  userData?: UserData;
+  userData: UserData | undefined;
 }
 
-const ProfilePage = ({ userData }: ProfilePageProps) => {
+const Profile = ({ userData }: ProfilePageProps) => {
+  const changeTopBarSubheading = useProfilePageStore(state => state.changeTopBarSubheading);
+
+  useEffect(() => {
+    if (userData) {
+      const tweetCount = userData._count.tweets;
+
+      changeTopBarSubheading(`${tweetCount} Tweets`);
+    }
+  }, [userData, changeTopBarSubheading]);
+
   return (
     <>
       <NextSeo
@@ -20,4 +31,4 @@ const ProfilePage = ({ userData }: ProfilePageProps) => {
   );
 };
 
-export default ProfilePage;
+export default Profile;

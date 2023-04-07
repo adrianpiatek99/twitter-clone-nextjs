@@ -7,8 +7,9 @@ import styled from "styled-components";
 
 const GITHUB_URL = "https://github.com/adrianpiatek99";
 const PROJECT_REPO_URL = "https://github.com/adrianpiatek99/twitter-clone-nextjs";
+const PORTFOLIO_URL = "https://adrian-piatek-portfolio.vercel.app";
 
-export const LoginLinks = () => {
+export const AuthLinks = () => {
   const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
 
   return (
@@ -30,9 +31,11 @@ export const LoginLinks = () => {
             GitHub
           </MenuModalItem>
         </StyledLink>
-        <MenuModalItem color="primary" startIcon={<WebsiteIcon />}>
-          Portfolio
-        </MenuModalItem>
+        <StyledLink href={PORTFOLIO_URL} target="_blank" tabIndex={-1} rel="noopener noreferrer">
+          <MenuModalItem color="primary" startIcon={<WebsiteIcon />} fullWidth>
+            Portfolio
+          </MenuModalItem>
+        </StyledLink>
       </MenuModal>
     </Wrapper>
   );

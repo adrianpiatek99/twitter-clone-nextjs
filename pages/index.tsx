@@ -5,8 +5,8 @@ import { getSession } from "next-auth/react";
 import { NextSeo } from "next-seo";
 import styled from "styled-components";
 
-const LazyLoginPage = dynamic(
-  () => import("../src/components/login-page/LoginPage").then(mod => mod.LoginPage),
+const LazyAuthPageTemplate = dynamic(
+  () => import("components/auth-page").then(mod => mod.AuthPageTemplate),
   {
     loading: () => (
       <LazyLoaderContainer>
@@ -16,14 +16,14 @@ const LazyLoginPage = dynamic(
   }
 );
 
-const Login = () => {
+const Auth = () => {
   return (
     <>
       <NextSeo
         title="Log in to Twitter / Twitter"
         description="Log in to Twitter to see the latest. Join the conversation, follow accounts, see your Home Timeline, and catch up on Tweets from the people you know."
       />
-      <LazyLoginPage />
+      <LazyAuthPageTemplate />
     </>
   );
 };
@@ -45,7 +45,7 @@ export async function getServerSideProps(context: GetSessionParams) {
   };
 }
 
-export default Login;
+export default Auth;
 
 const LazyLoaderContainer = styled.div`
   display: grid;

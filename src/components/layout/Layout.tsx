@@ -1,6 +1,8 @@
 import type { ReactElement } from "react";
 import React from "react";
 
+import { FollowsLayout } from "components/follows-page";
+import { ProfileLayout } from "components/profile-page";
 import { useAppSession } from "hooks/useAppSession";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
@@ -10,26 +12,14 @@ import { NavSidebar } from "shared/NavSidebar";
 import { TrendingSidebar } from "shared/TrendingSidebar";
 import styled, { keyframes } from "styled-components";
 
-import { ProfileFollowsLayout } from "./ProfileFollowsLayout";
-import { ProfileLayout } from "./ProfileLayout";
-
-const LazyNavDrawer = dynamic(() => import("../shared/NavDrawer").then(mod => mod.NavDrawer), {
-  ssr: false
-});
-const LazyAuthenticationBar = dynamic(
-  () => import("../shared/AuthenticationBar").then(mod => mod.AuthenticationBar),
-  {
-    ssr: false
-  }
+const LazyNavDrawer = dynamic(() =>
+  import("components/shared/NavDrawer").then(mod => mod.NavDrawer)
 );
-const LazyAuthenticationRequiredModal = dynamic(
-  () =>
-    import("../shared/Modals/AuthenticationRequiredModal").then(
-      mod => mod.AuthenticationRequiredModal
-    ),
-  {
-    ssr: false
-  }
+const LazyAuthenticationBar = dynamic(() =>
+  import("components/shared/AuthenticationBar").then(mod => mod.AuthenticationBar)
+);
+const LazyAuthenticationRequiredModal = dynamic(() =>
+  import("components/shared/Modals").then(mod => mod.AuthenticationRequiredModal)
 );
 
 interface LayoutProps {
@@ -48,7 +38,7 @@ const CurrentLayoutPattern = ({ children }: LayoutProps) => {
   }
 
   if (isProfileFollowsPage) {
-    return <ProfileFollowsLayout>{children}</ProfileFollowsLayout>;
+    return <FollowsLayout>{children}</FollowsLayout>;
   }
 
   return children;

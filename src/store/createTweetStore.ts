@@ -6,16 +6,18 @@ export type CreateTweetFile = { file: File; preview: string };
 
 interface CreateTweetStore {
   tweetText: string;
-  setTweetText: (tweetText: string) => void;
   tweetFiles: CreateTweetFile[];
+  aspectRatio: number;
+  setTweetText: (tweetText: string) => void;
   addTweetFiles: (files: File[]) => void;
   removeTweetFile: (filePreview: string) => void;
-  aspectRatio: number;
   setAspectRatio: (padding: number) => void;
   resetStore: () => void;
 }
 
-const initialState = {
+type State = Pick<CreateTweetStore, "tweetText" | "tweetFiles" | "aspectRatio">;
+
+const initialState: State = {
   tweetText: "",
   aspectRatio: 0,
   tweetFiles: []
