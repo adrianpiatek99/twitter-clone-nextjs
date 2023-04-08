@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect } from "react";
 
 import { Button, LinearProgress } from "components/core";
 import { GoogleIcon } from "icons/index";
@@ -37,10 +37,9 @@ export const AuthPageTemplate = () => {
         { shallow: true }
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTab]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const queryTab = query.tab;
 
     if (queryTab) {
@@ -53,7 +52,6 @@ export const AuthPageTemplate = () => {
         setCurrentTab(tabExists);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

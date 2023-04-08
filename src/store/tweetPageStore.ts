@@ -1,3 +1,4 @@
+import { HOME_PAGE_ROUTE } from "constants/routes";
 import { create } from "zustand";
 
 interface TweetPageStore {
@@ -8,7 +9,7 @@ interface TweetPageStore {
 type State = Pick<TweetPageStore, "referer">;
 
 const initialState: State = {
-  referer: "/home"
+  referer: HOME_PAGE_ROUTE
 };
 
 const useTweetPageStore = create<TweetPageStore>(set => ({

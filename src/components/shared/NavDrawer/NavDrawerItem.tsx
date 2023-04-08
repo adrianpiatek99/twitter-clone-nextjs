@@ -4,9 +4,10 @@ import React from "react";
 import { Button } from "components/core";
 import styled from "styled-components";
 
-import type { NavDrawerItemType } from "./navDrawerItems";
-
-type NavDrawerItemProps = NavDrawerItemType & ComponentPropsWithoutRef<typeof Button>;
+interface NavDrawerItemProps extends ComponentPropsWithoutRef<typeof Button> {
+  text: string;
+  icon: SvgrElement;
+}
 
 export const NavDrawerItem = ({ text, icon: Icon, ...props }: NavDrawerItemProps) => {
   return (

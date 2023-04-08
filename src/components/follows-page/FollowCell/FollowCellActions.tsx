@@ -4,6 +4,7 @@ import { Button, Text } from "components/core";
 import { useToggleFollowUserMutation } from "hooks/useToggleFollowUserMutation";
 import styled from "styled-components";
 import type { FollowUserData } from "types/user";
+import { profilePageHref } from "utils/hrefs";
 
 interface FollowCellActionsProps {
   followUser: FollowUserData;
@@ -20,10 +21,10 @@ export const FollowCellActions = ({ followUser, itsMe }: FollowCellActionsProps)
   return (
     <Wrapper>
       <NamesWrapper>
-        <Text weight={700} href={`/${screenName}`} truncate>
+        <Text weight={700} href={profilePageHref(screenName)} truncate>
           {name}
         </Text>
-        <Text color="secondary" href={`/${screenName}`} truncate>
+        <Text color="secondary" href={profilePageHref(screenName)} truncate>
           @{screenName}
         </Text>
       </NamesWrapper>

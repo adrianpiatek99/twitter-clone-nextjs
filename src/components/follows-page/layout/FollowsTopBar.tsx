@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 
 import { IconButton } from "components/core";
+import { PROFILE_PAGE_ROUTE } from "constants/routes";
 import { BackIcon } from "icons/index";
 import { useRouter } from "next/router";
 import { Tab, Tabs } from "shared/Tabs";
@@ -8,6 +9,7 @@ import { TopBar, TopBarHeading } from "shared/TopBar";
 import styled from "styled-components";
 import type { UserData } from "types/user";
 import { hexToRGBA } from "utils/colors";
+import { followersPageHref, followingPageHref } from "utils/hrefs";
 
 interface FollowsTopBarProps {
   userData: UserData | undefined;
@@ -19,7 +21,7 @@ export const FollowsTopBar = ({ userData, userLoading, queryScreenName }: Follow
   const { pathname, back } = useRouter();
 
   const tabValue = useMemo(() => {
-    const profilePathname = "/[screenName]/";
+    const profilePathname = `${PROFILE_PAGE_ROUTE}/`;
 
     const profilePage = pathname.replace(profilePathname, "");
 
@@ -42,8 +44,8 @@ export const FollowsTopBar = ({ userData, userLoading, queryScreenName }: Follow
         />
       </TopBar>
       <ProfileFollowsTabs value={tabValue}>
-        <Tab value="followers" linkProps={{ href: `/${queryScreenName}/followers` }} />
-        <Tab value="following" linkProps={{ href: `/${queryScreenName}/following` }} />
+        <Tab value="followers" href={followersPageHref(queryScreenName)} />
+        <Tab value="following" href={followingPageHref(queryScreenName)} />
       </ProfileFollowsTabs>
     </TobBarWrapper>
   );

@@ -1,4 +1,13 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle, keyframes } from "styled-components";
+
+const animateAppear = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
 
 export const GlobalStyle = createGlobalStyle`
   *,
@@ -90,5 +99,9 @@ export const GlobalStyle = createGlobalStyle`
 
   &::-webkit-scrollbar-thumb:active {
     border: 2px solid rgba(0, 0, 0, 0);
+  }
+
+  .animate-appear {
+    animation: ${animateAppear} 0.3s ease-out;
   }
 `;

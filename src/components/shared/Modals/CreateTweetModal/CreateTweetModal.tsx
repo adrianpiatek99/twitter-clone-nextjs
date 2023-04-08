@@ -58,7 +58,6 @@ export const CreateTweetModal = ({ isOpen, onClose }: CreateTweetModalProps) => 
       resetFileStates();
       addTweetFiles(files);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files, addTweetFiles]);
 
   if (!session) return null;

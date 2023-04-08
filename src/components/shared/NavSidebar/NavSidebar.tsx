@@ -3,6 +3,7 @@ import React from "react";
 import { useAppSession } from "hooks/useAppSession";
 import { useRouter } from "next/router";
 import styled from "styled-components";
+import { profilePageHref } from "utils/hrefs";
 
 import { NavSidebarItem } from "./NavSidebarItem";
 import {
@@ -17,7 +18,7 @@ export const NavSidebar = () => {
   const { session, isAuthenticated } = useAppSession();
   const { pathname, asPath } = useRouter();
   const isProfileItemActive =
-    pathname.includes(navSidebarProfileItem.href) &&
+    pathname.includes(navSidebarProfileItem.route) &&
     asPath.includes(session?.user.screenName ?? "") &&
     !pathname.includes("tweet");
 
@@ -30,22 +31,23 @@ export const NavSidebar = () => {
             <NavList>
               <NavSidebarItem
                 {...navSidebarHomeItem}
-                active={asPath.includes(navSidebarHomeItem.href)}
+                href={navSidebarHomeItem.route}
+                active={asPath.includes(navSidebarHomeItem.route)}
               />
               {isAuthenticated && (
                 <>
-                  {authenticatedNavSidebarItems.map(({ href, ...props }) => (
+                  {authenticatedNavSidebarItems.map(({ route, ...props }) => (
                     <NavSidebarItem
-                      key={href}
-                      href={href}
-                      active={asPath.includes(href)}
+                      key={route}
+                      href={route}
+                      active={asPath.includes(route)}
                       {...props}
                     />
                   ))}
                   {session && (
                     <NavSidebarItem
                       {...navSidebarProfileItem}
-                      href={`/${session.user.screenName}`}
+                      href={profilePageHref(session.user.screenName)}
                       active={isProfileItemActive}
                     />
                   )}

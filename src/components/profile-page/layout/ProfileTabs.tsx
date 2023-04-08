@@ -1,16 +1,22 @@
 import React, { memo, useMemo } from "react";
 
+import {
+  LIKES_PAGE_ROUTE,
+  MEDIA_PAGE_ROUTE,
+  PROFILE_PAGE_ROUTE,
+  WITH_REPLIES_PAGE_ROUTE
+} from "constants/routes";
 import { useRouter } from "next/router";
 import { Tab, Tabs } from "shared/Tabs";
 import styled from "styled-components";
 
 type ProfileTabs = "tweets" | "replies" | "media" | "likes";
 
-const tabs: { value: ProfileTabs; linkTo: string }[] = [
-  { value: "tweets", linkTo: "" },
-  { value: "replies", linkTo: "with_replies" },
-  { value: "media", linkTo: "media" },
-  { value: "likes", linkTo: "likes" }
+const tabs: { value: ProfileTabs; route: string }[] = [
+  { value: "tweets", route: PROFILE_PAGE_ROUTE },
+  { value: "replies", route: WITH_REPLIES_PAGE_ROUTE },
+  { value: "media", route: MEDIA_PAGE_ROUTE },
+  { value: "likes", route: LIKES_PAGE_ROUTE }
 ];
 
 interface ProfileTabsProps {
@@ -21,10 +27,7 @@ export const ProfileTabs = memo(({ screenName }: ProfileTabsProps) => {
   const { pathname } = useRouter();
 
   const tabValue = useMemo(() => {
-    const profilePathname = "/[screenName]/";
-
-    const profilePage = pathname.replace(profilePathname, "");
-    const tab = tabs.find(({ linkTo }) => linkTo === profilePage);
+    const tab = tabs.find(({ route }) => route === pathname);
 
     if (tab) {
       return tab.value;
@@ -36,8 +39,8 @@ export const ProfileTabs = memo(({ screenName }: ProfileTabsProps) => {
   return (
     <Wrapper>
       <Tabs value={tabValue}>
-        {tabs.map(({ value, linkTo }) => (
-          <Tab key={value} value={value} linkProps={{ href: `/${screenName}/${linkTo}` }} />
+        {tabs.map(({ value, route }) => (
+          <Tab key={value} value={value} href={{ pathname: route, query: { screenName } }} />
         ))}
       </Tabs>
     </Wrapper>

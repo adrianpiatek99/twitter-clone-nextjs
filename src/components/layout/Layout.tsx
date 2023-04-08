@@ -3,6 +3,12 @@ import React from "react";
 
 import { FollowsLayout } from "components/follows-page";
 import { ProfileLayout } from "components/profile-page";
+import {
+  FOLLOWERS_PAGE_ROUTE,
+  FOLLOWING_PAGE_ROUTE,
+  PROFILE_PAGE_ROUTE,
+  TWEET_PAGE_ROUTE
+} from "constants/routes";
 import { useAppSession } from "hooks/useAppSession";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
@@ -29,9 +35,10 @@ interface LayoutProps {
 const CurrentLayoutPattern = ({ children }: LayoutProps) => {
   const { pathname } = useRouter();
   const isProfileFollowsPage =
-    pathname.includes("/[screenName]/following") || pathname.includes("/[screenName]/followers");
-  const isTweetPage = pathname.includes("/[screenName]/tweet/");
-  const isProfilePage = pathname.includes("/[screenName]") && !isTweetPage && !isProfileFollowsPage;
+    pathname.includes(FOLLOWING_PAGE_ROUTE) || pathname.includes(FOLLOWERS_PAGE_ROUTE);
+  const isTweetPage = pathname.includes(TWEET_PAGE_ROUTE);
+  const isProfilePage =
+    pathname.includes(PROFILE_PAGE_ROUTE) && !isTweetPage && !isProfileFollowsPage;
 
   if (isProfilePage) {
     return <ProfileLayout>{children}</ProfileLayout>;

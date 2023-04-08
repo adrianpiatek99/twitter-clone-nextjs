@@ -2,6 +2,7 @@ import type { ComponentPropsWithoutRef } from "react";
 import { memo } from "react";
 import React from "react";
 
+import type { LinkProps } from "next/link";
 import Link from "next/link";
 import type { DefaultTheme } from "styled-components";
 import styled, { css } from "styled-components";
@@ -18,7 +19,7 @@ interface TextProps extends ComponentPropsWithoutRef<"span"> {
   color?: Color;
   customColor?: string;
   truncate?: boolean;
-  href?: string;
+  href?: LinkProps["href"];
   breakWord?: boolean;
 }
 

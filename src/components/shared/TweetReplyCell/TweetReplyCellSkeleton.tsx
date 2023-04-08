@@ -2,6 +2,7 @@ import React from "react";
 
 import { Skeleton } from "components/core";
 import styled from "styled-components";
+import { createArray } from "utils/array";
 
 export const TweetReplyCellSkeleton = () => {
   return (
@@ -25,6 +26,16 @@ export const TweetReplyCellSkeleton = () => {
         </RightColumn>
       </Inner>
     </Wrapper>
+  );
+};
+
+export const TweetReplyCellSkeletons = () => {
+  return (
+    <>
+      {createArray(7).map(skeleton => (
+        <TweetReplyCellSkeleton key={skeleton} />
+      ))}
+    </>
   );
 };
 

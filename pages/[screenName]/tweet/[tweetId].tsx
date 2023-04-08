@@ -1,6 +1,7 @@
 import React, { lazy, Suspense, useEffect } from "react";
 
-import { TweetArticle, TweetArticleSkeleton, TweetTopBar } from "components/tweet-page";
+import { TweetArticleSkeleton, TweetTopBar } from "components/tweet-page";
+import { HOME_PAGE_ROUTE } from "constants/routes";
 import { useAppSession } from "hooks/useAppSession";
 import { useTweetDetailsQuery } from "hooks/useTweetDetailsQuery";
 import type { GetServerSideProps } from "next";
@@ -11,6 +12,9 @@ import useTweetPageStore from "store/tweetPageStore";
 import styled from "styled-components";
 import { verifyMe } from "utils/session";
 
+const LazyTweetArticle = lazy(() =>
+  import("components/tweet-page").then(mod => ({ default: mod.TweetArticle }))
+);
 const LazyTweetReplies = lazy(() =>
   import("components/tweet-page").then(mod => ({ default: mod.TweetReplies }))
 );
@@ -49,7 +53,9 @@ const Tweet = ({ referer }: TweetPageProps) => {
         ) : (
           <Section>
             {isLoading && <TweetArticleSkeleton />}
-            {!isLoading && data && <TweetArticle isOwner={isOwner} tweetData={data} />}
+            <Suspense fallback={<TweetArticleSkeleton />}>
+              {!isLoading && data && <LazyTweetArticle isOwner={isOwner} tweetData={data} />}
+            </Suspense>
           </Section>
         )}
         <Suspense>{!!data && <LazyTweetReplies tweetId={data.id} />}</Suspense>
@@ -61,7 +67,7 @@ const Tweet = ({ referer }: TweetPageProps) => {
 export const getServerSideProps: GetServerSideProps<TweetPageProps> = async context => {
   return {
     props: {
-      referer: context.req.headers.referer || "/home"
+      referer: context.req.headers.referer || HOME_PAGE_ROUTE
     }
   };
 };

@@ -110,7 +110,6 @@ export const EditProfileModal = ({ isOpen, onClose, userData }: EditProfileModal
     const isBannerChanged = profileBannerUrl !== bannerUrl;
 
     return isEntriesChanged || isAvatarChanged || isBannerChanged;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData, watch(), avatarUrl, bannerUrl]);
 
   const handleOnClose = () => {

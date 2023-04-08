@@ -5,7 +5,7 @@ import { useToggleLikeTweetMutation } from "hooks/useToggleLikeTweetMutation";
 import { TweetCellMedia } from "shared/TweetCell";
 import styled from "styled-components";
 import type { TweetData } from "types/tweet";
-import { getFormattedDate } from "utils/time";
+import { convertDateToLocalTime, getFormattedDate } from "utils/time";
 
 import { TweetArticleAuthor } from "./TweetArticleAuthor";
 import { TweetArticleStats } from "./TweetArticleStats";
@@ -32,7 +32,7 @@ export const TweetArticle = ({ isOwner, tweetData }: TweetArticleProps) => {
         {!!media.length && <TweetCellMedia media={media} />}
         <TimeRow>
           <Text color="secondary" weight={500}>
-            {getFormattedDate(createdAt, "HH:mm")} {" · "}
+            {convertDateToLocalTime(createdAt)} {" · "}
             {getFormattedDate(createdAt, "MM/DD/YYYY")}
           </Text>
         </TimeRow>

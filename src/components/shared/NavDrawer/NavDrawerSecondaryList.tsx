@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
+import { LogoutIcon } from "icons/index";
 import { ConfirmLogOutModal } from "shared/Modals";
 import styled from "styled-components";
 
 import { NavDrawerItem } from "./NavDrawerItem";
-import { navDrawerLogOutItem } from "./navDrawerItems";
 
 interface NavDrawerSecondaryListProps {
   onClose: () => void;
@@ -22,7 +22,8 @@ export const NavDrawerSecondaryList = ({ onClose }: NavDrawerSecondaryListProps)
     <>
       <ItemList>
         <NavDrawerSecondaryItem
-          {...navDrawerLogOutItem}
+          text="Log out"
+          icon={LogoutIcon}
           onClick={() => setIsLogOutModalOpen(true)}
           size="large"
         />

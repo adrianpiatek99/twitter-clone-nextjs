@@ -8,16 +8,16 @@ import { ActionCard } from "shared/ActionCard";
 import { Avatar } from "shared/Avatar";
 import styled, { useTheme } from "styled-components";
 import type { ReplyData } from "types/tweetReply";
+import { profilePageHref } from "utils/hrefs";
 
 import { TweetReplyCellFirstRow } from "./TweetReplyCellFirstRow";
 
 interface TweetReplyCellProps extends ComponentPropsWithRef<"div"> {
   replyData: ReplyData;
-  start: number;
 }
 
 export const TweetReplyCell = memo(
-  forwardRef(({ replyData, start, ...props }: TweetReplyCellProps, ref: Ref<HTMLDivElement>) => {
+  forwardRef(({ replyData, ...props }: TweetReplyCellProps, ref: Ref<HTMLDivElement>) => {
     const {
       text,
       author: { profileImageUrl, screenName },
@@ -26,17 +26,7 @@ export const TweetReplyCell = memo(
     const { primary05 } = useTheme();
 
     return (
-      <ReplyActionCard
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          transform: `translateY(${start}px)`
-        }}
-        {...props}
-        ref={ref}
-      >
+      <ReplyActionCard {...props} ref={ref}>
         <Inner>
           <LeftColumn>
             <Avatar src={profileImageUrl} screenName={screenName} size="large" />
@@ -45,7 +35,7 @@ export const TweetReplyCell = memo(
             <TweetReplyCellFirstRow replyData={replyData} />
             <Text color="secondary">
               Replying to{" "}
-              <Text href={`/${tweet.author.screenName}`} customColor={primary05}>
+              <Text href={profilePageHref(tweet.author.screenName)} customColor={primary05}>
                 @{tweet.author.screenName}
               </Text>
             </Text>

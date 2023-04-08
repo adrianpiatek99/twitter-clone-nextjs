@@ -1,9 +1,8 @@
 import React from "react";
 
+import { AUTH_PAGE_IMAGE_URL } from "constants/links";
 import Image from "next/image";
 import styled, { css } from "styled-components";
-
-const IMAGE_URL = "https://pbs.twimg.com/media/D_DYpkKUIAEZ-EJ?format=jpg&name=large";
 
 interface AuthBackgroundImageProps {
   withBlur?: boolean;
@@ -12,7 +11,7 @@ interface AuthBackgroundImageProps {
 export const AuthBackgroundImage = ({ withBlur = false }: AuthBackgroundImageProps) => {
   return (
     <ImageWrapper withBlur={withBlur}>
-      <Image alt="Default background image" src={IMAGE_URL} fill draggable="false" />
+      <Image alt="Default background image" src={AUTH_PAGE_IMAGE_URL} fill draggable="false" />
     </ImageWrapper>
   );
 };

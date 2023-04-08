@@ -1,4 +1,5 @@
 import { Loader } from "components/core";
+import { HOME_PAGE_ROUTE } from "constants/routes";
 import dynamic from "next/dynamic";
 import type { GetSessionParams } from "next-auth/react";
 import { getSession } from "next-auth/react";
@@ -34,7 +35,7 @@ export async function getServerSideProps(context: GetSessionParams) {
   if (session) {
     return {
       redirect: {
-        destination: "/home",
+        destination: HOME_PAGE_ROUTE,
         permanent: false
       }
     };

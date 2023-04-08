@@ -2,6 +2,7 @@ import React from "react";
 
 import { Skeleton } from "components/core";
 import styled from "styled-components";
+import { createArray } from "utils/array";
 
 export const FollowCellSkeleton = () => {
   return (
@@ -18,6 +19,16 @@ export const FollowCellSkeleton = () => {
         </DescriptionRow>
       </Inner>
     </Wrapper>
+  );
+};
+
+export const FollowCellSkeletons = () => {
+  return (
+    <>
+      {createArray(7).map(skeleton => (
+        <FollowCellSkeleton key={skeleton} />
+      ))}
+    </>
   );
 };
 

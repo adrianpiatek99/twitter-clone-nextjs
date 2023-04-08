@@ -4,7 +4,6 @@ import { compare } from "bcryptjs";
 import type { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { signOut } from "next-auth/react";
 import { exclude, prisma } from "prisma/prisma";
 import { PROFILE_EMAIL_MAX_LENGTH, PROFILE_PASSWORD_MAX_LENGTH } from "schema/authSchema";
 
@@ -37,13 +36,13 @@ export const authOptions: NextAuthOptions = {
         }
 
         if (!user) {
-          throw new Error("Invalid credentials.");
+          throw new Error("Incorrect email or password.");
         }
 
         const isPasswordMatch = await compare(password, user.password);
 
         if (!isPasswordMatch) {
-          throw new Error("Invalid credentials.");
+          throw new Error("Incorrect email or password.");
         }
 
         return user;
@@ -61,22 +60,9 @@ export const authOptions: NextAuthOptions = {
           const dbUser = await prisma.user.findUnique({
             where: { email: user.email },
             include: {
-              _count: {
-                select: {
-                  tweets: true,
-                  likes: true,
-                  followedBy: true,
-                  following: true
-                }
-              }
+              _count: true
             }
           });
-
-          if (!dbUser) {
-            signOut({
-              callbackUrl: "/"
-            });
-          }
 
           if (dbUser) {
             const userWithoutSpecificFields = exclude(dbUser, ["password", "email"]);

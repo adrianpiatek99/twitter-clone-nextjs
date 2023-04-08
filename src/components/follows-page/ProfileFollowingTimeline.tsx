@@ -1,12 +1,10 @@
-import React, { useRef } from "react";
+import React from "react";
 
-import { useVirtualScroll } from "hooks/useVirtualScroll";
-import { InfiniteScrollingSection } from "shared/InfiniteScrollingSection";
+import { InfiniteVirtualScroller } from "shared/InfiniteVirtualScroller";
 import type { FollowUserData, UserData } from "types/user";
 import { api } from "utils/api";
-import { createArray } from "utils/array";
 
-import { FollowCell, FollowCellSkeleton } from "./FollowCell";
+import { FollowCell, FollowCellSkeletons } from "./FollowCell";
 
 type ProfileFollowingTimelineProps = {
   userData: UserData;
@@ -22,44 +20,21 @@ export const ProfileFollowingTimeline = ({
       retry: false
     }
   );
-  const { data, isLoading, error } = profileFollowingTimelineInfiniteQuery;
+  const { data, error } = profileFollowingTimelineInfiniteQuery;
   const flatData = data?.pages.flatMap(page => page["following"]) ?? [];
-  const parentRef = useRef<HTMLDivElement>(null);
-  const { items, measureElement, totalSize } = useVirtualScroll(flatData, parentRef);
 
   return (
-    <InfiniteScrollingSection
+    <InfiniteVirtualScroller
       {...profileFollowingTimelineInfiniteQuery}
-      ref={parentRef}
-      flatDataCount={flatData.length}
+      data={flatData}
       errorMessage={error?.message ?? ""}
       emptyMessage="Lack of followed people"
-    >
-      {isLoading ? (
-        createArray(7).map(skeleton => <FollowCellSkeleton key={skeleton} />)
-      ) : (
-        <div
-          style={{
-            position: "relative",
-            width: "100%",
-            height: `${totalSize}px`
-          }}
-        >
-          {items.map(({ index, start }) => {
-            const follow = flatData[index]?.following as FollowUserData;
+      loaderComponent={<FollowCellSkeletons />}
+      itemComponent={({ index }) => {
+        const follow = flatData[index]?.following as FollowUserData;
 
-            return (
-              <FollowCell
-                key={follow.id}
-                data-index={index}
-                ref={measureElement}
-                start={start}
-                followUser={follow}
-              />
-            );
-          })}
-        </div>
-      )}
-    </InfiniteScrollingSection>
+        return <FollowCell followUser={follow} />;
+      }}
+    />
   );
 };

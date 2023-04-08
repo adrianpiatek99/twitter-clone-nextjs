@@ -1,9 +1,11 @@
 import React, { memo } from "react";
 
 import { Skeleton } from "components/core";
+import { DEFAULT_AVATAR_URL } from "constants/links";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import styled, { css } from "styled-components";
+import { profilePageHref } from "utils/hrefs";
 
 type AvatarSize = "small" | "medium" | "large" | "extraLarge";
 
@@ -17,9 +19,6 @@ interface AvatarProps {
   absolute?: boolean;
 }
 
-const DEFAULT_AVATAR_URL =
-  "https://abs.twimg.com/sticky/default_profile_images/default_profile_200x200.png";
-
 export const Avatar = memo(
   ({
     src,
@@ -31,7 +30,7 @@ export const Avatar = memo(
     absolute = false,
     ...props
   }: AvatarProps) => {
-    const href = screenName && `/${screenName}`;
+    const href = screenName && profilePageHref(screenName);
     const avatarSrc = src || DEFAULT_AVATAR_URL;
 
     if (loading) {

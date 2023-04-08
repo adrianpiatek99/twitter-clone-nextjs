@@ -1,9 +1,13 @@
-import React, { useEffect } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 
-import { ProfileTimeline } from "components/profile-page";
 import { NextSeo } from "next-seo";
+import { TweetCellSkeletons } from "shared/TweetCell";
 import useProfilePageStore from "store/profilePageStore";
 import type { UserData } from "types/user";
+
+const LazyProfileTimeline = lazy(() =>
+  import("components/profile-page").then(mod => ({ default: mod.ProfileTimeline }))
+);
 
 export interface ProfilePageProps {
   userData: UserData | undefined;
@@ -18,7 +22,7 @@ const Profile = ({ userData }: ProfilePageProps) => {
 
       changeTopBarSubheading(`${tweetCount} Tweets`);
     }
-  }, [userData, changeTopBarSubheading]);
+  }, [userData]);
 
   return (
     <>
@@ -26,7 +30,9 @@ const Profile = ({ userData }: ProfilePageProps) => {
         title={`${userData ? `${userData.name} (@${userData.screenName})` : "Profile"} / Twitter`}
         description="Profile"
       />
-      {userData && <ProfileTimeline userData={userData} />}
+      <Suspense fallback={<TweetCellSkeletons />}>
+        {userData && <LazyProfileTimeline userData={userData} />}
+      </Suspense>
     </>
   );
 };

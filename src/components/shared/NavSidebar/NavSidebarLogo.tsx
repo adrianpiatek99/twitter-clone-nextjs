@@ -1,5 +1,6 @@
 import React from "react";
 
+import { HOME_PAGE_ROUTE } from "constants/routes";
 import { TwitterIcon } from "icons/index";
 import Link from "next/link";
 import styled from "styled-components";
@@ -7,7 +8,7 @@ import { hexToRGBA } from "utils/colors";
 
 export const NavSidebarLogo = () => {
   return (
-    <LogoLink href="/home" aria-label="Twitter">
+    <LogoLink href={HOME_PAGE_ROUTE} aria-label="Twitter">
       <TwitterIcon />
     </LogoLink>
   );

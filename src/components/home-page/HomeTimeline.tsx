@@ -3,29 +3,24 @@ import React from "react";
 import { InfiniteVirtualScroller } from "shared/InfiniteVirtualScroller";
 import { TweetCell, TweetCellSkeletons } from "shared/TweetCell";
 import type { TweetData } from "types/tweet";
-import type { UserData } from "types/user";
 import { api } from "utils/api";
 
-interface ProfileTimelineProps {
-  userData: UserData;
-}
-
-export const ProfileTimeline = ({ userData: { screenName } }: ProfileTimelineProps) => {
-  const profileTimelineInfiniteQuery = api.tweet.profileTimeline.useInfiniteQuery(
-    { profileScreenName: screenName },
+export const HomeTimeline = () => {
+  const homeTimelineInfiniteQuery = api.tweet.timeline.useInfiniteQuery(
+    {},
     {
       getNextPageParam: lastPage => lastPage.nextCursor,
       retry: false
     }
   );
-  const { data, error } = profileTimelineInfiniteQuery;
+  const { data, error } = homeTimelineInfiniteQuery;
   const flatData = data?.pages.flatMap(page => page["tweets"]) ?? [];
 
   return (
     <InfiniteVirtualScroller
-      {...profileTimelineInfiniteQuery}
+      {...homeTimelineInfiniteQuery}
       data={flatData}
-      ariaLabel={`Timeline: ${screenName}’s Tweets`}
+      ariaLabel="Timeline: Your Home Timeline"
       errorMessage={error?.message ?? ""}
       emptyMessage="Lack of tweets"
       loaderComponent={<TweetCellSkeletons />}

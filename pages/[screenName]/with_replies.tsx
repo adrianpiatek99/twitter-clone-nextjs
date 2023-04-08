@@ -14,7 +14,7 @@ const ProfileWithReplies = ({ userData }: ProfilePageProps) => {
 
       changeTopBarSubheading(`${tweetCount} Tweets`);
     }
-  }, [userData, changeTopBarSubheading]);
+  }, [userData]);
 
   return (
     <div>

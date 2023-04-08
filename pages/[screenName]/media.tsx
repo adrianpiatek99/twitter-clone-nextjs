@@ -12,7 +12,7 @@ const ProfileMedia = ({ userData }: ProfilePageProps) => {
     if (userData) {
       changeTopBarSubheading(`0 Photos & videos`);
     }
-  }, [userData, changeTopBarSubheading]);
+  }, [userData]);
 
   return (
     <div>

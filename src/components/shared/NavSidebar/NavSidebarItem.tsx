@@ -1,12 +1,14 @@
 import React, { memo } from "react";
 
 import { ButtonLink, IconLinkButton } from "components/core";
+import type { LinkProps } from "next/link";
 import styled from "styled-components";
 
 import type { NavSidebarItemType } from "./navSidebarItemsHelper";
 
-interface NavSidebarItemProps extends NavSidebarItemType {
+interface NavSidebarItemProps extends Omit<NavSidebarItemType, "route"> {
   active: boolean;
+  href: LinkProps["href"];
 }
 
 export const NavSidebarItem = memo(

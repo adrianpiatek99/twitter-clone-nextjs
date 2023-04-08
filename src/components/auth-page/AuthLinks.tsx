@@ -1,20 +1,18 @@
 import React, { useState } from "react";
 
 import { Button, ButtonLink, MenuModal, MenuModalItem } from "components/core";
+import { GITHUB_URL, PORTFOLIO_URL, PROJECT_REPO_URL } from "constants/links";
+import { HOME_PAGE_ROUTE } from "constants/routes";
 import { GithubIcon, WebsiteIcon } from "icons/index";
 import Link from "next/link";
 import styled from "styled-components";
-
-const GITHUB_URL = "https://github.com/adrianpiatek99";
-const PROJECT_REPO_URL = "https://github.com/adrianpiatek99/twitter-clone-nextjs";
-const PORTFOLIO_URL = "https://adrian-piatek-portfolio.vercel.app";
 
 export const AuthLinks = () => {
   const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
 
   return (
     <Wrapper>
-      <ButtonLink href="/home" size="small">
+      <ButtonLink href={HOME_PAGE_ROUTE} color="secondary" size="small">
         Go to the homepage
       </ButtonLink>
       <Button onClick={() => setIsMenuModalOpen(prev => !prev)} color="secondary" size="small">

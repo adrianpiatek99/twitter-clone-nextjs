@@ -14,7 +14,7 @@ import { NavDrawerPrimaryList } from "./NavDrawerPrimaryList";
 import { NavDrawerSecondaryList } from "./NavDrawerSecondaryList";
 
 export const NavDrawer = () => {
-  const { isAuthenticated } = useAppSession();
+  const { session } = useAppSession();
   const { isNavDrawerOpen, openNavDrawer } = useGlobalStore(
     state => ({
       isNavDrawerOpen: state.isNavDrawerOpen,
@@ -40,9 +40,9 @@ export const NavDrawer = () => {
                 tabIndex={-1}
               >
                 <NavDrawerHeader onClose={onClose} />
-                {isAuthenticated && (
+                {session && (
                   <>
-                    <NavDrawerPrimaryList onClose={onClose} />
+                    <NavDrawerPrimaryList onClose={onClose} userData={session.user} />
                     <Divider />
                     <NavDrawerSecondaryList onClose={onClose} />
                   </>

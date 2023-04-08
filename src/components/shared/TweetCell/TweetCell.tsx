@@ -7,18 +7,18 @@ import { ActionCard } from "shared/ActionCard";
 import { Avatar } from "shared/Avatar";
 import styled from "styled-components";
 import type { TweetData } from "types/tweet";
+import { tweetPageHref } from "utils/hrefs";
 
 import { TweetCellActions } from "./TweetCellActions";
 import { TweetCellMedia } from "./TweetCellMedia";
 import { TweetCellToolbar } from "./TweetCellToolbar";
 
 interface TweetCellProps extends Omit<ComponentPropsWithRef<"article">, "id"> {
-  start: number;
   tweetData: TweetData;
 }
 
 export const TweetCell = memo(
-  forwardRef(({ tweetData, start, ...props }: TweetCellProps, ref: Ref<HTMLDivElement>) => {
+  forwardRef(({ tweetData, ...props }: TweetCellProps, ref: Ref<HTMLDivElement>) => {
     const { id, text, author, authorId, media } = tweetData;
     const { session } = useAppSession();
     const { screenName, profileImageUrl } = author;
@@ -32,16 +32,9 @@ export const TweetCell = memo(
         tag="article"
         role="article"
         label="Tweet"
-        href={{ pathname: "/[screenName]/tweet/[tweetId]", query: { tweetId: id, screenName } }}
+        href={tweetPageHref(id, screenName)}
         {...props}
         ref={ref}
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          transform: `translateY(${start}px)`
-        }}
       >
         <Inner>
           <StyledAvatar src={profileImageUrl} screenName={screenName} size="large" />

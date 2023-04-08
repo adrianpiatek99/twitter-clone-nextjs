@@ -8,6 +8,7 @@ import { TweetCellMenuModal } from "shared/TweetCell";
 import useTweetPageStore from "store/tweetPageStore";
 import styled from "styled-components";
 import type { TweetData } from "types/tweet";
+import { profilePageHref } from "utils/hrefs";
 
 interface TweetArticleAuthorProps {
   tweetData: TweetData;
@@ -27,10 +28,10 @@ export const TweetArticleAuthor = ({ tweetData, isOwner }: TweetArticleAuthorPro
       <Content>
         <Avatar src={profileImageUrl} screenName={screenName} size="large" />
         <NamesWrapper>
-          <Text weight={700} href={`/${screenName}`} truncate>
+          <Text weight={700} href={profilePageHref(screenName)} truncate>
             {name}
           </Text>
-          <Text color="secondary" href={`/${screenName}`} truncate>
+          <Text color="secondary" href={profilePageHref(screenName)} truncate>
             @{screenName}
           </Text>
         </NamesWrapper>

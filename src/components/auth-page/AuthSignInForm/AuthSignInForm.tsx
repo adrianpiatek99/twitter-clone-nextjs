@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { InputType } from "components/core";
 import { Button, Input } from "components/core";
+import { HOME_PAGE_ROUTE } from "constants/routes";
 import { useToasts } from "hooks/useToasts";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -77,7 +78,7 @@ export const AuthSignInForm = () => {
         return;
       }
 
-      replace("/home");
+      replace(HOME_PAGE_ROUTE);
     } catch (error: any) {
       handleAddToast("error", error?.message);
     } finally {
@@ -89,7 +90,6 @@ export const AuthSignInForm = () => {
     if (email && password) {
       onSubmit({ email, password });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [email, password]);
 
   return (

@@ -6,6 +6,7 @@ import { CalendarIcon, LinkIcon } from "icons/index";
 import Link from "next/link";
 import styled from "styled-components";
 import type { UserData } from "types/user";
+import { followersPageHref, followingPageHref } from "utils/hrefs";
 import { getFormattedDate } from "utils/time";
 import { removeHttp } from "utils/url";
 
@@ -75,11 +76,11 @@ export const ProfileInformation = memo(({ userData, isLoading }: ProfileInformat
             )}
           </InfoAndLinksRow>
           <FollowsRow>
-            <FollowLink href={`/${userData.screenName}/following`}>
+            <FollowLink href={followingPageHref(userData.screenName)}>
               <span>{userData._count.following} </span>
               <span>Following</span>
             </FollowLink>
-            <FollowLink href={`/${userData.screenName}/followers`}>
+            <FollowLink href={followersPageHref(userData.screenName)}>
               <span>{userData._count.followedBy} </span>
               <span>Followers</span>
             </FollowLink>

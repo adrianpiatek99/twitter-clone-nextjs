@@ -1,6 +1,7 @@
 import React from "react";
 
 import { ConfirmModal } from "components/core";
+import { HOME_PAGE_ROUTE } from "constants/routes";
 import { signOut } from "next-auth/react";
 
 interface ConfirmLogOutModalProps {
@@ -16,7 +17,7 @@ export const ConfirmLogOutModal = ({
 }: ConfirmLogOutModalProps) => {
   const handleLogOut = () => {
     signOut({
-      callbackUrl: "/home"
+      callbackUrl: HOME_PAGE_ROUTE
     });
 
     onAcceptSuccess?.();

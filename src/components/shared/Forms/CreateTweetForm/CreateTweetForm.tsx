@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 
 import { Textarea } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
@@ -11,8 +11,11 @@ import createTweetStore, { CREATE_TWEET_PHOTOS_LIMIT } from "store/createTweetSt
 import styled from "styled-components";
 import { shallow } from "zustand/shallow";
 
-import { CreateTweetMedia } from "./CreateTweetMedia";
 import { CreateTweetToolbar } from "./CreateTweetToolbar";
+
+const LazyCreateTweetMedia = lazy(() =>
+  import("./CreateTweetMedia").then(mod => ({ default: mod.CreateTweetMedia }))
+);
 
 export const CreateTweetForm = () => {
   const { session } = useAppSession();
@@ -56,7 +59,6 @@ export const CreateTweetForm = () => {
       resetFileStates();
       addTweetFiles(files);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files, addTweetFiles]);
 
   if (!session) return null;
@@ -80,7 +82,9 @@ export const CreateTweetForm = () => {
           disabled={isLoading}
         />
         <BottomRow ref={wrapperRef}>
-          {!!tweetFiles.length && <CreateTweetMedia isLoading={isLoading} />}
+          <Suspense>
+            {!!tweetFiles.length && <LazyCreateTweetMedia isLoading={isLoading} />}
+          </Suspense>
           <CreateTweetToolbar
             tweetLength={tweetText.length ?? 0}
             onSubmit={onSubmit}

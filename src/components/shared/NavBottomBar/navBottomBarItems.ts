@@ -1,4 +1,10 @@
 import {
+  EXPLORE_PAGE_ROUTE,
+  HOME_PAGE_ROUTE,
+  MESSAGES_PAGE_ROUTE,
+  NOTIFICATIONS_PAGE_ROUTE
+} from "constants/routes";
+import {
   HomeIcon,
   HomeOutlinedIcon,
   LoginIcon,
@@ -20,25 +26,25 @@ export type NavBottomBarItem = {
 export const navBottomBarItems: NavBottomBarItem[] = [
   {
     text: "Home",
-    href: "/home",
+    href: HOME_PAGE_ROUTE,
     icon: HomeOutlinedIcon,
     activeIcon: HomeIcon
   },
   {
     text: "Search",
-    href: "/explore",
+    href: EXPLORE_PAGE_ROUTE,
     icon: SearchOutlinedIcon,
     activeIcon: SearchIcon
   },
   {
     text: "Notifications",
-    href: "/notifications",
+    href: NOTIFICATIONS_PAGE_ROUTE,
     icon: NotificationOutlinedIcon,
     activeIcon: NotificationIcon
   },
   {
     text: "Messages",
-    href: "/messages",
+    href: MESSAGES_PAGE_ROUTE,
     icon: MailOutlinedIcon,
     activeIcon: MailIcon
   }
