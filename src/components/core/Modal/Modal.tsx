@@ -114,7 +114,7 @@ const Content = styled(motion.div)`
   max-width: 450px;
   width: 98%;
   min-height: 250px;
-  padding-bottom: calc(env(safe-area-inset-bottom));
+  padding-bottom: 53px;
   max-height: 90vh;
   background-color: ${({ theme }) => theme.background};
   border-radius: 16px 16px 0px 0px;
