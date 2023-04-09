@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import { Button } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
+import { PlusIcon } from "icons/index";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import styled from "styled-components";
@@ -58,11 +59,14 @@ export const NavSidebar = () => {
                       active={isProfileItemActive}
                     />
                     <CreateTweetButton
-                      size="large"
+                      aria-label="Create tweet"
                       fullWidth
                       onClick={() => setIsCreateTweetModalModal(prev => !prev)}
                     >
-                      Tweet
+                      <span>Tweet</span>
+                      <span>
+                        <PlusIcon />
+                      </span>
                     </CreateTweetButton>
                   </>
                 )}
@@ -122,6 +126,7 @@ const Inner = styled.div`
   gap: 8px;
   height: 100%;
   width: 100%;
+  overflow-y: overlay;
 `;
 
 const NavWrapper = styled.nav`
@@ -144,10 +149,36 @@ const NavList = styled.ul`
 `;
 
 const CreateTweetButton = styled(Button)`
-  display: none;
-  margin: 16px 0;
+  width: 50px;
+  height: 50px;
+  margin: 16px auto;
+
+  @media ${({ theme }) => theme.breakpoints.sm} {
+    & > span > span {
+      &:nth-child(1) {
+        display: none;
+      }
+      &:nth-child(2) {
+        display: flex;
+
+        & > svg {
+          width: 32px;
+          height: 32px;
+        }
+      }
+    }
+  }
 
   @media ${({ theme }) => theme.breakpoints.xl} {
-    display: flex;
+    width: 100%;
+
+    & > span > span {
+      &:nth-child(1) {
+        display: flex;
+      }
+      &:nth-child(2) {
+        display: none;
+      }
+    }
   }
 `;
