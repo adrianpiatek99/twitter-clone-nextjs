@@ -1,20 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import { NextSeo } from "next-seo";
-import useProfilePageStore from "store/profilePageStore";
 
 import type { ProfilePageProps } from ".";
 
 const ProfileWithReplies = ({ userData }: ProfilePageProps) => {
-  const changeTopBarSubheading = useProfilePageStore(state => state.changeTopBarSubheading);
+  // const tweetCount = userData._count.tweets;
 
-  useEffect(() => {
-    if (userData) {
-      const tweetCount = userData._count.tweets;
-
-      changeTopBarSubheading(`${tweetCount} Tweets`);
-    }
-  }, [userData]);
+  // changeTopBarSubheading(`${tweetCount} Tweets`);
 
   return (
     <div>

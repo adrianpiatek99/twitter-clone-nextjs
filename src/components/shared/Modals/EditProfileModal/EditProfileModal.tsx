@@ -1,3 +1,4 @@
+import type { FC } from "react";
 import React, { useMemo, useState } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
@@ -29,7 +30,7 @@ interface EditProfileModalProps {
   userData: UserData;
 }
 
-export const EditProfileModal = ({ isOpen, onClose, userData }: EditProfileModalProps) => {
+export const EditProfileModal: FC<EditProfileModalProps> = ({ isOpen, onClose, userData }) => {
   const { name, description, url, profileImageUrl, profileBannerUrl } = userData;
   const { handleAddToast } = useToasts();
   const {

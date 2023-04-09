@@ -2,12 +2,11 @@ import type { ChangeEvent } from "react";
 import { useRef } from "react";
 import React from "react";
 
+import { IconButton } from "components/core";
 import { imageFileTypes } from "constants/fileTypes";
 import { CameraPlusIcon, CloseIcon } from "icons/index";
 import Image from "next/legacy/image";
 import styled from "styled-components";
-
-import { EditProfileModalIconButton } from "./EditProfileModalIconButton";
 
 interface EditProfileModalBannerProps {
   src: string;
@@ -30,13 +29,13 @@ export const EditProfileModalBanner = ({
         {src && <Image priority src={src} objectFit="cover" layout="fill" alt="Profile banner" />}
       </Inner>
       <ButtonsWrapper>
-        <EditProfileModalIconButton title="Add photo" onClick={handleFilePicker}>
+        <IconButton title="Add photo" size="large" color="dark" onClick={handleFilePicker}>
           <CameraPlusIcon />
-        </EditProfileModalIconButton>
+        </IconButton>
         {src && (
-          <EditProfileModalIconButton title="Remove photo" onClick={removeBannerPhoto}>
+          <IconButton title="Remove photo" size="large" color="dark" onClick={removeBannerPhoto}>
             <CloseIcon />
-          </EditProfileModalIconButton>
+          </IconButton>
         )}
       </ButtonsWrapper>
       <input

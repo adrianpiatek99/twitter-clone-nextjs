@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from "react";
+import type { ComponentPropsWithoutRef, FC, ReactElement, ReactNode } from "react";
 import React, { cloneElement } from "react";
 
 import { LinearProgress } from "components/core";
@@ -12,7 +12,7 @@ interface TopBarProps extends ComponentPropsWithoutRef<"div"> {
   loading?: boolean;
 }
 
-export const TopBar = ({ children, startIcon, endIcon, loading, ...props }: TopBarProps) => {
+export const TopBar: FC<TopBarProps> = ({ children, startIcon, endIcon, loading, ...props }) => {
   return (
     <Wrapper {...props}>
       {startIcon && <StartIcon>{cloneElement(startIcon)}</StartIcon>}

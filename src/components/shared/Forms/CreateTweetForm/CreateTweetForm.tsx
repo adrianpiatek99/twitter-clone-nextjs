@@ -19,12 +19,24 @@ const LazyCreateTweetMedia = lazy(() =>
 
 export const CreateTweetForm = () => {
   const { session } = useAppSession();
-  const { tweetText, setTweetText, tweetFiles, addTweetFiles, resetStore } = createTweetStore(
+  const {
+    tweetText,
+    tweetFiles,
+    aspectRatio,
+    setTweetText,
+    addTweetFiles,
+    setAspectRatio,
+    removeTweetFile,
+    resetStore
+  } = createTweetStore(
     state => ({
       tweetText: state.tweetText,
-      setTweetText: state.setTweetText,
       tweetFiles: state.tweetFiles,
+      aspectRatio: state.aspectRatio,
+      setTweetText: state.setTweetText,
       addTweetFiles: state.addTweetFiles,
+      setAspectRatio: state.setAspectRatio,
+      removeTweetFile: state.removeTweetFile,
       resetStore: state.resetStore
     }),
     shallow
@@ -83,10 +95,19 @@ export const CreateTweetForm = () => {
         />
         <BottomRow ref={wrapperRef}>
           <Suspense>
-            {!!tweetFiles.length && <LazyCreateTweetMedia isLoading={isLoading} />}
+            {!!tweetFiles.length && (
+              <LazyCreateTweetMedia
+                tweetFiles={tweetFiles}
+                aspectRatio={aspectRatio}
+                isLoading={isLoading}
+                setAspectRatio={setAspectRatio}
+                removeTweetFile={removeTweetFile}
+              />
+            )}
           </Suspense>
           <CreateTweetToolbar
             tweetLength={tweetText.length ?? 0}
+            tweetMediaCount={tweetFiles.length}
             onSubmit={onSubmit}
             loading={isLoading}
             onFileChange={onFileChange}

@@ -123,7 +123,6 @@ const AvatarWrapper = styled.div<{ $absolute: boolean; size: number }>`
   width: ${({ size }) => size}px;
   height: ${({ size }) => size}px;
   cursor: pointer;
-  z-index: 1;
   ${sharedStyles};
 
   & > span {

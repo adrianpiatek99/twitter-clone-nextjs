@@ -1,19 +1,8 @@
 import { create } from "zustand";
 
+import type { CreateTweetStore } from "./createTweetStore";
+
 export const CREATE_TWEET_PHOTOS_LIMIT = 4;
-
-export type TweetMediaFile = { file: File; preview: string };
-
-export interface CreateTweetStore {
-  tweetText: string;
-  tweetFiles: TweetMediaFile[];
-  aspectRatio: number;
-  setTweetText: (tweetText: string) => void;
-  addTweetFiles: (files: File[]) => void;
-  removeTweetFile: (filePreview: string) => void;
-  setAspectRatio: (padding: number) => void;
-  resetStore: () => void;
-}
 
 type State = Pick<CreateTweetStore, "tweetText" | "tweetFiles" | "aspectRatio">;
 
@@ -23,7 +12,7 @@ const initialState: State = {
   tweetFiles: []
 };
 
-const createTweetStore = create<CreateTweetStore>((set, get) => ({
+const createTweetModalStore = create<CreateTweetStore>((set, get) => ({
   ...initialState,
   setTweetText: tweetText =>
     set({
@@ -54,4 +43,4 @@ const createTweetStore = create<CreateTweetStore>((set, get) => ({
   resetStore: () => set({ tweetText: "", tweetFiles: [] })
 }));
 
-export default createTweetStore;
+export default createTweetModalStore;

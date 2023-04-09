@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
+import { Button } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import { profilePageHref } from "utils/hrefs";
@@ -14,51 +16,67 @@ import {
 import { NavSidebarLogo } from "./NavSidebarLogo";
 import { NavSidebarProfile } from "./NavSidebarProfile";
 
+const LazyCreateTweetModal = dynamic(() =>
+  import("components/shared/Modals").then(mod => mod.CreateTweetModal)
+);
+
 export const NavSidebar = () => {
-  const { session, isAuthenticated } = useAppSession();
+  const { session } = useAppSession();
   const { pathname, asPath } = useRouter();
+  const [isCreateTweetModalModal, setIsCreateTweetModalModal] = useState(false);
   const isProfileItemActive =
     pathname.includes(navSidebarProfileItem.route) &&
     asPath.includes(session?.user.screenName ?? "") &&
     !pathname.includes("tweet");
 
   return (
-    <Container>
-      <Wrapper>
-        <Inner>
-          <NavWrapper>
-            <NavSidebarLogo />
-            <NavList>
-              <NavSidebarItem
-                {...navSidebarHomeItem}
-                href={navSidebarHomeItem.route}
-                active={asPath.includes(navSidebarHomeItem.route)}
-              />
-              {isAuthenticated && (
-                <>
-                  {authenticatedNavSidebarItems.map(({ route, ...props }) => (
-                    <NavSidebarItem
-                      key={route}
-                      href={route}
-                      active={asPath.includes(route)}
-                      {...props}
-                    />
-                  ))}
-                  {session && (
+    <>
+      <Container>
+        <Wrapper>
+          <Inner>
+            <NavWrapper>
+              <NavSidebarLogo />
+              <NavList>
+                <NavSidebarItem
+                  {...navSidebarHomeItem}
+                  href={navSidebarHomeItem.route}
+                  active={asPath.includes(navSidebarHomeItem.route)}
+                />
+                {session && (
+                  <>
+                    {authenticatedNavSidebarItems.map(({ route, ...props }) => (
+                      <NavSidebarItem
+                        key={route}
+                        href={route}
+                        active={asPath.includes(route)}
+                        {...props}
+                      />
+                    ))}
                     <NavSidebarItem
                       {...navSidebarProfileItem}
                       href={profilePageHref(session.user.screenName)}
                       active={isProfileItemActive}
                     />
-                  )}
-                </>
-              )}
-            </NavList>
-          </NavWrapper>
-          <NavSidebarProfile />
-        </Inner>
-      </Wrapper>
-    </Container>
+                    <CreateTweetButton
+                      size="large"
+                      fullWidth
+                      onClick={() => setIsCreateTweetModalModal(prev => !prev)}
+                    >
+                      Tweet
+                    </CreateTweetButton>
+                  </>
+                )}
+              </NavList>
+            </NavWrapper>
+            <NavSidebarProfile />
+          </Inner>
+        </Wrapper>
+      </Container>
+      <LazyCreateTweetModal
+        isOpen={isCreateTweetModalModal}
+        onClose={() => setIsCreateTweetModalModal(false)}
+      />
+    </>
   );
 };
 
@@ -123,4 +141,13 @@ const NavList = styled.ul`
   flex-direction: column;
   gap: 8px 0px;
   width: 100%;
+`;
+
+const CreateTweetButton = styled(Button)`
+  display: none;
+  margin: 16px 0;
+
+  @media ${({ theme }) => theme.breakpoints.xl} {
+    display: flex;
+  }
 `;

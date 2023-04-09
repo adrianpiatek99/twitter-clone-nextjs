@@ -7,7 +7,7 @@ import styled from "styled-components";
 import type { UserData } from "types/user";
 
 const LazyEditProfileModal = dynamic(
-  () => import("./Modals/EditProfileModal").then(mod => mod.EditProfileModal),
+  () => import("components/shared/Modals").then(mod => mod.EditProfileModal),
   {
     ssr: false
   }

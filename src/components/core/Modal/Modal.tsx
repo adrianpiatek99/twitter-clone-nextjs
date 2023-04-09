@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ReactElement } from "react";
+import type { ComponentPropsWithoutRef, FC, ReactElement } from "react";
 import React from "react";
 import FocusLock from "react-focus-lock";
 
@@ -23,7 +23,7 @@ interface ModalProps extends ComponentPropsWithoutRef<typeof motion.div> {
   formId?: string;
 }
 
-export const Modal = ({
+export const Modal: FC<ModalProps> = ({
   children,
   isOpen,
   onClose,
@@ -35,7 +35,7 @@ export const Modal = ({
   preventClosingOnOutside = false,
   formId,
   ...props
-}: ModalProps) => {
+}) => {
   const {
     breakpoints: { sm }
   } = useTheme();
@@ -114,7 +114,7 @@ const Content = styled(motion.div)`
   max-width: 450px;
   width: 98%;
   min-height: 250px;
-  padding-bottom: 53px;
+  padding-bottom: calc(env(safe-area-inset-bottom));
   max-height: 90vh;
   background-color: ${({ theme }) => theme.background};
   border-radius: 16px 16px 0px 0px;

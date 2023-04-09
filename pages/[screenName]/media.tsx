@@ -1,19 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import { NextSeo } from "next-seo";
-import useProfilePageStore from "store/profilePageStore";
 
 import type { ProfilePageProps } from ".";
 
 const ProfileMedia = ({ userData }: ProfilePageProps) => {
-  const changeTopBarSubheading = useProfilePageStore(state => state.changeTopBarSubheading);
-
-  useEffect(() => {
-    if (userData) {
-      changeTopBarSubheading(`0 Photos & videos`);
-    }
-  }, [userData]);
-
   return (
     <div>
       <NextSeo

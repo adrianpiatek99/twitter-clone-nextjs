@@ -1,12 +1,11 @@
 import type { ChangeEvent } from "react";
 import React, { useRef } from "react";
 
+import { IconButton } from "components/core";
 import { imageFileTypes } from "constants/fileTypes";
 import { CameraPlusIcon } from "icons/index";
 import { Avatar } from "shared/Avatar";
 import styled from "styled-components";
-
-import { EditProfileModalIconButton } from "./EditProfileModalIconButton";
 
 interface EditProfileModalAvatarProps {
   src: string;
@@ -24,9 +23,9 @@ export const EditProfileModalAvatar = ({ src, onFileChange }: EditProfileModalAv
         <StyledAvatar src={src} absolute disableFocus />
       </Inner>
       <ButtonsWrapper>
-        <EditProfileModalIconButton title="Add photo" onClick={handleFilePicker}>
+        <IconButton title="Add photo" onClick={handleFilePicker} size="large" color="dark">
           <CameraPlusIcon />
-        </EditProfileModalIconButton>
+        </IconButton>
       </ButtonsWrapper>
       <input
         aria-label="Profile avatar picker"

@@ -1,8 +1,7 @@
-import React, { lazy, Suspense, useEffect } from "react";
+import React, { lazy, Suspense } from "react";
 
 import { NextSeo } from "next-seo";
 import { TweetCellSkeletons } from "shared/TweetCell";
-import useProfilePageStore from "store/profilePageStore";
 import type { UserData } from "types/user";
 
 const LazyProfileTimeline = lazy(() =>
@@ -14,16 +13,6 @@ export interface ProfilePageProps {
 }
 
 const Profile = ({ userData }: ProfilePageProps) => {
-  const changeTopBarSubheading = useProfilePageStore(state => state.changeTopBarSubheading);
-
-  useEffect(() => {
-    if (userData) {
-      const tweetCount = userData._count.tweets;
-
-      changeTopBarSubheading(`${tweetCount} Tweets`);
-    }
-  }, [userData]);
-
   return (
     <>
       <NextSeo

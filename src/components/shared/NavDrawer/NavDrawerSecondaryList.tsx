@@ -25,7 +25,6 @@ export const NavDrawerSecondaryList = ({ onClose }: NavDrawerSecondaryListProps)
           text="Log out"
           icon={LogoutIcon}
           onClick={() => setIsLogOutModalOpen(true)}
-          size="large"
         />
       </ItemList>
       <ConfirmLogOutModal
