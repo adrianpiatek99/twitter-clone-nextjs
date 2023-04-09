@@ -1,23 +1,27 @@
-import { useCallback } from "react";
-
+import type { QueryClient } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import useGlobalStore from "store/globalStore";
 import useProfileStore from "store/profileStore";
 import type { TweetData } from "types/tweet";
-import type { TweetReplyCreateInputs, TweetReplyCreateOutputs } from "types/tweetReply";
+import type {
+  ReplyData,
+  TweetRepliesInputs,
+  TweetRepliesOutputs,
+  TweetReplyCreateInputs,
+  TweetReplyCreateOutputs
+} from "types/tweetReply";
 import { api } from "utils/api";
 import { queryKeys } from "utils/queryKeys";
-import {
-  addReplyInfiniteCache,
-  updateLikesTweetInfiniteCache,
-  updateProfileTweetInfiniteCache,
-  updateTweetDetailsCache,
-  updateTweetInfiniteCache
-} from "utils/updateQueryCache";
+import { updateTweetsCache } from "utils/updateTweetsCache";
 
 import { useAppSession } from "./useAppSession";
 import { useToasts } from "./useToasts";
 
+type AddTweetReplyCacheProps = {
+  queryClient: QueryClient;
+  newReply: ReplyData;
+  input: TweetRepliesInputs;
+};
 interface UseReplyTweetMutationProps {
   tweetId: string;
   onSuccess?: (data: TweetReplyCreateOutputs) => void;
@@ -28,47 +32,26 @@ export const useReplyTweetMutation = ({ tweetId, onSuccess }: UseReplyTweetMutat
   const { session } = useAppSession();
   const sessionUserId = session?.user.id ?? "";
   const openAuthRequiredModal = useGlobalStore(state => state.openAuthRequiredModal);
-  const viewedProfile = useProfileStore(state => state.viewedProfile);
+  const viewedProfileScreenName = useProfileStore(state => state.viewedProfile?.screenName ?? "");
   const { handleAddToast } = useToasts();
-
   const { mutate, isLoading: replyTweetLoading } = api.tweetReply.create.useMutation({
     onSuccess: data => {
-      const tweetAuthorScreenName = data.tweet.author.screenName;
-      const updateTweets = (data: TweetData) => {
-        return {
-          ...data,
-          _count: { ...data._count, replies: data._count.replies + 1 }
-        };
-      };
+      const updateTweet = (data: TweetData) => ({
+        ...data,
+        _count: { ...data._count, replies: data._count.replies + 1 }
+      });
 
-      addReplyInfiniteCache(queryClient, data, queryKeys.tweetRepliesQueryKey({ tweetId }));
-      updateTweetInfiniteCache(queryClient, tweetId, updateTweets);
-      updateProfileTweetInfiniteCache(
+      addTweetReplyCache({ queryClient, newReply: data, input: { tweetId } });
+
+      updateTweetsCache({
         queryClient,
         tweetId,
-        { profileScreenName: tweetAuthorScreenName },
-        updateTweets
-      );
-
-      if (viewedProfile) {
-        updateLikesTweetInfiniteCache(
-          queryClient,
+        input: {
           tweetId,
-          { profileId: viewedProfile.id },
-          updateTweets
-        );
-      }
-
-      updateTweetDetailsCache(
-        queryClient,
-        queryKeys.tweetDetailsQueryKey({ screenName: tweetAuthorScreenName, tweetId }),
-        data => {
-          return {
-            ...data,
-            _count: { ...data._count, replies: data._count.replies + 1 }
-          };
-        }
-      );
+          profileScreenName: viewedProfileScreenName
+        },
+        updateTweet
+      });
 
       onSuccess?.(data);
     },
@@ -77,20 +60,40 @@ export const useReplyTweetMutation = ({ tweetId, onSuccess }: UseReplyTweetMutat
     }
   });
 
-  const handleReplyTweet = useCallback(
-    (data: TweetReplyCreateInputs) => {
-      if (!sessionUserId) {
-        openAuthRequiredModal(true);
+  const addTweetReplyCache = ({ queryClient, newReply, input }: AddTweetReplyCacheProps) => {
+    queryClient.setQueryData<{ pages: TweetRepliesOutputs[] }>(
+      queryKeys.tweetRepliesQueryKey({ ...input }),
+      oldData => {
+        if (!oldData) return oldData;
 
-        return;
+        const pages = oldData.pages.map((page, index) =>
+          index === 0
+            ? {
+                ...page,
+                replies: [newReply, ...page.replies]
+              }
+            : page
+        );
+
+        return {
+          ...oldData,
+          pages
+        };
       }
+    );
+  };
 
-      if (replyTweetLoading) return;
+  const handleReplyTweet = (data: TweetReplyCreateInputs) => {
+    if (!sessionUserId) {
+      openAuthRequiredModal(true);
 
-      mutate(data);
-    },
-    [mutate, replyTweetLoading, sessionUserId, openAuthRequiredModal]
-  );
+      return;
+    }
+
+    if (replyTweetLoading) return;
+
+    mutate(data);
+  };
 
   return { handleReplyTweet, replyTweetLoading };
 };

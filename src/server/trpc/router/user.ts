@@ -48,14 +48,7 @@ export const userRouter = router({
               followerId: true
             }
           },
-          _count: {
-            select: {
-              tweets: true,
-              likes: true,
-              followedBy: true,
-              following: true
-            }
-          }
+          _count: true
         }
       });
 

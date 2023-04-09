@@ -1,11 +1,11 @@
 import React from "react";
 
-import { Text } from "components/core";
+import { Skeleton, Text } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
 import Link from "next/link";
 import { Avatar } from "shared/Avatar";
-import { Skeleton } from "shared/Skeleton";
 import styled from "styled-components";
+import { followersPageHref, followingPageHref, profilePageHref } from "utils/hrefs";
 
 interface NavDrawerHeaderProps {
   onClose: () => void;
@@ -50,19 +50,19 @@ export const NavDrawerHeader = ({ onClose }: NavDrawerHeaderProps) => {
       </AvatarRow>
       <Content>
         <ProfileNamesRow>
-          <Text href={`/${screenName}`} onClick={onClose} size="l" weight={700} truncate>
+          <Text href={profilePageHref(screenName)} onClick={onClose} size="l" weight={700} truncate>
             {name}
           </Text>
-          <Text href={`/${screenName}`} onClick={onClose} color="secondary" truncate>
+          <Text href={profilePageHref(screenName)} onClick={onClose} color="secondary" truncate>
             {screenName && `@${screenName}`}
           </Text>
         </ProfileNamesRow>
         <FollowsRow>
-          <FollowLink href={`/${screenName}/following`} onClick={onClose}>
+          <FollowLink href={followingPageHref(screenName)} onClick={onClose}>
             <span>{following} </span>
             <span>Following</span>
           </FollowLink>
-          <FollowLink href={`/${screenName}/followers`} onClick={onClose}>
+          <FollowLink href={followersPageHref(screenName)} onClick={onClose}>
             <span>{followedBy} </span>
             <span>Followers</span>
           </FollowLink>

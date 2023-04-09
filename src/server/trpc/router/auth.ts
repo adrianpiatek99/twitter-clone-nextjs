@@ -3,15 +3,11 @@ import { hashSync } from "bcryptjs";
 import { exclude } from "prisma/prisma";
 import { signUpSchema } from "schema/authSchema";
 
-import { protectedProcedure, publicProcedure, router } from "../trpc";
+import { publicProcedure, router } from "../trpc";
 
 export const authRouter = router({
   getSession: publicProcedure.query(({ ctx }) => {
     return ctx.session;
-  }),
-
-  getSecretMessage: protectedProcedure.query(() => {
-    return "you can now see this secret message!";
   }),
 
   signUp: publicProcedure.input(signUpSchema).mutation(async ({ ctx, input }) => {
@@ -34,12 +30,14 @@ export const authRouter = router({
       throw new TRPCError({ code: "CONFLICT", message: "We cannot create account. Try again." });
     }
 
+    const hashedPassword = hashSync(password, 12);
+
     const createdUser = await prisma.user.create({
       data: {
         screenName,
         name,
         email: emailWithLowerCase,
-        password: await hashSync(password, 12)
+        password: hashedPassword
       }
     });
 

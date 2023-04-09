@@ -5,20 +5,22 @@ import { MoreHorizontalIcon } from "icons/index";
 import { useRouter } from "next/router";
 import { Avatar } from "shared/Avatar";
 import { TweetCellMenuModal } from "shared/TweetCell";
+import useTweetPageStore from "store/tweetPageStore";
 import styled from "styled-components";
 import type { TweetData } from "types/tweet";
+import { profilePageHref } from "utils/hrefs";
 
 interface TweetArticleAuthorProps {
   tweetData: TweetData;
   isOwner: boolean;
-  referer: string;
 }
 
-export const TweetArticleAuthor = ({ tweetData, isOwner, referer }: TweetArticleAuthorProps) => {
+export const TweetArticleAuthor = ({ tweetData, isOwner }: TweetArticleAuthorProps) => {
   const {
     author: { name, screenName, profileImageUrl }
   } = tweetData;
   const { push } = useRouter();
+  const referer = useTweetPageStore(state => state.referer);
   const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
 
   return (
@@ -26,10 +28,10 @@ export const TweetArticleAuthor = ({ tweetData, isOwner, referer }: TweetArticle
       <Content>
         <Avatar src={profileImageUrl} screenName={screenName} size="large" />
         <NamesWrapper>
-          <Text weight={700} href={`/${screenName}`} truncate>
+          <Text weight={700} href={profilePageHref(screenName)} truncate>
             {name}
           </Text>
-          <Text color="secondary" href={`/${screenName}`} truncate>
+          <Text color="secondary" href={profilePageHref(screenName)} truncate>
             @{screenName}
           </Text>
         </NamesWrapper>

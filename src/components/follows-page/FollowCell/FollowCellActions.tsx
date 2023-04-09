@@ -1,9 +1,10 @@
 import React from "react";
 
 import { Button, Text } from "components/core";
-import { useFollowUserMutation } from "hooks/useFollowUserMutation";
+import { useToggleFollowUserMutation } from "hooks/useToggleFollowUserMutation";
 import styled from "styled-components";
 import type { FollowUserData } from "types/user";
+import { profilePageHref } from "utils/hrefs";
 
 interface FollowCellActionsProps {
   followUser: FollowUserData;
@@ -13,17 +14,17 @@ interface FollowCellActionsProps {
 export const FollowCellActions = ({ followUser, itsMe }: FollowCellActionsProps) => {
   const { screenName, name } = followUser;
   const { handleFollowUser, followUserLoading, unfollowUserLoading, isFollowed } =
-    useFollowUserMutation({
+    useToggleFollowUserMutation({
       followUser
     });
 
   return (
     <Wrapper>
       <NamesWrapper>
-        <Text weight={700} href={`/${screenName}`} truncate>
+        <Text weight={700} href={profilePageHref(screenName)} truncate>
           {name}
         </Text>
-        <Text color="secondary" href={`/${screenName}`} truncate>
+        <Text color="secondary" href={profilePageHref(screenName)} truncate>
           @{screenName}
         </Text>
       </NamesWrapper>

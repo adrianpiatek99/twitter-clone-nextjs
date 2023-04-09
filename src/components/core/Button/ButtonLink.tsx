@@ -1,6 +1,7 @@
 import type { ComponentPropsWithRef, ReactNode, Ref } from "react";
 import React, { forwardRef } from "react";
 
+import type { LinkProps } from "next/link";
 import Link from "next/link";
 import styled from "styled-components";
 
@@ -12,8 +13,8 @@ import type {
 } from "./buttonStyleVariants";
 import { generalButtonStyles } from "./buttonStyleVariants";
 
-interface ButtonLinkProps extends ComponentPropsWithRef<"a"> {
-  href: string;
+interface ButtonLinkProps extends Omit<ComponentPropsWithRef<"a">, "href"> {
+  href: LinkProps["href"];
   variant?: ButtonVariant;
   size?: ButtonSize;
   color?: ButtonColor;

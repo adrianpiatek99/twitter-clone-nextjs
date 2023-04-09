@@ -6,13 +6,13 @@ import { NextSeo } from "next-seo";
 import { CreateTweetForm } from "shared/Forms";
 
 const Home = () => {
-  const { session } = useAppSession();
+  const { isAuthenticated } = useAppSession();
 
   return (
     <>
       <NextSeo title="Home / Twitter" description="Home" />
       <HomeTopBar />
-      {session && <CreateTweetForm />}
+      {isAuthenticated && <CreateTweetForm />}
       <HomeTimeline />
     </>
   );

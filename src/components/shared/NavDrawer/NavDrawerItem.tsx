@@ -4,9 +4,10 @@ import React from "react";
 import { Button } from "components/core";
 import styled from "styled-components";
 
-import type { NavDrawerItemType } from "./navDrawerItems";
-
-type NavDrawerItemProps = NavDrawerItemType & ComponentPropsWithoutRef<typeof Button>;
+interface NavDrawerItemProps extends ComponentPropsWithoutRef<typeof Button> {
+  text: string;
+  icon: SvgrElement;
+}
 
 export const NavDrawerItem = ({ text, icon: Icon, ...props }: NavDrawerItemProps) => {
   return (
@@ -28,7 +29,7 @@ export const NavDrawerItem = ({ text, icon: Icon, ...props }: NavDrawerItemProps
 const NavDrawerButton = styled(Button)`
   justify-content: flex-start;
   padding: 0 24px;
-  font-weight: 700;
+  font-weight: 600;
 
   & > svg {
     width: 24px;

@@ -1,10 +1,11 @@
 import React, { useCallback, useState } from "react";
 
-import { IconButton, Text } from "components/core";
+import { IconButton, Text, Tooltip } from "components/core";
 import { MoreHorizontalIcon } from "icons/index";
 import styled from "styled-components";
 import type { TweetData } from "types/tweet";
-import { getRelativeTime } from "utils/time";
+import { profilePageHref } from "utils/hrefs";
+import { convertDateToLocalTime, getFormattedDate, getRelativeTime } from "utils/time";
 
 import { TweetCellMenuModal } from "./Modals";
 
@@ -25,18 +26,22 @@ export const TweetCellActions = ({ isOwner, tweetData }: TweetCellActionsProps) 
   return (
     <Wrapper>
       <LeftColumn>
-        <Text weight={700} href={`/${screenName}`} truncate>
+        <Text weight={700} href={profilePageHref(screenName)} truncate>
           {name}
         </Text>
-        <Text color="secondary" href={`/${screenName}`} truncate>
+        <Text color="secondary" href={profilePageHref(screenName)} truncate>
           @{screenName}
         </Text>
         <Text color="secondary" truncate>
           ·
         </Text>
-        <Text color="secondary" href={`/${screenName}`}>
-          {getRelativeTime(createdAt)}
-        </Text>
+        <Tooltip content={`${convertDateToLocalTime(createdAt)} · ${getFormattedDate(createdAt)}`}>
+          <div>
+            <Text color="secondary" href={profilePageHref(screenName)}>
+              {getRelativeTime(createdAt)}
+            </Text>
+          </div>
+        </Tooltip>
       </LeftColumn>
       {isOwner && (
         <RightColumn>

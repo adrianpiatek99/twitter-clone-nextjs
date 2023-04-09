@@ -1,1 +1,1 @@
-export { CreateTweetForm } from "./CreateTweetForm";
+export * from "./CreateTweetForm";

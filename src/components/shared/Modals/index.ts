@@ -1,5 +1,6 @@
-export { ConfirmLogOutModal } from "./ConfirmLogOutModal";
-export { ConfirmDeleteTweetModal } from "./ConfirmDeleteTweetModal";
-export { AuthenticationRequiredModal } from "./AuthenticationRequiredModal";
-export { CreateTweetModal } from "./CreateTweetModal";
-export { ReplyTweetModal } from "./ReplyTweetModal";
+export * from "./ConfirmLogOutModal";
+export * from "./ConfirmDeleteTweetModal";
+export * from "./AuthenticationRequiredModal";
+export * from "./CreateTweetModal";
+export * from "./EditProfileModal";
+export * from "./ReplyTweetModal";

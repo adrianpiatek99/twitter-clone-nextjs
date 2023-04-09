@@ -3,6 +3,7 @@ import React from "react";
 import { Text } from "components/core";
 import styled from "styled-components";
 import type { ReplyData } from "types/tweetReply";
+import { profilePageHref } from "utils/hrefs";
 import { getRelativeTime } from "utils/time";
 
 interface TweetReplyCellFirstRowProps {
@@ -18,16 +19,16 @@ export const TweetReplyCellFirstRow = ({
   return (
     <Wrapper>
       <LeftColumn>
-        <Text weight={700} href={`/${screenName}`} truncate>
+        <Text weight={700} href={profilePageHref(screenName)} truncate>
           {name}
         </Text>
-        <Text color="secondary" href={`/${screenName}`} truncate>
+        <Text color="secondary" href={profilePageHref(screenName)} truncate>
           @{screenName}
         </Text>
         <Text color="secondary" truncate>
           ·
         </Text>
-        <Text color="secondary" href={`/${screenName}`}>
+        <Text color="secondary" href={profilePageHref(screenName)}>
           {getRelativeTime(createdAt)}
         </Text>
       </LeftColumn>

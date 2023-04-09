@@ -22,7 +22,6 @@ export const useAutoAnimate = <T extends Element>(
   useEffect(() => {
     if (element.current instanceof HTMLElement)
       setController(autoAnimate(element.current, options || {}));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return [element, setEnabled];

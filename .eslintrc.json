@@ -3,19 +3,12 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
-  "plugins": [
-    "@typescript-eslint",
-    "simple-import-sort",
-    "react-hooks",
-    "prettier",
-    "@tanstack/query"
-  ],
+  "plugins": ["@typescript-eslint", "simple-import-sort", "prettier", "@tanstack/query"],
   "extends": [
     "next/core-web-vitals",
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:react-hooks/recommended",
     "prettier",
     "plugin:@tanstack/eslint-plugin-query/recommended"
   ],
@@ -34,6 +27,7 @@
     "react/react-in-jsx-scope": 0,
     "react/display-name": 0,
     "react/prop-types": 0,
+    "react-hooks/exhaustive-deps": 0,
     "@typescript-eslint/explicit-function-return-type": 0,
     "@typescript-eslint/explicit-member-accessibility": 0,
     "@typescript-eslint/indent": 0,
@@ -45,8 +39,6 @@
     "@typescript-eslint/no-non-null-assertion": 0,
     "import/order": 0,
     "@typescript-eslint/consistent-type-imports": "warn",
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
     "@tanstack/query/exhaustive-deps": "error",
     "@tanstack/query/prefer-query-object-syntax": "error",
     "@typescript-eslint/no-unused-vars": [

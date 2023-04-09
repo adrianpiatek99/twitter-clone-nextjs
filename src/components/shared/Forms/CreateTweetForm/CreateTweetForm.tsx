@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 
 import { Textarea } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
@@ -11,17 +11,32 @@ import createTweetStore, { CREATE_TWEET_PHOTOS_LIMIT } from "store/createTweetSt
 import styled from "styled-components";
 import { shallow } from "zustand/shallow";
 
-import { CreateTweetMedia } from "./CreateTweetMedia";
 import { CreateTweetToolbar } from "./CreateTweetToolbar";
+
+const LazyCreateTweetMedia = lazy(() =>
+  import("./CreateTweetMedia").then(mod => ({ default: mod.CreateTweetMedia }))
+);
 
 export const CreateTweetForm = () => {
   const { session } = useAppSession();
-  const { tweetText, setTweetText, tweetFiles, addTweetFiles, resetStore } = createTweetStore(
+  const {
+    tweetText,
+    tweetFiles,
+    aspectRatio,
+    setTweetText,
+    addTweetFiles,
+    setAspectRatio,
+    removeTweetFile,
+    resetStore
+  } = createTweetStore(
     state => ({
       tweetText: state.tweetText,
-      setTweetText: state.setTweetText,
       tweetFiles: state.tweetFiles,
+      aspectRatio: state.aspectRatio,
+      setTweetText: state.setTweetText,
       addTweetFiles: state.addTweetFiles,
+      setAspectRatio: state.setAspectRatio,
+      removeTweetFile: state.removeTweetFile,
       resetStore: state.resetStore
     }),
     shallow
@@ -56,7 +71,6 @@ export const CreateTweetForm = () => {
       resetFileStates();
       addTweetFiles(files);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files, addTweetFiles]);
 
   if (!session) return null;
@@ -80,9 +94,20 @@ export const CreateTweetForm = () => {
           disabled={isLoading}
         />
         <BottomRow ref={wrapperRef}>
-          {!!tweetFiles.length && <CreateTweetMedia isLoading={isLoading} />}
+          <Suspense>
+            {!!tweetFiles.length && (
+              <LazyCreateTweetMedia
+                tweetFiles={tweetFiles}
+                aspectRatio={aspectRatio}
+                isLoading={isLoading}
+                setAspectRatio={setAspectRatio}
+                removeTweetFile={removeTweetFile}
+              />
+            )}
+          </Suspense>
           <CreateTweetToolbar
             tweetLength={tweetText.length ?? 0}
+            tweetMediaCount={tweetFiles.length}
             onSubmit={onSubmit}
             loading={isLoading}
             onFileChange={onFileChange}

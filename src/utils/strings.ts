@@ -17,3 +17,7 @@ export const toBase64 = (value: string): string => {
 
   return window.btoa(value);
 };
+
+export const replaceSpacesWithDashes = (value: string) => value.replace(/\s+/g, "-");
+
+export const replaceDashesWithSpaces = <T>(value: string) => value.replace("-", " ") as T;

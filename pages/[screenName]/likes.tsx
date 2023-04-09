@@ -1,11 +1,19 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 
-import { ProfileLikes } from "components/profile-page/ProfileLikes";
 import { NextSeo } from "next-seo";
+import { TweetCellSkeletons } from "shared/TweetCell";
 
 import type { ProfilePageProps } from ".";
 
-const ProfileLikesPage = ({ userData }: ProfilePageProps) => {
+const LazyProfileLikesTimeline = lazy(() =>
+  import("components/profile-page").then(mod => ({ default: mod.ProfileLikesTimeline }))
+);
+
+const ProfileLikes = ({ userData }: ProfilePageProps) => {
+  // const likesCount = userData._count.likes;
+
+  // changeTopBarSubheading(`${likesCount} Likes`);
+
   return (
     <>
       <NextSeo
@@ -14,9 +22,11 @@ const ProfileLikesPage = ({ userData }: ProfilePageProps) => {
         } / Twitter`}
         description="Profile likes"
       />
-      {userData && <ProfileLikes userData={userData} />}
+      <Suspense fallback={<TweetCellSkeletons />}>
+        {userData && <LazyProfileLikesTimeline userData={userData} />}
+      </Suspense>
     </>
   );
 };
 
-export default ProfileLikesPage;
+export default ProfileLikes;

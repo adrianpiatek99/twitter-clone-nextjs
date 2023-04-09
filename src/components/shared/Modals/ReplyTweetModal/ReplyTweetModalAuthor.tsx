@@ -4,6 +4,7 @@ import { Text } from "components/core";
 import { Avatar } from "shared/Avatar";
 import styled, { useTheme } from "styled-components";
 import type { TweetData } from "types/tweet";
+import { profilePageHref } from "utils/hrefs";
 import { getRelativeTime } from "utils/time";
 
 interface ReplyTweetModalAuthorProps {
@@ -27,16 +28,16 @@ export const ReplyTweetModalAuthor = ({
       </LeftColumn>
       <RightColumn>
         <Row>
-          <Text weight={700} href={`/${screenName}`} truncate>
+          <Text weight={700} href={profilePageHref(screenName)} truncate>
             {name}
           </Text>
-          <Text color="secondary" href={`/${screenName}`} truncate>
+          <Text color="secondary" href={profilePageHref(screenName)} truncate>
             @{screenName}
           </Text>
           <Text color="secondary" truncate>
             ·
           </Text>
-          <Text color="secondary" href={`/${screenName}`}>
+          <Text color="secondary" href={profilePageHref(screenName)}>
             {getRelativeTime(createdAt)}
           </Text>
         </Row>

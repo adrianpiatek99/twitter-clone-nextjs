@@ -6,6 +6,7 @@ export { default as CalendarIcon } from "./CalendarIcon";
 export { default as CameraPlusIcon } from "./CameraPlusIcon";
 export { default as ChevronIcon } from "./ChevronIcon";
 export { default as CloseIcon } from "./CloseIcon";
+export { default as EditProfileIcon } from "./EditProfileIcon";
 export { default as EmojiSmileIcon } from "./EmojiSmileIcon";
 export { default as EyeClosedIcon } from "./EyeClosedIcon";
 export { default as EyeOpenIcon } from "./EyeOpenIcon";

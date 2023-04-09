@@ -5,6 +5,10 @@ import { NextSeo } from "next-seo";
 import type { ProfilePageProps } from ".";
 
 const ProfileWithReplies = ({ userData }: ProfilePageProps) => {
+  // const tweetCount = userData._count.tweets;
+
+  // changeTopBarSubheading(`${tweetCount} Tweets`);
+
   return (
     <div>
       <NextSeo
@@ -15,7 +19,7 @@ const ProfileWithReplies = ({ userData }: ProfilePageProps) => {
         } / Twitter`}
         description="Profile tweets with replies"
       />
-      with_replies
+      <p>Replies</p>
     </div>
   );
 };

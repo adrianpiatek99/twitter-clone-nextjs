@@ -1,6 +1,14 @@
 import type { ReactElement } from "react";
 import React from "react";
 
+import { FollowsLayout } from "components/follows-page";
+import { ProfileLayout } from "components/profile-page";
+import {
+  FOLLOWERS_PAGE_ROUTE,
+  FOLLOWING_PAGE_ROUTE,
+  PROFILE_PAGE_ROUTE,
+  TWEET_PAGE_ROUTE
+} from "constants/routes";
 import { useAppSession } from "hooks/useAppSession";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
@@ -10,26 +18,14 @@ import { NavSidebar } from "shared/NavSidebar";
 import { TrendingSidebar } from "shared/TrendingSidebar";
 import styled, { keyframes } from "styled-components";
 
-import { ProfileFollowsLayout } from "./ProfileFollowsLayout";
-import { ProfileLayout } from "./ProfileLayout";
-
-const LazyNavDrawer = dynamic(() => import("../shared/NavDrawer").then(mod => mod.NavDrawer), {
-  ssr: false
-});
-const LazyAuthenticationBar = dynamic(
-  () => import("../shared/AuthenticationBar").then(mod => mod.AuthenticationBar),
-  {
-    ssr: false
-  }
+const LazyNavDrawer = dynamic(() =>
+  import("components/shared/NavDrawer").then(mod => mod.NavDrawer)
 );
-const LazyAuthenticationRequiredModal = dynamic(
-  () =>
-    import("../shared/Modals/AuthenticationRequiredModal").then(
-      mod => mod.AuthenticationRequiredModal
-    ),
-  {
-    ssr: false
-  }
+const LazyAuthenticationBar = dynamic(() =>
+  import("components/shared/AuthenticationBar").then(mod => mod.AuthenticationBar)
+);
+const LazyAuthenticationRequiredModal = dynamic(() =>
+  import("components/shared/Modals").then(mod => mod.AuthenticationRequiredModal)
 );
 
 interface LayoutProps {
@@ -39,16 +35,17 @@ interface LayoutProps {
 const CurrentLayoutPattern = ({ children }: LayoutProps) => {
   const { pathname } = useRouter();
   const isProfileFollowsPage =
-    pathname.includes("/[screenName]/following") || pathname.includes("/[screenName]/followers");
-  const isTweetPage = pathname.includes("/[screenName]/tweet/");
-  const isProfilePage = pathname.includes("/[screenName]") && !isTweetPage && !isProfileFollowsPage;
+    pathname.includes(FOLLOWING_PAGE_ROUTE) || pathname.includes(FOLLOWERS_PAGE_ROUTE);
+  const isTweetPage = pathname.includes(TWEET_PAGE_ROUTE);
+  const isProfilePage =
+    pathname.includes(PROFILE_PAGE_ROUTE) && !isTweetPage && !isProfileFollowsPage;
 
   if (isProfilePage) {
     return <ProfileLayout>{children}</ProfileLayout>;
   }
 
   if (isProfileFollowsPage) {
-    return <ProfileFollowsLayout>{children}</ProfileFollowsLayout>;
+    return <FollowsLayout>{children}</FollowsLayout>;
   }
 
   return children;

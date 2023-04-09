@@ -10,7 +10,7 @@ export type ToastProps = {
   duration: number;
 };
 
-interface ToastsState {
+interface ToastsStore {
   toasts: ToastProps[];
   addToast: (toast: Omit<ToastProps, "id">) => void;
   removeToast: (toastId: string) => void;
@@ -21,7 +21,7 @@ const initialState = {
   toasts: []
 };
 
-const useToastsStore = create<ToastsState>(set => ({
+const useToastsStore = create<ToastsStore>(set => ({
   ...initialState,
   addToast: toast => {
     const newToast = {
