@@ -6,28 +6,29 @@ import { Button, IconButton } from "components/core";
 import { imageFileTypes } from "constants/fileTypes";
 import { EmojiSmileIcon, MediaIcon } from "icons/index";
 import { TWEET_MAX_LENGTH } from "schema/tweetSchema";
-import createTweetStore, { CREATE_TWEET_PHOTOS_LIMIT } from "store/createTweetStore";
+import { CREATE_TWEET_PHOTOS_LIMIT } from "store/createTweetStore";
 import styled from "styled-components";
 
 interface CreateTweetToolbarProps {
   tweetLength: number;
+  tweetMediaCount: number;
   onSubmit: () => void;
   loading: boolean;
   onFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  isMobileModal?: boolean;
+  isInModal?: boolean;
 }
 
 export const CreateTweetToolbar = memo(
   ({
     tweetLength,
+    tweetMediaCount,
     onSubmit,
     loading,
     onFileChange,
-    isMobileModal = false
+    isInModal = false
   }: CreateTweetToolbarProps) => {
-    const isDisabled = !tweetLength;
     const filePickerRef = useRef<HTMLInputElement>(null);
-    const tweetFiles = createTweetStore(state => state.tweetFiles);
+    const isDisabled = !tweetLength;
 
     const handleFilePicker = () => filePickerRef.current?.click();
 
@@ -38,7 +39,7 @@ export const CreateTweetToolbar = memo(
             title="Media"
             size="small"
             onClick={handleFilePicker}
-            disabled={tweetFiles.length >= CREATE_TWEET_PHOTOS_LIMIT || loading}
+            disabled={tweetMediaCount >= CREATE_TWEET_PHOTOS_LIMIT || loading}
           >
             <MediaIcon />
           </IconButton>
@@ -52,7 +53,7 @@ export const CreateTweetToolbar = memo(
               {tweetLength} / {TWEET_MAX_LENGTH}
             </TweetLength>
           )}
-          {!isMobileModal && (
+          {!isInModal && (
             <Button
               data-testid="tweetButton"
               disabled={isDisabled}

@@ -4,20 +4,20 @@ import React from "react";
 import styled from "styled-components";
 
 interface TopBarHeadingProps extends ComponentPropsWithoutRef<"div"> {
-  title: string;
-  subtitle?: string;
+  heading: string;
+  subheading?: string;
 }
 
-export const TopBarHeading = ({ title, subtitle, ...props }: TopBarHeadingProps) => {
+export const TopBarHeading = ({ heading, subheading, ...props }: TopBarHeadingProps) => {
   return (
-    <Heading {...props}>
-      <Title>{title}</Title>
-      {subtitle && <Subtitle>{subtitle}</Subtitle>}
-    </Heading>
+    <HeadingWrapper {...props}>
+      <Heading>{heading}</Heading>
+      {subheading && <Subheading>{subheading}</Subheading>}
+    </HeadingWrapper>
   );
 };
 
-const Heading = styled.div`
+const HeadingWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1px;
@@ -29,10 +29,11 @@ const Heading = styled.div`
   }
 `;
 
-const Title = styled.h2`
+const Heading = styled.h2`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight: 600;
   ${({ theme }) => theme.text.l};
   color: ${({ theme }) => theme.neutral100};
 
@@ -41,7 +42,7 @@ const Title = styled.h2`
   }
 `;
 
-const Subtitle = styled.span`
+const Subheading = styled.span`
   color: ${({ theme }) => theme.neutral300};
   ${({ theme }) => theme.text.xs};
 `;

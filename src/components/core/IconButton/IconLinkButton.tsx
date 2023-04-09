@@ -1,16 +1,17 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import React from "react";
 
+import { Tooltip } from "components/core";
+import type { LinkProps } from "next/link";
 import Link from "next/link";
-import { Tooltip } from "shared/Tooltip";
 import styled from "styled-components";
 
 import type { IconButtonColor, IconButtonElementProps, IconButtonSize } from "./iconButtonVariants";
 import { generalIconButtonStyles } from "./iconButtonVariants";
 
-interface IconLinkButtonProps extends ComponentPropsWithoutRef<"a"> {
+interface IconLinkButtonProps extends Omit<ComponentPropsWithoutRef<"a">, "href"> {
   children: ReactNode;
-  href: string;
+  href: LinkProps["href"];
   title?: string;
   disableFocus?: boolean;
   size?: IconButtonSize;

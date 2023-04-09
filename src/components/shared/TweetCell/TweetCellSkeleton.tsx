@@ -1,7 +1,8 @@
 import React from "react";
 
-import { Skeleton } from "shared/Skeleton";
+import { Skeleton } from "components/core";
 import styled from "styled-components";
+import { createArray } from "utils/array";
 
 interface TweetCellSkeletonProps {
   isEven?: boolean;
@@ -37,6 +38,16 @@ export const TweetCellSkeleton = ({ isEven = false }: TweetCellSkeletonProps) =>
   );
 };
 
+export const TweetCellSkeletons = () => {
+  return (
+    <>
+      {createArray(3).map(skeleton => (
+        <TweetCellSkeleton key={skeleton} isEven={skeleton % 2 === 0} />
+      ))}
+    </>
+  );
+};
+
 const Wrapper = styled.div`
   display: flex;
   gap: 12px;
@@ -54,8 +65,9 @@ const Inner = styled.div`
 const RightColumn = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 6px;
   width: 100%;
+  margin-top: 2px;
 `;
 
 const NamesWrapper = styled.div`
@@ -74,6 +86,7 @@ const TweetText = styled.div`
 const ImageWrapper = styled.div`
   position: relative;
   padding-bottom: 56.25%;
+  margin-top: 6px;
 `;
 
 const Toolbar = styled.div`
@@ -83,4 +96,5 @@ const Toolbar = styled.div`
   max-width: 425px;
   width: 100%;
   padding: 4px 10px;
+  margin-top: 6px;
 `;

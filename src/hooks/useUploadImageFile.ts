@@ -4,11 +4,9 @@ import { useState } from "react";
 import type { AxiosError } from "axios";
 import axios from "axios";
 import { imageFileTypes } from "constants/fileTypes";
+import { API_CLOUDINARY_KEY, API_CLOUDINARY_URL } from "constants/links";
 
 import { useToasts } from "./useToasts";
-
-const API_URL = "https://api.cloudinary.com/v1_1/demo/image/upload";
-const API_KEY = "docs_upload_example_us_preset";
 
 interface UseUploadImageFileProps {
   sizeLimit?: number;
@@ -71,12 +69,12 @@ export const useUploadImageFile = ({ sizeLimit = 2, limit = 1 }: UseUploadImageF
     const formData = new FormData();
 
     formData.append("file", file);
-    formData.append("upload_preset", API_KEY);
+    formData.append("upload_preset", API_CLOUDINARY_KEY);
 
     try {
       const {
         data: { secure_url, height, width }
-      } = await axios.post(API_URL, formData, {
+      } = await axios.post(API_CLOUDINARY_URL, formData, {
         headers: {
           "Content-Type": "text/plain",
           "X-Requested-With": "XMLHttpRequest"

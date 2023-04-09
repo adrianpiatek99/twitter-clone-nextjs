@@ -1,10 +1,8 @@
-import { useCallback } from "react";
-
 import { useQueryClient } from "@tanstack/react-query";
-import type { QueryKey } from "types/react-query";
-import type { TweetData, TweetTimelineOutputs } from "types/tweet";
+import useProfileStore from "store/profileStore";
+import type { TweetData } from "types/tweet";
 import { api } from "utils/api";
-import { queryKeys } from "utils/queryKeys";
+import { removeTweetCache } from "utils/removeTweetCache";
 
 import { useAppSession } from "./useAppSession";
 import { useToasts } from "./useToasts";
@@ -21,21 +19,18 @@ export const useDeleteTweetMutation = ({
   const queryClient = useQueryClient();
   const { session } = useAppSession();
   const { handleAddToast } = useToasts();
+  const viewedProfileScreenName = useProfileStore(state => state.viewedProfile?.screenName ?? "");
   const sessionUserId = session?.user.id;
-  const sessionUserScreenName = session?.user.screenName;
-
   const { mutate, isLoading: deleteLoading } = api.tweet.delete.useMutation({
     onSuccess: () => {
-      removeTweetFromTimelineCache(queryKeys.tweetTimelineQueryKey());
-
-      if (sessionUserScreenName) {
-        removeTweetFromTimelineCache(
-          queryKeys.tweetProfileTimelineQueryKey({ profileScreenName: sessionUserScreenName })
-        );
-        queryClient.removeQueries(
-          queryKeys.tweetDetailsQueryKey({ screenName: sessionUserScreenName, tweetId })
-        );
-      }
+      removeTweetCache({
+        queryClient,
+        tweetId,
+        input: {
+          profileScreenName: viewedProfileScreenName,
+          tweetId
+        }
+      });
 
       onSuccess?.();
     },
@@ -44,25 +39,11 @@ export const useDeleteTweetMutation = ({
     }
   });
 
-  const removeTweetFromTimelineCache = (queryKey: QueryKey<unknown>) => {
-    queryClient.setQueryData<{ pages: TweetTimelineOutputs[] }>(queryKey, oldData => {
-      if (!oldData) return oldData;
-
-      return {
-        ...oldData,
-        pages: oldData.pages.map(page => ({
-          ...page,
-          tweets: page.tweets.filter(tweet => tweet.id !== tweetId)
-        }))
-      };
-    });
-  };
-
-  const handleDeleteTweet = useCallback(() => {
+  const handleDeleteTweet = () => {
     if (deleteLoading || sessionUserId !== authorId) return;
 
     mutate({ tweetId });
-  }, [mutate, sessionUserId, authorId, tweetId, deleteLoading]);
+  };
 
   return {
     handleDeleteTweet,

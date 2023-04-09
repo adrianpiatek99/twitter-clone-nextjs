@@ -1,11 +1,11 @@
 import React from "react";
 
 import { Text } from "components/core";
-import { useLikeTweetMutation } from "hooks/useLikeTweetMutation";
+import { useToggleLikeTweetMutation } from "hooks/useToggleLikeTweetMutation";
 import { TweetCellMedia } from "shared/TweetCell";
 import styled from "styled-components";
 import type { TweetData } from "types/tweet";
-import { getFormattedDate } from "utils/time";
+import { convertDateToLocalTime, getFormattedDate } from "utils/time";
 
 import { TweetArticleAuthor } from "./TweetArticleAuthor";
 import { TweetArticleStats } from "./TweetArticleStats";
@@ -14,26 +14,25 @@ import { TweetArticleToolbar } from "./TweetArticleToolbar";
 interface TweetArticleProps {
   tweetData: TweetData;
   isOwner: boolean;
-  referer: string;
 }
 
-export const TweetArticle = ({ isOwner, tweetData, referer }: TweetArticleProps) => {
+export const TweetArticle = ({ isOwner, tweetData }: TweetArticleProps) => {
   const { text, createdAt, media } = tweetData;
-  const { handleLikeTweet, likeLoading, unlikeLoading, isLiked } = useLikeTweetMutation({
+  const { handleLikeTweet, likeLoading, unlikeLoading, isLiked } = useToggleLikeTweetMutation({
     tweetData
   });
 
   return (
     <TweetArticleWrapper>
       <Inner>
-        <TweetArticleAuthor tweetData={tweetData} isOwner={isOwner} referer={referer} />
+        <TweetArticleAuthor tweetData={tweetData} isOwner={isOwner} />
         <TweetText>
           <Text size="xxl">{text}</Text>
         </TweetText>
-        <TweetCellMedia media={media} />
+        {!!media.length && <TweetCellMedia media={media} />}
         <TimeRow>
           <Text color="secondary" weight={500}>
-            {getFormattedDate(createdAt, "HH:mm")} {" · "}
+            {convertDateToLocalTime(createdAt)} {" · "}
             {getFormattedDate(createdAt, "MM/DD/YYYY")}
           </Text>
         </TimeRow>

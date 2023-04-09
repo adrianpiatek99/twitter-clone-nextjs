@@ -5,7 +5,7 @@ import { NextSeo } from "next-seo";
 
 import type { ProfilePageProps } from ".";
 
-const ProfileFollowersPage = ({ userData }: ProfilePageProps) => {
+const Page = ({ userData }: ProfilePageProps) => {
   return (
     <>
       <NextSeo
@@ -19,4 +19,4 @@ const ProfileFollowersPage = ({ userData }: ProfilePageProps) => {
   );
 };
 
-export default ProfileFollowersPage;
+export default Page;

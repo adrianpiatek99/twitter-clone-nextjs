@@ -1,12 +1,8 @@
-import { useCallback } from "react";
-
 import { useQueryClient } from "@tanstack/react-query";
 import type { TweetCreateInputs, TweetCreateOutputs } from "types/tweet";
+import { addTweetCache } from "utils/addTweetCache";
 import { api } from "utils/api";
-import { queryKeys } from "utils/queryKeys";
-import { addTweetInfiniteCache } from "utils/updateQueryCache";
 
-import { useAppSession } from "./useAppSession";
 import { useToasts } from "./useToasts";
 
 interface UseCreateTweetMutationProps {
@@ -16,20 +12,16 @@ interface UseCreateTweetMutationProps {
 
 export const useCreateTweetMutation = ({ onSuccess, onSettled }: UseCreateTweetMutationProps) => {
   const queryClient = useQueryClient();
-  const { session } = useAppSession();
   const { handleAddToast } = useToasts();
-  const sessionUserScreenName = session?.user.screenName;
   const { mutate, isLoading: createTweetLoading } = api.tweet.create.useMutation({
     onSuccess: data => {
-      addTweetInfiniteCache(queryClient, data, queryKeys.tweetTimelineQueryKey());
+      const screenName = data.author.screenName;
 
-      if (sessionUserScreenName) {
-        addTweetInfiniteCache(
-          queryClient,
-          data,
-          queryKeys.tweetProfileTimelineQueryKey({ profileScreenName: sessionUserScreenName })
-        );
-      }
+      addTweetCache({
+        queryClient,
+        newTweet: data,
+        input: { profileScreenName: screenName }
+      });
 
       handleAddToast("success", "Tweet was created.");
       onSuccess?.(data);
@@ -43,14 +35,11 @@ export const useCreateTweetMutation = ({ onSuccess, onSettled }: UseCreateTweetM
     }
   });
 
-  const handleCreateTweet = useCallback(
-    (data: TweetCreateInputs) => {
-      if (createTweetLoading) return;
+  const handleCreateTweet = (data: TweetCreateInputs) => {
+    if (createTweetLoading) return;
 
-      mutate(data);
-    },
-    [mutate, createTweetLoading]
-  );
+    mutate(data);
+  };
 
   return { handleCreateTweet, createTweetLoading };
 };

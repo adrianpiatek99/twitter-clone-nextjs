@@ -1,11 +1,9 @@
-import React, { useRef } from "react";
+import React from "react";
 
-import { useVirtualScroll } from "hooks/useVirtualScroll";
-import { InfiniteScrollingSection } from "shared/InfiniteScrollingSection";
-import { TweetCell, TweetCellSkeleton } from "shared/TweetCell";
+import { InfiniteVirtualScroller } from "shared/InfiniteVirtualScroller";
+import { TweetCell, TweetCellSkeletons } from "shared/TweetCell";
 import type { TweetData } from "types/tweet";
 import { api } from "utils/api";
-import { createArray } from "utils/array";
 
 export const HomeTimeline = () => {
   const homeTimelineInfiniteQuery = api.tweet.timeline.useInfiniteQuery(
@@ -15,47 +13,22 @@ export const HomeTimeline = () => {
       retry: false
     }
   );
-  const { data, isLoading, error } = homeTimelineInfiniteQuery;
+  const { data, error } = homeTimelineInfiniteQuery;
   const flatData = data?.pages.flatMap(page => page["tweets"]) ?? [];
-  const parentRef = useRef<HTMLDivElement>(null);
-  const { items, measureElement, totalSize } = useVirtualScroll(flatData, parentRef);
 
   return (
-    <InfiniteScrollingSection
+    <InfiniteVirtualScroller
       {...homeTimelineInfiniteQuery}
-      ref={parentRef}
-      flatDataCount={flatData.length}
+      data={flatData}
+      ariaLabel="Timeline: Your Home Timeline"
       errorMessage={error?.message ?? ""}
       emptyMessage="Lack of tweets"
-      ariaLabel="Timeline: Your Home Timeline"
-    >
-      {isLoading ? (
-        createArray(3).map(skeleton => (
-          <TweetCellSkeleton key={skeleton} isEven={skeleton % 2 === 0} />
-        ))
-      ) : (
-        <div
-          style={{
-            position: "relative",
-            width: "100%",
-            height: `${totalSize}px`
-          }}
-        >
-          {items.map(({ index, start }) => {
-            const tweet = flatData[index] as TweetData;
+      loaderComponent={<TweetCellSkeletons />}
+      itemComponent={({ index }) => {
+        const tweet = flatData[index] as TweetData;
 
-            return (
-              <TweetCell
-                key={index}
-                ref={measureElement}
-                data-index={index}
-                tweetData={tweet}
-                start={start}
-              />
-            );
-          })}
-        </div>
-      )}
-    </InfiniteScrollingSection>
+        return <TweetCell tweetData={tweet} />;
+      }}
+    />
   );
 };

@@ -1,0 +1,1 @@
+export { FollowsLayout } from "./FollowsLayout";

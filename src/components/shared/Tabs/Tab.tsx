@@ -7,7 +7,7 @@ import { hexToRGBA } from "utils/colors";
 
 export interface TabProps {
   value: string;
-  linkProps?: Omit<LinkProps, "as">;
+  href?: LinkProps["href"];
 }
 
 export interface TabRestProps {
@@ -15,7 +15,7 @@ export interface TabRestProps {
   selected: boolean;
 }
 
-export const Tab = ({ value, linkProps, ...props }: TabProps) => {
+export const Tab = ({ value, href, ...props }: TabProps) => {
   const { selected, ...restProps } = props as TabRestProps;
   const tabLinkRef = useRef<HTMLAnchorElement>(null);
   const tabButtonRef = useRef<HTMLButtonElement>(null);
@@ -28,7 +28,7 @@ export const Tab = ({ value, linkProps, ...props }: TabProps) => {
     }
   }, [selected]);
 
-  if (linkProps) {
+  if (href) {
     return (
       <TabItemLink
         value={value}
@@ -39,7 +39,7 @@ export const Tab = ({ value, linkProps, ...props }: TabProps) => {
         tabIndex={selected ? 0 : -1}
         scroll={false}
         replace
-        {...linkProps}
+        href={href}
         {...restProps}
       >
         {value}

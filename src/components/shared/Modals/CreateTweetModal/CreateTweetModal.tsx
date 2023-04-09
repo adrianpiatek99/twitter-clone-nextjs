@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 
 import { Modal, Textarea } from "components/core";
 import { useAppSession } from "hooks/useAppSession";
@@ -6,10 +6,15 @@ import { useCreateTweetMutation } from "hooks/useCreateTweetMutation";
 import { useUploadImageFile } from "hooks/useUploadImageFile";
 import { TWEET_MAX_LENGTH } from "schema/tweetSchema";
 import { Avatar } from "shared/Avatar";
-import { CreateTweetMedia, CreateTweetToolbar } from "shared/Forms/CreateTweetForm";
-import createTweetStore, { CREATE_TWEET_PHOTOS_LIMIT } from "store/createTweetStore";
+import { CreateTweetToolbar } from "shared/Forms";
+import createTweetModalStore from "store/createTweetModalStore";
+import { CREATE_TWEET_PHOTOS_LIMIT } from "store/createTweetStore";
 import styled from "styled-components";
 import { shallow } from "zustand/shallow";
+
+const LazyCreateTweetMedia = lazy(() =>
+  import("components/shared/Forms/CreateTweetForm").then(mod => ({ default: mod.CreateTweetMedia }))
+);
 
 interface CreateTweetModalProps {
   isOpen: boolean;
@@ -18,12 +23,24 @@ interface CreateTweetModalProps {
 
 export const CreateTweetModal = ({ isOpen, onClose }: CreateTweetModalProps) => {
   const { session } = useAppSession();
-  const { tweetText, setTweetText, tweetFiles, addTweetFiles, resetStore } = createTweetStore(
+  const {
+    tweetText,
+    tweetFiles,
+    aspectRatio,
+    setTweetText,
+    addTweetFiles,
+    setAspectRatio,
+    removeTweetFile,
+    resetStore
+  } = createTweetModalStore(
     state => ({
       tweetText: state.tweetText,
-      setTweetText: state.setTweetText,
       tweetFiles: state.tweetFiles,
+      aspectRatio: state.aspectRatio,
+      setTweetText: state.setTweetText,
       addTweetFiles: state.addTweetFiles,
+      setAspectRatio: state.setAspectRatio,
+      removeTweetFile: state.removeTweetFile,
       resetStore: state.resetStore
     }),
     shallow
@@ -58,7 +75,6 @@ export const CreateTweetModal = ({ isOpen, onClose }: CreateTweetModalProps) => 
       resetFileStates();
       addTweetFiles(files);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files, addTweetFiles]);
 
   if (!session) return null;
@@ -90,10 +106,22 @@ export const CreateTweetModal = ({ isOpen, onClose }: CreateTweetModalProps) => 
             disabled={isLoading}
           />
           <BottomRow>
-            {!!tweetFiles.length && <CreateTweetMedia isLoading={isLoading} />}
+            <Suspense>
+              {!!tweetFiles.length && (
+                <LazyCreateTweetMedia
+                  tweetFiles={tweetFiles}
+                  aspectRatio={aspectRatio}
+                  isLoading={isLoading}
+                  setAspectRatio={setAspectRatio}
+                  removeTweetFile={removeTweetFile}
+                />
+              )}
+            </Suspense>
+            <Divider />
             <CreateTweetToolbar
-              isMobileModal
+              isInModal
               tweetLength={tweetText.length ?? 0}
+              tweetMediaCount={tweetFiles.length}
               onSubmit={onSubmit}
               loading={isLoading}
               onFileChange={onFileChange}
@@ -109,7 +137,6 @@ const Wrapper = styled.div`
   display: flex;
   gap: 12px;
   padding: 12px 16px;
-  min-height: 275px;
   margin-bottom: 4px;
 `;
 
@@ -121,14 +148,24 @@ const LeftColumn = styled.div`
 const RightColumn = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  align-items: space-between;
   height: 100%;
+  min-height: 250px;
   flex-grow: 1;
   gap: 12px;
-  padding-bottom: 50px;
+
+  @media ${({ theme }) => theme.breakpoints.md} {
+    min-height: 180px;
+  }
 `;
 
 const BottomRow = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
+`;
+
+const Divider = styled.div`
+  border-top: 1px solid ${({ theme }) => theme.border};
 `;

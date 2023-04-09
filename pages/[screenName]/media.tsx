@@ -13,7 +13,7 @@ const ProfileMedia = ({ userData }: ProfilePageProps) => {
         } / Twitter`}
         description="Profile media"
       />
-      media
+      <p>Media</p>
     </div>
   );
 };

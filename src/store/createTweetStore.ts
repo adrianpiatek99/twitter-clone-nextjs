@@ -2,20 +2,22 @@ import { create } from "zustand";
 
 export const CREATE_TWEET_PHOTOS_LIMIT = 4;
 
-export type CreateTweetFile = { file: File; preview: string };
+export type TweetMediaFile = { file: File; preview: string };
 
-interface CreateTweetStore {
+export interface CreateTweetStore {
   tweetText: string;
+  tweetFiles: TweetMediaFile[];
+  aspectRatio: number;
   setTweetText: (tweetText: string) => void;
-  tweetFiles: CreateTweetFile[];
   addTweetFiles: (files: File[]) => void;
   removeTweetFile: (filePreview: string) => void;
-  aspectRatio: number;
   setAspectRatio: (padding: number) => void;
   resetStore: () => void;
 }
 
-const initialState = {
+type State = Pick<CreateTweetStore, "tweetText" | "tweetFiles" | "aspectRatio">;
+
+const initialState: State = {
   tweetText: "",
   aspectRatio: 0,
   tweetFiles: []

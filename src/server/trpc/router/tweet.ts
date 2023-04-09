@@ -87,36 +87,40 @@ export const tweetRouter = router({
       const { tweetId } = input;
       const userId = session.user.id;
 
-      const deletedTweet = await prisma.tweet.delete({
-        where: {
-          id_authorId: {
-            id: tweetId,
-            authorId: userId
+      try {
+        const deletedTweet = await prisma.tweet.delete({
+          where: {
+            id_authorId: {
+              id: tweetId,
+              authorId: userId
+            }
           }
-        }
-      });
+        });
 
-      if (!deletedTweet) {
+        if (!deletedTweet) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "Something went wrong when trying to delete tweet."
+          });
+        }
+      } catch (err) {
         throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Something went wrong then trying to delete tweet."
+          code: "NOT_FOUND",
+          message: "Something went wrong when trying to delete tweet."
         });
       }
     }),
 
   details: publicProcedure
-    .input(z.object({ tweetId: z.string(), screenName: z.string() }))
+    .input(z.object({ tweetId: z.string() }))
     .query(async ({ ctx, input }) => {
       const { prisma } = ctx;
-      const { screenName, tweetId } = input;
+      const { tweetId } = input;
       const userId = ctx.session?.user?.id;
 
       const tweet = await prisma.tweet.findFirst({
         where: {
-          id: tweetId,
-          author: {
-            screenName
-          }
+          id: tweetId
         },
         include: {
           likes: {
@@ -279,18 +283,20 @@ export const tweetRouter = router({
     .input(
       apiInfiniteScrollSchema.merge(
         z.object({
-          profileId: z.string()
+          profileScreenName: z.string()
         })
       )
     )
     .query(async ({ ctx, input }) => {
       const { prisma } = ctx;
-      const { cursor, limit, profileId } = input;
+      const { cursor, limit, profileScreenName } = input;
       const userId = ctx.session?.user?.id;
 
       const likedTweets = await prisma.like.findMany({
         where: {
-          userId: profileId
+          user: {
+            screenName: profileScreenName
+          }
         },
         orderBy: [{ createdAt: "desc" }],
         take: limit + 1,

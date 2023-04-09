@@ -5,7 +5,7 @@ import React from "react";
 
 import type { LinkProps } from "next/link";
 import Link from "next/link";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { hexToRGBA } from "utils/colors";
 
 type ActionCardTag = "div" | "article";
@@ -65,15 +65,6 @@ export const ActionCard = forwardRef(
   }
 );
 
-const enterCardAnimation = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`;
-
 const StyledLink = styled(Link)`
   position: absolute;
   inset: 0px;
@@ -93,7 +84,6 @@ const Card = styled.div`
   outline: none;
   cursor: pointer;
   transition: background-color 0.2s;
-  animation: ${enterCardAnimation} 0.3s ease-out;
 
   @media (hover: hover) {
     &:hover:not(:disabled) {

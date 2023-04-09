@@ -1,4 +1,12 @@
 import {
+  BOOKMARKS_PAGE_ROUTE,
+  EXPLORE_PAGE_ROUTE,
+  HOME_PAGE_ROUTE,
+  MESSAGES_PAGE_ROUTE,
+  NOTIFICATIONS_PAGE_ROUTE,
+  PROFILE_PAGE_ROUTE
+} from "constants/routes";
+import {
   BookmarkIcon,
   BookmarkOutlinedIcon,
   HashtagIcon,
@@ -15,7 +23,7 @@ import {
 
 export type NavSidebarItemType = {
   text: string;
-  href: string;
+  route: string;
   icon: SvgrElement;
   activeIcon: SvgrElement;
 };
@@ -23,25 +31,25 @@ export type NavSidebarItemType = {
 export const authenticatedNavSidebarItems: NavSidebarItemType[] = [
   {
     text: "Explore",
-    href: "/explore",
+    route: EXPLORE_PAGE_ROUTE,
     icon: HashtagOutlinedIcon,
     activeIcon: HashtagIcon
   },
   {
     text: "Notifications",
-    href: "/notifications",
+    route: NOTIFICATIONS_PAGE_ROUTE,
     icon: NotificationOutlinedIcon,
     activeIcon: NotificationIcon
   },
   {
     text: "Messages",
-    href: "/messages",
+    route: MESSAGES_PAGE_ROUTE,
     icon: MailOutlinedIcon,
     activeIcon: MailIcon
   },
   {
     text: "Bookmarks",
-    href: "/bookmarks",
+    route: BOOKMARKS_PAGE_ROUTE,
     icon: BookmarkOutlinedIcon,
     activeIcon: BookmarkIcon
   }
@@ -49,14 +57,14 @@ export const authenticatedNavSidebarItems: NavSidebarItemType[] = [
 
 export const navSidebarHomeItem: NavSidebarItemType = {
   text: "Home",
-  href: "/home",
+  route: HOME_PAGE_ROUTE,
   icon: HomeOutlinedIcon,
   activeIcon: HomeIcon
 };
 
 export const navSidebarProfileItem: NavSidebarItemType = {
   text: "Profile",
-  href: "/[screenName]",
+  route: PROFILE_PAGE_ROUTE,
   icon: PersonOutlinedIcon,
   activeIcon: PersonIcon
 };

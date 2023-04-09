@@ -1,1 +1,0 @@
-export { EditProfileModal } from "./EditProfileModal";

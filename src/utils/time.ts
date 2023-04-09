@@ -29,3 +29,6 @@ export const getRelativeTime = (date: DateType) => dayjs(date).fromNow(true);
 
 export const getFormattedDate = (date: DateType, format = "MMMM D, YYYY") =>
   dayjs(date).format(format);
+
+export const convertDateToLocalTime = (date: Date, language = "en") =>
+  date.toLocaleTimeString(language, { hour: "2-digit", minute: "2-digit" });

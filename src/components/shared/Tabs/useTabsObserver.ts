@@ -64,7 +64,6 @@ export const useTabsObserver = (tabGroupRef: RefObject<HTMLElement>) => {
         current.removeEventListener("resize", observerFnc);
       };
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tabGroupRef]);
 
   useEffect(() => {
@@ -99,7 +98,6 @@ export const useTabsObserver = (tabGroupRef: RefObject<HTMLElement>) => {
         current.removeEventListener("resize", observerFnc);
       };
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tabGroupRef]);
 
   return { forwardArrow, backwardArrow, scrollTo };

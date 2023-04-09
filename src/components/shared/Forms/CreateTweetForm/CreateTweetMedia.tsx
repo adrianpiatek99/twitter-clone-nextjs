@@ -4,60 +4,62 @@ import { IconButton } from "components/core";
 import { useCheckImageDimensions } from "hooks/useCheckImageDimensions";
 import { CloseIcon } from "icons/index";
 import Image from "next/image";
-import createTweetStore from "store/createTweetStore";
+import type { TweetMediaFile } from "store/createTweetStore";
 import styled, { css } from "styled-components";
 import { calcPaddingAspectRatio } from "utils/aspectRatio";
-import { shallow } from "zustand/shallow";
 
 interface CreateTweetMediaProps {
+  tweetFiles: TweetMediaFile[];
+  aspectRatio: number;
   isLoading: boolean;
+  removeTweetFile: (filePreview: string) => void;
+  setAspectRatio: (padding: number) => void;
 }
 
-export const CreateTweetMedia = memo(({ isLoading }: CreateTweetMediaProps) => {
-  const { tweetFiles, removeTweetFile, aspectRatio, setAspectRatio } = createTweetStore(
-    state => ({
-      tweetFiles: state.tweetFiles,
-      removeTweetFile: state.removeTweetFile,
-      aspectRatio: state.aspectRatio,
-      setAspectRatio: state.setAspectRatio
-    }),
-    shallow
-  );
-  const firstFile = tweetFiles[0]?.file;
-  const { width, height } = useCheckImageDimensions(firstFile);
-  const firstFileAspectRatio = calcPaddingAspectRatio(width, height);
-  const isTwoOrMoreImages = tweetFiles.length >= 2;
+export const CreateTweetMedia = memo(
+  ({
+    tweetFiles,
+    aspectRatio,
+    isLoading,
+    removeTweetFile,
+    setAspectRatio
+  }: CreateTweetMediaProps) => {
+    const firstFile = tweetFiles[0]?.file;
+    const { width, height } = useCheckImageDimensions(firstFile);
+    const firstFileAspectRatio = calcPaddingAspectRatio(width, height);
+    const isTwoOrMoreImages = tweetFiles.length >= 2;
 
-  useEffect(() => {
-    if (firstFileAspectRatio) {
-      setAspectRatio(firstFileAspectRatio);
-    }
-  }, [firstFileAspectRatio, setAspectRatio]);
+    useEffect(() => {
+      if (firstFileAspectRatio) {
+        setAspectRatio(firstFileAspectRatio);
+      }
+    }, [firstFileAspectRatio, setAspectRatio]);
 
-  if (!aspectRatio && !isTwoOrMoreImages) return null;
+    if (!aspectRatio && !isTwoOrMoreImages) return null;
 
-  return (
-    <Wrapper
-      isLoading={isLoading}
-      style={{ paddingBottom: isTwoOrMoreImages ? "56.25%" : `${aspectRatio}%` }}
-    >
-      <Absolute>
-        <Images fileCount={tweetFiles.length}>
-          {tweetFiles.map(({ file, preview }) => (
-            <ImageWrapper key={preview} aria-label="Media">
-              <Image fill src={URL.createObjectURL(file)} alt={file.name} />
-              {!isLoading && (
-                <IconButton title="Remove" color="dark" onClick={() => removeTweetFile(preview)}>
-                  <CloseIcon />
-                </IconButton>
-              )}
-            </ImageWrapper>
-          ))}
-        </Images>
-      </Absolute>
-    </Wrapper>
-  );
-});
+    return (
+      <Wrapper
+        isLoading={isLoading}
+        style={{ paddingBottom: isTwoOrMoreImages ? "56.25%" : `${aspectRatio}%` }}
+      >
+        <Absolute>
+          <Images fileCount={tweetFiles.length}>
+            {tweetFiles.map(({ file, preview }) => (
+              <ImageWrapper key={preview} aria-label="Media">
+                <Image fill src={URL.createObjectURL(file)} alt={file.name} />
+                {!isLoading && (
+                  <IconButton title="Remove" color="dark" onClick={() => removeTweetFile(preview)}>
+                    <CloseIcon />
+                  </IconButton>
+                )}
+              </ImageWrapper>
+            ))}
+          </Images>
+        </Absolute>
+      </Wrapper>
+    );
+  }
+);
 
 const Wrapper = styled.div<{ isLoading: boolean }>`
   position: relative;

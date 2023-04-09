@@ -7,34 +7,23 @@ import { ActionCard } from "shared/ActionCard";
 import { Avatar } from "shared/Avatar";
 import styled from "styled-components";
 import type { FollowUserData } from "types/user";
+import { profilePageHref } from "utils/hrefs";
 import { verifyMe } from "utils/session";
 
 import { FollowCellActions } from "./FollowCellActions";
 
 interface FollowCellProps extends ComponentPropsWithRef<"div"> {
-  start: number;
   followUser: FollowUserData;
 }
 
 export const FollowCell = memo(
-  forwardRef(({ followUser, start, ...props }: FollowCellProps, ref: Ref<HTMLDivElement>) => {
+  forwardRef(({ followUser, ...props }: FollowCellProps, ref: Ref<HTMLDivElement>) => {
     const { session } = useAppSession();
     const { screenName, profileImageUrl, description } = followUser;
     const itsMe = verifyMe(session, followUser.screenName);
 
     return (
-      <ActionCard
-        href={`/${screenName}`}
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          transform: `translateY(${start}px)`
-        }}
-        {...props}
-        ref={ref}
-      >
+      <ActionCard href={profilePageHref(screenName)} {...props} ref={ref}>
         <StyledAvatar src={profileImageUrl} screenName={screenName} size="large" />
         <Inner>
           <FollowCellActions followUser={followUser} itsMe={itsMe} />

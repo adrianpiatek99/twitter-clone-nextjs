@@ -1,1 +1,0 @@
-export { ProfileFollowsLayout } from "./ProfileFollowsLayout";

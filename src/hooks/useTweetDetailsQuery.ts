@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { type QueryClient, useQueryClient } from "@tanstack/react-query";
+import useProfileStore from "store/profileStore";
 import type { QueryKey } from "types/react-query";
 import type { TweetTimelineOutputs } from "types/tweet";
 import { api } from "utils/api";
@@ -33,15 +34,15 @@ const handleGetTweetDetailsFromCache = (
 
 interface UseTweetDetailsQueryProps {
   tweetId: string;
-  screenName: string;
 }
 
-export const useTweetDetailsQuery = ({ tweetId, screenName }: UseTweetDetailsQueryProps) => {
+export const useTweetDetailsQuery = ({ tweetId }: UseTweetDetailsQueryProps) => {
   const queryClient = useQueryClient();
-  const cachedTweet = handleGetTweetDetailsFromCache(queryClient, tweetId, screenName);
+  const viewedProfileScreenName = useProfileStore(state => state.viewedProfile?.screenName ?? "");
+  const cachedTweet = handleGetTweetDetailsFromCache(queryClient, tweetId, viewedProfileScreenName);
   const [isQueryError, setIsQueryError] = useState(false);
   const tweetDetailsQuery = api.tweet.details.useQuery(
-    { tweetId, screenName },
+    { tweetId },
     {
       onError: () => {
         setIsQueryError(true);
